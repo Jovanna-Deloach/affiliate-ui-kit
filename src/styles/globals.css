@@ -19,13 +19,17 @@
    ========================================================================== */
 @theme reference {
   /* colors */
+  --color-canvas: var(--color-canvas);
   --color-background: var(--color-background);
   --color-surface: var(--color-surface);
+  --color-surface-recessed: var(--color-surface-recessed);
   --color-surface-pedestal: var(--color-surface-pedestal);
   --color-foreground: var(--color-foreground);
   --color-muted: var(--color-muted);
   --color-border: var(--color-border);
+  --color-border-soft: var(--color-border-soft);
   --color-border-strong: var(--color-border-strong);
+  --color-ring-inner: var(--color-ring-inner);
   --color-accent: var(--color-accent);
   --color-accent-foreground: var(--color-accent-foreground);
   --color-accent-soft: var(--color-accent-soft);
@@ -34,8 +38,11 @@
   --color-badge-secondary-bg: var(--color-badge-secondary-bg);
   --color-badge-secondary-fg: var(--color-badge-secondary-fg);
   --color-positive: var(--color-positive);
+  --color-positive-soft: var(--color-positive-soft);
   --color-negative: var(--color-negative);
+  --color-negative-soft: var(--color-negative-soft);
   --color-caution: var(--color-caution);
+  --color-caution-soft: var(--color-caution-soft);
   --color-meter-track: var(--color-meter-track);
   --color-meter-fill: var(--color-meter-fill);
   --color-scrim: var(--color-scrim);
@@ -61,11 +68,15 @@
   --spacing-overlay-inset: var(--space-overlay-inset);
   --spacing-badge-x: var(--space-badge-x);
   --spacing-badge-y: var(--space-badge-y);
+  --spacing-tag-x: var(--space-tag-x);
+  --spacing-tag-y: var(--space-tag-y);
   --spacing-control: var(--size-control);
   --spacing-seal: var(--size-seal);
   --spacing-avatar: var(--size-avatar);
   --spacing-logo: var(--size-logo);
   --spacing-meter: var(--size-meter);
+  --spacing-meter-inline: var(--size-meter-inline);
+  --spacing-monogram: var(--size-monogram);
   --spacing-sheet-compact: var(--size-sheet-compact);
   --spacing-sheet-dossier: var(--size-sheet-dossier);
   --spacing-pin: var(--size-pin);
@@ -93,7 +104,9 @@
   --font-mono: var(--font-mono);
   --tracking-eyebrow: var(--tracking-eyebrow);
   --tracking-label: var(--tracking-label);
+  --tracking-tag: var(--tracking-tag);
   --tracking-display: var(--tracking-display);
+  --tracking-metric: var(--tracking-metric);
   --text-eyebrow: var(--text-eyebrow);
   --text-display: var(--text-display);
   --text-display-sm: var(--text-display-sm);
@@ -165,7 +178,8 @@
   text-transform: var(--transform-eyebrow);
   line-height: 1.4; /* badges override with leading-none; paragraphs can wrap */
 }
-/* Mono caption eyebrow: brand / SKU / reference price lines. */
+/* Mono metadata voice — ONLY short uppercase tags, batch IDs, timestamps,
+   rank numerals (Law 1). Never prices, never prose. */
 @utility type-label-mono {
   font-family: var(--font-mono);
   font-size: var(--eyebrow-size, var(--text-eyebrow));
@@ -191,13 +205,31 @@
   line-height: var(--leading-display);
   text-wrap: balance;
 }
+/* Prices, scores, primary metrics: sans · semibold · tabular · tight.
+   Never monospace (Law 1). `--metric-size` is a local override hook. */
 @utility type-metric {
-  font-family: var(--font-mono);
-  font-size: var(--text-metric);
+  font-family: var(--font-sans);
+  font-size: var(--metric-size, var(--text-metric));
   font-weight: var(--weight-metric);
   font-variant-numeric: tabular-nums;
-  letter-spacing: var(--tracking-display);
+  letter-spacing: var(--tracking-metric);
   line-height: 1;
+}
+/* Inline price / value voice at body scale (rows, captions, chips). */
+@utility type-price {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-metric);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-metric);
+}
+/* Semantic pill voice: 10px · medium · wide tracking · uppercase. */
+@utility type-tag {
+  font-family: var(--font-sans);
+  font-size: var(--eyebrow-size, var(--text-eyebrow));
+  font-weight: 500;
+  letter-spacing: var(--tracking-tag);
+  text-transform: uppercase;
+  line-height: 1.2;
 }
 
 /* Focus ring bound to the vertical's focus color. */

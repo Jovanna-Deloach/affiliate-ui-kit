@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { authorEditorial, methodologyEditorial } from "@/fixtures/authors";
 import { bestPrice, productShoe01, productWatch } from "@/fixtures/products";
+import { formatDate } from "@/lib/format";
 import { AffiliateAction } from "@/primitives/affiliate-action";
 import { AuthorityByline } from "@/primitives/authority-byline";
 import { AwardBadge } from "@/primitives/award-badge";
@@ -19,7 +20,7 @@ function OpenButton({ label }: { label: string }) {
   return (
     <button
       type="button"
-      className="focus-ring inline-flex h-control cursor-pointer items-center gap-[0.5em] rounded-interactive border-interactive-w border-border-strong bg-surface px-[calc(var(--space-badge-x)*1.8)] type-eyebrow leading-none text-foreground transition-colors duration-interactive ease-spring hover:border-foreground hover:bg-accent-soft"
+      className="focus-ring inline-flex h-control cursor-pointer items-center gap-[0.5em] rounded-interactive border-interactive-w border-border-strong bg-surface px-[calc(var(--space-badge-x)*1.8)] type-eyebrow leading-none text-foreground transition-colors duration-interactive ease-spring hover:border-foreground hover:bg-surface-recessed"
     >
       {label}
     </button>
@@ -30,7 +31,7 @@ function OffersBody() {
   return (
     <div className="flex flex-col gap-row-pad">
       <p className="text-sm text-muted">
-        Prices verified {new Date(productShoe01.lastVerifiedAt!).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" })}. Commissions never affect rankings.
+        Prices verified {formatDate(productShoe01.lastVerifiedAt!)}. Commissions never affect rankings.
       </p>
       <MerchantOfferList offers={productShoe01.offers} rowProps={{ productId: productShoe01.id, placement: "offer-sheet", density: "compact" }} />
     </div>

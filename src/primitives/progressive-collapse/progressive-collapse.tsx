@@ -10,24 +10,25 @@ import { cn } from "@/lib/cn";
 /**
  * <ProgressiveCollapse />
  * ---------------------------------------------------------------------------
- * SEO-safe progressive disclosure for deep specs, methodology, fine print.
+ * SEO-safe progressive disclosure for deep specs, methodology, assay rows.
  *
  *   • Radix Collapsible with `forceMount`: the panel is ALWAYS in the SSR DOM
  *     (crawlers index it), never unmounted.
- *   • Reveal is a CSS grid `0fr → 1fr` transition (`reveal-grid`, bound to
- *     --duration-reveal / --ease-spring) plus an opacity fade. No height
- *     measurement, no JS animation controller — safe in spec-heavy loops.
+ *   • Reveal is a CSS grid `0fr → 1fr` transition (`reveal-grid`) plus an
+ *     opacity fade. No height measurement, no JS animation controller.
  *   • The collapsed panel is `inert`: out of the tab order and the
  *     accessibility tree until opened, exactly like a native disclosure.
+ *   • Borders live on <ProgressiveCollapseGroup> (`divide-y` + `border-y`),
+ *     never on rows — adjacent items share one hairline, no double lines.
+ *   • `preview` is the summary slot in the closed header, right before the
+ *     +/− glyph (e.g. "5.02 g · 100.4% of claim" + PASS pill), so a reader
+ *     gets the answer before expanding. It fades when open.
  *
  * Trigger styles (Mobbin: H&M hairline "MATERIALS +", lululemon icon rows,
- * Skillshare bordered FAQ, Instacart minimal "Details ⌄"):
+ * Skillshare bordered FAQ, Instacart "Details ⌄"):
  *   minimal-underline  inline text trigger with chevron
  *   button-pill        bordered pill with a CSS plus/minus glyph
  *   hairline-row       full-width row, min-height --size-control, +/− at right
- *
- * The only state is a boolean; the component is a client leaf, the content
- * it wraps can be Server Component output.
  */
 
 const triggerVariants = cva(
@@ -45,11 +46,10 @@ const triggerVariants = cva(
         "button-pill": [
           "w-fit gap-[0.6em] type-eyebrow leading-none",
           "h-[calc(var(--size-control)*0.8)] rounded-badge border-interactive-w border-border-strong bg-surface px-badge-x",
-          "hover:border-foreground hover:bg-accent-soft",
+          "hover:border-foreground hover:bg-surface-recessed",
         ],
         "hairline-row": [
-          "w-full min-h-control justify-between gap-cluster-gap py-[calc(var(--space-row-pad)*0.75)]",
-          "border-t-surface-w border-border",
+          "w-full min-h-control gap-row-pad py-[calc(var(--space-row-pad)*0.75)]",
           "text-sm font-medium",
         ],
       },
@@ -63,8 +63,10 @@ export interface ProgressiveCollapseProps
     VariantProps<typeof triggerVariants> {
   /** Trigger label. */
   title: ReactNode;
-  /** Muted secondary text beside the title (hairline-row only). */
+  /** Muted secondary line under the title (hairline-row only). */
   summary?: ReactNode;
+  /** Right-hand summary preview shown while closed (hairline-row only). */
+  preview?: ReactNode;
   /** Always-mounted panel content. */
   children: ReactNode;
   /** Optional leading icon (lucide). */
@@ -80,6 +82,7 @@ export interface ProgressiveCollapseProps
 export function ProgressiveCollapse({
   title,
   summary,
+  preview,
   children,
   icon: Icon,
   headingLevel,
@@ -99,19 +102,27 @@ export function ProgressiveCollapse({
   };
   const id = useId();
   const Heading = headingLevel ? (`h${headingLevel}` as const) : null;
+  const row = triggerStyle === "hairline-row";
 
   const trigger = (
-    <Collapsible.Trigger
-      id={`${id}-trigger`}
-      className={cn(triggerVariants({ triggerStyle }))}
-    >
+    <Collapsible.Trigger id={`${id}-trigger`} className={cn(triggerVariants({ triggerStyle }))}>
       {Icon && <Icon size="1.2em" strokeWidth={1.5} aria-hidden="true" className="shrink-0 text-muted" />}
-      <span className="flex min-w-0 flex-1 flex-col gap-[0.15em]">
+      <span className="flex min-w-0 flex-1 flex-col gap-[0.2em]">
         <span className="min-w-0 truncate">{title}</span>
-        {summary && triggerStyle === "hairline-row" && (
-          <span className="type-label-mono truncate text-muted">{summary}</span>
-        )}
+        {summary && row && <span className="truncate text-xs font-normal text-muted">{summary}</span>}
       </span>
+      {preview && row && (
+        <span
+          data-slot="collapse-preview"
+          className={cn(
+            "flex shrink-0 items-center gap-[0.5em] text-sm font-normal text-muted",
+            "transition-[opacity,visibility] duration-interactive ease-spring",
+            "group-data-[state=open]/collapse:invisible group-data-[state=open]/collapse:opacity-0",
+          )}
+        >
+          {preview}
+        </span>
+      )}
       {triggerStyle === "minimal-underline" ? (
         <ChevronDown
           size="1.1em"
@@ -120,7 +131,7 @@ export function ProgressiveCollapse({
           className="shrink-0 transition-transform duration-interactive ease-spring group-data-[state=open]/collapse:rotate-180"
         />
       ) : (
-        <span aria-hidden="true" className="plus-minus text-muted" />
+        <span aria-hidden="true" className="plus-minus shrink-0 text-muted" />
       )}
     </Collapsible.Trigger>
   );
@@ -131,7 +142,7 @@ export function ProgressiveCollapse({
       onOpenChange={setOpen}
       data-slot="progressive-collapse"
       data-trigger-style={triggerStyle}
-      className={cn("group/collapse flex min-w-0 flex-col", className)}
+      className={cn("group/collapse flex min-w-0 flex-col", row && "@container", className)}
       {...props}
     >
       {Heading ? <Heading className="m-0 contents">{trigger}</Heading> : trigger}
@@ -141,9 +152,7 @@ export function ProgressiveCollapse({
             data-slot="collapse-panel"
             className={cn(
               "text-sm leading-relaxed text-muted",
-              triggerStyle === "hairline-row"
-                ? "pb-row-pad"
-                : "pt-cluster-gap",
+              row ? "pb-row-pad" : "pt-cluster-gap",
               contentClassName,
             )}
           >
@@ -155,12 +164,20 @@ export function ProgressiveCollapse({
   );
 }
 
-/** Stack of hairline rows that closes the last hairline. */
+/**
+ * Stack of hairline rows. Owns ALL the borders: one hairline above the
+ * first row, one below the last, one between each pair — never doubled.
+ */
 export function ProgressiveCollapseGroup({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="progressive-collapse-group"
-      className={cn("flex min-w-0 flex-col border-b-surface-w border-border", className)}
+      className={cn(
+        "flex min-w-0 flex-col",
+        "border-y-[length:var(--border-width-surface)] border-border-soft",
+        "divide-y divide-border-soft",
+        className,
+      )}
       {...props}
     />
   );

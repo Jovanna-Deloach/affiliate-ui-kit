@@ -210,10 +210,7 @@ export function ProductMediaFrame({
             {caption.name}
           </span>
           {caption.price && (
-            <span
-              data-slot="caption-price"
-              className="font-mono text-xs tabular-nums text-muted"
-            >
+            <span data-slot="caption-price" className="type-price text-xs text-muted">
               {caption.price}
             </span>
           )}

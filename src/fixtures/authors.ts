@@ -1,9 +1,10 @@
 import type { Author, Methodology } from "@/primitives/authority-byline";
 
-/** Luxury Editorial reviewer. Monogram avatar — no stock portraits. */
+/** Luxury Editorial reviewer. */
 export const authorEditorial: Author = {
   name: "Celeste Marchetti",
   role: "Watches & Jewellery Editor",
+  avatar: { src: "/fixtures/portrait-marchetti.jpg", alt: "Portrait of Celeste Marchetti" },
   credentials: ["14 yrs covering horology", "Former Christie's specialist"],
   bio: "Celeste has handled more than two thousand watches on the auction floor and writes the kit's long-form dossiers. She owns nothing she reviews.",
   href: "#author-celeste-marchetti",
@@ -13,6 +14,7 @@ export const authorEditorial: Author = {
 export const authorClinical: Author = {
   name: "Dr. Priya Raman",
   role: "Lab Director, PhD",
+  avatar: { src: "/fixtures/portrait-raman.jpg", alt: "Portrait of Dr. Priya Raman" },
   credentials: ["ISO 17025 accredited lab", "HPLC / ICP-MS", "Registered dietitian"],
   bio: "Priya runs the independent assay program behind every supplement score. Batches are purchased at retail, blinded and tested in duplicate.",
   href: "#author-priya-raman",

@@ -9,6 +9,7 @@ import {
 } from "@/fixtures/authors";
 import { productCreatine, productWatch } from "@/fixtures/products";
 import { EditorialHeading } from "@/primitives/editorial-heading";
+import { Labeled } from "@/stories/story-label";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { AuthorityByline } from "./authority-byline";
@@ -51,23 +52,21 @@ export const AllVariants: Story = {
   render: (args) => (
     <div className="flex max-w-2xl flex-col gap-section-gap">
       {VARIANTS.map((variant) => (
-        <div key={variant}>
-          <code className="type-label-mono text-muted">variant=&quot;{variant}&quot;</code>
-          <div className="mt-cluster-gap">
-            <AuthorityByline {...args} variant={variant} />
-          </div>
-        </div>
+        <Labeled key={variant} label={`variant="${variant}"`}>
+          <AuthorityByline {...args} variant={variant} />
+        </Labeled>
       ))}
     </div>
   ),
 };
 
-export const MethodologyOpen: Story = {
-  name: "Disclosure · forceMount + inert (open by default)",
+export const DossierClinical: Story = {
+  name: "Dossier · portrait, credential pills, methodology well (open by default)",
   render: () => (
     <div className="max-w-2xl">
       <AuthorityByline
         author={authorClinical}
+        reviewedBy={reviewerFactCheck}
         verifiedAt={productCreatine.lastVerifiedAt}
         methodology={{ ...methodologyClinical, defaultOpen: true }}
         variant="dossier-box"
@@ -77,11 +76,15 @@ export const MethodologyOpen: Story = {
 };
 
 export const MinimalData: Story = {
-  name: "Data · name only, no methodology, no dates",
+  name: "Data · name only · no methodology · no dates",
   render: () => (
-    <div className="flex max-w-2xl flex-col gap-row-pad">
-      <AuthorityByline author={{ name: "Staff" }} />
-      <AuthorityByline author={{ name: "Celeste Marchetti", role: "Editor" }} verifiedAt="2026-10-01T00:00:00Z" variant="verified-strip" />
+    <div className="flex max-w-2xl flex-col gap-section-gap">
+      <Labeled label="author={{ name }} only → monogram fallback">
+        <AuthorityByline author={{ name: "Jonah Whitfield" }} />
+      </Labeled>
+      <Labeled label="verified-strip without methodology">
+        <AuthorityByline author={{ name: "Celeste Marchetti", role: "Editor" }} verifiedAt="2026-10-01T00:00:00Z" variant="verified-strip" />
+      </Labeled>
     </div>
   ),
 };

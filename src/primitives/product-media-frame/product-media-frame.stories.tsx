@@ -9,7 +9,9 @@ import {
   productShoe02,
   productWatch,
 } from "@/fixtures/products";
+import { formatScore } from "@/lib/format";
 import { AwardBadge } from "@/primitives/award-badge";
+import { Labeled } from "@/stories/story-label";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { ProductMediaFrame } from "./product-media-frame";
@@ -53,7 +55,7 @@ export const Playground: Story = {
       <ProductMediaFrame
         {...args}
         badge={<AwardBadge shape="glass-pill" badge={productShoe01.awardBadge} icon={Award} />}
-        metric={<AwardBadge shape="glass-pill" tier="callout">Score {productShoe01.overallScore}</AwardBadge>}
+        metric={<AwardBadge shape="glass-pill" tier="callout">Score {formatScore(productShoe01.overallScore!)}</AwardBadge>}
         caption={shoeCaption}
       />
     </div>
@@ -74,7 +76,7 @@ export const TokenDrivenAuto: Story = {
         <ProductMediaFrame
           media={productCreatine.media}
           badge={<AwardBadge shape="glass-pill" badge={productCreatine.awardBadge} icon={FlaskConical} />}
-          metric={<AwardBadge shape="glass-pill" tier="callout">{productCreatine.overallScore}</AwardBadge>}
+          metric={<AwardBadge shape="glass-pill" tier="callout">Score {formatScore(productCreatine.overallScore!)}</AwardBadge>}
           caption={{ eyebrow: productCreatine.brand, name: productCreatine.name, price: bestPrice(productCreatine) }}
         />
       </div>
@@ -85,17 +87,21 @@ export const TokenDrivenAuto: Story = {
 export const AllTreatments: Story = {
   name: "Variants · treatment",
   render: () => (
-    <div className="grid grid-cols-2 gap-grid-gap lg:grid-cols-4">
-      {TREATMENTS.map((treatment) => (
-        <ProductMediaFrame
-          key={treatment}
-          media={treatment === "studio-cutout-blend" ? productShoe02.media : productShoe01.media}
-          treatment={treatment}
-          hover="subtle-zoom"
-          badge={<AwardBadge shape="glass-pill" badge={productShoe01.awardBadge} icon={Award} />}
-          caption={{ eyebrow: `treatment`, name: treatment }}
-        />
-      ))}
+    <div className="grid grid-cols-2 items-start gap-grid-gap lg:grid-cols-4">
+      {TREATMENTS.map((treatment) => {
+        const p = treatment === "studio-cutout-blend" ? productShoe02 : productShoe01;
+        return (
+          <Labeled key={treatment} label={`treatment="${treatment}"`}>
+            <ProductMediaFrame
+              media={p.media}
+              treatment={treatment}
+              hover="subtle-zoom"
+              badge={<AwardBadge shape="glass-pill" badge={p.awardBadge} icon={Award} />}
+              caption={{ eyebrow: p.brand, name: p.name, price: bestPrice(p) }}
+            />
+          </Labeled>
+        );
+      })}
     </div>
   ),
 };
@@ -103,14 +109,11 @@ export const AllTreatments: Story = {
 export const AllHovers: Story = {
   name: "Variants · hover (hover each frame)",
   render: () => (
-    <div className="grid grid-cols-3 gap-grid-gap">
+    <div className="grid grid-cols-1 items-start gap-grid-gap sm:grid-cols-3">
       {HOVERS.map((hover) => (
-        <ProductMediaFrame
-          key={hover}
-          media={productShoe01.media}
-          hover={hover}
-          caption={{ eyebrow: "hover", name: hover }}
-        />
+        <Labeled key={hover} label={`hover="${hover}"`}>
+          <ProductMediaFrame media={productShoe01.media} hover={hover} caption={shoeCaption} />
+        </Labeled>
       ))}
     </div>
   ),
@@ -134,7 +137,7 @@ export const SafeZones: Story = {
               <AwardBadge shape={i % 2 ? "glass-pill" : "architectural-flag"} badge={p.awardBadge} icon={i === 2 ? FlaskConical : Sparkles} />
             )
           }
-          metric={<AwardBadge shape="glass-pill" tier="callout">Score {p.overallScore}</AwardBadge>}
+          metric={<AwardBadge shape="glass-pill" tier="callout">Score {formatScore(p.overallScore!)}</AwardBadge>}
           caption={{ eyebrow: p.brand, name: p.name, price: bestPrice(p) }}
         />
       ))}
@@ -145,11 +148,19 @@ export const SafeZones: Story = {
 export const CaptionLockups: Story = {
   name: "Caption · eyebrow / name / price lockup, showCaption",
   render: () => (
-    <div className="grid grid-cols-2 gap-grid-gap lg:grid-cols-4">
-      <ProductMediaFrame media={productWatch.media} caption={{ eyebrow: productWatch.brand, name: productWatch.name, price: bestPrice(productWatch) }} />
-      <ProductMediaFrame media={productWatch.media} caption={{ eyebrow: productWatch.brand, name: productWatch.name }} />
-      <ProductMediaFrame media={productWatch.media} caption={{ name: productWatch.name }} />
-      <ProductMediaFrame media={productWatch.media} caption={{ eyebrow: productWatch.brand, name: productWatch.name }} showCaption={false} />
+    <div className="grid grid-cols-2 items-start gap-grid-gap lg:grid-cols-4">
+      <Labeled label="eyebrow · name · price">
+        <ProductMediaFrame media={productWatch.media} caption={{ eyebrow: productWatch.brand, name: productWatch.name, price: bestPrice(productWatch) }} />
+      </Labeled>
+      <Labeled label="eyebrow · name">
+        <ProductMediaFrame media={productWatch.media} caption={{ eyebrow: productWatch.brand, name: productWatch.name }} />
+      </Labeled>
+      <Labeled label="name only">
+        <ProductMediaFrame media={productWatch.media} caption={{ name: productWatch.name }} />
+      </Labeled>
+      <Labeled label="showCaption={false}">
+        <ProductMediaFrame media={productWatch.media} caption={{ eyebrow: productWatch.brand, name: productWatch.name }} showCaption={false} />
+      </Labeled>
     </div>
   ),
 };
@@ -182,7 +193,7 @@ export const SideBySideVerticals: Story = {
           media={productShoe01.media}
           hover="secondary-angle-swap"
           badge={<AwardBadge shape="glass-pill" badge={productShoe01.awardBadge} icon={Award} />}
-          metric={<AwardBadge shape="glass-pill" tier="callout">Score {productShoe01.overallScore}</AwardBadge>}
+          metric={<AwardBadge shape="glass-pill" tier="callout">Score {formatScore(productShoe01.overallScore!)}</AwardBadge>}
           caption={shoeCaption}
           priority
         />
@@ -207,7 +218,7 @@ export const Viewports: Story = {
               key={p.id}
               media={p.media}
               badge={p.awardBadge ? <AwardBadge shape="glass-pill" badge={p.awardBadge} size="sm" /> : undefined}
-              metric={<AwardBadge shape="glass-pill" tier="callout" size="sm">{p.overallScore}</AwardBadge>}
+              metric={<AwardBadge shape="glass-pill" tier="callout" size="sm">{formatScore(p.overallScore!)}</AwardBadge>}
               caption={{ eyebrow: p.brand, name: p.name, price: bestPrice(p) }}
             />
           ))}

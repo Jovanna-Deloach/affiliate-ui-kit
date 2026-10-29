@@ -125,7 +125,7 @@ export function SurfaceCardDivider({
     <hr
       data-slot="surface-card-divider"
       className={cn(
-        "-mx-card-pad border-0 border-t-surface-w border-border",
+        "-mx-card-pad border-0 border-t-surface-w border-border-soft",
         "group-data-[density=compact]/card:-mx-[calc(var(--space-card-pad)*0.625)]",
         "group-data-[density=spacious]/card:-mx-[calc(var(--space-card-pad)*1.5)]",
         className,
@@ -135,18 +135,41 @@ export function SurfaceCardDivider({
   );
 }
 
+const footerVariants = cva("mt-auto flex flex-wrap items-center justify-between gap-cluster-gap", {
+  variants: {
+    variant: {
+      /** Inline row inside the card padding. */
+      inline: "",
+      /** Hairline-divided bar, full-bleed to the card edges. */
+      "hairline-bar": [
+        "-mx-card-pad -mb-card-pad border-t-surface-w border-border-soft px-card-pad py-row-pad",
+        "group-data-[density=compact]/card:-mx-[calc(var(--space-card-pad)*0.625)] group-data-[density=compact]/card:-mb-[calc(var(--space-card-pad)*0.625)]",
+        "group-data-[density=spacious]/card:-mx-[calc(var(--space-card-pad)*1.5)] group-data-[density=spacious]/card:-mb-[calc(var(--space-card-pad)*1.5)]",
+      ],
+      /** Recessed action well (Law 2 third plane) with an interactive hover state. */
+      "action-bar": [
+        "-mx-card-pad -mb-card-pad rounded-b-surface border-t-surface-w border-border-soft bg-surface-recessed px-card-pad py-row-pad",
+        "transition-colors duration-interactive ease-spring",
+        "hover:bg-[color-mix(in_srgb,var(--color-surface-recessed)_60%,var(--color-surface))]",
+        "group-data-[density=compact]/card:-mx-[calc(var(--space-card-pad)*0.625)] group-data-[density=compact]/card:-mb-[calc(var(--space-card-pad)*0.625)]",
+        "group-data-[density=spacious]/card:-mx-[calc(var(--space-card-pad)*1.5)] group-data-[density=spacious]/card:-mb-[calc(var(--space-card-pad)*1.5)]",
+      ],
+    },
+  },
+  defaultVariants: { variant: "inline" },
+});
+
 /** Footer row: pinned to the bottom when the card stretches in a grid. */
 export function SurfaceCardFooter({
+  variant,
   className,
   ...props
-}: ComponentProps<"div">) {
+}: ComponentProps<"div"> & VariantProps<typeof footerVariants>) {
   return (
     <div
       data-slot="surface-card-footer"
-      className={cn(
-        "mt-auto flex flex-wrap items-center justify-between gap-cluster-gap",
-        className,
-      )}
+      data-variant={variant ?? "inline"}
+      className={cn(footerVariants({ variant }), className)}
       {...props}
     />
   );

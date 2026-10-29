@@ -3,6 +3,7 @@ import { fn } from "storybook/test";
 
 import { productShoe01 } from "@/fixtures/products";
 import { formatPrice } from "@/lib/format";
+import { Labeled } from "@/stories/story-label";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { AffiliateAction } from "./affiliate-action";
@@ -50,18 +51,17 @@ export const Playground: Story = {};
 export const IntentByMotionMatrix: Story = {
   name: "Variants · intent × motion",
   render: (args) => (
-    <div className="grid gap-grid-gap">
+    <div className="grid gap-section-gap">
       {INTENTS.map((intent) => (
-        <div key={intent} className="border-t-surface-w border-border pt-row-pad">
-          <code className="type-label-mono text-muted">intent=&quot;{intent}&quot;</code>
-          <div className="mt-cluster-gap flex flex-wrap items-center gap-cluster-gap">
+        <Labeled key={intent} label={`intent="${intent}" · motion = ${MOTIONS.join(" | ")}`}>
+          <div className="flex flex-wrap items-center gap-cluster-gap">
             {MOTIONS.map((motion) => (
               <AffiliateAction key={motion} {...args} intent={intent} motion={motion}>
                 {intent === "price-pill" ? formatPrice(offer.price) : intent === "inline-editorial" ? `${offer.merchantName} · ${formatPrice(offer.price)}` : `Shop at ${offer.merchantName}`}
               </AffiliateAction>
             ))}
           </div>
-        </div>
+        </Labeled>
       ))}
     </div>
   ),
@@ -72,15 +72,15 @@ export const Compliance: Story = {
   render: (args) => (
     <div className="flex max-w-2xl flex-col gap-row-pad">
       <AffiliateAction {...args} rel="noreferrer" />
-      <dl className="grid grid-cols-[auto_1fr] gap-x-row-pad gap-y-[0.4em] font-mono text-xs">
-        <dt className="text-muted">rel</dt>
-        <dd>sponsored nofollow noopener noreferrer (consumer rel merged, mandatory tokens never dropped)</dd>
-        <dt className="text-muted">target</dt>
+      <dl className="grid grid-cols-[auto_1fr] gap-x-row-pad gap-y-[0.4em] text-xs text-foreground">
+        <dt className="type-label-mono text-muted">rel</dt>
+        <dd>sponsored nofollow noopener noreferrer — consumer rel merged, mandatory tokens never dropped</dd>
+        <dt className="type-label-mono text-muted">target</dt>
         <dd>_blank + visually-hidden &quot;(opens in a new tab)&quot;</dd>
-        <dt className="text-muted">href</dt>
-        <dd className="break-all">{offer.affiliateUrl}?ref=kit&amp;utm_source=kit&amp;utm_medium=affiliate&amp;utm_campaign=…&amp;subId=…</dd>
-        <dt className="text-muted">tracking</dt>
-        <dd>onClick (primary) + onAuxClick button 1 (middle-click) → onTrack + window `affiliate:click`</dd>
+        <dt className="type-label-mono text-muted">href</dt>
+        <dd className="break-all">{offer.affiliateUrl}&amp;utm_source=kit&amp;utm_medium=affiliate&amp;utm_campaign=…&amp;subId=…</dd>
+        <dt className="type-label-mono text-muted">tracking</dt>
+        <dd>onClick (primary) + onAuxClick button 1 (middle-click) → onTrack + window affiliate:click</dd>
       </dl>
     </div>
   ),
@@ -89,11 +89,19 @@ export const Compliance: Story = {
 export const Sizes: Story = {
   name: "Variants · size + fullWidth",
   render: (args) => (
-    <div className="flex max-w-sm flex-col gap-cluster-gap">
-      <AffiliateAction {...args} size="sm">Small</AffiliateAction>
-      <AffiliateAction {...args} size="md">Medium</AffiliateAction>
-      <AffiliateAction {...args} fullWidth>Full width</AffiliateAction>
-      <AffiliateAction {...args} intent="merchant-outline" fullWidth motion="flat" arrow={false}>No arrow · flat</AffiliateAction>
+    <div className="flex max-w-sm flex-col items-start gap-section-gap">
+      <Labeled label='size="sm"'>
+        <AffiliateAction {...args} size="sm">Shop at {offer.merchantName}</AffiliateAction>
+      </Labeled>
+      <Labeled label='size="md"'>
+        <AffiliateAction {...args} size="md">Shop at {offer.merchantName}</AffiliateAction>
+      </Labeled>
+      <Labeled label="fullWidth">
+        <AffiliateAction {...args} fullWidth>Shop at {offer.merchantName}</AffiliateAction>
+      </Labeled>
+      <Labeled label='intent="merchant-outline" · motion="flat" · arrow={false}'>
+        <AffiliateAction {...args} intent="merchant-outline" fullWidth motion="flat" arrow={false}>Compare {productShoe01.offers.length} retailers</AffiliateAction>
+      </Labeled>
     </div>
   ),
 };

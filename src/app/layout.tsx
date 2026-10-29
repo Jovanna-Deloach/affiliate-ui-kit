@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "@/styles/globals.css";
@@ -7,7 +7,7 @@ import "@/styles/globals.css";
 /**
  * next/font self-hosts the families, preloads them and generates
  * metric-adjusted fallbacks, so the serif display never reflows (zero CLS).
- * The variables are consumed by tokens.css (`var(--font-instrument-serif, …)`).
+ * The variables are consumed by tokens.css (`var(--font-playfair-display, …)`).
  */
 const inter = Inter({
   subsets: ["latin"],
@@ -15,11 +15,16 @@ const inter = Inter({
   display: "swap",
 });
 
-const instrumentSerif = Instrument_Serif({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: "400",
   style: ["normal", "italic"],
-  variable: "--font-instrument-serif",
+  variable: "--font-playfair-display",
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
   display: "swap",
 });
 
@@ -40,7 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       data-vertical="luxury-editorial"
-      className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${jakarta.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-dvh bg-background text-foreground">{children}</body>
     </html>

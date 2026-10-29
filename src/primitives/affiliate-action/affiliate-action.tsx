@@ -50,11 +50,11 @@ const actionVariants = cva(
         "merchant-outline": [
           "type-eyebrow leading-none rounded-interactive border-interactive-w border-border-strong",
           "bg-surface text-foreground",
-          "hover:border-foreground hover:bg-accent-soft",
+          "hover:border-foreground hover:bg-surface-recessed",
         ],
         "price-pill": [
-          "rounded-badge border-interactive-w border-transparent bg-accent-soft",
-          "font-mono text-sm font-weight-metric tabular-nums text-foreground",
+          "rounded-badge border-interactive-w border-transparent bg-surface-recessed",
+          "type-price text-sm text-foreground",
           "hover:border-border-strong",
         ],
         "inline-editorial": [

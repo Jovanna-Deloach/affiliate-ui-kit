@@ -17,6 +17,8 @@ export interface MerchantOffer {
   inStock: boolean;
   promoCode?: string;
   promoDescription?: string;
+  /** Short fulfilment note shown under the price, e.g. "Free 2-day shipping". */
+  shippingNote?: string;
   isPrimaryPartner?: boolean;
   isBestPrice?: boolean;
 }

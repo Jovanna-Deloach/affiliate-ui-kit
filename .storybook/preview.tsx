@@ -36,7 +36,12 @@ const withVertical: Decorator = (Story, context) => {
  * never paints fallback text first (the app gets the same guarantee from
  * next/font's preload + metric-adjusted fallbacks).
  */
-const FACES = ['400 1em "Instrument Serif"', '400 1em "Inter Variable"', '400 1em "JetBrains Mono Variable"'];
+const FACES = [
+  '400 1em "Playfair Display Variable"',
+  '600 1em "Plus Jakarta Sans Variable"',
+  '400 1em "Inter Variable"',
+  '400 1em "JetBrains Mono Variable"',
+];
 const withFontsReady = async () => {
   if (typeof document === "undefined" || !document.fonts) return {};
   await Promise.all(FACES.map((f) => document.fonts.load(f).catch(() => null)));

@@ -35,7 +35,7 @@ import type { AffiliateAttribution, AffiliateClickEvent } from "@/types/affiliat
 const chipVariants = cva(
   [
     "group/chip inline-flex max-w-full items-stretch text-foreground",
-    "font-mono text-sm tabular-nums",
+    "font-sans text-sm",
   ],
   {
     variants: {
@@ -45,8 +45,8 @@ const chipVariants = cva(
           "[&_[data-slot=chip-action]]:border-l-[length:var(--border-width-interactive)] [&_[data-slot=chip-action]]:border-dashed [&_[data-slot=chip-action]]:border-border-strong",
         ],
         "pill-badge": [
-          "rounded-badge border-interactive-w border-transparent bg-accent-soft",
-          "[&_[data-slot=chip-action]]:border-l-surface-w [&_[data-slot=chip-action]]:border-border",
+          "rounded-badge border-interactive-w border-transparent bg-surface-recessed",
+          "[&_[data-slot=chip-action]]:border-l-surface-w [&_[data-slot=chip-action]]:border-border-soft",
         ],
         "minimal-inline": "gap-[0.75em] rounded-badge bg-transparent",
       },
@@ -114,12 +114,14 @@ export function PromoCodeChip({
           !inline && "px-badge-x py-(--chip-pad-y)",
         )}
       >
-        <span className="truncate font-weight-metric tracking-label uppercase" aria-label={`Promo code ${code}`}>
+        {/* The code is a short uppercase token — the one place mono belongs (Law 1). */}
+        <span
+          className="truncate font-mono font-medium uppercase tracking-label tabular-nums text-foreground"
+          aria-label={`Promo code ${code}`}
+        >
           {code}
         </span>
-        {description && (
-          <span className="type-label-mono truncate text-muted">{description}</span>
-        )}
+        {description && <span className="truncate text-xs text-muted">{description}</span>}
       </div>
 
       {/* Copy stub */}
@@ -134,7 +136,7 @@ export function PromoCodeChip({
           "transition-[background-color,color] duration-interactive ease-spring",
           inline
             ? "text-muted hover:text-foreground"
-            : "px-badge-x hover:bg-accent-soft data-[status=copied]:text-positive",
+            : "px-badge-x hover:bg-surface-recessed data-[status=copied]:text-positive",
           !inline && chroming === "pill-badge" && "hover:bg-surface",
         )}
       >

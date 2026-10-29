@@ -22,23 +22,32 @@
      • Profiles must define EVERY token. `:root` carries the luxury-editorial
        baseline; there is no fallback chain between verticals.
      • Fonts: the app serves them with next/font (preloaded, metric-adjusted
-       fallbacks → zero CLS) and exposes --font-inter / --font-instrument-serif /
-       --font-jetbrains-mono; Storybook self-hosts the same families via
-       @fontsource (.storybook/fonts.ts). The stacks below try the next/font
-       variable first and fall back to the family name, so one token file
-       serves both environments.
+       fallbacks → zero CLS) and exposes --font-inter / --font-playfair-display /
+       --font-plus-jakarta-sans / --font-jetbrains-mono; Storybook self-hosts the
+       same families via @fontsource (.storybook/fonts.ts). The stacks below try
+       the next/font variable first and fall back to the family name.
+     • Typography roles (Law 1): display headings → --font-display; prices,
+       scores and metrics → --font-sans, weight 600, tabular, tight tracking;
+       --font-mono is reserved for short uppercase metadata (batch IDs,
+       timestamps, rank numerals) and never used for prices or prose.
+     • Surface layering (Law 2): canvas → surface → recessed. Complex
+       components always use all three planes.
    ========================================================================== */
 
 :root,
 [data-vertical="luxury-editorial"] {
-  /* ---- 1. COLOR: warm paper, obsidian ink, alpha hairlines ------------- */
-  --color-background: #faf9f6;
-  --color-surface: #ffffff;
-  --color-surface-pedestal: #f3f1ed;    /* media tiles, striped rows, sheet grips */
+  /* ---- 1. COLOR: three luminance planes (canvas → surface → recessed) -- */
+  --color-canvas: #f7f6f2;              /* page background */
+  --color-background: var(--color-canvas);
+  --color-surface: #ffffff;             /* primary card plane */
+  --color-surface-recessed: #f2efe9;    /* inner data wells, spec headers, highlighted rows */
+  --color-surface-pedestal: var(--color-surface-recessed); /* media tiles */
   --color-foreground: #111110;
   --color-muted: #6e6a63;
-  --color-border: rgba(17, 17, 16, 0.09);
-  --color-border-strong: rgba(17, 17, 16, 0.18);
+  --color-border: rgba(0, 0, 0, 0.08);  /* crisp surface perimeter */
+  --color-border-soft: rgba(0, 0, 0, 0.06); /* row hairlines inside wells */
+  --color-border-strong: rgba(0, 0, 0, 0.18);
+  --color-ring-inner: rgba(0, 0, 0, 0.1); /* avatar / monogram inner ring */
   --color-accent: #111110;              /* CTAs, active rails */
   --color-accent-foreground: #faf9f6;
   --color-accent-soft: #f3f1ed;         /* selected pills, winner tint */
@@ -46,10 +55,13 @@
   --color-badge-primary-fg: #faf9f6;
   --color-badge-secondary-bg: rgba(255, 255, 255, 0.92);
   --color-badge-secondary-fg: #111110;
-  --color-positive: #2f5d3a;            /* in-stock, "pros" marker */
-  --color-negative: #8a2f2f;            /* out-of-stock, "cons" marker */
+  --color-positive: #2f5d3a;            /* in-stock, "pros" marker, PASS */
+  --color-positive-soft: rgba(47, 93, 58, 0.07);   /* semantic pill fill */
+  --color-negative: #8a2f2f;            /* out-of-stock, "cons" marker, FAIL */
+  --color-negative-soft: rgba(138, 47, 47, 0.07);
   --color-caution: #8a6a1f;             /* low-stock, stale verification */
-  --color-meter-track: #ebe8e2;         /* score bar track */
+  --color-caution-soft: rgba(138, 106, 31, 0.08);
+  --color-meter-track: rgba(0, 0, 0, 0.06); /* score bar track */
   --color-meter-fill: #111110;          /* score bar fill */
   --color-scrim: rgba(17, 17, 16, 0.45); /* sheet / dialog backdrop */
   --color-focus-ring: #111110;
@@ -74,14 +86,18 @@
   --space-overlay-inset: 0.75rem;       /* badge / metric safe-zone inset */
   --space-badge-x: 0.625rem;            /* badge horizontal padding (10px) */
   --space-badge-y: 0.375rem;            /* badge vertical padding (6px) */
+  --space-tag-x: 0.5rem;                /* semantic pill padding (8px / 2px) */
+  --space-tag-y: 0.125rem;
   --aspect-product-media: 4 / 5;
   --media-fit: cover;                   /* auto treatment: object-fit */
   --size-control: 2.75rem;              /* min tap target for CTAs/controls */
   --size-seal: 4.5rem;                  /* editorial-seal diameter */
   --size-avatar: 2.75rem;               /* byline portrait */
   --radius-avatar: 0px;                 /* square editorial portrait */
-  --size-logo: 1.125rem;                /* merchant wordmark height */
+  --size-logo: 1.125rem;                /* merchant wordmark height (inside the monogram tile) */
+  --size-monogram: 2.25rem;             /* 36px merchant monogram tile */
   --size-meter: 0.375rem;               /* score bar thickness */
+  --size-meter-inline: 6rem;            /* ranked-row proportion bar width */
   --size-pin: 1.75rem;                  /* hotspot pin diameter */
   --size-dock-offset: 1.5rem;           /* floating island inset */
   --size-sheet-compact: 26rem;          /* desktop slide-over: offer sheet */
@@ -104,36 +120,42 @@
   --duration-micro: 220ms;              /* checkmark morphs, dots */
   --duration-media: 700ms;              /* image zoom / angle swap */
 
-  /* ---- 5. TYPOGRAPHY: serif display, ultra-tracked caps eyebrows ------ */
-  --font-display: var(--font-instrument-serif, "Instrument Serif"),
-    "Playfair Display", Georgia, serif;
+  /* ---- 5. TYPOGRAPHY: Playfair display, Inter body, mono metadata only -- */
+  --font-display: var(--font-playfair-display, "Playfair Display Variable"),
+    "Playfair Display", "Newsreader", Georgia, serif;
   --font-sans: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"),
     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --tracking-eyebrow: 0.18em;
-  --tracking-label: 0.16em;             /* mono caption eyebrows */
-  --tracking-display: -0.01em;
+  --tracking-label: 0.16em;             /* mono metadata tags */
+  --tracking-tag: 0.08em;               /* semantic pills */
+  --tracking-display: -0.02em;
+  --tracking-metric: -0.025em;          /* prices / scores (tight) */
   --text-eyebrow: 0.625rem;             /* 10px */
   --text-display: 2.5rem;
   --text-display-sm: 1.5rem;
   --text-metric: 1.75rem;
   --weight-display: 400;
   --weight-eyebrow: 500;
-  --weight-metric: 500;
-  --leading-display: 1.05;
+  --weight-metric: 600;
+  --leading-display: 1.12;
   --transform-eyebrow: uppercase;
 }
 
 [data-vertical="clinical-performance"] {
-  /* ---- 1. COLOR: slate paper, obsidian ink, zinc hairlines ------------- */
-  --color-background: #f8fafc;
+  /* ---- 1. COLOR: three luminance planes (canvas → surface → recessed) -- */
+  --color-canvas: #f8fafc;
+  --color-background: var(--color-canvas);
   --color-surface: #ffffff;
-  --color-surface-pedestal: #f4f4f5;
+  --color-surface-recessed: #f1f5f9;
+  --color-surface-pedestal: var(--color-surface-recessed);
   --color-foreground: #09090b;
   --color-muted: #52525b;
-  --color-border: #e4e4e7;
-  --color-border-strong: #d4d4d8;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-soft: rgba(0, 0, 0, 0.06);
+  --color-border-strong: rgba(0, 0, 0, 0.18);
+  --color-ring-inner: rgba(0, 0, 0, 0.1);
   --color-accent: #09090b;
   --color-accent-foreground: #ffffff;
   --color-accent-soft: #f4f4f5;
@@ -142,9 +164,12 @@
   --color-badge-secondary-bg: #ffffff;
   --color-badge-secondary-fg: #09090b;
   --color-positive: #166534;            /* restrained semantic accents only */
+  --color-positive-soft: rgba(22, 101, 52, 0.07);
   --color-negative: #991b1b;
+  --color-negative-soft: rgba(153, 27, 27, 0.07);
   --color-caution: #92400e;
-  --color-meter-track: #e4e4e7;
+  --color-caution-soft: rgba(146, 64, 14, 0.08);
+  --color-meter-track: rgba(0, 0, 0, 0.06);
   --color-meter-fill: #09090b;
   --color-scrim: rgba(9, 9, 11, 0.5);
   --color-focus-ring: #09090b;
@@ -169,6 +194,8 @@
   --space-overlay-inset: 0.75rem;
   --space-badge-x: 0.625rem;
   --space-badge-y: 0.375rem;
+  --space-tag-x: 0.5rem;
+  --space-tag-y: 0.125rem;
   --aspect-product-media: 1 / 1;
   --media-fit: contain;
   --size-control: 2.5rem;
@@ -176,7 +203,9 @@
   --size-avatar: 2.5rem;
   --radius-avatar: 9999px;              /* circular, utilitarian */
   --size-logo: 1rem;
-  --size-meter: 0.5rem;
+  --size-monogram: 2.25rem;
+  --size-meter: 0.375rem;
+  --size-meter-inline: 6rem;
   --size-pin: 1.5rem;
   --size-dock-offset: 0.75rem;
   --size-sheet-compact: 24rem;
@@ -199,16 +228,19 @@
   --duration-micro: 140ms;
   --duration-media: 500ms;
 
-  /* ---- 5. TYPOGRAPHY: Inter everywhere, mono metrics ------------------ */
-  --font-display: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* ---- 5. TYPOGRAPHY: Plus Jakarta display, Inter body, mono metadata -- */
+  --font-display: var(--font-plus-jakarta-sans, "Plus Jakarta Sans Variable"),
+    "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
   --font-sans: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"),
     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --tracking-eyebrow: 0.14em;
   --tracking-label: 0.12em;
-  --tracking-display: -0.02em;
+  --tracking-tag: 0.08em;
+  --tracking-display: -0.025em;
+  --tracking-metric: -0.025em;
   --text-eyebrow: 0.625rem;
   --text-display: 1.75rem;
   --text-display-sm: 1.25rem;

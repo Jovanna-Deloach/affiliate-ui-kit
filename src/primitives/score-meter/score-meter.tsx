@@ -9,9 +9,11 @@ import type { SubScoreItem } from "@/types/affiliate";
 /**
  * <ScoreMeter />
  * ---------------------------------------------------------------------------
- * Composite rating (tabular-nums) + weighted sub-score bars on Radix Progress.
+ * Composite rating + weighted sub-score bars on Radix Progress. Every numeral
+ * is sans · semibold · tabular (type-metric / type-price) and formatted with
+ * formatScore() → "9.0", never "9" (Law 1, audit fix #6).
  *
- *   --text-metric / --font-mono / --weight-metric   composite numeral voice
+ *   --text-metric / --font-sans / --weight-metric    composite numeral voice
  *   --size-meter                                     bar thickness
  *   --color-meter-track / --color-meter-fill         bar ink
  *   --radius-badge                                   bar / segment corners
@@ -20,20 +22,30 @@ import type { SubScoreItem } from "@/types/affiliate";
  * Mobbin anatomy (Turo + Tripadvisor rating breakdowns, Etsy radial rings,
  * RTINGS scorecards): composite numeral stays large; sub-scores are a
  * three-column grid — label | bar | value — that collapses to label-over-bar
- * at 375 px. Weights, when shown, read as "× 0.30" in the mono voice.
+ * at 375 px (the row owns that container query). Weights, when shown, read
+ * as "× 0.30" in muted sans.
  *
  * 21st.dev physics: circular-progress ring (dasharray/offset) reduced to
  * `pathLength=100` + the `meter-ring` / `meter-fill` @starting-style
  * transitions in mechanics.css. No framer, no state — Server Component.
  */
 
-const meterVariants = cva("@container flex min-w-0 flex-col", {
+/**
+ * The root is never a size container: inline-size containment would zero
+ * its contribution inside flex rows and `auto` grid tracks (asides, ranked
+ * lists). The stacked visuals are block-level (`w-full`); `radial-ring` and
+ * `inline-bar` are inline lockups that wrap or sit in a row.
+ */
+const meterVariants = cva("flex min-w-0", {
   variants: {
     visual: {
-      "segmented-bar": "gap-row-pad",
-      "minimal-fraction": "gap-cluster-gap",
-      "radial-ring": "gap-row-pad",
-      "tabular-row": "gap-0",
+      "segmented-bar": "w-full flex-col gap-row-pad",
+      "minimal-fraction": "w-full flex-col gap-cluster-gap",
+      /** Ring beside its label; the label wraps under the ring when the row is too narrow. */
+      "radial-ring": "flex-wrap items-center gap-x-row-pad gap-y-cluster-gap",
+      "tabular-row": "w-full flex-col gap-0",
+      /** Single-line proportion bar + numeral for ranked rows and directory tiles. */
+      "inline-bar": "flex-row items-center gap-cluster-gap",
     },
   },
   defaultVariants: { visual: "segmented-bar" },
@@ -76,17 +88,33 @@ export function ScoreMeter({
       className={cn(meterVariants({ visual }), className)}
       {...props}
     >
-      {visual === "radial-ring" ? (
-        // Ring beside its label; stacks when the container is narrower than 14rem (2-up 375 tiles).
-        <div className="flex flex-col gap-cluster-gap @min-[14rem]:flex-row @min-[14rem]:items-center @min-[14rem]:gap-row-pad">
+      {visual === "inline-bar" ? (
+        <>
+          {label && <span className="type-eyebrow min-w-0 truncate text-muted">{label}</span>}
+          <Progress.Root
+            value={pct}
+            max={100}
+            getValueLabel={() => valueText}
+            data-slot="inline-bar"
+            className="h-meter w-meter-inline shrink-0 overflow-hidden rounded-badge bg-meter-track"
+          >
+            <Progress.Indicator
+              className="meter-fill h-full rounded-badge bg-meter-fill"
+              style={{ "--pct": pct } as CSSProperties}
+            />
+          </Progress.Root>
+          <span className="type-price shrink-0 text-sm text-foreground">{formatScore(score, decimals)}</span>
+        </>
+      ) : visual === "radial-ring" ? (
+        <>
           <RadialRing pct={pct} valueText={valueText}>
             <span className="type-metric">{formatScore(score, decimals)}</span>
           </RadialRing>
           <div className="flex min-w-0 flex-col gap-[0.25em]">
             <span className="type-eyebrow truncate text-muted">{label}</span>
-            <span className="type-label-mono whitespace-nowrap text-muted">out of {maxScore}</span>
+            <span className="whitespace-nowrap text-xs tabular-nums text-muted">out of {maxScore}</span>
           </div>
-        </div>
+        </>
       ) : visual === "tabular-row" ? (
         <MeterRow
           label={label}
@@ -101,7 +129,7 @@ export function ScoreMeter({
             <span className="type-eyebrow text-muted">{label}</span>
             <span className="flex items-baseline gap-[0.3em]">
               <span className="type-metric">{formatScore(score, decimals)}</span>
-              <span className="type-label-mono text-muted">/ {maxScore}</span>
+              <span className="text-xs tabular-nums text-muted">/ {maxScore}</span>
             </span>
           </div>
           {visual === "segmented-bar" && (
@@ -110,13 +138,14 @@ export function ScoreMeter({
         </div>
       )}
 
-      {subScores && subScores.length > 0 && (
+      {subScores && subScores.length > 0 && visual !== "inline-bar" && (
         <dl
           data-slot="sub-scores"
           className={cn(
             "m-0 flex min-w-0 flex-col",
             visual === "minimal-fraction" ? "flex-row flex-wrap gap-x-row-pad gap-y-[0.35em]" : "gap-[0.5em]",
             visual === "tabular-row" && "gap-0",
+            visual === "radial-ring" && "basis-full",
           )}
         >
           {subScores.map((s) => {
@@ -126,8 +155,8 @@ export function ScoreMeter({
             if (visual === "minimal-fraction") {
               return (
                 <div key={s.label} className="flex items-baseline gap-[0.4em]">
-                  <dt className="type-label-mono text-muted">{s.label}</dt>
-                  <dd className="m-0 font-mono text-sm font-weight-metric tabular-nums">
+                  <dt className="type-tag text-muted">{s.label}</dt>
+                  <dd className="type-price m-0 text-sm text-foreground">
                     {formatScore(s.score, decimals)}
                   </dd>
                 </div>
@@ -231,13 +260,13 @@ function MeterRow({
       >
         {label}
         {weight !== undefined && (
-          <span className="type-label-mono ml-[0.6em] text-muted">× {weight.toFixed(2)}</span>
+          <span className="ml-[0.6em] text-xs tabular-nums text-muted">× {weight.toFixed(2)}</span>
         )}
       </Label>
       <Value
         className={cn(
           "m-0 justify-self-end tabular-nums",
-          emphasis ? "type-metric" : "font-mono text-sm font-weight-metric",
+          emphasis ? "type-metric" : "type-price text-sm text-foreground",
         )}
       >
         {value}

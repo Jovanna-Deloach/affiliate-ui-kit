@@ -69,7 +69,6 @@ const offersShoe01: MerchantOffer[] = [
   {
     id: "off-nl-01",
     merchantName: "Northlane",
-    merchantLogoUrl: "/fixtures/merchant-northlane.svg",
     price: 189,
     originalPrice: 220,
     currency: "USD",
@@ -77,22 +76,22 @@ const offersShoe01: MerchantOffer[] = [
     inStock: true,
     promoCode: "KIT15",
     promoDescription: "15% off first order",
+    shippingNote: "Free 2-day shipping",
     isPrimaryPartner: true,
     isBestPrice: true,
   },
   {
     id: "off-hf-01",
     merchantName: "Haus & Field",
-    merchantLogoUrl: "/fixtures/merchant-hausfield.svg",
     price: 199,
     currency: "USD",
     affiliateUrl: "https://example-merchant.test/hausfield/aerolite-3",
     inStock: true,
+    shippingNote: "Free shipping over $150",
   },
   {
     id: "off-ps-01",
     merchantName: "Peak Supply",
-    merchantLogoUrl: "/fixtures/merchant-peaksupply.svg",
     price: 205,
     currency: "USD",
     affiliateUrl: "https://example-merchant.test/peak/aerolite-3",
@@ -101,7 +100,6 @@ const offersShoe01: MerchantOffer[] = [
   {
     id: "off-vr-01",
     merchantName: "Verra",
-    merchantLogoUrl: "/fixtures/merchant-verra.svg",
     price: 210,
     currency: "USD",
     affiliateUrl: "https://example-merchant.test/verra/aerolite-3",
@@ -187,8 +185,8 @@ export const productShoe02: AffiliateProductEntity = {
     cutoutBlend: true,
   },
   offers: [
-    { id: "off-nl-02", merchantName: "Northlane", merchantLogoUrl: "/fixtures/merchant-northlane.svg", price: 160, currency: "USD", affiliateUrl: "https://example-merchant.test/northlane/tempo-pro", inStock: true, isPrimaryPartner: true },
-    { id: "off-vr-02", merchantName: "Verra", merchantLogoUrl: "/fixtures/merchant-verra.svg", price: 149, originalPrice: 160, currency: "USD", affiliateUrl: "https://example-merchant.test/verra/tempo-pro", inStock: true, isBestPrice: true },
+    { id: "off-nl-02", merchantName: "Northlane", price: 160, currency: "USD", affiliateUrl: "https://example-merchant.test/northlane/tempo-pro", inStock: true, isPrimaryPartner: true },
+    { id: "off-vr-02", merchantName: "Verra", price: 149, originalPrice: 160, currency: "USD", affiliateUrl: "https://example-merchant.test/verra/tempo-pro", inStock: true, isBestPrice: true },
   ],
   lastVerifiedAt: "2026-10-26T09:30:00Z",
 };
@@ -228,8 +226,8 @@ export const productShoe03: AffiliateProductEntity = {
     cutoutBlend: false,
   },
   offers: [
-    { id: "off-ps-03", merchantName: "Peak Supply", merchantLogoUrl: "/fixtures/merchant-peaksupply.svg", price: 89, originalPrice: 110, currency: "USD", affiliateUrl: "https://example-merchant.test/peak/cumulus-max", inStock: true, isBestPrice: true, promoCode: "PEAK10", promoDescription: "Extra 10% at checkout" },
-    { id: "off-hf-03", merchantName: "Haus & Field", merchantLogoUrl: "/fixtures/merchant-hausfield.svg", price: 99, currency: "USD", affiliateUrl: "https://example-merchant.test/hausfield/cumulus-max", inStock: true },
+    { id: "off-ps-03", merchantName: "Peak Supply", price: 89, originalPrice: 110, currency: "USD", affiliateUrl: "https://example-merchant.test/peak/cumulus-max", inStock: true, isBestPrice: true, promoCode: "PEAK10", promoDescription: "Extra 10% at checkout" },
+    { id: "off-hf-03", merchantName: "Haus & Field", price: 99, currency: "USD", affiliateUrl: "https://example-merchant.test/hausfield/cumulus-max", inStock: true },
   ],
   lastVerifiedAt: "2026-10-20T16:45:00Z",
 };
@@ -240,18 +238,57 @@ export const roundupProducts: AffiliateProductEntity[] = [
   productShoe03,
 ];
 
-/** Thirty-item directory payload to exercise the zero-runtime-JS loop rule. */
-export const directoryProducts: AffiliateProductEntity[] = Array.from(
-  { length: 30 },
-  (_, i) => {
+/**
+ * Thirty-item directory payload to exercise the zero-runtime-JS loop rule.
+ * Distinct, realistic brand + model names (never concatenated loop indices).
+ */
+const DIRECTORY_NAMES: ReadonlyArray<readonly [brand: string, name: string, eyebrow: string]> = [
+  ["Meridian", "Aerolite 3", "Best Overall Daily Trainer"],
+  ["Halvard", "Tempo Pro 2", "Best for Speed Work"],
+  ["Oriel", "Cumulus Max", "Best Budget"],
+  ["Veloce", "Carbon Elite", "Best Race Day"],
+  ["Kinetix", "Stride GTX", "Best Waterproof"],
+  ["Northwind", "Glide 7", "Best Recovery"],
+  ["Ardent", "Pace Zero", "Lightest Tested"],
+  ["Solace", "Float 2", "Plushest Ride"],
+  ["Tessera", "Ridge Trail", "Best Trail"],
+  ["Halvard", "Vanta Racer", "Fastest Lab Time"],
+  ["Meridian", "Aerolite 3 Wide", "Best Wide Fit"],
+  ["Oriel", "Nimbus Lite", "Best Under $100"],
+  ["Lumen", "Arc 4", "Most Durable Outsole"],
+  ["Veloce", "Strata", "Best Stability"],
+  ["Kinetix", "Pulse 9", "Best Breathability"],
+  ["Northwind", "Drift", "Best Long Run"],
+  ["Ardent", "Momentum", "Best Tempo Value"],
+  ["Solace", "Cloud Nine", "Softest Midsole"],
+  ["Tessera", "Summit", "Best Rocky Trail"],
+  ["Lumen", "Flux", "Best Gym-to-Run"],
+  ["Meridian", "Helix 2", "Best Heel Lockdown"],
+  ["Halvard", "Cadence", "Best Beginner"],
+  ["Oriel", "Stratus", "Best Walking Comfort"],
+  ["Veloce", "Ember", "Best Winter Grip"],
+  ["Kinetix", "Orbit", "Best Treadmill"],
+  ["Northwind", "Harbor", "Best Sustainable"],
+  ["Ardent", "Verge", "Best Marathon"],
+  ["Solace", "Lull", "Best Easy Days"],
+  ["Tessera", "Scree", "Best Mud Shedding"],
+  ["Lumen", "Beacon", "Best Visibility"],
+];
+
+export const directoryProducts: AffiliateProductEntity[] = DIRECTORY_NAMES.map(
+  ([brand, name, eyebrow], i) => {
     const base = roundupProducts[i % 3]!;
+    const slug = `${brand}-${name}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     return {
       ...base,
-      id: `${base.id}-${i}`,
-      slug: `${base.slug}-${i}`,
+      id: `prod-${slug}`,
+      slug,
+      brand,
+      name,
+      eyebrow,
       rank: i + 1,
-      name: `${base.name} ${i + 1}`,
       awardBadge: i < 3 ? base.awardBadge : undefined,
+      // Descending scores with one decimal of precision — always render with formatScore().
       overallScore: Math.round((9.5 - i * 0.12) * 10) / 10,
     };
   },
@@ -289,8 +326,8 @@ export const productWatch: AffiliateProductEntity = {
     cutoutBlend: false,
   },
   offers: [
-    { id: "off-w-1", merchantName: "Haus & Field", merchantLogoUrl: "/fixtures/merchant-hausfield.svg", price: 4850, currency: "USD", affiliateUrl: "https://example-merchant.test/hausfield/ardent-38", inStock: true, isPrimaryPartner: true },
-    { id: "off-w-2", merchantName: "Verra", merchantLogoUrl: "/fixtures/merchant-verra.svg", price: 4990, currency: "USD", affiliateUrl: "https://example-merchant.test/verra/ardent-38", inStock: false },
+    { id: "off-w-1", merchantName: "Haus & Field", price: 4850, currency: "USD", affiliateUrl: "https://example-merchant.test/hausfield/ardent-38", inStock: true, isPrimaryPartner: true },
+    { id: "off-w-2", merchantName: "Verra", price: 4990, currency: "USD", affiliateUrl: "https://example-merchant.test/verra/ardent-38", inStock: false },
   ],
   lastVerifiedAt: "2026-10-28T10:00:00Z",
 };
@@ -328,8 +365,8 @@ export const productCreatine: AffiliateProductEntity = {
     cutoutBlend: false,
   },
   offers: [
-    { id: "off-c-1", merchantName: "Peak Supply", merchantLogoUrl: "/fixtures/merchant-peaksupply.svg", price: 21, originalPrice: 26, currency: "USD", affiliateUrl: "https://example-merchant.test/peak/creatine", inStock: true, isPrimaryPartner: true, isBestPrice: true, promoCode: "LAB20", promoDescription: "20% off subscriptions" },
-    { id: "off-c-2", merchantName: "Northlane", merchantLogoUrl: "/fixtures/merchant-northlane.svg", price: 24, currency: "USD", affiliateUrl: "https://example-merchant.test/northlane/creatine", inStock: true },
+    { id: "off-c-1", merchantName: "Peak Supply", price: 21, originalPrice: 26, currency: "USD", affiliateUrl: "https://example-merchant.test/peak/creatine", inStock: true, isPrimaryPartner: true, isBestPrice: true, promoCode: "LAB20", promoDescription: "20% off subscriptions" },
+    { id: "off-c-2", merchantName: "Northlane", price: 24, currency: "USD", affiliateUrl: "https://example-merchant.test/northlane/creatine", inStock: true },
   ],
   lastVerifiedAt: "2026-10-29T08:15:00Z",
 };

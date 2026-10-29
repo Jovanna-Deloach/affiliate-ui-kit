@@ -38,13 +38,13 @@ export function formatScore(score: number, decimals = 1): string {
   return score.toFixed(decimals);
 }
 
-/** Initials for avatar monograms: "Dr. Priya Raman" → "PR". */
+/** Initials for avatar monograms: "Dr. Priya Raman" → "PR", "Haus & Field" → "HF". */
 export function initials(name: string): string {
   return name
     .replace(/\b(dr|mr|mrs|ms|prof)\.?\s+/gi, "")
     .split(/\s+/)
-    .filter(Boolean)
+    .filter((part) => /\p{L}/u.test(part))
     .slice(0, 2)
-    .map((part) => part[0]!.toUpperCase())
+    .map((part) => part.match(/\p{L}/u)![0].toUpperCase())
     .join("");
 }

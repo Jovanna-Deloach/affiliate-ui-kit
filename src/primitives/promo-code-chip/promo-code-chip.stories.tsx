@@ -4,6 +4,7 @@ import { fn } from "storybook/test";
 import { productCreatine, productShoe01, productShoe03 } from "@/fixtures/products";
 import { MerchantOfferRow } from "@/primitives/merchant-offer-row";
 import { SurfaceCard } from "@/primitives/surface-card";
+import { Labeled } from "@/stories/story-label";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { PromoCodeChip } from "./promo-code-chip";
@@ -44,14 +45,13 @@ export const AllChromings: Story = {
   render: (args) => (
     <div className="flex flex-col gap-section-gap">
       {CHROMINGS.map((chroming) => (
-        <div key={chroming} className="flex flex-col gap-cluster-gap">
-          <code className="type-label-mono text-muted">chroming=&quot;{chroming}&quot;</code>
+        <Labeled key={chroming} label={`chroming="${chroming}" · with outbound | copy only | size="sm"`}>
           <div className="flex flex-wrap items-center gap-cluster-gap">
             <PromoCodeChip {...args} chroming={chroming} />
             <PromoCodeChip {...args} chroming={chroming} href={undefined} description={undefined} />
             <PromoCodeChip {...args} chroming={chroming} size="sm" href={undefined} />
           </div>
-        </div>
+        </Labeled>
       ))}
     </div>
   ),
@@ -72,7 +72,7 @@ export const InOfferContext: Story = {
   render: (args) => (
     <SurfaceCard as="section" className="max-w-2xl">
       <p className="type-eyebrow text-muted">Best price today</p>
-      <ul className="border-b-surface-w border-border">
+      <ul className="border-b-surface-w border-border-soft">
         <MerchantOfferRow offer={offer} referencePrice={offer.price} />
       </ul>
       <PromoCodeChip {...args} />

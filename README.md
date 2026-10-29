@@ -30,7 +30,10 @@ Nested wrappers work, so one page can host both verticals side by side.
 
 | | luxury-editorial | clinical-performance |
 | --- | --- | --- |
-| Display face | Instrument Serif | Inter (600) |
+| Display face | Playfair Display 400 · −0.02em · 1.12 | Plus Jakarta Sans 600 · −0.025em · 1.15 |
+| Prices / scores / metrics | Inter 600 · tabular · −0.025em (`type-price`, `type-metric`) | same voice, same rule |
+| Monospace | JetBrains Mono — short uppercase metadata only (batch IDs, timestamps, rank numerals, promo codes) | same |
+| Canvas → surface → recessed | `#F7F6F2` → `#FFFFFF` + `rgba(0,0,0,.08)` hairline → `#F2EFE9` | `#F8FAFC` → `#FFFFFF` → `#F1F5F9` |
 | Eyebrow | 10px · 0.18em · uppercase | 10px · 0.14em · uppercase |
 | Surface radius | 0 | 10px |
 | Badge radius | 0 | 6px (technical tag) |
@@ -67,6 +70,22 @@ every primitive is safe inside a 30-item `.map()`.
 4. **SEO-safe disclosure** — collapsibles stay mounted (`forceMount` + CSS grid
    `0fr → 1fr`).
 
+### 5. Typographic & surface laws (Tier 1–5 audit)
+
+- **Law 1 — type roles.** Display headings use `--font-display` (Playfair
+  Display in luxury, Plus Jakarta Sans in clinical — never Instrument Serif).
+  Every price, score and metric is `font-sans font-semibold tabular-nums
+  tracking-tight` via `type-price` / `type-metric` and formatted with
+  `formatScore()` (`9.0`, never `9`). Monospace is reserved for short uppercase
+  metadata (`type-label-mono`): batch IDs, timestamps, rank numerals, promo codes.
+- **Law 2 — three luminance planes.** `--color-canvas` (page) → `--color-surface`
+  (`#fff` card with a `rgba(0,0,0,.08)` hairline) → `--color-surface-recessed`
+  (data wells, monogram tiles, highlighted rows, credential pills, action bars).
+  Complex components use all three.
+- **Law 3 — labels live outside components.** Storybook prop/variant labels
+  render as muted mono pills *above* the component under test
+  (`src/stories/story-label.tsx`), never inside component markup.
+
 ## Primitive choreography
 
 Every primitive is built with the same four steps, recorded in its file header:
@@ -83,12 +102,12 @@ Every primitive is built with the same four steps, recorded in its file header:
 | Tier | Primitive | Status |
 | --- | --- | --- |
 | 1 | AffiliateAction · MerchantOfferRow · PromoCodeChip | ✓ Sprint 2A / 3A |
-| 2 | AwardBadge · ScoreMeter · AuthorityByline | ✓ Sprint 1A / 2A |
+| 2 | AwardBadge · StatusPill · ScoreMeter · AuthorityByline | ✓ Sprint 1A / 2A / audit |
 | 3 | SurfaceCard · EditorialHeading · ProductMediaFrame | ✓ Sprint 1A |
-| 4 | ProgressiveCollapse | ✓ Sprint 3A |
+| 4 | SpecList · ProgressiveCollapse | ✓ audit / Sprint 3A |
 | 5 | ResponsiveSheet | ✓ Sprint 3A |
 | 1 | DisclosureBanner | backlog |
-| 2 | ProsConsGrid · SpecList | backlog |
+| 2 | ProsConsGrid | backlog |
 | 3 | HotspotCanvas | backlog (3B) |
 | 4 | StickyMatrix · QuickJumpBar · FacetFilterBar | backlog (FacetFilterBar 3B) |
 | 5 | StickyBuyDock · ParametricInput | backlog (ParametricInput 3B) |
@@ -108,6 +127,10 @@ horizontal overflow, and a full-page screenshot in `.verify/screens/`.
 
 `src/fixtures/products.ts` — canonical `AffiliateProductEntity` payloads
 (running-shoe roundup, a luxury watch, a lab-tested supplement, a 30-item
-directory). Photography is real studio packshots from Unsplash
+directory of distinct brand + model names — never concatenated loop indices).
+Photography is real studio packshots from Unsplash
 (`public/fixtures/ATTRIBUTION.md`); each image carries a sampled `backdrop`
-colour so contain-fit frames match their tile to the shot.
+colour so contain-fit frames match their tile to the shot. Author portraits
+are real photographs too. `src/fixtures/lab-assays.ts` is a 16-row certificate
+of analysis (analyte · result · reference · method · verdict) for the
+clinical disclosure and pill stories.
