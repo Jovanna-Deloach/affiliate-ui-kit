@@ -59,7 +59,7 @@ export default function KitIndexPage() {
               {tier.items.map((item) => (
                 <li
                   key={item}
-                  className="rounded-badge border-interactive-w border-border px-cluster-gap py-1 font-metric text-sm"
+                  className="rounded-badge border-interactive-w border-border px-cluster-gap py-1 font-mono text-sm"
                 >
                   {item}
                 </li>

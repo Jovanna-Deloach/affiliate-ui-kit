@@ -25,7 +25,7 @@ export function VerticalCompare({
         >
           <header className="flex items-baseline justify-between gap-cluster-gap border-b-surface-w border-border pb-cluster-gap">
             <span className="type-eyebrow">{v.label}</span>
-            <code className="font-metric text-xs text-muted">[data-vertical=&quot;{v.id}&quot;]</code>
+            <code className="type-label-mono text-muted">[data-vertical=&quot;{v.id}&quot;]</code>
           </header>
           <div className="min-w-0">{render ? render() : children}</div>
         </section>
@@ -34,18 +34,46 @@ export function VerticalCompare({
   );
 }
 
-/** Fixed-width frames to compare 375 px and 1280 px behaviour in one story. */
-export function ViewportFrames({ render }: { render: (width: number) => ReactNode }) {
+export type ViewportSpec = {
+  width: 375 | 1280;
+  /** Tailwind grid classes the story should use at this width. */
+  grid: string;
+};
+
+export const VIEWPORTS: ViewportSpec[] = [
+  { width: 375, grid: "grid grid-cols-2 gap-3" },
+  { width: 1280, grid: "grid grid-cols-4 gap-6" },
+];
+
+/**
+ * Real viewport simulation. The 375 px demo is a hard `w-[375px]` dashed
+ * container with a compact 2-column grid; the 1280 px demo is a
+ * `max-w-[1280px]` container with a 4-column grid. The outer scroller keeps
+ * the document from overflowing when the Storybook viewport itself is 375.
+ */
+export function ViewportFrames({
+  render,
+}: {
+  render: (spec: ViewportSpec) => ReactNode;
+}) {
   return (
     <div className="flex flex-col gap-section-gap">
-      {[375, 1280].map((w) => (
-        <section key={w} className="flex flex-col gap-cluster-gap">
-          <span className="type-eyebrow text-muted">{w}px</span>
-          <div
-            className="max-w-full overflow-x-auto border-surface-w border-border bg-surface"
-            style={{ width: w, containerType: "inline-size" }}
-          >
-            {render(w)}
+      {VIEWPORTS.map((spec) => (
+        <section key={spec.width} className="flex min-w-0 flex-col gap-cluster-gap">
+          <span className="type-label-mono text-muted">
+            {spec.width}px · {spec.width === 375 ? "2-col compact" : "4-col"}
+          </span>
+          <div className="w-full overflow-x-auto">
+            <div
+              className={
+                spec.width === 375
+                  ? "w-[375px] shrink-0 border border-dashed border-border-strong bg-surface p-4"
+                  : "w-full max-w-[1280px] shrink-0 border border-dashed border-border-strong bg-surface p-8"
+              }
+              style={{ containerType: "inline-size" }}
+            >
+              {render(spec)}
+            </div>
           </div>
         </section>
       ))}

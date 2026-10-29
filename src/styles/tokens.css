@@ -8,118 +8,140 @@
 
    Contract tiers:
      1. COLOR          --color-*
-     2. STRUCTURE      --radius-*, --border-width-*, --space-*, --aspect-*
+     2. STRUCTURE      --radius-*, --border-width-*, --space-*, --aspect-*,
+                       --media-fit, --size-*, --blur-*
      3. ELEVATION      --shadow-*
      4. MOTION         --ease-*, --duration-*
      5. TYPOGRAPHY     --font-*, --tracking-*, --text-*, --weight-*, --leading-*
 
    Rules:
      • Never hardcode a structural Tailwind utility (rounded-lg, p-6, shadow-sm,
-       aspect-square …) inside `src/primitives/**`. Use the bridged utilities
-       (`rounded-surface`, `p-card-pad`, `shadow-surface`, `aspect-product-media`)
-       or `var(--token)` directly.
-     • Profiles must define EVERY token. There is no fallback chain between
-       verticals; `:root` carries the luxury-editorial baseline.
+       aspect-square, text-[10px], tracking-[0.18em] …) inside `src/primitives/**`.
+       Use the bridged utilities (`rounded-surface`, `p-card-pad`, `shadow-surface`,
+       `aspect-product-media`, `type-eyebrow`) or `var(--token)` directly.
+     • Profiles must define EVERY token. `:root` carries the luxury-editorial
+       baseline; there is no fallback chain between verticals.
+     • Fonts: the app serves them with next/font (preloaded, metric-adjusted
+       fallbacks → zero CLS) and exposes --font-inter / --font-instrument-serif /
+       --font-jetbrains-mono; Storybook self-hosts the same families via
+       @fontsource (.storybook/fonts.ts). The stacks below try the next/font
+       variable first and fall back to the family name, so one token file
+       serves both environments.
    ========================================================================== */
 
 :root,
 [data-vertical="luxury-editorial"] {
-  /* ---- 1. COLOR -------------------------------------------------------- */
-  --color-background: #faf8f5;
+  /* ---- 1. COLOR: warm paper, obsidian ink, alpha hairlines ------------- */
+  --color-background: #faf9f6;
   --color-surface: #ffffff;
-  --color-foreground: #111111;
-  --color-muted: #66625b;
-  --color-accent: #111111;
-  --color-accent-foreground: #ffffff;
-  --color-border: #e5e0d8;
-
-  /* semantic extensions */
-  --color-surface-sunken: #f3efe9;      /* striped rows, pedestals, sheet handles */
-  --color-accent-soft: #efe9e0;         /* winner tint, selected pills */
+  --color-surface-pedestal: #f3f1ed;    /* media tiles, striped rows, sheet grips */
+  --color-foreground: #111110;
+  --color-muted: #6e6a63;
+  --color-border: rgba(17, 17, 16, 0.09);
+  --color-border-strong: rgba(17, 17, 16, 0.18);
+  --color-accent: #111110;              /* CTAs, active rails */
+  --color-accent-foreground: #faf9f6;
+  --color-accent-soft: #f3f1ed;         /* selected pills, winner tint */
+  --color-badge-primary-bg: #111110;
+  --color-badge-primary-fg: #faf9f6;
+  --color-badge-secondary-bg: rgba(255, 255, 255, 0.92);
+  --color-badge-secondary-fg: #111110;
   --color-positive: #2f5d3a;            /* in-stock, "pros" marker */
   --color-negative: #8a2f2f;            /* out-of-stock, "cons" marker */
-  --color-caution: #8a6a1f;             /* low-stock, verification stale */
-  --color-award: #111111;               /* seal/ribbon ink */
-  --color-award-foreground: #ffffff;
-  --color-focus-ring: #111111;
+  --color-caution: #8a6a1f;             /* low-stock, stale verification */
+  --color-focus-ring: #111110;
 
-  /* ---- 2. STRUCTURE: sharp, architectural, high-whitespace ------------ */
+  /* ---- 2. STRUCTURE: sharp, architectural, full-bleed media ----------- */
   --radius-surface: 0px;
   --radius-interactive: 0px;
   --radius-badge: 0px;
   --radius-media: 0px;
-  --radius-control: 0px;                /* inputs, sliders thumbs, steppers */
+  --radius-control: 0px;
   --border-width-surface: 1px;
   --border-width-interactive: 1px;
-  --border-width-emphasis: 2px;         /* winner cells, active tab rail */
+  --border-width-emphasis: 2px;         /* winner cells, active rail */
   --space-card-pad: 2rem;
   --space-grid-gap: 2.5rem;
   --space-row-pad: 1rem;                /* vertical padding of list rows */
   --space-cluster-gap: 0.75rem;         /* gap between sibling inline items */
   --space-section-gap: 3rem;            /* vertical rhythm between blocks */
+  --space-media-inset: 0px;             /* auto treatment: full-bleed here */
+  --space-pedestal-inset: 1.5rem;       /* explicit padded-pedestal breathing room */
+  --space-overlay-inset: 0.75rem;       /* badge / metric safe-zone inset */
+  --space-badge-x: 0.625rem;            /* badge horizontal padding (10px) */
+  --space-badge-y: 0.375rem;            /* badge vertical padding (6px) */
   --aspect-product-media: 4 / 5;
+  --media-fit: cover;                   /* auto treatment: object-fit */
   --size-control: 2.75rem;              /* min tap target for CTAs/controls */
+  --size-seal: 4.5rem;                  /* editorial-seal diameter */
   --size-pin: 1.75rem;                  /* hotspot pin diameter */
   --size-dock-offset: 1.5rem;           /* floating island inset */
+  --blur-glass: 12px;                   /* frosted badge backdrop */
 
   /* ---- 3. ELEVATION ---------------------------------------------------- */
   --shadow-surface: none;
   --shadow-surface-hover: none;
-  --shadow-overlay: 0 24px 48px -12px rgb(17 17 17 / 0.18);   /* sheets, popovers */
-  --shadow-dock: 0 -1px 0 0 var(--color-border);              /* sticky docks */
+  --shadow-badge: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-overlay: 0 24px 48px -12px rgba(17, 17, 16, 0.18);  /* sheets, popovers */
+  --shadow-dock: 0 -1px 0 0 var(--color-border);               /* sticky docks */
 
   /* ---- 4. MOTION: slow, deliberate, editorial ------------------------- */
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-media: cubic-bezier(0, 0, 0.2, 1);                   /* ease-out */
   --duration-interactive: 400ms;
   --duration-reveal: 650ms;             /* collapses, sheet enter */
   --duration-micro: 220ms;              /* checkmark morphs, dots */
+  --duration-media: 700ms;              /* image zoom / angle swap */
 
-  /* ---- 5. TYPOGRAPHY: serif display, tracked caps eyebrows ------------ */
-  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
-    Palatino, "Times New Roman", Georgia, serif;
-  --font-body: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
-    Palatino, Georgia, serif;
-  --font-metric: ui-sans-serif, system-ui, "Helvetica Neue", Helvetica, Arial,
-    sans-serif;                          /* prices, scores, tabular data */
+  /* ---- 5. TYPOGRAPHY: serif display, ultra-tracked caps eyebrows ------ */
+  --font-display: var(--font-instrument-serif, "Instrument Serif"),
+    "Playfair Display", Georgia, serif;
+  --font-sans: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"),
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --tracking-eyebrow: 0.18em;
+  --tracking-label: 0.16em;             /* mono caption eyebrows */
   --tracking-display: -0.01em;
-  --text-eyebrow: 0.6875rem;
-  --text-display: 2.25rem;
+  --text-eyebrow: 0.625rem;             /* 10px */
+  --text-display: 2.5rem;
   --text-display-sm: 1.5rem;
   --text-metric: 1.75rem;
   --weight-display: 400;
   --weight-eyebrow: 500;
   --weight-metric: 500;
-  --leading-display: 1.1;
+  --leading-display: 1.05;
   --transform-eyebrow: uppercase;
 }
 
 [data-vertical="clinical-performance"] {
-  /* ---- 1. COLOR -------------------------------------------------------- */
+  /* ---- 1. COLOR: slate paper, obsidian ink, zinc hairlines ------------- */
   --color-background: #f8fafc;
   --color-surface: #ffffff;
-  --color-foreground: #0f172a;
-  --color-muted: #475569;
-  --color-accent: #0284c7;
+  --color-surface-pedestal: #f4f4f5;
+  --color-foreground: #09090b;
+  --color-muted: #52525b;
+  --color-border: #e4e4e7;
+  --color-border-strong: #d4d4d8;
+  --color-accent: #09090b;
   --color-accent-foreground: #ffffff;
-  --color-border: #e2e8f0;
+  --color-accent-soft: #f4f4f5;
+  --color-badge-primary-bg: #09090b;
+  --color-badge-primary-fg: #ffffff;
+  --color-badge-secondary-bg: #ffffff;
+  --color-badge-secondary-fg: #09090b;
+  --color-positive: #166534;            /* restrained semantic accents only */
+  --color-negative: #991b1b;
+  --color-caution: #92400e;
+  --color-focus-ring: #09090b;
 
-  --color-surface-sunken: #f1f5f9;
-  --color-accent-soft: #e0f2fe;
-  --color-positive: #15803d;
-  --color-negative: #b91c1c;
-  --color-caution: #b45309;
-  --color-award: #0284c7;
-  --color-award-foreground: #ffffff;
-  --color-focus-ring: #0284c7;
-
-  /* ---- 2. STRUCTURE: crisp utility, high metric density --------------- */
-  --radius-surface: 0.75rem;
-  --radius-interactive: 0.5rem;
-  --radius-badge: 9999px;
-  --radius-media: 0.5rem;
-  --radius-control: 0.375rem;
+  /* ---- 2. STRUCTURE: crisp technical tags, padded pedestals ----------- */
+  --radius-surface: 10px;
+  --radius-interactive: 8px;
+  --radius-badge: 6px;                  /* crisp technical tag — not a pill */
+  --radius-media: 8px;
+  --radius-control: 6px;
   --border-width-surface: 1px;
   --border-width-interactive: 1px;
   --border-width-emphasis: 2px;
@@ -128,42 +150,54 @@
   --space-row-pad: 0.625rem;
   --space-cluster-gap: 0.5rem;
   --space-section-gap: 1.5rem;
+  --space-media-inset: 1.5rem;          /* auto treatment: padded pedestal */
+  --space-pedestal-inset: 1.5rem;
+  --space-overlay-inset: 0.75rem;
+  --space-badge-x: 0.625rem;
+  --space-badge-y: 0.375rem;
   --aspect-product-media: 1 / 1;
+  --media-fit: contain;
   --size-control: 2.5rem;
+  --size-seal: 4rem;
   --size-pin: 1.5rem;
   --size-dock-offset: 0.75rem;
+  --blur-glass: 12px;
 
   /* ---- 3. ELEVATION: tactile ------------------------------------------ */
   --shadow-surface: 0 1px 3px 0 rgb(0 0 0 / 0.06);
   --shadow-surface-hover: 0 10px 25px -5px rgb(0 0 0 / 0.1);
-  --shadow-overlay: 0 20px 40px -8px rgb(15 23 42 / 0.25);
-  --shadow-dock: 0 -8px 24px -12px rgb(15 23 42 / 0.18);
+  --shadow-badge: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-overlay: 0 20px 40px -8px rgb(9 9 11 / 0.25);
+  --shadow-dock: 0 -8px 24px -12px rgb(9 9 11 / 0.18);
 
   /* ---- 4. MOTION: quick, snappy, utilitarian -------------------------- */
   --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-media: cubic-bezier(0, 0, 0.2, 1);
   --duration-interactive: 180ms;
   --duration-reveal: 260ms;
   --duration-micro: 140ms;
+  --duration-media: 500ms;
 
-  /* ---- 5. TYPOGRAPHY: sans, tight, tabular ---------------------------- */
-  --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --font-metric: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono",
-    monospace;
-  --tracking-eyebrow: 0.06em;
+  /* ---- 5. TYPOGRAPHY: Inter everywhere, mono metrics ------------------ */
+  --font-display: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"),
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --tracking-eyebrow: 0.14em;
+  --tracking-label: 0.12em;
   --tracking-display: -0.02em;
-  --text-eyebrow: 0.75rem;
+  --text-eyebrow: 0.625rem;
   --text-display: 1.75rem;
   --text-display-sm: 1.25rem;
   --text-metric: 1.5rem;
-  --weight-display: 700;
-  --weight-eyebrow: 600;
-  --weight-metric: 700;
+  --weight-display: 600;
+  --weight-eyebrow: 500;
+  --weight-metric: 600;
   --leading-display: 1.15;
-  --transform-eyebrow: none;
+  --transform-eyebrow: uppercase;
 }
 
 /* --------------------------------------------------------------------------
@@ -176,5 +210,6 @@
     --duration-interactive: 1ms;
     --duration-reveal: 1ms;
     --duration-micro: 1ms;
+    --duration-media: 1ms;
   }
 }

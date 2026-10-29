@@ -7,7 +7,63 @@ import type {
  * Story fixtures. One payload, rendered inside every vertical — the whole
  * point of the kit is that the *same data* reads as a luxury dossier in one
  * wrapper and as a lab scorecard in the other.
+ *
+ * Photography: real studio packshots (Unsplash — see public/fixtures/ATTRIBUTION.md).
+ * `backdrop` is the sampled background colour of each shot so contain-fit
+ * frames can match their tile to it; `cutoutBlend` is only set on the
+ * genuinely white packshot, where mix-blend-multiply is invisible.
  */
+
+const IMG = {
+  aerolite: {
+    src: "/fixtures/shoe-aerolite-01.jpg",
+    alt: "Meridian Aerolite 3 running shoe, floating three-quarter view on grey studio backdrop",
+    width: 1600,
+    height: 1280,
+    backdrop: "#c9cac4",
+  },
+  aeroliteAlt: {
+    src: "/fixtures/shoe-aerolite-02.jpg",
+    alt: "Meridian Aerolite 3 running shoe, medial side view on grey studio backdrop",
+    width: 1600,
+    height: 1280,
+    backdrop: "#c9cac4",
+  },
+  tempo: {
+    src: "/fixtures/shoe-tempo-01.jpg",
+    alt: "Halvard Tempo Pro running shoe, floating side view on white",
+    width: 1600,
+    height: 1600,
+  },
+  cumulus: {
+    src: "/fixtures/shoe-cumulus-01.jpg",
+    alt: "Oriel Cumulus Max training shoe on volt backdrop",
+    width: 1600,
+    height: 2000,
+    backdrop: "#b3e140",
+  },
+  watch: {
+    src: "/fixtures/watch-ardent-01.jpg",
+    alt: "Lindqvist Ardent 38 two-tone dive watch, dial detail on warm grey",
+    width: 1600,
+    height: 1067,
+    backdrop: "#e4e2dd",
+  },
+  creatine: {
+    src: "/fixtures/supplement-creatine-01.jpg",
+    alt: "Peak Supply creatine capsule jar with blank label on cream backdrop",
+    width: 1600,
+    height: 1600,
+    backdrop: "#e4d5b4",
+  },
+  creatineAlt: {
+    src: "/fixtures/supplement-creatine-02.jpg",
+    alt: "Peak Supply white supplement bottle with blank label on beige backdrop",
+    width: 1600,
+    height: 1600,
+    backdrop: "#d1c3af",
+  },
+} as const;
 
 const offersShoe01: MerchantOffer[] = [
   {
@@ -76,10 +132,7 @@ export const productShoe01: AffiliateProductEntity = {
     "Outsole showed only 1.2 mm wear after 300 miles",
     "True to size across all four testers",
   ],
-  cons: [
-    "Upper runs warm above 80°F",
-    "Laces loosen on runs over 10 miles",
-  ],
+  cons: ["Upper runs warm above 80°F", "Laces loosen on runs over 10 miles"],
   specs: [
     { label: "Weight", value: 8.4, unit: "oz", isHighlight: true, tooltip: "Men's US 9, measured on our calibrated scale." },
     { label: "Stack height", value: "38 / 30", unit: "mm", tooltip: "Heel / forefoot, measured to World Athletics spec." },
@@ -91,9 +144,9 @@ export const productShoe01: AffiliateProductEntity = {
     { label: "Warranty", value: "30-day trial" },
   ],
   media: {
-    primaryImage: { src: "/fixtures/shoe-01.svg", alt: "Meridian Aerolite 3 side profile", width: 800, height: 1000 },
-    secondaryImage: { src: "/fixtures/shoe-01-alt.svg", alt: "Meridian Aerolite 3 top-down view", width: 800, height: 1000 },
-    cutoutBlend: true,
+    primaryImage: IMG.aerolite,
+    secondaryImage: IMG.aeroliteAlt,
+    cutoutBlend: false,
   },
   offers: offersShoe01,
   lastVerifiedAt: "2026-10-27T14:00:00Z",
@@ -130,7 +183,7 @@ export const productShoe02: AffiliateProductEntity = {
     { label: "Warranty", value: "None" },
   ],
   media: {
-    primaryImage: { src: "/fixtures/shoe-02.svg", alt: "Halvard Tempo Pro side profile", width: 800, height: 1000 },
+    primaryImage: IMG.tempo,
     cutoutBlend: true,
   },
   offers: [
@@ -171,8 +224,8 @@ export const productShoe03: AffiliateProductEntity = {
     { label: "Warranty", value: "60-day trial" },
   ],
   media: {
-    primaryImage: { src: "/fixtures/shoe-03.svg", alt: "Oriel Cumulus Max side profile", width: 800, height: 1000 },
-    cutoutBlend: true,
+    primaryImage: IMG.cumulus,
+    cutoutBlend: false,
   },
   offers: [
     { id: "off-ps-03", merchantName: "Peak Supply", merchantLogoUrl: "/fixtures/merchant-peaksupply.svg", price: 89, originalPrice: 110, currency: "USD", affiliateUrl: "https://example-merchant.test/peak/cumulus-max", inStock: true, isBestPrice: true, promoCode: "PEAK10", promoDescription: "Extra 10% at checkout" },
@@ -204,6 +257,7 @@ export const directoryProducts: AffiliateProductEntity[] = Array.from(
   },
 );
 
+/** Luxury Editorial fixture. */
 export const productWatch: AffiliateProductEntity = {
   id: "prod-ardent-38",
   slug: "ardent-38",
@@ -213,6 +267,12 @@ export const productWatch: AffiliateProductEntity = {
   rank: 1,
   awardBadge: { label: "Editor's Pick", tier: "winner" },
   overallScore: 9.4,
+  subScores: [
+    { label: "Movement", score: 9.7, weight: 0.35 },
+    { label: "Finishing", score: 9.6, weight: 0.3 },
+    { label: "Wearability", score: 9.1, weight: 0.2 },
+    { label: "Value", score: 8.8, weight: 0.15 },
+  ],
   verdictSummary:
     "A 38 mm case with a cream enamel dial and a movement you can actually service. The rare dress watch that works with a knit as well as a dinner jacket.",
   pros: ["Enamel dial with genuine depth", "In-house, serviceable movement", "Perfect 38 mm proportions"],
@@ -222,10 +282,11 @@ export const productWatch: AffiliateProductEntity = {
     { label: "Thickness", value: 8.9, unit: "mm", isHighlight: true },
     { label: "Movement", value: "Manual, in-house cal. 11", tooltip: "Hand-wound calibre with a 72-hour power reserve." },
     { label: "Water resistance", value: 50, unit: "m" },
+    { label: "Crystal", value: "Domed sapphire" },
   ],
   media: {
-    primaryImage: { src: "/fixtures/watch.svg", alt: "Lindqvist Ardent 38 front view", width: 800, height: 1000 },
-    cutoutBlend: true,
+    primaryImage: IMG.watch,
+    cutoutBlend: false,
   },
   offers: [
     { id: "off-w-1", merchantName: "Haus & Field", merchantLogoUrl: "/fixtures/merchant-hausfield.svg", price: 4850, currency: "USD", affiliateUrl: "https://example-merchant.test/hausfield/ardent-38", inStock: true, isPrimaryPartner: true },
@@ -234,6 +295,7 @@ export const productWatch: AffiliateProductEntity = {
   lastVerifiedAt: "2026-10-28T10:00:00Z",
 };
 
+/** Clinical Performance fixture. */
 export const productCreatine: AffiliateProductEntity = {
   id: "prod-creatine-mono",
   slug: "creatine-monohydrate-500",
@@ -261,7 +323,8 @@ export const productCreatine: AffiliateProductEntity = {
     { label: "Servings", value: 100 },
   ],
   media: {
-    primaryImage: { src: "/fixtures/tub.svg", alt: "Peak Supply creatine monohydrate tub", width: 800, height: 1000 },
+    primaryImage: IMG.creatine,
+    secondaryImage: IMG.creatineAlt,
     cutoutBlend: false,
   },
   offers: [
@@ -270,3 +333,18 @@ export const productCreatine: AffiliateProductEntity = {
   ],
   lastVerifiedAt: "2026-10-29T08:15:00Z",
 };
+
+/** Best current price for caption / reference-price lockups. */
+export function bestPrice(product: AffiliateProductEntity): string | undefined {
+  const inStock = product.offers.filter((o) => o.inStock);
+  const cheapest = (inStock.length ? inStock : product.offers).reduce<MerchantOffer | undefined>(
+    (min, o) => (!min || o.price < min.price ? o : min),
+    undefined,
+  );
+  if (!cheapest) return undefined;
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: cheapest.currency ?? "USD",
+    maximumFractionDigits: cheapest.price % 1 === 0 ? 0 : 2,
+  }).format(cheapest.price);
+}

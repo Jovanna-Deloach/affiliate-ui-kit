@@ -48,6 +48,13 @@ export interface ProductImage {
   alt: string;
   width: number;
   height: number;
+  /**
+   * Dominant background colour of the packshot (hex). When a frame letterboxes
+   * the image (`object-fit: contain`), the tile adopts this colour so the
+   * photo edge disappears — the SSENSE / Net-a-Porter studio-grey technique.
+   * Omit for true-white packshots.
+   */
+  backdrop?: string;
 }
 
 export interface AffiliateProductEntity {

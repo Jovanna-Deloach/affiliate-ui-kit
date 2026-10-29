@@ -1,5 +1,11 @@
 @import "tailwindcss";
+
+/* Web fonts are self-hosted woff2 via @fontsource and imported from JS
+   (src/lib/fonts.ts) so the bundler rebases their url() paths — Tailwind's
+   @import would leave them relative to node_modules. */
+
 @import "./tokens.css";
+@import "./mechanics.css";
 
 /* ==========================================================================
    TAILWIND ↔ TOKEN BRIDGE
@@ -15,18 +21,21 @@
   /* colors */
   --color-background: var(--color-background);
   --color-surface: var(--color-surface);
-  --color-surface-sunken: var(--color-surface-sunken);
+  --color-surface-pedestal: var(--color-surface-pedestal);
   --color-foreground: var(--color-foreground);
   --color-muted: var(--color-muted);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
   --color-accent: var(--color-accent);
   --color-accent-foreground: var(--color-accent-foreground);
   --color-accent-soft: var(--color-accent-soft);
-  --color-border: var(--color-border);
+  --color-badge-primary-bg: var(--color-badge-primary-bg);
+  --color-badge-primary-fg: var(--color-badge-primary-fg);
+  --color-badge-secondary-bg: var(--color-badge-secondary-bg);
+  --color-badge-secondary-fg: var(--color-badge-secondary-fg);
   --color-positive: var(--color-positive);
   --color-negative: var(--color-negative);
   --color-caution: var(--color-caution);
-  --color-award: var(--color-award);
-  --color-award-foreground: var(--color-award-foreground);
   --color-focus-ring: var(--color-focus-ring);
 
   /* geometry */
@@ -42,28 +51,38 @@
   --spacing-row-pad: var(--space-row-pad);
   --spacing-cluster-gap: var(--space-cluster-gap);
   --spacing-section-gap: var(--space-section-gap);
+  --spacing-media-inset: var(--space-media-inset);
+  --spacing-pedestal-inset: var(--space-pedestal-inset);
+  --spacing-overlay-inset: var(--space-overlay-inset);
+  --spacing-badge-x: var(--space-badge-x);
+  --spacing-badge-y: var(--space-badge-y);
   --spacing-control: var(--size-control);
+  --spacing-seal: var(--size-seal);
   --spacing-pin: var(--size-pin);
   --spacing-dock-offset: var(--size-dock-offset);
 
   /* media */
   --aspect-product-media: var(--aspect-product-media);
+  --blur-glass: var(--blur-glass);
 
   /* elevation */
   --shadow-surface: var(--shadow-surface);
   --shadow-surface-hover: var(--shadow-surface-hover);
+  --shadow-badge: var(--shadow-badge);
   --shadow-overlay: var(--shadow-overlay);
   --shadow-dock: var(--shadow-dock);
 
   /* motion */
   --ease-spring: var(--ease-spring);
   --ease-exit: var(--ease-exit);
+  --ease-media: var(--ease-media);
 
   /* typography */
   --font-display: var(--font-display);
-  --font-body: var(--font-body);
-  --font-metric: var(--font-metric);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
   --tracking-eyebrow: var(--tracking-eyebrow);
+  --tracking-label: var(--tracking-label);
   --tracking-display: var(--tracking-display);
   --text-eyebrow: var(--text-eyebrow);
   --text-display: var(--text-display);
@@ -73,7 +92,7 @@
 }
 
 /* Tailwind has no theme namespace for durations, border widths, font weights
-   bound to variables, or text-transform. These utilities close the gap. */
+   bound to variables, object-fit or text-transform. These close the gap. */
 @utility duration-interactive {
   transition-duration: var(--duration-interactive);
 }
@@ -82,6 +101,9 @@
 }
 @utility duration-micro {
   transition-duration: var(--duration-micro);
+}
+@utility duration-media {
+  transition-duration: var(--duration-media);
 }
 @utility border-surface-w {
   border-width: var(--border-width-surface);
@@ -98,6 +120,9 @@
 @utility border-t-surface-w {
   border-top-width: var(--border-width-surface);
 }
+@utility border-l-surface-w {
+  border-left-width: var(--border-width-surface);
+}
 @utility border-l-emphasis-w {
   border-left-width: var(--border-width-emphasis);
 }
@@ -113,17 +138,32 @@
 @utility transform-eyebrow {
   text-transform: var(--transform-eyebrow);
 }
+@utility object-media-fit {
+  object-fit: var(--media-fit);
+}
 
-/* Composite type styles — the single source of truth for the three voices
-   every primitive speaks in. Kept as utilities (not components) so CVA
-   variants can compose them. */
+/* --------------------------------------------------------------------------
+   Composite type voices — the single source of truth for how every primitive
+   speaks. `--eyebrow-size` / `--eyebrow-tracking` are local override hooks so
+   a variant can scale the voice without fighting utility order.
+   -------------------------------------------------------------------------- */
 @utility type-eyebrow {
-  font-family: var(--font-body);
-  font-size: var(--text-eyebrow);
+  font-family: var(--font-sans);
+  font-size: var(--eyebrow-size, var(--text-eyebrow));
   font-weight: var(--weight-eyebrow);
-  letter-spacing: var(--tracking-eyebrow);
+  letter-spacing: var(--eyebrow-tracking, var(--tracking-eyebrow));
   text-transform: var(--transform-eyebrow);
+  line-height: 1.4; /* badges override with leading-none; paragraphs can wrap */
+}
+/* Mono caption eyebrow: brand / SKU / reference price lines. */
+@utility type-label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--eyebrow-size, var(--text-eyebrow));
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   line-height: 1.2;
+  font-variant-numeric: tabular-nums;
 }
 @utility type-display {
   font-family: var(--font-display);
@@ -142,7 +182,7 @@
   text-wrap: balance;
 }
 @utility type-metric {
-  font-family: var(--font-metric);
+  font-family: var(--font-mono);
   font-size: var(--text-metric);
   font-weight: var(--weight-metric);
   font-variant-numeric: tabular-nums;
@@ -154,7 +194,9 @@
 @utility focus-ring {
   outline: none;
   &:focus-visible {
-    box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-focus-ring);
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 4px var(--color-focus-ring);
   }
 }
 
@@ -176,16 +218,15 @@
   html {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
   [data-vertical] {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
   }
-  /* Interactive elements inherit the control radius by default. */
   button,
   input,
   select,

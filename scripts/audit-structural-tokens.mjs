@@ -2,12 +2,12 @@
 /**
  * GUARDRAIL AUDIT — "Structural Tokens Over Color Swaps"
  * ---------------------------------------------------------------------------
- * Scans src/primitives/**\/*.tsx (stories excluded) for hardcoded structural
+ * Scans every non-story .tsx under src/primitives for hardcoded structural
  * Tailwind utilities that would bypass the token contract:
  *
- *   rounded-*, p-*/px-*/py-*/gap-*/space-*, shadow-*, aspect-*, duration-*,
- *   ease-*, tracking-*, border-<n>, bg-zinc-*/white/* "SaaS slop" colours,
- *   framer-motion / motion imports.
+ *   rounded-x, p-x / px-x / py-x / gap-x / space-x, shadow-x, aspect-x,
+ *   duration-x, ease-x, tracking-x, border-<n>, bg-zinc / bg-white "SaaS slop"
+ *   colours, framer-motion / motion imports.
  *
  * Allowed: token-bridged utilities (rounded-surface, p-card-pad, …),
  * arbitrary values that reference a token (`gap-[calc(var(--space-…)/2)]`),
@@ -62,7 +62,8 @@ for (const file of files) {
     for (const s of classStrings) {
       for (const re of STRUCTURAL) {
         const m = s.match(re);
-        if (m) {
+        // Zero resets (mb-0, border-0) carry no vertical physics — allowed.
+        if (m && !/-0$/.test(m[0])) {
           violations++;
           console.log(`${path.relative(ROOT, file)}:${i + 1}  hardcoded structural utility "${m[0]}"\n    ${line.trim().slice(0, 160)}`);
         }

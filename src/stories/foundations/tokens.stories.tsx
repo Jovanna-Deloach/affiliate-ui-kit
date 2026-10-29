@@ -5,7 +5,7 @@ import { VerticalCompare } from "../vertical-compare";
 const COLOR_TOKENS = [
   "background",
   "surface",
-  "surface-sunken",
+  "surface-pedestal",
   "foreground",
   "muted",
   "accent",
@@ -15,7 +15,8 @@ const COLOR_TOKENS = [
   "positive",
   "negative",
   "caution",
-  "award",
+  "badge-primary-bg",
+  "badge-secondary-bg",
 ];
 
 const PHYSICS_TOKENS = [
@@ -25,6 +26,8 @@ const PHYSICS_TOKENS = [
   "--border-width-surface",
   "--space-card-pad",
   "--space-grid-gap",
+  "--space-media-inset",
+  "--media-fit",
   "--aspect-product-media",
   "--shadow-surface",
   "--ease-spring",
@@ -45,14 +48,14 @@ function TokenSheet() {
                 className="block h-10 w-full rounded-interactive border-surface-w border-border"
                 style={{ background: `var(--color-${t})` }}
               />
-              <code className="font-metric text-[0.6875rem] text-muted">--color-{t}</code>
+              <code className="type-label-mono text-muted">--color-{t}</code>
             </li>
           ))}
         </ul>
       </div>
       <div>
         <p className="type-eyebrow text-muted">Structural physics</p>
-        <dl className="mt-cluster-gap grid grid-cols-[auto_1fr] gap-x-cluster-gap gap-y-1 font-metric text-sm">
+        <dl className="mt-cluster-gap grid grid-cols-[auto_1fr] gap-x-cluster-gap gap-y-1 font-mono text-sm">
           {PHYSICS_TOKENS.map((t) => (
             <PhysicsRow key={t} token={t} />
           ))}
@@ -68,7 +71,7 @@ function TokenSheet() {
       <div>
         <p className="type-eyebrow text-muted">Surface</p>
         <div className="mt-cluster-gap rounded-surface border-surface-w border-border bg-surface p-card-pad shadow-surface transition-shadow duration-interactive ease-spring hover:shadow-surface-hover">
-          <div className="aspect-product-media w-32 rounded-media bg-surface-sunken" />
+          <div className="aspect-product-media w-32 rounded-media bg-surface-pedestal" />
           <p className="mt-cluster-gap text-muted">
             Surface card bound to radius, border, padding, shadow and media aspect.
           </p>
