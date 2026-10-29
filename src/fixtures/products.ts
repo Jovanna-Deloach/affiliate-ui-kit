@@ -1,0 +1,272 @@
+import type {
+  AffiliateProductEntity,
+  MerchantOffer,
+} from "@/types/affiliate";
+
+/**
+ * Story fixtures. One payload, rendered inside every vertical — the whole
+ * point of the kit is that the *same data* reads as a luxury dossier in one
+ * wrapper and as a lab scorecard in the other.
+ */
+
+const offersShoe01: MerchantOffer[] = [
+  {
+    id: "off-nl-01",
+    merchantName: "Northlane",
+    merchantLogoUrl: "/fixtures/merchant-northlane.svg",
+    price: 189,
+    originalPrice: 220,
+    currency: "USD",
+    affiliateUrl: "https://example-merchant.test/northlane/aerolite-3?ref=kit",
+    inStock: true,
+    promoCode: "KIT15",
+    promoDescription: "15% off first order",
+    isPrimaryPartner: true,
+    isBestPrice: true,
+  },
+  {
+    id: "off-hf-01",
+    merchantName: "Haus & Field",
+    merchantLogoUrl: "/fixtures/merchant-hausfield.svg",
+    price: 199,
+    currency: "USD",
+    affiliateUrl: "https://example-merchant.test/hausfield/aerolite-3",
+    inStock: true,
+  },
+  {
+    id: "off-ps-01",
+    merchantName: "Peak Supply",
+    merchantLogoUrl: "/fixtures/merchant-peaksupply.svg",
+    price: 205,
+    currency: "USD",
+    affiliateUrl: "https://example-merchant.test/peak/aerolite-3",
+    inStock: false,
+  },
+  {
+    id: "off-vr-01",
+    merchantName: "Verra",
+    merchantLogoUrl: "/fixtures/merchant-verra.svg",
+    price: 210,
+    currency: "USD",
+    affiliateUrl: "https://example-merchant.test/verra/aerolite-3",
+    inStock: true,
+  },
+];
+
+export const productShoe01: AffiliateProductEntity = {
+  id: "prod-aerolite-3",
+  slug: "aerolite-3",
+  name: "Aerolite 3",
+  brand: "Meridian",
+  eyebrow: "Best Overall Daily Trainer",
+  rank: 1,
+  awardBadge: { label: "Best Overall", tier: "winner" },
+  overallScore: 9.2,
+  subScores: [
+    { label: "Cushioning", score: 9.6, weight: 0.3 },
+    { label: "Stability", score: 8.7, weight: 0.2 },
+    { label: "Durability", score: 9.1, weight: 0.25 },
+    { label: "Breathability", score: 8.9, weight: 0.15 },
+    { label: "Value", score: 9.4, weight: 0.1 },
+  ],
+  verdictSummary:
+    "After 412 logged miles across four testers, the Aerolite 3 delivered the most consistent energy return of any shoe in this round-up without the instability that usually comes with a tall stack.",
+  pros: [
+    "Exceptional energy return at 38 mm stack height",
+    "Outsole showed only 1.2 mm wear after 300 miles",
+    "True to size across all four testers",
+  ],
+  cons: [
+    "Upper runs warm above 80°F",
+    "Laces loosen on runs over 10 miles",
+  ],
+  specs: [
+    { label: "Weight", value: 8.4, unit: "oz", isHighlight: true, tooltip: "Men's US 9, measured on our calibrated scale." },
+    { label: "Stack height", value: "38 / 30", unit: "mm", tooltip: "Heel / forefoot, measured to World Athletics spec." },
+    { label: "Drop", value: 8, unit: "mm" },
+    { label: "Upper", value: "Engineered mesh" },
+    { label: "Midsole", value: "PEBA blend", tooltip: "Polyether block amide foam — lighter and more resilient than EVA." },
+    { label: "Outsole rubber", value: "Carbon rubber heel, blown forefoot" },
+    { label: "Energy return", value: 71, unit: "%", isHighlight: true, tooltip: "Lab-measured on a 4 kg drop rig, averaged over 20 drops." },
+    { label: "Warranty", value: "30-day trial" },
+  ],
+  media: {
+    primaryImage: { src: "/fixtures/shoe-01.svg", alt: "Meridian Aerolite 3 side profile", width: 800, height: 1000 },
+    secondaryImage: { src: "/fixtures/shoe-01-alt.svg", alt: "Meridian Aerolite 3 top-down view", width: 800, height: 1000 },
+    cutoutBlend: true,
+  },
+  offers: offersShoe01,
+  lastVerifiedAt: "2026-10-27T14:00:00Z",
+};
+
+export const productShoe02: AffiliateProductEntity = {
+  id: "prod-tempo-pro",
+  slug: "tempo-pro",
+  name: "Tempo Pro",
+  brand: "Halvard",
+  eyebrow: "Best for Speed Work",
+  rank: 2,
+  awardBadge: { label: "Editor's Pick", tier: "runner-up" },
+  overallScore: 8.8,
+  subScores: [
+    { label: "Cushioning", score: 8.4, weight: 0.3 },
+    { label: "Stability", score: 8.1, weight: 0.2 },
+    { label: "Durability", score: 8.6, weight: 0.25 },
+    { label: "Breathability", score: 9.5, weight: 0.15 },
+    { label: "Value", score: 8.9, weight: 0.1 },
+  ],
+  verdictSummary:
+    "The lightest shoe we tested, with a firmer ride that rewards faster paces. Not the pick for recovery days, but the one our testers reached for on track Tuesdays.",
+  pros: ["Lightest in test at 7.1 oz", "Best breathability score", "Aggressive rocker geometry"],
+  cons: ["Firm for easy miles", "Narrow toe box"],
+  specs: [
+    { label: "Weight", value: 7.1, unit: "oz", isHighlight: true },
+    { label: "Stack height", value: "34 / 28", unit: "mm" },
+    { label: "Drop", value: 6, unit: "mm" },
+    { label: "Upper", value: "Mono mesh" },
+    { label: "Midsole", value: "Supercritical EVA" },
+    { label: "Outsole rubber", value: "Full-length blown" },
+    { label: "Energy return", value: 66, unit: "%" },
+    { label: "Warranty", value: "None" },
+  ],
+  media: {
+    primaryImage: { src: "/fixtures/shoe-02.svg", alt: "Halvard Tempo Pro side profile", width: 800, height: 1000 },
+    cutoutBlend: true,
+  },
+  offers: [
+    { id: "off-nl-02", merchantName: "Northlane", merchantLogoUrl: "/fixtures/merchant-northlane.svg", price: 160, currency: "USD", affiliateUrl: "https://example-merchant.test/northlane/tempo-pro", inStock: true, isPrimaryPartner: true },
+    { id: "off-vr-02", merchantName: "Verra", merchantLogoUrl: "/fixtures/merchant-verra.svg", price: 149, originalPrice: 160, currency: "USD", affiliateUrl: "https://example-merchant.test/verra/tempo-pro", inStock: true, isBestPrice: true },
+  ],
+  lastVerifiedAt: "2026-10-26T09:30:00Z",
+};
+
+export const productShoe03: AffiliateProductEntity = {
+  id: "prod-cumulus-max",
+  slug: "cumulus-max",
+  name: "Cumulus Max",
+  brand: "Oriel",
+  eyebrow: "Best Budget",
+  rank: 3,
+  awardBadge: { label: "Lab Tested", tier: "callout" },
+  overallScore: 8.1,
+  subScores: [
+    { label: "Cushioning", score: 8.8, weight: 0.3 },
+    { label: "Stability", score: 7.4, weight: 0.2 },
+    { label: "Durability", score: 7.9, weight: 0.25 },
+    { label: "Breathability", score: 7.8, weight: 0.15 },
+    { label: "Value", score: 9.7, weight: 0.1 },
+  ],
+  verdictSummary:
+    "Plush, forgiving, and a hundred dollars cheaper than the winner. The midsole packs out faster than we'd like, but at this price it's hard to argue.",
+  pros: ["Outstanding value", "Plush, forgiving ride", "Wide fit available"],
+  cons: ["Midsole compressed 14% by 250 miles", "Heavy at 10.2 oz", "Mediocre wet-grip"],
+  specs: [
+    { label: "Weight", value: 10.2, unit: "oz" },
+    { label: "Stack height", value: "40 / 32", unit: "mm", isHighlight: true },
+    { label: "Drop", value: 8, unit: "mm" },
+    { label: "Upper", value: "Knit" },
+    { label: "Midsole", value: "EVA" },
+    { label: "Outsole rubber", value: "Carbon rubber" },
+    { label: "Energy return", value: 58, unit: "%" },
+    { label: "Warranty", value: "60-day trial" },
+  ],
+  media: {
+    primaryImage: { src: "/fixtures/shoe-03.svg", alt: "Oriel Cumulus Max side profile", width: 800, height: 1000 },
+    cutoutBlend: true,
+  },
+  offers: [
+    { id: "off-ps-03", merchantName: "Peak Supply", merchantLogoUrl: "/fixtures/merchant-peaksupply.svg", price: 89, originalPrice: 110, currency: "USD", affiliateUrl: "https://example-merchant.test/peak/cumulus-max", inStock: true, isBestPrice: true, promoCode: "PEAK10", promoDescription: "Extra 10% at checkout" },
+    { id: "off-hf-03", merchantName: "Haus & Field", merchantLogoUrl: "/fixtures/merchant-hausfield.svg", price: 99, currency: "USD", affiliateUrl: "https://example-merchant.test/hausfield/cumulus-max", inStock: true },
+  ],
+  lastVerifiedAt: "2026-10-20T16:45:00Z",
+};
+
+export const roundupProducts: AffiliateProductEntity[] = [
+  productShoe01,
+  productShoe02,
+  productShoe03,
+];
+
+/** Thirty-item directory payload to exercise the zero-runtime-JS loop rule. */
+export const directoryProducts: AffiliateProductEntity[] = Array.from(
+  { length: 30 },
+  (_, i) => {
+    const base = roundupProducts[i % 3]!;
+    return {
+      ...base,
+      id: `${base.id}-${i}`,
+      slug: `${base.slug}-${i}`,
+      rank: i + 1,
+      name: `${base.name} ${i + 1}`,
+      awardBadge: i < 3 ? base.awardBadge : undefined,
+      overallScore: Math.round((9.5 - i * 0.12) * 10) / 10,
+    };
+  },
+);
+
+export const productWatch: AffiliateProductEntity = {
+  id: "prod-ardent-38",
+  slug: "ardent-38",
+  name: "Ardent 38",
+  brand: "Lindqvist",
+  eyebrow: "The Dress Watch, Reconsidered",
+  rank: 1,
+  awardBadge: { label: "Editor's Pick", tier: "winner" },
+  overallScore: 9.4,
+  verdictSummary:
+    "A 38 mm case with a cream enamel dial and a movement you can actually service. The rare dress watch that works with a knit as well as a dinner jacket.",
+  pros: ["Enamel dial with genuine depth", "In-house, serviceable movement", "Perfect 38 mm proportions"],
+  cons: ["No quick-release strap", "Two-year waitlist at retail"],
+  specs: [
+    { label: "Case", value: 38, unit: "mm" },
+    { label: "Thickness", value: 8.9, unit: "mm", isHighlight: true },
+    { label: "Movement", value: "Manual, in-house cal. 11", tooltip: "Hand-wound calibre with a 72-hour power reserve." },
+    { label: "Water resistance", value: 50, unit: "m" },
+  ],
+  media: {
+    primaryImage: { src: "/fixtures/watch.svg", alt: "Lindqvist Ardent 38 front view", width: 800, height: 1000 },
+    cutoutBlend: true,
+  },
+  offers: [
+    { id: "off-w-1", merchantName: "Haus & Field", merchantLogoUrl: "/fixtures/merchant-hausfield.svg", price: 4850, currency: "USD", affiliateUrl: "https://example-merchant.test/hausfield/ardent-38", inStock: true, isPrimaryPartner: true },
+    { id: "off-w-2", merchantName: "Verra", merchantLogoUrl: "/fixtures/merchant-verra.svg", price: 4990, currency: "USD", affiliateUrl: "https://example-merchant.test/verra/ardent-38", inStock: false },
+  ],
+  lastVerifiedAt: "2026-10-28T10:00:00Z",
+};
+
+export const productCreatine: AffiliateProductEntity = {
+  id: "prod-creatine-mono",
+  slug: "creatine-monohydrate-500",
+  name: "Creatine Monohydrate 500 g",
+  brand: "Peak Supply",
+  eyebrow: "Lab Tested · Batch 2214",
+  rank: 1,
+  awardBadge: { label: "Lab Tested", tier: "winner" },
+  overallScore: 9.6,
+  subScores: [
+    { label: "Label accuracy", score: 9.9, weight: 0.4 },
+    { label: "Purity", score: 9.8, weight: 0.3 },
+    { label: "Solubility", score: 8.7, weight: 0.15 },
+    { label: "Value", score: 9.4, weight: 0.15 },
+  ],
+  verdictSummary:
+    "Third-party assay found 99.6% of label claim with no detectable heavy metals. The best-priced creatine that also passed every purity screen we ran.",
+  pros: ["99.6% of label claim", "Below detection on heavy metals", "Lowest cost per 5 g dose"],
+  cons: ["Grittier mouthfeel than micronised rivals"],
+  specs: [
+    { label: "Creatine per serving", value: 5, unit: "g", isHighlight: true },
+    { label: "Label accuracy", value: 99.6, unit: "%", isHighlight: true, tooltip: "HPLC assay, ISO 17025 lab, batch 2214." },
+    { label: "Lead", value: "< 0.1", unit: "µg", tooltip: "Below limit of detection." },
+    { label: "Cost per dose", value: 0.21, unit: "USD" },
+    { label: "Servings", value: 100 },
+  ],
+  media: {
+    primaryImage: { src: "/fixtures/tub.svg", alt: "Peak Supply creatine monohydrate tub", width: 800, height: 1000 },
+    cutoutBlend: false,
+  },
+  offers: [
+    { id: "off-c-1", merchantName: "Peak Supply", merchantLogoUrl: "/fixtures/merchant-peaksupply.svg", price: 21, originalPrice: 26, currency: "USD", affiliateUrl: "https://example-merchant.test/peak/creatine", inStock: true, isPrimaryPartner: true, isBestPrice: true, promoCode: "LAB20", promoDescription: "20% off subscriptions" },
+    { id: "off-c-2", merchantName: "Northlane", merchantLogoUrl: "/fixtures/merchant-northlane.svg", price: 24, currency: "USD", affiliateUrl: "https://example-merchant.test/northlane/creatine", inStock: true },
+  ],
+  lastVerifiedAt: "2026-10-29T08:15:00Z",
+};

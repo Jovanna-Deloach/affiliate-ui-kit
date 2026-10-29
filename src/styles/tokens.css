@@ -1,0 +1,180 @@
+/* ==========================================================================
+   AFFILIATE UI KIT — MULTI-DIMENSIONAL TOKEN CONTRACT
+   --------------------------------------------------------------------------
+   Every primitive binds 100% of its geometry, density, typography, motion and
+   color to the custom properties below. A vertical is a *profile* of these
+   values, scoped by `[data-vertical="…"]`. Switching verticals never touches
+   component code — only this file.
+
+   Contract tiers:
+     1. COLOR          --color-*
+     2. STRUCTURE      --radius-*, --border-width-*, --space-*, --aspect-*
+     3. ELEVATION      --shadow-*
+     4. MOTION         --ease-*, --duration-*
+     5. TYPOGRAPHY     --font-*, --tracking-*, --text-*, --weight-*, --leading-*
+
+   Rules:
+     • Never hardcode a structural Tailwind utility (rounded-lg, p-6, shadow-sm,
+       aspect-square …) inside `src/primitives/**`. Use the bridged utilities
+       (`rounded-surface`, `p-card-pad`, `shadow-surface`, `aspect-product-media`)
+       or `var(--token)` directly.
+     • Profiles must define EVERY token. There is no fallback chain between
+       verticals; `:root` carries the luxury-editorial baseline.
+   ========================================================================== */
+
+:root,
+[data-vertical="luxury-editorial"] {
+  /* ---- 1. COLOR -------------------------------------------------------- */
+  --color-background: #faf8f5;
+  --color-surface: #ffffff;
+  --color-foreground: #111111;
+  --color-muted: #66625b;
+  --color-accent: #111111;
+  --color-accent-foreground: #ffffff;
+  --color-border: #e5e0d8;
+
+  /* semantic extensions */
+  --color-surface-sunken: #f3efe9;      /* striped rows, pedestals, sheet handles */
+  --color-accent-soft: #efe9e0;         /* winner tint, selected pills */
+  --color-positive: #2f5d3a;            /* in-stock, "pros" marker */
+  --color-negative: #8a2f2f;            /* out-of-stock, "cons" marker */
+  --color-caution: #8a6a1f;             /* low-stock, verification stale */
+  --color-award: #111111;               /* seal/ribbon ink */
+  --color-award-foreground: #ffffff;
+  --color-focus-ring: #111111;
+
+  /* ---- 2. STRUCTURE: sharp, architectural, high-whitespace ------------ */
+  --radius-surface: 0px;
+  --radius-interactive: 0px;
+  --radius-badge: 0px;
+  --radius-media: 0px;
+  --radius-control: 0px;                /* inputs, sliders thumbs, steppers */
+  --border-width-surface: 1px;
+  --border-width-interactive: 1px;
+  --border-width-emphasis: 2px;         /* winner cells, active tab rail */
+  --space-card-pad: 2rem;
+  --space-grid-gap: 2.5rem;
+  --space-row-pad: 1rem;                /* vertical padding of list rows */
+  --space-cluster-gap: 0.75rem;         /* gap between sibling inline items */
+  --space-section-gap: 3rem;            /* vertical rhythm between blocks */
+  --aspect-product-media: 4 / 5;
+  --size-control: 2.75rem;              /* min tap target for CTAs/controls */
+  --size-pin: 1.75rem;                  /* hotspot pin diameter */
+  --size-dock-offset: 1.5rem;           /* floating island inset */
+
+  /* ---- 3. ELEVATION ---------------------------------------------------- */
+  --shadow-surface: none;
+  --shadow-surface-hover: none;
+  --shadow-overlay: 0 24px 48px -12px rgb(17 17 17 / 0.18);   /* sheets, popovers */
+  --shadow-dock: 0 -1px 0 0 var(--color-border);              /* sticky docks */
+
+  /* ---- 4. MOTION: slow, deliberate, editorial ------------------------- */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --duration-interactive: 400ms;
+  --duration-reveal: 650ms;             /* collapses, sheet enter */
+  --duration-micro: 220ms;              /* checkmark morphs, dots */
+
+  /* ---- 5. TYPOGRAPHY: serif display, tracked caps eyebrows ------------ */
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+    Palatino, "Times New Roman", Georgia, serif;
+  --font-body: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+    Palatino, Georgia, serif;
+  --font-metric: ui-sans-serif, system-ui, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;                          /* prices, scores, tabular data */
+  --tracking-eyebrow: 0.18em;
+  --tracking-display: -0.01em;
+  --text-eyebrow: 0.6875rem;
+  --text-display: 2.25rem;
+  --text-display-sm: 1.5rem;
+  --text-metric: 1.75rem;
+  --weight-display: 400;
+  --weight-eyebrow: 500;
+  --weight-metric: 500;
+  --leading-display: 1.1;
+  --transform-eyebrow: uppercase;
+}
+
+[data-vertical="clinical-performance"] {
+  /* ---- 1. COLOR -------------------------------------------------------- */
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-foreground: #0f172a;
+  --color-muted: #475569;
+  --color-accent: #0284c7;
+  --color-accent-foreground: #ffffff;
+  --color-border: #e2e8f0;
+
+  --color-surface-sunken: #f1f5f9;
+  --color-accent-soft: #e0f2fe;
+  --color-positive: #15803d;
+  --color-negative: #b91c1c;
+  --color-caution: #b45309;
+  --color-award: #0284c7;
+  --color-award-foreground: #ffffff;
+  --color-focus-ring: #0284c7;
+
+  /* ---- 2. STRUCTURE: crisp utility, high metric density --------------- */
+  --radius-surface: 0.75rem;
+  --radius-interactive: 0.5rem;
+  --radius-badge: 9999px;
+  --radius-media: 0.5rem;
+  --radius-control: 0.375rem;
+  --border-width-surface: 1px;
+  --border-width-interactive: 1px;
+  --border-width-emphasis: 2px;
+  --space-card-pad: 1.25rem;
+  --space-grid-gap: 1rem;
+  --space-row-pad: 0.625rem;
+  --space-cluster-gap: 0.5rem;
+  --space-section-gap: 1.5rem;
+  --aspect-product-media: 1 / 1;
+  --size-control: 2.5rem;
+  --size-pin: 1.5rem;
+  --size-dock-offset: 0.75rem;
+
+  /* ---- 3. ELEVATION: tactile ------------------------------------------ */
+  --shadow-surface: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+  --shadow-surface-hover: 0 10px 25px -5px rgb(0 0 0 / 0.1);
+  --shadow-overlay: 0 20px 40px -8px rgb(15 23 42 / 0.25);
+  --shadow-dock: 0 -8px 24px -12px rgb(15 23 42 / 0.18);
+
+  /* ---- 4. MOTION: quick, snappy, utilitarian -------------------------- */
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --duration-interactive: 180ms;
+  --duration-reveal: 260ms;
+  --duration-micro: 140ms;
+
+  /* ---- 5. TYPOGRAPHY: sans, tight, tabular ---------------------------- */
+  --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-metric: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --tracking-eyebrow: 0.06em;
+  --tracking-display: -0.02em;
+  --text-eyebrow: 0.75rem;
+  --text-display: 1.75rem;
+  --text-display-sm: 1.25rem;
+  --text-metric: 1.5rem;
+  --weight-display: 700;
+  --weight-eyebrow: 600;
+  --weight-metric: 700;
+  --leading-display: 1.15;
+  --transform-eyebrow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: collapse every duration to near-zero without touching
+   component code. Transforms still snap to their end state.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  [data-vertical] {
+    --duration-interactive: 1ms;
+    --duration-reveal: 1ms;
+    --duration-micro: 1ms;
+  }
+}
