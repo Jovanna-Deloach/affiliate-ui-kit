@@ -78,6 +78,21 @@ Every primitive is built with the same four steps, recorded in its file header:
 4. **Verify** — `<name>.stories.tsx`: every variant, a ★ multi-vertical
    side-by-side story with an identical payload, and a real 375 / 1280 story.
 
+### Built so far
+
+| Tier | Primitive | Status |
+| --- | --- | --- |
+| 1 | AffiliateAction · MerchantOfferRow | ✓ Sprint 2A |
+| 2 | AwardBadge · ScoreMeter · AuthorityByline | ✓ Sprint 1A / 2A |
+| 3 | SurfaceCard · EditorialHeading · ProductMediaFrame | ✓ Sprint 1A |
+| 1 | PromoCodeChip · DisclosureBanner | backlog |
+| 2 | ProsConsGrid · SpecList | backlog |
+| 3 | HotspotCanvas | backlog |
+| 4 | StickyMatrix · QuickJumpBar · FacetFilterBar · ProgressiveCollapse | backlog |
+| 5 | StickyBuyDock · ResponsiveSheet · ParametricInput | backlog |
+
+Attribution helpers (`src/lib/affiliate.ts`) are unit tested: `bun test`.
+
 ## Verification harness — `scripts/verify-stories.mjs`
 
 Builds Storybook, serves it, and loads every story in headless Chromium at

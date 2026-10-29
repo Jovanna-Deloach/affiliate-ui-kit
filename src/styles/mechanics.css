@@ -199,3 +199,51 @@
     }
   }
 }
+
+/* --------------------------------------------------------------------------
+   status-ripple  (source physics: edwinvakayil/status-dot)
+   A box-shadow ring expands from the dot and fades. Opt-in only (data-pulse)
+   — never on by default inside 30-row offer lists; reduced-motion disables.
+   -------------------------------------------------------------------------- */
+@keyframes status-ripple {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 45%, transparent);
+  }
+  72% {
+    box-shadow: 0 0 0 0.5em transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+@utility status-ripple {
+  &[data-pulse="true"] {
+    animation: status-ripple calc(var(--duration-interactive) * 6) ease-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &[data-pulse="true"] {
+      animation: none;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   meter-fill  (source physics: shadcnui-blocks/circular-progress)
+   Bars and rings grow from zero on first paint via @starting-style — a
+   one-shot CSS transition, no JS controller. `--pct` (0–100) drives both.
+   -------------------------------------------------------------------------- */
+@utility meter-fill {
+  width: calc(var(--pct, 0) * 1%);
+  transition: width var(--duration-reveal) var(--ease-spring);
+  @starting-style {
+    width: 0%;
+  }
+}
+@utility meter-ring {
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc(100 - var(--pct, 0));
+  transition: stroke-dashoffset var(--duration-reveal) var(--ease-spring);
+  @starting-style {
+    stroke-dashoffset: 100;
+  }
+}

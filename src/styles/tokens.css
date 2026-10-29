@@ -49,6 +49,8 @@
   --color-positive: #2f5d3a;            /* in-stock, "pros" marker */
   --color-negative: #8a2f2f;            /* out-of-stock, "cons" marker */
   --color-caution: #8a6a1f;             /* low-stock, stale verification */
+  --color-meter-track: #ebe8e2;         /* score bar track */
+  --color-meter-fill: #111110;          /* score bar fill */
   --color-focus-ring: #111110;
 
   /* ---- 2. STRUCTURE: sharp, architectural, full-bleed media ----------- */
@@ -74,6 +76,10 @@
   --media-fit: cover;                   /* auto treatment: object-fit */
   --size-control: 2.75rem;              /* min tap target for CTAs/controls */
   --size-seal: 4.5rem;                  /* editorial-seal diameter */
+  --size-avatar: 2.75rem;               /* byline portrait */
+  --radius-avatar: 0px;                 /* square editorial portrait */
+  --size-logo: 1.125rem;                /* merchant wordmark height */
+  --size-meter: 0.375rem;               /* score bar thickness */
   --size-pin: 1.75rem;                  /* hotspot pin diameter */
   --size-dock-offset: 1.5rem;           /* floating island inset */
   --blur-glass: 12px;                   /* frosted badge backdrop */
@@ -134,6 +140,8 @@
   --color-positive: #166534;            /* restrained semantic accents only */
   --color-negative: #991b1b;
   --color-caution: #92400e;
+  --color-meter-track: #e4e4e7;
+  --color-meter-fill: #09090b;
   --color-focus-ring: #09090b;
 
   /* ---- 2. STRUCTURE: crisp technical tags, padded pedestals ----------- */
@@ -159,6 +167,10 @@
   --media-fit: contain;
   --size-control: 2.5rem;
   --size-seal: 4rem;
+  --size-avatar: 2.5rem;
+  --radius-avatar: 9999px;              /* circular, utilitarian */
+  --size-logo: 1rem;
+  --size-meter: 0.5rem;
   --size-pin: 1.5rem;
   --size-dock-offset: 0.75rem;
   --blur-glass: 12px;

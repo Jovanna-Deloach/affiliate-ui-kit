@@ -36,6 +36,8 @@
   --color-positive: var(--color-positive);
   --color-negative: var(--color-negative);
   --color-caution: var(--color-caution);
+  --color-meter-track: var(--color-meter-track);
+  --color-meter-fill: var(--color-meter-fill);
   --color-focus-ring: var(--color-focus-ring);
 
   /* geometry */
@@ -44,6 +46,7 @@
   --radius-badge: var(--radius-badge);
   --radius-media: var(--radius-media);
   --radius-control: var(--radius-control);
+  --radius-avatar: var(--radius-avatar);
 
   /* density (spacing namespace → p-*, px-*, gap-*, m-*, inset-*, size-*) */
   --spacing-card-pad: var(--space-card-pad);
@@ -58,6 +61,9 @@
   --spacing-badge-y: var(--space-badge-y);
   --spacing-control: var(--size-control);
   --spacing-seal: var(--size-seal);
+  --spacing-avatar: var(--size-avatar);
+  --spacing-logo: var(--size-logo);
+  --spacing-meter: var(--size-meter);
   --spacing-pin: var(--size-pin);
   --spacing-dock-offset: var(--size-dock-offset);
 

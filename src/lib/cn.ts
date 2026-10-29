@@ -9,7 +9,7 @@ import { extendTailwindMerge } from "tailwind-merge";
 const twMerge = extendTailwindMerge<"type-style" | "object-fit-token">({
   extend: {
     theme: {
-      radius: ["surface", "interactive", "badge", "media", "control"],
+      radius: ["surface", "interactive", "badge", "media", "control", "avatar"],
       spacing: [
         "card-pad",
         "grid-gap",
@@ -23,6 +23,9 @@ const twMerge = extendTailwindMerge<"type-style" | "object-fit-token">({
         "badge-y",
         "control",
         "seal",
+        "avatar",
+        "logo",
+        "meter",
         "pin",
         "dock-offset",
       ],
@@ -51,6 +54,8 @@ const twMerge = extendTailwindMerge<"type-style" | "object-fit-token">({
         "positive",
         "negative",
         "caution",
+        "meter-track",
+        "meter-fill",
         "focus-ring",
       ],
     },

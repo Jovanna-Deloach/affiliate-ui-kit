@@ -67,7 +67,7 @@ export function ViewportFrames({
             <div
               className={
                 spec.width === 375
-                  ? "w-[375px] shrink-0 border border-dashed border-border-strong bg-surface p-4"
+                  ? "w-[375px] max-w-full border border-dashed border-border-strong bg-surface p-4"
                   : "w-full max-w-[1280px] shrink-0 border border-dashed border-border-strong bg-surface p-8"
               }
               style={{ containerType: "inline-size" }}
