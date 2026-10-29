@@ -38,6 +38,7 @@
   --color-caution: var(--color-caution);
   --color-meter-track: var(--color-meter-track);
   --color-meter-fill: var(--color-meter-fill);
+  --color-scrim: var(--color-scrim);
   --color-focus-ring: var(--color-focus-ring);
 
   /* geometry */
@@ -47,6 +48,7 @@
   --radius-media: var(--radius-media);
   --radius-control: var(--radius-control);
   --radius-avatar: var(--radius-avatar);
+  --radius-sheet: var(--radius-sheet);
 
   /* density (spacing namespace → p-*, px-*, gap-*, m-*, inset-*, size-*) */
   --spacing-card-pad: var(--space-card-pad);
@@ -64,6 +66,8 @@
   --spacing-avatar: var(--size-avatar);
   --spacing-logo: var(--size-logo);
   --spacing-meter: var(--size-meter);
+  --spacing-sheet-compact: var(--size-sheet-compact);
+  --spacing-sheet-dossier: var(--size-sheet-dossier);
   --spacing-pin: var(--size-pin);
   --spacing-dock-offset: var(--size-dock-offset);
 
@@ -217,6 +221,11 @@
   & > * {
     overflow: hidden;
     min-height: 0;
+    opacity: 0;
+    transition: opacity var(--duration-reveal) var(--ease-spring);
+  }
+  &[data-state="open"] > * {
+    opacity: 1;
   }
 }
 

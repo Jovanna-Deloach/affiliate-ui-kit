@@ -82,14 +82,16 @@ Every primitive is built with the same four steps, recorded in its file header:
 
 | Tier | Primitive | Status |
 | --- | --- | --- |
-| 1 | AffiliateAction · MerchantOfferRow | ✓ Sprint 2A |
+| 1 | AffiliateAction · MerchantOfferRow · PromoCodeChip | ✓ Sprint 2A / 3A |
 | 2 | AwardBadge · ScoreMeter · AuthorityByline | ✓ Sprint 1A / 2A |
 | 3 | SurfaceCard · EditorialHeading · ProductMediaFrame | ✓ Sprint 1A |
-| 1 | PromoCodeChip · DisclosureBanner | backlog |
+| 4 | ProgressiveCollapse | ✓ Sprint 3A |
+| 5 | ResponsiveSheet | ✓ Sprint 3A |
+| 1 | DisclosureBanner | backlog |
 | 2 | ProsConsGrid · SpecList | backlog |
-| 3 | HotspotCanvas | backlog |
-| 4 | StickyMatrix · QuickJumpBar · FacetFilterBar · ProgressiveCollapse | backlog |
-| 5 | StickyBuyDock · ResponsiveSheet · ParametricInput | backlog |
+| 3 | HotspotCanvas | backlog (3B) |
+| 4 | StickyMatrix · QuickJumpBar · FacetFilterBar | backlog (FacetFilterBar 3B) |
+| 5 | StickyBuyDock · ParametricInput | backlog (ParametricInput 3B) |
 
 Attribution helpers (`src/lib/affiliate.ts`) are unit tested: `bun test`.
 

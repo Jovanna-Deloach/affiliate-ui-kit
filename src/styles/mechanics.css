@@ -247,3 +247,96 @@
     stroke-dashoffset: 100;
   }
 }
+
+/* --------------------------------------------------------------------------
+   sheet-panel / sheet-scrim  (source physics: Credenza / shadcn dialog +
+   drawer, sanitized). Enter/exit keyframes keyed to [data-state] so Radix
+   Presence waits for the exit before unmounting. Durations/easing are tokens.
+   -------------------------------------------------------------------------- */
+@keyframes sheet-in-right {
+  from { translate: 100% 0; }
+  to { translate: 0 0; }
+}
+@keyframes sheet-out-right {
+  from { translate: 0 0; }
+  to { translate: 100% 0; }
+}
+@keyframes sheet-in-left {
+  from { translate: -100% 0; }
+  to { translate: 0 0; }
+}
+@keyframes sheet-out-left {
+  from { translate: 0 0; }
+  to { translate: -100% 0; }
+}
+@keyframes scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scrim-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@utility sheet-panel-right {
+  &[data-state="open"] {
+    animation: sheet-in-right var(--duration-reveal) var(--ease-spring);
+  }
+  &[data-state="closed"] {
+    animation: sheet-out-right var(--duration-interactive) var(--ease-exit);
+  }
+}
+@utility sheet-panel-left {
+  &[data-state="open"] {
+    animation: sheet-in-left var(--duration-reveal) var(--ease-spring);
+  }
+  &[data-state="closed"] {
+    animation: sheet-out-left var(--duration-interactive) var(--ease-exit);
+  }
+}
+@utility sheet-scrim {
+  background-color: var(--color-scrim);
+  &[data-state="open"] {
+    animation: scrim-in var(--duration-reveal) var(--ease-media);
+  }
+  &[data-state="closed"] {
+    animation: scrim-out var(--duration-interactive) var(--ease-exit);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   plus-minus  (source physics: saurabh-2607/accordion "+/−" rotation)
+   Two hairline bars; the vertical one rotates and collapses when the host
+   `.group/collapse` is open. No glyph characters.
+   -------------------------------------------------------------------------- */
+@utility plus-minus {
+  position: relative;
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  flex-shrink: 0;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    inset-inline: 0;
+    top: 50%;
+    height: var(--border-width-interactive);
+    translate: 0 -50%;
+  }
+  &::after {
+    inset-inline: auto;
+    inset-block: 0;
+    left: 50%;
+    width: var(--border-width-interactive);
+    height: auto;
+    translate: -50% 0;
+    transition:
+      rotate var(--duration-interactive) var(--ease-spring),
+      scale var(--duration-interactive) var(--ease-spring);
+  }
+  .group\/collapse[data-state="open"] &::after {
+    rotate: 90deg;
+    scale: 1 0;
+  }
+}
