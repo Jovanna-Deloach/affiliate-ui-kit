@@ -7,26 +7,33 @@ import { cn } from "@/lib/cn";
 import { formatDate, initials } from "@/lib/format";
 import { StatusPill } from "@/primitives/status-pill";
 
-import { MethodologyDisclosure } from "./methodology-disclosure";
+import { MethodologyDisclosure, type MethodologyFact } from "./methodology-disclosure";
 
 /**
  * <AuthorityByline />
  * ---------------------------------------------------------------------------
- * E-E-A-T proof: who tested it, what qualifies them, when it was last
- * verified, and how — with the methodology kept in the DOM for crawlers.
+ * E-E-A-T proof: who tested it, what qualifies them, when it was verified,
+ * and how — with the methodology kept in the DOM for crawlers.
  *
- *   --size-avatar / --radius-avatar / --color-ring-inner   portrait + inner ring
- *   --color-surface / --surface-recessed (Law 2)            card plane / lab-note well
- *   --space-row-pad / --space-cluster-gap                   lockup rhythm
- *   type-label-mono (Law 1)                                 ONLY the timestamp
+ * dossier-box = TWO full-width regions in one bordered container
+ * (Law of Common Region — no floating avatar column, no L-shaped void):
  *
- * Mobbin anatomy (NYT author header, GetYourGuide verified writer card,
- * Obvious inline byline, Curater "last updated" strip):
- *   inline-header   one line at 375 — portrait · "By Name" · role · date
- *   dossier-box     surface card: portrait in column 1; header, credential
- *                   pills, bio, verification line and the methodology well
- *                   ALL in column 2 → one left-hand axis
- *   verified-strip  full-width hairline strip: ✓ Verified by … · date · trigger
+ *   ┌─ Region 1 · primary · p-card ───────────────────────────────┐
+ *   │ [56px portrait]  Name (title voice)                          │
+ *   │                  Role · credential chips                     │
+ *   │ Bio paragraph, max-w 62ch, spanning the full width           │
+ *   ├─ Region 2 · recessed · px-bar-x py-bar-y ────────────────────┤
+ *   │ ✓ Verified Oct 29, 2026 · Reviewed by …     How we tested ⌄  │
+ *   │ (protocol + 3-column testing facts reveal inside the well)   │
+ *   └──────────────────────────────────────────────────────────────┘
+ *
+ *   --size-portrait / --radius-inner      56px portrait, inset ring
+ *   --surface-primary → --surface-recessed  the two planes
+ *   --inset-card / --inset-bar-*          region insets
+ *   type-mono                             ONLY the timestamp
+ *
+ * inline-header  one line: portrait · By Name · role · verification
+ * verified-strip hairline strip: ✓ Verified by … · date · How we tested
  *
  * Server Component; the only client leaf is the methodology disclosure.
  */
@@ -43,19 +50,17 @@ export interface Author {
 export interface Methodology {
   title?: ReactNode;
   summary: ReactNode;
+  /** Three testing metrics shown above the protocol ("3 · Retail batches"). */
+  facts?: MethodologyFact[];
   defaultOpen?: boolean;
 }
 
 const bylineVariants = cva("min-w-0", {
   variants: {
     variant: {
-      "inline-header": "flex flex-wrap items-center gap-x-cluster-gap gap-y-[0.35em]",
-      "dossier-box": [
-        "@container w-full rounded-surface border-surface-w border-border bg-surface p-card-pad shadow-surface",
-      ],
-      "verified-strip": [
-        "flex flex-wrap items-center gap-x-row-pad gap-y-[0.5em] border-y-[length:var(--border-width-surface)] border-border-soft py-[calc(var(--space-row-pad)*0.75)]",
-      ],
+      "inline-header": "flex flex-wrap items-center gap-x-stack gap-y-cluster",
+      "dossier-box": "w-full overflow-hidden rounded-container border border-hairline bg-surface",
+      "verified-strip": "flex flex-col gap-cluster border-y border-hairline py-row",
     },
   },
   defaultVariants: { variant: "inline-header" },
@@ -88,58 +93,70 @@ export function AuthorityByline({
   if (variant === "dossier-box") {
     return (
       <div data-slot="authority-byline" data-variant={variant} className={base} {...props}>
-        {/* Column 1: portrait · Column 2: everything else, one left axis. */}
-        <div className="grid grid-cols-1 gap-row-pad @sm:grid-cols-[auto_minmax(0,1fr)] @sm:gap-x-row-pad">
+        {/* Region 1 — primary bio header */}
+        <div data-slot="byline-header" className="grid grid-cols-[var(--size-portrait)_minmax(0,1fr)] gap-x-stack gap-y-stack p-card">
           <Avatar author={author} size="lg" />
-          <div className="flex min-w-0 flex-col gap-row-pad">
-            <div className="flex min-w-0 flex-col gap-[0.35em]">
-              <span className="type-eyebrow text-muted">Reviewed by</span>
-              <AuthorName author={author} className="type-display-sm" />
-              {author.role && <span className="text-sm text-muted">{author.role}</span>}
+          <div className="flex min-w-0 flex-col gap-cluster self-center">
+            <div className="flex min-w-0 flex-col gap-hairline">
+              <AuthorName author={author} className="type-title" />
+              {author.role && <span className="text-body-sm text-ink-secondary">{author.role}</span>}
             </div>
             {author.credentials && author.credentials.length > 0 && (
-              <ul className="flex flex-wrap gap-[0.4em]">
+              <ul className="flex flex-wrap gap-cluster">
                 {author.credentials.map((c) => (
                   <li key={c} className="contents">
-                    <StatusPill tone="neutral">{c}</StatusPill>
+                    <StatusPill kind="technical">{c}</StatusPill>
                   </li>
                 ))}
               </ul>
             )}
-            {author.bio && <p className="m-0 text-sm leading-relaxed text-muted">{author.bio}</p>}
-            <VerificationLine author={reviewedBy} verifiedAt={verifiedAt} updatedAt={updatedAt} divided />
-            {methodology && (
-              <div
-                data-slot="methodology-well"
-                className="rounded-interactive border-surface-w border-border-soft bg-surface-recessed px-row-pad py-[calc(var(--space-row-pad)*0.75)]"
-              >
-                <MethodologyDisclosure trigger={methodologyTitle} defaultOpen={methodology.defaultOpen}>
-                  {methodology.summary}
-                </MethodologyDisclosure>
-              </div>
-            )}
           </div>
+          {author.bio && (
+            <p className="col-span-2 m-0 max-w-prose text-body leading-body text-ink-secondary">{author.bio}</p>
+          )}
+        </div>
+
+        {/* Region 2 — recessed verification & methodology footer */}
+        <div data-slot="byline-footer" className="border-t border-hairline bg-recessed px-bar-x py-bar-y">
+          {methodology ? (
+            <MethodologyDisclosure
+              leading={<VerificationLine author={reviewedBy} verifiedAt={verifiedAt} updatedAt={updatedAt} />}
+              trigger={methodologyTitle}
+              facts={methodology.facts}
+              defaultOpen={methodology.defaultOpen}
+            >
+              {methodology.summary}
+            </MethodologyDisclosure>
+          ) : (
+            <VerificationLine author={reviewedBy} verifiedAt={verifiedAt} updatedAt={updatedAt} />
+          )}
         </div>
       </div>
     );
   }
 
   if (variant === "verified-strip") {
-    return (
-      <div data-slot="authority-byline" data-variant={variant} className={base} {...props}>
-        <span className="flex min-w-0 items-center gap-[0.5em] text-sm">
-          <BadgeCheck size="1.25em" strokeWidth={1.5} aria-hidden="true" className="shrink-0 text-positive" />
+    const leading = (
+      <span className="flex min-w-0 flex-wrap items-center gap-x-cluster gap-y-hairline text-body-sm">
+        <span className="flex min-w-0 items-center gap-[0.45em]">
+          <VerifiedMark />
           <span className="min-w-0 truncate">
-            <span className="text-muted">Verified by </span>
+            <span className="text-ink-secondary">Verified by </span>
             <AuthorName author={author} className="font-medium" />
-            {author.role && <span className="text-muted"> · {author.role}</span>}
+            {author.role && <span className="text-ink-secondary"> · {author.role}</span>}
           </span>
         </span>
         <VerificationLine verifiedAt={verifiedAt} updatedAt={updatedAt} mark={false} />
-        {methodology && (
-          <MethodologyDisclosure trigger={methodologyTitle} className="basis-full">
+      </span>
+    );
+    return (
+      <div data-slot="authority-byline" data-variant={variant} className={base} {...props}>
+        {methodology ? (
+          <MethodologyDisclosure leading={leading} trigger={methodologyTitle} facts={methodology.facts} defaultOpen={methodology.defaultOpen}>
             {methodology.summary}
           </MethodologyDisclosure>
+        ) : (
+          leading
         )}
       </div>
     );
@@ -148,17 +165,17 @@ export function AuthorityByline({
   return (
     <div data-slot="authority-byline" data-variant={variant} className={base} {...props}>
       {/* Portrait + name travel together; the role wraps beside the portrait, never under it. */}
-      <span className="flex min-w-0 items-center gap-cluster-gap">
+      <span className="flex min-w-0 items-center gap-cluster">
         <Avatar author={author} size="sm" />
-        <span className="flex min-w-0 flex-wrap items-baseline gap-x-[0.4em] text-sm">
-          <span className="text-muted">By</span>
+        <span className="flex min-w-0 flex-wrap items-baseline gap-x-[0.4em] text-body-sm">
+          <span className="text-ink-secondary">By</span>
           <AuthorName author={author} className="font-medium" />
-          {author.role && <span className="text-muted">· {author.role}</span>}
+          {author.role && <span className="text-ink-secondary">· {author.role}</span>}
         </span>
       </span>
       <VerificationLine author={reviewedBy} verifiedAt={verifiedAt} updatedAt={updatedAt} />
       {methodology && (
-        <MethodologyDisclosure trigger={methodologyTitle} className="basis-full">
+        <MethodologyDisclosure trigger={methodologyTitle} facts={methodology.facts} defaultOpen={methodology.defaultOpen} className="basis-full">
           {methodology.summary}
         </MethodologyDisclosure>
       )}
@@ -169,9 +186,9 @@ export function AuthorityByline({
 /* ------------------------------------------------------------------------ */
 
 function AuthorName({ author, className }: { author: Author; className?: string }) {
-  const name = <span className={cn("text-foreground", className)}>{author.name}</span>;
+  const name = <span className={cn("text-ink", className)}>{author.name}</span>;
   return author.href ? (
-    <a href={author.href} rel="author" className="focus-ring underline-offset-[0.25em] hover:underline">
+    <a href={author.href} rel="author" className="focus-ring rounded-tag underline-offset-[0.25em] hover:underline">
       {name}
     </a>
   ) : (
@@ -180,20 +197,19 @@ function AuthorName({ author, className }: { author: Author; className?: string 
 }
 
 function Avatar({ author, size }: { author: Author; size: "sm" | "lg" }) {
-  const dim = size === "lg" ? "size-[calc(var(--size-avatar)*1.75)]" : "size-[calc(var(--size-avatar)*0.75)]";
   return (
     <span
       data-slot="byline-avatar"
       className={cn(
-        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-avatar bg-surface-recessed text-muted",
-        "ring-1 ring-ring-inner ring-inset",
-        dim,
+        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-inner bg-recessed text-ink-secondary",
+        "ring-1 ring-inset ring-strong",
+        size === "lg" ? "size-portrait" : "size-portrait-sm",
       )}
     >
       {author.avatar ? (
-        <Image src={author.avatar.src} alt={author.avatar.alt} fill sizes="128px" className="object-cover" />
+        <Image src={author.avatar.src} alt={author.avatar.alt} fill sizes="112px" className="object-cover" />
       ) : (
-        <span aria-hidden="true" className="text-xs font-semibold tracking-metric">
+        <span aria-hidden="true" className="text-caption font-semibold tracking-metric">
           {initials(author.name)}
         </span>
       )}
@@ -201,8 +217,12 @@ function Avatar({ author, size }: { author: Author; size: "sm" | "lg" }) {
   );
 }
 
+function VerifiedMark() {
+  return <BadgeCheck size="1.25em" strokeWidth={1.5} aria-hidden="true" className="shrink-0 text-positive" />;
+}
+
 /**
- * "Reviewed by Tomás Ferreira · Fact-check  ·  VERIFIED OCT 27, 2026"
+ * "✓ VERIFIED OCT 29, 2026 · Reviewed by Tomás Ferreira · Fact-check"
  * Prose in sans; only the timestamp is mono (Law 1).
  */
 function VerificationLine({
@@ -210,52 +230,35 @@ function VerificationLine({
   verifiedAt,
   updatedAt,
   mark = true,
-  divided = false,
 }: {
   author?: Author;
   verifiedAt?: string;
   updatedAt?: string;
   mark?: boolean;
-  divided?: boolean;
 }) {
   if (!verifiedAt && !updatedAt && !author) return null;
   return (
     <span
       data-slot="verification-line"
-      className={cn(
-        "flex min-w-0 flex-wrap items-center gap-x-[0.6em] gap-y-[0.3em] text-xs text-muted",
-        divided && "border-t-surface-w border-border-soft pt-row-pad",
-      )}
+      className="flex min-w-0 flex-wrap items-center gap-x-cluster gap-y-hairline text-caption text-ink-secondary"
     >
-      {/* The check travels with the first segment so it never wraps onto a line of its own. */}
-      {author ? (
-        <span className="flex items-center gap-[0.4em]">
-          {mark && verifiedAt && <VerifiedMark />}
-          <span>
-            Reviewed by <AuthorName author={author} className="font-medium" />
-            {author.role && <span> · {author.role}</span>}
-          </span>
-        </span>
-      ) : null}
-      {author && (verifiedAt || updatedAt) && <span aria-hidden="true">·</span>}
       {verifiedAt && (
-        <span className="flex items-center gap-[0.4em]">
-          {mark && !author && <VerifiedMark />}
-          <span className="type-label-mono whitespace-nowrap">Verified {formatDate(verifiedAt)}</span>
+        <span className="flex items-center gap-[0.45em]">
+          {mark && <VerifiedMark />}
+          <span className="type-mono whitespace-nowrap text-ink">Verified {formatDate(verifiedAt)}</span>
         </span>
       )}
       {updatedAt && updatedAt !== verifiedAt && (
-        <>
-          <span aria-hidden="true">·</span>
-          <span className="type-label-mono whitespace-nowrap">Updated {formatDate(updatedAt)}</span>
-        </>
+        <span className="type-mono whitespace-nowrap">Updated {formatDate(updatedAt)}</span>
+      )}
+      {author && (
+        <span className="min-w-0 truncate">
+          Reviewed by <AuthorName author={author} className="font-medium" />
+          {author.role && <span> · {author.role}</span>}
+        </span>
       )}
     </span>
   );
-}
-
-function VerifiedMark() {
-  return <BadgeCheck size="1.3em" strokeWidth={1.5} aria-hidden="true" className="shrink-0 text-positive" />;
 }
 
 export { bylineVariants as authorityBylineVariants };

@@ -7,19 +7,28 @@ import { AffiliateAction } from "@/primitives/affiliate-action";
 import { AwardBadge } from "@/primitives/award-badge";
 import { ProductMediaFrame } from "@/primitives/product-media-frame";
 import { ScoreMeter } from "@/primitives/score-meter";
-import { Labeled } from "@/stories/story-label";
+import { Specimen } from "@/stories/specimen";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
-import {
-  SurfaceCard,
-  SurfaceCardDivider,
-  SurfaceCardFooter,
-  SurfaceCardMedia,
-} from "./surface-card";
+import { SurfaceCard, SurfaceCardDivider, SurfaceCardFooter, SurfaceCardMedia } from "./surface-card";
 
-const CHROMINGS = ["bordered", "hairline-divide", "elevated", "spotlight-hover", "ghost"] as const;
+const CHROMINGS = ["bordered", "elevated", "recessed", "spotlight", "hairline-divide", "ghost"] as const;
 const DENSITIES = ["compact", "default", "spacious"] as const;
 const FOOTERS = ["inline", "hairline-bar", "action-bar"] as const;
+const NAMES = {
+  bordered: "Bordered",
+  elevated: "Elevated",
+  recessed: "Recessed well",
+  spotlight: "Spotlight hover",
+  "hairline-divide": "Hairline divide",
+  ghost: "Ghost",
+  compact: "Compact · 16px",
+  default: "Default · 24px",
+  spacious: "Spacious · 32px",
+  inline: "Inline footer",
+  "hairline-bar": "Hairline bar",
+  "action-bar": "Recessed action bar",
+} as const;
 
 const best = productShoe01.offers[0]!;
 const retailerCount = productShoe01.offers.length;
@@ -28,11 +37,7 @@ const meta = {
   title: "Tier 3 · Surface & Media/SurfaceCard",
   component: SurfaceCard,
   parameters: { layout: "fullscreen" },
-  args: {
-    chroming: "bordered",
-    density: "default",
-    interactive: false,
-  },
+  args: { chroming: "bordered", density: "default", interactive: false },
   argTypes: {
     chroming: { control: "select", options: CHROMINGS },
     density: { control: "select", options: DENSITIES },
@@ -43,20 +48,19 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Price + "Compare N retailers →" — the recessed action well at the foot of a scorecard. */
+/** Price + "Compare N retailers →" — the recessed bar that anchors a scorecard. */
 function CompareFooter({ variant = "action-bar" }: { variant?: (typeof FOOTERS)[number] }) {
   return (
     <SurfaceCardFooter variant={variant}>
-      <span className="flex items-baseline gap-[0.4em]">
-        <span className="type-price text-base text-foreground">{bestPrice(productShoe01)}</span>
-        <span className="text-xs text-muted">from {best.merchantName}</span>
+      <span className="flex items-baseline gap-cluster">
+        <span className="type-metric text-body text-ink">{bestPrice(productShoe01)}</span>
+        <span className="text-caption text-ink-tertiary">from {best.merchantName}</span>
       </span>
       <AffiliateAction
         href={best.affiliateUrl}
-        intent="inline-editorial"
-        size="sm"
+        intent="inline"
         tracking={{ merchant: best.merchantName, offerId: best.id, productId: productShoe01.id, placement: "card-footer" }}
-        className="text-sm"
+        className="text-body-sm"
       >
         Compare {retailerCount} retailers
       </AffiliateAction>
@@ -67,11 +71,13 @@ function CompareFooter({ variant = "action-bar" }: { variant?: (typeof FOOTERS)[
 function CardContent({ footer = "action-bar" }: { footer?: (typeof FOOTERS)[number] }) {
   return (
     <>
-      <p className="type-eyebrow text-muted">{productShoe01.eyebrow}</p>
-      <h3 className="type-display-sm">
-        {productShoe01.brand} {productShoe01.name}
-      </h3>
-      <p className="text-muted">{productShoe01.verdictSummary}</p>
+      <div className="flex flex-col gap-hairline">
+        <p className="type-eyebrow m-0 text-ink-tertiary">{productShoe01.eyebrow}</p>
+        <h3 className="type-title m-0">
+          {productShoe01.brand} {productShoe01.name}
+        </h3>
+      </div>
+      <p className="m-0 max-w-prose text-body-sm leading-body text-ink-secondary">{productShoe01.verdictSummary}</p>
       {footer === "inline" && <SurfaceCardDivider />}
       <CompareFooter variant={footer} />
     </>
@@ -88,87 +94,87 @@ export const Playground: Story = {
   ),
 };
 
-export const AllChromings: Story = {
-  name: "Variants · chroming",
+export const Chromings: Story = {
+  name: "Chroming",
   render: () => (
-    <div className="grid items-start gap-grid-gap md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid items-start gap-grid md:grid-cols-2 xl:grid-cols-3">
       {CHROMINGS.map((chroming) => (
-        <Labeled key={chroming} label={`chroming="${chroming}"`}>
+        <Specimen key={chroming} caption={NAMES[chroming]}>
           <SurfaceCard chroming={chroming} as="article">
-            <CardContent footer={chroming === "hairline-divide" || chroming === "ghost" ? "inline" : "action-bar"} />
+            <CardContent footer={chroming === "hairline-divide" || chroming === "ghost" || chroming === "recessed" ? "inline" : "action-bar"} />
           </SurfaceCard>
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
-export const AllDensities: Story = {
-  name: "Variants · density",
+export const Densities: Story = {
+  name: "Density",
   render: () => (
-    <div className="grid items-start gap-grid-gap md:grid-cols-3">
+    <div className="grid items-start gap-grid md:grid-cols-3">
       {DENSITIES.map((density) => (
-        <Labeled key={density} label={`density="${density}"`}>
+        <Specimen key={density} caption={NAMES[density]}>
           <SurfaceCard density={density} as="article">
             <CardContent />
           </SurfaceCard>
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
-export const FooterVariants: Story = {
-  name: "Slots · footer (inline · hairline-bar · action-bar)",
+export const Footers: Story = {
+  name: "Footer slot",
   render: () => (
-    <div className="grid items-start gap-grid-gap md:grid-cols-3">
+    <div className="grid items-start gap-grid md:grid-cols-3">
       {FOOTERS.map((footer) => (
-        <Labeled key={footer} label={`<SurfaceCardFooter variant="${footer}">`}>
+        <Specimen key={footer} caption={NAMES[footer]}>
           <SurfaceCard as="article">
             <CardContent footer={footer} />
           </SurfaceCard>
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
 export const WithBleedMedia: Story = {
-  name: "Slots · media bleed + action-bar footer",
+  name: "Media bleed + action bar",
   render: () => (
-    <div className="grid items-start gap-grid-gap md:grid-cols-3">
+    <div className="grid items-start gap-grid md:grid-cols-3">
       {DENSITIES.map((density) => (
-        <Labeled key={density} label={`density="${density}"`}>
+        <Specimen key={density} caption={NAMES[density]}>
           <SurfaceCard density={density} as="article" interactive>
             <SurfaceCardMedia>
               <ProductMediaFrame
                 as="div"
                 media={productShoe01.media}
                 hover="secondary-angle-swap"
-                badge={<AwardBadge shape="glass-pill" badge={productShoe01.awardBadge} icon={Award} />}
+                badge={<AwardBadge surface="glass" badge={productShoe01.awardBadge} icon={Award} />}
               />
             </SurfaceCardMedia>
             <CardContent />
           </SurfaceCard>
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
 export const HairlineStack: Story = {
-  name: "Pattern · hairline-divide ranked list",
+  name: "Ranked list (hairline-divide rows)",
   render: () => (
-    <ol className="max-w-2xl border-b-surface-w border-border">
+    <ol className="m-0 max-w-2xl list-none border-b border-hairline p-0">
       {directoryProducts.slice(0, 6).map((p) => (
-        <SurfaceCard key={p.id} as="li" chroming="hairline-divide" density="compact">
-          <div className="grid grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center gap-cluster-gap">
-            <span className="type-label-mono text-muted">{String(p.rank).padStart(2, "0")}</span>
-            <span className="flex min-w-0 flex-col">
-              <span className="truncate text-sm font-medium text-foreground">
+        <SurfaceCard key={p.id} as="li" chroming="hairline-divide" density="compact" className="py-row">
+          <div className="grid grid-cols-[var(--keyline-rank)_minmax(0,1fr)_auto] items-center gap-x-stack">
+            <span className="type-mono text-ink-tertiary">{String(p.rank).padStart(2, "0")}</span>
+            <span className="flex min-w-0 flex-col gap-hairline">
+              <span className="truncate text-body-sm font-medium text-ink">
                 {p.brand} {p.name}
               </span>
-              <span className="truncate text-xs text-muted">{p.eyebrow}</span>
+              <span className="truncate text-caption text-ink-tertiary">{p.eyebrow}</span>
             </span>
             <ScoreMeter score={p.overallScore!} visual="inline-bar" label={null} />
           </div>
@@ -179,20 +185,22 @@ export const HairlineStack: Story = {
 };
 
 export const DirectoryLoop30: Story = {
-  name: "Perf · 30-item directory loop (zero JS)",
+  name: "30-item directory loop (zero JS)",
   render: () => (
-    <ul className="grid grid-cols-2 items-start gap-grid-gap md:grid-cols-3 xl:grid-cols-5">
+    <ul className="m-0 grid list-none grid-cols-2 items-start gap-grid p-0 md:grid-cols-3 xl:grid-cols-5">
       {directoryProducts.map((p) => (
-        <SurfaceCard key={p.id} as="li" chroming="spotlight-hover" density="compact" interactive>
+        <SurfaceCard key={p.id} as="li" chroming="spotlight" density="compact" interactive>
           <SurfaceCardMedia>
             <ProductMediaFrame as="div" media={p.media} hover="subtle-zoom" />
           </SurfaceCardMedia>
-          <p className="type-label-mono text-muted">{String(p.rank).padStart(2, "0")}</p>
-          <p className="type-display-sm">{p.name}</p>
-          <p className="truncate text-xs text-muted">{p.brand}</p>
+          <div className="flex flex-col gap-hairline">
+            <span className="type-mono text-ink-tertiary">{String(p.rank).padStart(2, "0")}</span>
+            <span className="type-title">{p.name}</span>
+            <span className="truncate text-caption text-ink-tertiary">{p.brand}</span>
+          </div>
           <SurfaceCardFooter variant="hairline-bar">
-            <span className="type-price text-sm text-foreground">{bestPrice(p)}</span>
-            <span className="type-price text-sm text-foreground">{formatScore(p.overallScore!)}</span>
+            <span className="type-metric text-body-sm text-ink">{bestPrice(p)}</span>
+            <span className="type-metric text-body-sm text-ink">{formatScore(p.overallScore!)}</span>
           </SurfaceCardFooter>
         </SurfaceCard>
       ))}
@@ -204,16 +212,16 @@ export const SideBySideVerticals: Story = {
   name: "★ Multi-vertical side-by-side",
   render: () => (
     <VerticalCompare>
-      <div className="grid items-start gap-grid-gap sm:grid-cols-2">
+      <div className="grid items-start gap-grid sm:grid-cols-2">
         <SurfaceCard as="article" chroming="bordered">
           <CardContent />
         </SurfaceCard>
-        <SurfaceCard as="article" chroming="spotlight-hover" interactive>
+        <SurfaceCard as="article" chroming="spotlight" interactive>
           <SurfaceCardMedia>
             <ProductMediaFrame
               as="div"
               media={productShoe01.media}
-              badge={<AwardBadge shape="glass-pill" badge={productShoe01.awardBadge} icon={Award} />}
+              badge={<AwardBadge surface="glass" badge={productShoe01.awardBadge} icon={Award} />}
             />
           </SurfaceCardMedia>
           <CardContent />
@@ -224,7 +232,7 @@ export const SideBySideVerticals: Story = {
 };
 
 export const Viewports: Story = {
-  name: "Responsive · 375 (2-col) vs 1280 (4-col)",
+  name: "Responsive · 375 vs 1280",
   render: () => (
     <ViewportFrames
       render={({ grid }) => (
@@ -234,11 +242,13 @@ export const Viewports: Story = {
               <SurfaceCardMedia>
                 <ProductMediaFrame as="div" media={p.media} />
               </SurfaceCardMedia>
-              <p className="type-label-mono text-muted">{String(p.rank).padStart(2, "0")}</p>
-              <p className="type-display-sm">{p.name}</p>
+              <div className="flex flex-col gap-hairline">
+                <span className="type-mono text-ink-tertiary">{String(p.rank).padStart(2, "0")}</span>
+                <span className="type-title">{p.name}</span>
+              </div>
               <SurfaceCardFooter variant="hairline-bar">
-                <span className="type-price text-sm text-foreground">{bestPrice(p)}</span>
-                <span className="type-price text-sm text-foreground">{formatScore(p.overallScore!)}</span>
+                <span className="type-metric text-body-sm text-ink">{bestPrice(p)}</span>
+                <span className="type-metric text-body-sm text-ink">{formatScore(p.overallScore!)}</span>
               </SurfaceCardFooter>
             </SurfaceCard>
           ))}

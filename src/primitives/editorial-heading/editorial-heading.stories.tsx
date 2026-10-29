@@ -3,21 +3,23 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { bestPrice, productCreatine, productShoe01, productWatch, roundupProducts } from "@/fixtures/products";
 import { AffiliateAction } from "@/primitives/affiliate-action";
 import { ScoreMeter } from "@/primitives/score-meter";
-import { Labeled } from "@/stories/story-label";
+import { Specimen } from "@/stories/specimen";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { EditorialHeading } from "./editorial-heading";
 
 const ALIGNMENTS = ["left-dossier", "centered-magazine", "split-numbered"] as const;
+const NAMES = { "left-dossier": "Left dossier", "centered-magazine": "Centered magazine", "split-numbered": "Split numbered" } as const;
 const best = productShoe01.offers[0]!;
 
-/** Right-hand summary lockup: composite score + starting-price CTA. */
+/** Key-metric / price summary block for the 5-column side of the dossier bar. */
 function SummaryAside() {
   return (
     <>
-      <ScoreMeter score={productShoe01.overallScore!} visual="radial-ring" label="Overall" />
+      <ScoreMeter score={productShoe01.overallScore!} visual="radial" label="Overall score" />
       <AffiliateAction
         href={best.affiliateUrl}
+        width="cta"
         tracking={{ merchant: best.merchantName, offerId: best.id, productId: productShoe01.id, placement: "heading-aside" }}
       >
         Shop from {bestPrice(productShoe01)}
@@ -43,7 +45,7 @@ const meta = {
   argTypes: {
     alignment: { control: "select", options: ALIGNMENTS },
     rankFormat: { control: "inline-radio", options: ["padded", "hash", "plain"] },
-    size: { control: "inline-radio", options: ["display", "display-sm"] },
+    size: { control: "inline-radio", options: ["display", "title"] },
     as: { control: "inline-radio", options: ["h1", "h2", "h3", "h4"] },
     aside: { control: false },
   },
@@ -54,57 +56,51 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-export const AllAlignments: Story = {
-  name: "Variants · alignment (rank as architectural index)",
+export const Alignments: Story = {
+  name: "Alignment — rank as an architectural index",
   render: (args) => (
-    <div className="flex flex-col gap-section-gap">
+    <div className="flex flex-col gap-section">
       {ALIGNMENTS.map((alignment) => (
-        <Labeled key={alignment} label={`alignment="${alignment}"`}>
+        <Specimen key={alignment} caption={NAMES[alignment]}>
           <EditorialHeading {...args} alignment={alignment} />
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
-export const WithAside: Story = {
-  name: "Slots · aside summary lockup (score + price CTA, stacks at 375)",
+export const DossierBar: Story = {
+  name: "Dossier bar — 7 / 5 columns with a key-metric block",
   render: (args) => (
-    <div className="flex flex-col gap-section-gap">
+    <div className="flex flex-col gap-section">
       {(["left-dossier", "split-numbered"] as const).map((alignment) => (
-        <Labeled key={alignment} label={`alignment="${alignment}" + aside`}>
+        <Specimen key={alignment} caption={NAMES[alignment]}>
           <EditorialHeading {...args} alignment={alignment} aside={<SummaryAside />} />
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
 export const RankFormats: Story = {
-  name: "Variants · rank format",
+  name: "Rank formats",
   render: (args) => (
-    <div className="grid items-start gap-grid-gap md:grid-cols-3">
+    <div className="grid items-start gap-grid md:grid-cols-3">
       {(["padded", "hash", "plain"] as const).map((rankFormat) => (
-        <Labeled key={rankFormat} label={`rankFormat="${rankFormat}"`}>
-          <EditorialHeading
-            {...args}
-            dek={undefined}
-            size="display-sm"
-            alignment="split-numbered"
-            rankFormat={rankFormat}
-          />
-        </Labeled>
+        <Specimen key={rankFormat} caption={rankFormat === "padded" ? "Padded · 01" : rankFormat === "hash" ? "Hash · #1" : "Plain · 1"}>
+          <EditorialHeading {...args} dek={undefined} size="title" alignment="split-numbered" rankFormat={rankFormat} />
+        </Specimen>
       ))}
     </div>
   ),
 };
 
 export const RoundupSequence: Story = {
-  name: "Pattern · ranked roundup sequence",
+  name: "Ranked roundup sequence",
   render: () => (
-    <ol className="flex max-w-3xl flex-col gap-section-gap">
+    <ol className="m-0 flex max-w-3xl list-none flex-col gap-section p-0">
       {roundupProducts.map((p) => (
-        <li key={p.id} className="border-t-surface-w border-border pt-row-pad">
+        <li key={p.id} className="border-t border-hairline pt-stack">
           <EditorialHeading
             as="h3"
             alignment="split-numbered"
@@ -112,6 +108,7 @@ export const RoundupSequence: Story = {
             eyebrow={p.eyebrow}
             title={`${p.brand} ${p.name}`}
             dek={p.verdictSummary}
+            size="title"
             aside={<ScoreMeter score={p.overallScore!} visual="inline-bar" label="Overall" />}
           />
         </li>
@@ -124,40 +121,21 @@ export const SideBySideVerticals: Story = {
   name: "★ Multi-vertical side-by-side",
   render: () => (
     <VerticalCompare>
-      <div className="flex flex-col gap-section-gap">
-        <EditorialHeading
-          as="h1"
-          alignment="left-dossier"
-          rank={1}
-          eyebrow={productShoe01.eyebrow}
-          title={`${productShoe01.brand} ${productShoe01.name}`}
-          dek={productShoe01.verdictSummary}
-          aside={<SummaryAside />}
-        />
-        <EditorialHeading
-          alignment="centered-magazine"
-          eyebrow={productWatch.eyebrow}
-          title={`${productWatch.brand} ${productWatch.name}`}
-        />
-        <EditorialHeading
-          alignment="split-numbered"
-          rank={productCreatine.rank}
-          eyebrow={productCreatine.eyebrow}
-          title={productCreatine.name}
-          dek={productCreatine.verdictSummary}
-          size="display-sm"
-        />
+      <div className="flex flex-col gap-section">
+        <EditorialHeading as="h1" alignment="left-dossier" rank={1} eyebrow={productShoe01.eyebrow} title={`${productShoe01.brand} ${productShoe01.name}`} dek={productShoe01.verdictSummary} aside={<SummaryAside />} />
+        <EditorialHeading alignment="centered-magazine" eyebrow={productWatch.eyebrow} title={`${productWatch.brand} ${productWatch.name}`} />
+        <EditorialHeading alignment="split-numbered" rank={productCreatine.rank} eyebrow={productCreatine.eyebrow} title={productCreatine.name} dek={productCreatine.verdictSummary} size="title" />
       </div>
     </VerticalCompare>
   ),
 };
 
 export const Viewports: Story = {
-  name: "Responsive · 375 (aside stacks under dek) vs 1280",
+  name: "Responsive · 375 (summary stacks) vs 1280",
   render: () => (
     <ViewportFrames
       render={() => (
-        <div className="flex flex-col gap-section-gap">
+        <div className="flex flex-col gap-section">
           <EditorialHeading
             as="h1"
             alignment="split-numbered"
@@ -167,11 +145,7 @@ export const Viewports: Story = {
             dek={productShoe01.verdictSummary}
             aside={<SummaryAside />}
           />
-          <EditorialHeading
-            alignment="centered-magazine"
-            eyebrow="The Dress Watch, Reconsidered"
-            title="Lindqvist Ardent 38"
-          />
+          <EditorialHeading alignment="centered-magazine" eyebrow="The Dress Watch, Reconsidered" title="Lindqvist Ardent 38" />
         </div>
       )}
     />

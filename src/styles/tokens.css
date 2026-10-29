@@ -1,255 +1,218 @@
 /* ==========================================================================
-   AFFILIATE UI KIT — MULTI-DIMENSIONAL TOKEN CONTRACT
+   AFFILIATE UI KIT — "EDITORIAL PRECISION" TOKEN CONTRACT
    --------------------------------------------------------------------------
-   Every primitive binds 100% of its geometry, density, typography, motion and
-   color to the custom properties below. A vertical is a *profile* of these
-   values, scoped by `[data-vertical="…"]`. Switching verticals never touches
-   component code — only this file.
+   ONE structural spine, TWO chromatic voices.
 
-   Contract tiers:
-     1. COLOR          --color-*
-     2. STRUCTURE      --radius-*, --border-width-*, --space-*, --aspect-*,
-                       --media-fit, --size-*, --blur-*
-     3. ELEVATION      --shadow-*
-     4. MOTION         --ease-*, --duration-*
-     5. TYPOGRAPHY     --font-*, --tracking-*, --text-*, --weight-*, --leading-*
+   Everything spatial — the 4px modulus, keyline column widths, radii,
+   hairlines, control heights, motion, the modular type scale — lives in
+   `:root` and is IDENTICAL in every vertical. A vertical is a *tone*:
+   it may only change the surface/ink palette (chromatic temperature) and
+   the display voice (serif vs. neo-grotesque). It may never move a keyline,
+   change a radius, or re-space a row.
 
-   Rules:
+   Tiers
+     1. SPATIAL MODULUS   --space-*           strict 4px / 8px scale
+     2. ANATOMY           --inset-*, --gap-*  named rhythm every primitive binds to
+     3. KEYLINES          --keyline-*         fixed column tracks (Law of Continuity)
+     4. GEOMETRY          --radius-*, --size-*, --border-width
+     5. ELEVATION         --shadow-*
+     6. MOTION            --ease-*, --duration-*
+     7. TYPE SCALE        --text-*, --leading-*, --tracking-*
+     8. TONE (per vertical) --surface-*, --ink-*, --border-*, --font-display
+
+   Rules
      • Never hardcode a structural Tailwind utility (rounded-lg, p-6, shadow-sm,
-       aspect-square, text-[10px], tracking-[0.18em] …) inside `src/primitives/**`.
-       Use the bridged utilities (`rounded-surface`, `p-card-pad`, `shadow-surface`,
-       `aspect-product-media`, `type-eyebrow`) or `var(--token)` directly.
-     • Profiles must define EVERY token. `:root` carries the luxury-editorial
-       baseline; there is no fallback chain between verticals.
-     • Fonts: the app serves them with next/font (preloaded, metric-adjusted
-       fallbacks → zero CLS) and exposes --font-inter / --font-playfair-display /
-       --font-plus-jakarta-sans / --font-jetbrains-mono; Storybook self-hosts the
-       same families via @fontsource (.storybook/fonts.ts). The stacks below try
-       the next/font variable first and fall back to the family name.
-     • Typography roles (Law 1): display headings → --font-display; prices,
-       scores and metrics → --font-sans, weight 600, tabular, tight tracking;
-       --font-mono is reserved for short uppercase metadata (batch IDs,
-       timestamps, rank numerals) and never used for prices or prose.
-     • Surface layering (Law 2): canvas → surface → recessed. Complex
-       components always use all three planes.
+       gap-3 …) inside `src/primitives/**`. Bind to the bridged utilities
+       (`rounded-container`, `p-card`, `gap-cluster`, `w-cta`) so the whole
+       kit moves together when a value changes.
+     • Lists and tables use explicit grid tracks from `--keyline-*`, never
+       `justify-between` with variable-width children.
+     • Three luminance planes: canvas → surface (hairline) → recessed well.
+       `--surface-inverse` is the fourth, reserved for the primary CTA and
+       editorial accolades.
+   ========================================================================== */
+
+:root {
+  /* ---- 1. SPATIAL MODULUS (4px) ---------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* ---- 2. ANATOMY (named rhythm) --------------------------------------- */
+  --inset-card: var(--space-6);            /* 24px container inset */
+  --inset-card-compact: var(--space-4);    /* 16px dense tiles */
+  --inset-card-spacious: var(--space-8);   /* 32px hero dossiers */
+  --inset-well: var(--space-5);            /* 20px recessed data well */
+  --inset-bar-x: var(--space-6);           /* 24px recessed action / footer bar */
+  --inset-bar-y: var(--space-3);           /* 12px */
+  --inset-cell-x: var(--space-4);          /* 16px row cell inset */
+  --inset-overlay: var(--space-3);         /* 12px badge safe zone over media */
+  --inset-pill-x: 0.625rem;                /* 10px status pill */
+  --inset-pill-y: 0.125rem;                /* 2px */
+  --inset-tag-x: var(--space-2);           /* 8px technical chip */
+  --inset-tag-y: 0.125rem;                 /* 2px */
+  --inset-accolade-x: 0.625rem;            /* 10px editorial accolade */
+  --inset-accolade-y: var(--space-1);      /* 4px */
+  --inset-pedestal: var(--space-6);        /* 24px packshot breathing room */
+  --row-y: var(--space-3);                 /* 12px row rhythm (py-3) */
+  --row-y-compact: var(--space-2);         /* 8px */
+  --gap-hairline: var(--space-1);          /* 4px micro gaps inside a lockup */
+  --gap-cluster: var(--space-2);           /* 8px between sibling inline items */
+  --gap-stack: var(--space-4);             /* 16px between blocks inside a card */
+  --gap-grid: var(--space-6);              /* 24px between cards */
+  --gap-section: var(--space-10);          /* 40px between page sections */
+  --gap-column: var(--space-10);           /* 40px between two spec columns */
+
+  /* ---- 3. KEYLINES (fixed tracks — the Law of Continuity) --------------- */
+  --keyline-monogram: 2.5rem;              /* 40px merchant mark column */
+  --keyline-price: 110px;                  /* price stack column, right-aligned */
+  --keyline-cta: 148px;                    /* fixed-width CTA column */
+  --keyline-label: 180px;                  /* spec / key-value label column */
+  --keyline-subscore: 110px;               /* score breakdown label column */
+  --keyline-value: 36px;                   /* score breakdown numeral column */
+  --keyline-status: 90px;                  /* status pill column */
+  --keyline-toggle: 28px;                  /* +/− indicator column */
+  --keyline-rank: 2.5rem;                  /* 40px rank index column */
+
+  /* ---- 4. GEOMETRY ----------------------------------------------------- */
+  --radius-container: 6px;                 /* every card / sheet / panel */
+  --radius-inner: 4px;                     /* wells, buttons, media frames, portraits */
+  --radius-tag: 3px;                       /* accolades, technical chips */
+  --radius-pill: 9999px;                   /* ONLY status dots + gauge tracks */
+  --border-width: 1px;
+  --border-width-emphasis: 2px;
+  --size-control: 2.25rem;                 /* 36px buttons / fields */
+  --size-control-lg: 2.75rem;              /* 44px full-width primary */
+  --size-portrait: 3.5rem;                 /* 56px byline portrait */
+  --size-portrait-sm: 1.75rem;             /* 28px inline byline */
+  --size-dot: 6px;                         /* status dot */
+  --size-track: 0.5rem;                    /* 8px sub-score well */
+  --size-track-sm: 0.375rem;               /* 6px micro-meter / inline bar */
+  --size-track-hero: 0.625rem;             /* 10px master gauge blocks */
+  --size-micro-meter: 5rem;                /* 80px threshold track */
+  --size-inline-meter: 6rem;               /* 96px ranked-list bar */
+  --size-ring: 4.5rem;                     /* 72px radial verdict */
+  --size-sheet-compact: 26rem;
+  --size-sheet-dossier: 40rem;
+  --aspect-media: 4 / 5;
+  --measure-prose: 62ch;
+  --measure-heading: 64ch;
+  --blur-glass: 12px;
+
+  /* ---- 5. ELEVATION (hairlines carry structure; shadows are rare) ------ */
+  --shadow-elevated: 0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 32px -12px rgba(0, 0, 0, 0.1);
+  --shadow-overlay: 0 24px 48px -12px rgba(0, 0, 0, 0.22);
+  --shadow-badge: 0 1px 2px rgba(0, 0, 0, 0.08);
+
+  /* ---- 6. MOTION ------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-media: cubic-bezier(0, 0, 0.2, 1);
+  --duration-micro: 140ms;
+  --duration-interactive: 220ms;
+  --duration-reveal: 360ms;
+  --duration-media: 600ms;
+
+  /* ---- 7. TYPE SCALE (modular, shared) --------------------------------- */
+  --text-eyebrow: 0.6875rem;               /* 11px tracked uppercase metadata */
+  --text-caption: 0.75rem;                 /* 12px secondary labels, credentials, timestamps */
+  --text-body-sm: 0.8125rem;               /* 13px dense cells, spec values, merchant rows */
+  --text-body: 0.9375rem;                  /* 15px editorial prose */
+  --text-title: 1.25rem;                   /* 20px card & section titles */
+  --text-display: 1.875rem;                /* 30px primary product header */
+  --text-hero-metric: 2.25rem;             /* 36px composite score numeral */
+  --leading-body: 1.6;
+  --leading-tight: 1.3;
+  --tracking-eyebrow: 0.12em;
+  --tracking-mono: 0.08em;
+  --tracking-metric: -0.02em;
+  --weight-eyebrow: 500;
+  --weight-metric: 600;
+
+  /* ---- Shared faces (the display face is the vertical's voice) --------- */
+  --font-sans: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"),
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- Semantic status (shared — meaning does not change with tone) --- */
+  --status-positive: #059669;              /* emerald-600 dot */
+  --status-positive-ink: #047857;          /* emerald-700 text */
+  --status-positive-soft: rgba(5, 150, 105, 0.08);
+  --status-caution: #f59e0b;               /* amber-500 dot */
+  --status-caution-ink: #b45309;           /* amber-700 text */
+  --status-caution-soft: rgba(245, 158, 11, 0.12);
+  --status-negative: #e11d48;              /* rose-600 dot */
+  --status-negative-ink: #be123c;          /* rose-700 text */
+  --status-negative-soft: rgba(225, 29, 72, 0.08);
+}
+
+/* ==========================================================================
+   8. TONE — the only thing a vertical is allowed to change
    ========================================================================== */
 
 :root,
 [data-vertical="luxury-editorial"] {
-  /* ---- 1. COLOR: three luminance planes (canvas → surface → recessed) -- */
-  --color-canvas: #f7f6f2;              /* page background */
-  --color-background: var(--color-canvas);
-  --color-surface: #ffffff;             /* primary card plane */
-  --color-surface-recessed: #f2efe9;    /* inner data wells, spec headers, highlighted rows */
-  --color-surface-pedestal: var(--color-surface-recessed); /* media tiles */
-  --color-foreground: #111110;
-  --color-muted: #6e6a63;
-  --color-border: rgba(0, 0, 0, 0.08);  /* crisp surface perimeter */
-  --color-border-soft: rgba(0, 0, 0, 0.06); /* row hairlines inside wells */
-  --color-border-strong: rgba(0, 0, 0, 0.18);
-  --color-ring-inner: rgba(0, 0, 0, 0.1); /* avatar / monogram inner ring */
-  --color-accent: #111110;              /* CTAs, active rails */
-  --color-accent-foreground: #faf9f6;
-  --color-accent-soft: #f3f1ed;         /* selected pills, winner tint */
-  --color-badge-primary-bg: #111110;
-  --color-badge-primary-fg: #faf9f6;
-  --color-badge-secondary-bg: rgba(255, 255, 255, 0.92);
-  --color-badge-secondary-fg: #111110;
-  --color-positive: #2f5d3a;            /* in-stock, "pros" marker, PASS */
-  --color-positive-soft: rgba(47, 93, 58, 0.07);   /* semantic pill fill */
-  --color-negative: #8a2f2f;            /* out-of-stock, "cons" marker, FAIL */
-  --color-negative-soft: rgba(138, 47, 47, 0.07);
-  --color-caution: #8a6a1f;             /* low-stock, stale verification */
-  --color-caution-soft: rgba(138, 106, 31, 0.08);
-  --color-meter-track: rgba(0, 0, 0, 0.06); /* score bar track */
-  --color-meter-fill: #111110;          /* score bar fill */
-  --color-scrim: rgba(17, 17, 16, 0.45); /* sheet / dialog backdrop */
-  --color-focus-ring: #111110;
+  /* Warm architectural palette · 3-plane luminance hierarchy */
+  --surface-canvas: #f7f5f0;               /* Plane 0: page */
+  --surface-primary: #ffffff;              /* Plane 1: elevated card */
+  --surface-recessed: #f1efea;             /* Plane 2: data well / header band */
+  --surface-inverse: #141413;              /* Plane 3: primary CTA / hero badge */
 
-  /* ---- 2. STRUCTURE: sharp, architectural, full-bleed media ----------- */
-  --radius-surface: 0px;
-  --radius-interactive: 0px;
-  --radius-badge: 0px;
-  --radius-media: 0px;
-  --radius-control: 0px;
-  --radius-sheet: 0px;                  /* bottom-sheet top corners */
-  --border-width-surface: 1px;
-  --border-width-interactive: 1px;
-  --border-width-emphasis: 2px;         /* winner cells, active rail */
-  --space-card-pad: 2rem;
-  --space-grid-gap: 2.5rem;
-  --space-row-pad: 1rem;                /* vertical padding of list rows */
-  --space-cluster-gap: 0.75rem;         /* gap between sibling inline items */
-  --space-section-gap: 3rem;            /* vertical rhythm between blocks */
-  --space-media-inset: 0px;             /* auto treatment: full-bleed here */
-  --space-pedestal-inset: 1.5rem;       /* explicit padded-pedestal breathing room */
-  --space-overlay-inset: 0.75rem;       /* badge / metric safe-zone inset */
-  --space-badge-x: 0.625rem;            /* badge horizontal padding (10px) */
-  --space-badge-y: 0.375rem;            /* badge vertical padding (6px) */
-  --space-tag-x: 0.5rem;                /* semantic pill padding (8px / 2px) */
-  --space-tag-y: 0.125rem;
-  --aspect-product-media: 4 / 5;
-  --media-fit: cover;                   /* auto treatment: object-fit */
-  --size-control: 2.75rem;              /* min tap target for CTAs/controls */
-  --size-seal: 4.5rem;                  /* editorial-seal diameter */
-  --size-avatar: 2.75rem;               /* byline portrait */
-  --radius-avatar: 0px;                 /* square editorial portrait */
-  --size-logo: 1.125rem;                /* merchant wordmark height (inside the monogram tile) */
-  --size-monogram: 2.25rem;             /* 36px merchant monogram tile */
-  --size-meter: 0.375rem;               /* score bar thickness */
-  --size-meter-inline: 6rem;            /* ranked-row proportion bar width */
-  --size-pin: 1.75rem;                  /* hotspot pin diameter */
-  --size-dock-offset: 1.5rem;           /* floating island inset */
-  --size-sheet-compact: 26rem;          /* desktop slide-over: offer sheet */
-  --size-sheet-dossier: 40rem;          /* desktop slide-over: dossier */
-  --blur-glass: 12px;                   /* frosted badge backdrop */
+  --ink-primary: #141413;
+  --ink-secondary: #57534e;
+  --ink-tertiary: #8c867e;
+  --ink-inverse: #f7f5f0;
 
-  /* ---- 3. ELEVATION ---------------------------------------------------- */
-  --shadow-surface: none;
-  --shadow-surface-hover: none;
-  --shadow-badge: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-overlay: 0 24px 48px -12px rgba(17, 17, 16, 0.18);  /* sheets, popovers */
-  --shadow-dock: 0 -1px 0 0 var(--color-border);               /* sticky docks */
+  --border-hairline: rgba(20, 20, 19, 0.09);
+  --border-strong: rgba(20, 20, 19, 0.18);
 
-  /* ---- 4. MOTION: slow, deliberate, editorial ------------------------- */
-  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
-  --ease-media: cubic-bezier(0, 0, 0.2, 1);                   /* ease-out */
-  --duration-interactive: 400ms;
-  --duration-reveal: 650ms;             /* collapses, sheet enter */
-  --duration-micro: 220ms;              /* checkmark morphs, dots */
-  --duration-media: 700ms;              /* image zoom / angle swap */
+  --meter-fill: rgba(20, 20, 19, 0.8);
+  --meter-track: rgba(20, 20, 19, 0.08);
+  --scrim: rgba(20, 20, 19, 0.45);
+  --focus-ring: #141413;
 
-  /* ---- 5. TYPOGRAPHY: Playfair display, Inter body, mono metadata only -- */
+  /* Display voice: high-contrast editorial serif */
   --font-display: var(--font-playfair-display, "Playfair Display Variable"),
     "Playfair Display", "Newsreader", Georgia, serif;
-  --font-sans: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"),
-    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --tracking-eyebrow: 0.18em;
-  --tracking-label: 0.16em;             /* mono metadata tags */
-  --tracking-tag: 0.08em;               /* semantic pills */
-  --tracking-display: -0.02em;
-  --tracking-metric: -0.025em;          /* prices / scores (tight) */
-  --text-eyebrow: 0.625rem;             /* 10px */
-  --text-display: 2.5rem;
-  --text-display-sm: 1.5rem;
-  --text-metric: 1.75rem;
   --weight-display: 400;
-  --weight-eyebrow: 500;
-  --weight-metric: 600;
+  --tracking-display: -0.02em;
   --leading-display: 1.12;
-  --transform-eyebrow: uppercase;
 }
 
 [data-vertical="clinical-performance"] {
-  /* ---- 1. COLOR: three luminance planes (canvas → surface → recessed) -- */
-  --color-canvas: #f8fafc;
-  --color-background: var(--color-canvas);
-  --color-surface: #ffffff;
-  --color-surface-recessed: #f1f5f9;
-  --color-surface-pedestal: var(--color-surface-recessed);
-  --color-foreground: #09090b;
-  --color-muted: #52525b;
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-border-soft: rgba(0, 0, 0, 0.06);
-  --color-border-strong: rgba(0, 0, 0, 0.18);
-  --color-ring-inner: rgba(0, 0, 0, 0.1);
-  --color-accent: #09090b;
-  --color-accent-foreground: #ffffff;
-  --color-accent-soft: #f4f4f5;
-  --color-badge-primary-bg: #09090b;
-  --color-badge-primary-fg: #ffffff;
-  --color-badge-secondary-bg: #ffffff;
-  --color-badge-secondary-fg: #09090b;
-  --color-positive: #166534;            /* restrained semantic accents only */
-  --color-positive-soft: rgba(22, 101, 52, 0.07);
-  --color-negative: #991b1b;
-  --color-negative-soft: rgba(153, 27, 27, 0.07);
-  --color-caution: #92400e;
-  --color-caution-soft: rgba(146, 64, 14, 0.08);
-  --color-meter-track: rgba(0, 0, 0, 0.06);
-  --color-meter-fill: #09090b;
-  --color-scrim: rgba(9, 9, 11, 0.5);
-  --color-focus-ring: #09090b;
+  /* Cool precision palette · same luminance ratios, shifted temperature */
+  --surface-canvas: #f4f6f8;
+  --surface-primary: #ffffff;
+  --surface-recessed: #eef1f5;
+  --surface-inverse: #0f172a;
 
-  /* ---- 2. STRUCTURE: crisp technical tags, padded pedestals ----------- */
-  --radius-surface: 10px;
-  --radius-interactive: 8px;
-  --radius-badge: 6px;                  /* crisp technical tag — not a pill */
-  --radius-media: 8px;
-  --radius-control: 6px;
-  --radius-sheet: 16px;
-  --border-width-surface: 1px;
-  --border-width-interactive: 1px;
-  --border-width-emphasis: 2px;
-  --space-card-pad: 1.25rem;
-  --space-grid-gap: 1rem;
-  --space-row-pad: 0.625rem;
-  --space-cluster-gap: 0.5rem;
-  --space-section-gap: 1.5rem;
-  --space-media-inset: 1.5rem;          /* auto treatment: padded pedestal */
-  --space-pedestal-inset: 1.5rem;
-  --space-overlay-inset: 0.75rem;
-  --space-badge-x: 0.625rem;
-  --space-badge-y: 0.375rem;
-  --space-tag-x: 0.5rem;
-  --space-tag-y: 0.125rem;
-  --aspect-product-media: 1 / 1;
-  --media-fit: contain;
-  --size-control: 2.5rem;
-  --size-seal: 4rem;
-  --size-avatar: 2.5rem;
-  --radius-avatar: 9999px;              /* circular, utilitarian */
-  --size-logo: 1rem;
-  --size-monogram: 2.25rem;
-  --size-meter: 0.375rem;
-  --size-meter-inline: 6rem;
-  --size-pin: 1.5rem;
-  --size-dock-offset: 0.75rem;
-  --size-sheet-compact: 24rem;
-  --size-sheet-dossier: 36rem;
-  --blur-glass: 12px;
+  --ink-primary: #0f172a;
+  --ink-secondary: #475569;
+  --ink-tertiary: #94a3b8;
+  --ink-inverse: #ffffff;
 
-  /* ---- 3. ELEVATION: tactile ------------------------------------------ */
-  --shadow-surface: 0 1px 3px 0 rgb(0 0 0 / 0.06);
-  --shadow-surface-hover: 0 10px 25px -5px rgb(0 0 0 / 0.1);
-  --shadow-badge: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-overlay: 0 20px 40px -8px rgb(9 9 11 / 0.25);
-  --shadow-dock: 0 -8px 24px -12px rgb(9 9 11 / 0.18);
+  --border-hairline: rgba(15, 23, 42, 0.09);
+  --border-strong: rgba(15, 23, 42, 0.18);
 
-  /* ---- 4. MOTION: quick, snappy, utilitarian -------------------------- */
-  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
-  --ease-media: cubic-bezier(0, 0, 0.2, 1);
-  --duration-interactive: 180ms;
-  --duration-reveal: 260ms;
-  --duration-micro: 140ms;
-  --duration-media: 500ms;
+  --meter-fill: rgba(15, 23, 42, 0.8);
+  --meter-track: rgba(15, 23, 42, 0.08);
+  --scrim: rgba(15, 23, 42, 0.45);
+  --focus-ring: #0f172a;
 
-  /* ---- 5. TYPOGRAPHY: Plus Jakarta display, Inter body, mono metadata -- */
+  /* Display voice: neo-grotesque technical sans */
   --font-display: var(--font-plus-jakarta-sans, "Plus Jakarta Sans Variable"),
     "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
-  --font-sans: var(--font-inter, "Inter Variable"), "Inter", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"),
-    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --tracking-eyebrow: 0.14em;
-  --tracking-label: 0.12em;
-  --tracking-tag: 0.08em;
-  --tracking-display: -0.025em;
-  --tracking-metric: -0.025em;
-  --text-eyebrow: 0.625rem;
-  --text-display: 1.75rem;
-  --text-display-sm: 1.25rem;
-  --text-metric: 1.5rem;
   --weight-display: 600;
-  --weight-eyebrow: 500;
-  --weight-metric: 600;
+  --tracking-display: -0.025em;
   --leading-display: 1.15;
-  --transform-eyebrow: uppercase;
 }
 
 /* --------------------------------------------------------------------------
@@ -259,9 +222,9 @@
 @media (prefers-reduced-motion: reduce) {
   :root,
   [data-vertical] {
+    --duration-micro: 1ms;
     --duration-interactive: 1ms;
     --duration-reveal: 1ms;
-    --duration-micro: 1ms;
     --duration-media: 1ms;
   }
 }

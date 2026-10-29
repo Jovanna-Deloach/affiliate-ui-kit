@@ -27,12 +27,22 @@ export const reviewerFactCheck: Author = {
 
 export const methodologyEditorial: Methodology = {
   title: "How we tested",
+  facts: [
+    { value: "30 days", label: "On the wrist" },
+    { value: "10×", label: "Loupe inspection" },
+    { value: "Weekly", label: "Price checks" },
+  ],
   summary:
     "Each watch was worn for a minimum of 30 days across formal and everyday settings, timed daily against a reference clock, and inspected under 10× magnification for finishing. Retail prices are checked weekly; we hold no inventory and accept no loaners we are not free to criticise.",
 };
 
 export const methodologyClinical: Methodology = {
   title: "How we test",
+  facts: [
+    { value: "3", label: "Retail batches" },
+    { value: "Dual-run", label: "HPLC assay" },
+    { value: "ISO 17025", label: "Laboratory" },
+  ],
   summary:
     "Products are purchased at retail from three merchants, blinded, and assayed in duplicate by an ISO 17025 laboratory (HPLC for actives, ICP-MS for heavy metals). Label accuracy is the mean of both runs; purity screens must pass USP limits. Scores are weighted 40 / 30 / 15 / 15 across accuracy, purity, solubility and value.",
 };

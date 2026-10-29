@@ -4,12 +4,13 @@ import { fn } from "storybook/test";
 import { productCreatine, productShoe01, productShoe03 } from "@/fixtures/products";
 import { MerchantOfferRow } from "@/primitives/merchant-offer-row";
 import { SurfaceCard } from "@/primitives/surface-card";
-import { Labeled } from "@/stories/story-label";
+import { Specimen } from "@/stories/specimen";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { PromoCodeChip } from "./promo-code-chip";
 
-const CHROMINGS = ["dashed-ticket", "pill-badge", "minimal-inline"] as const;
+const CHROMINGS = ["ticket", "recessed", "inline"] as const;
+const NAMES = { ticket: "Perforated ticket", recessed: "Recessed chip", inline: "Inline" } as const;
 const offer = productShoe01.offers[0]!;
 
 const meta = {
@@ -19,7 +20,7 @@ const meta = {
   args: {
     code: offer.promoCode!,
     description: offer.promoDescription,
-    chroming: "dashed-ticket",
+    chroming: "ticket",
     size: "md",
     href: offer.affiliateUrl,
     outboundLabel: "Shop with code",
@@ -40,39 +41,39 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-export const AllChromings: Story = {
-  name: "Variants · chroming (click Copy to see the morph)",
+export const Chromings: Story = {
+  name: "Chroming (click Copy to see the morph)",
   render: (args) => (
-    <div className="flex flex-col gap-section-gap">
+    <div className="flex flex-col gap-section">
       {CHROMINGS.map((chroming) => (
-        <Labeled key={chroming} label={`chroming="${chroming}" · with outbound | copy only | size="sm"`}>
-          <div className="flex flex-wrap items-center gap-cluster-gap">
+        <Specimen key={chroming} caption={`${NAMES[chroming]} · with outbound, copy only, small`}>
+          <div className="flex flex-wrap items-center gap-cluster">
             <PromoCodeChip {...args} chroming={chroming} />
             <PromoCodeChip {...args} chroming={chroming} href={undefined} description={undefined} />
             <PromoCodeChip {...args} chroming={chroming} size="sm" href={undefined} />
           </div>
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
 export const WithoutOutbound: Story = {
-  name: "Data · copy only, long description truncates",
+  name: "Copy only · long description truncates",
   render: (args) => (
-    <div className="flex max-w-sm flex-col items-start gap-cluster-gap">
+    <div className="flex max-w-sm flex-col items-start gap-cluster">
       <PromoCodeChip {...args} href={undefined} description="Extra 10% at checkout on orders over $120, excludes sale items" />
-      <PromoCodeChip {...args} href={undefined} code={productShoe03.offers[0]!.promoCode!} description={productShoe03.offers[0]!.promoDescription} chroming="pill-badge" />
+      <PromoCodeChip {...args} href={undefined} code={productShoe03.offers[0]!.promoCode!} description={productShoe03.offers[0]!.promoDescription} chroming="recessed" />
     </div>
   ),
 };
 
 export const InOfferContext: Story = {
-  name: "Composition · beside a MerchantOfferRow",
+  name: "Beside a MerchantOfferRow",
   render: (args) => (
     <SurfaceCard as="section" className="max-w-2xl">
-      <p className="type-eyebrow text-muted">Best price today</p>
-      <ul className="border-b-surface-w border-border-soft">
+      <p className="type-eyebrow m-0 text-ink-tertiary">Best price today</p>
+      <ul className="m-0 list-none border-y border-hairline p-0">
         <MerchantOfferRow offer={offer} referencePrice={offer.price} />
       </ul>
       <PromoCodeChip {...args} />
@@ -84,7 +85,7 @@ export const SideBySideVerticals: Story = {
   name: "★ Multi-vertical side-by-side",
   render: (args) => (
     <VerticalCompare>
-      <div className="flex flex-col items-start gap-cluster-gap">
+      <div className="flex flex-col items-start gap-cluster">
         {CHROMINGS.map((chroming) => (
           <PromoCodeChip key={chroming} {...args} chroming={chroming} code={productCreatine.offers[0]!.promoCode!} description={productCreatine.offers[0]!.promoDescription} />
         ))}
@@ -98,9 +99,9 @@ export const Viewports: Story = {
   render: (args) => (
     <ViewportFrames
       render={() => (
-        <div className="flex flex-col items-start gap-cluster-gap">
+        <div className="flex flex-col items-start gap-cluster">
           <PromoCodeChip {...args} className="max-w-full" />
-          <PromoCodeChip {...args} chroming="pill-badge" href={undefined} />
+          <PromoCodeChip {...args} chroming="recessed" href={undefined} />
         </div>
       )}
     />

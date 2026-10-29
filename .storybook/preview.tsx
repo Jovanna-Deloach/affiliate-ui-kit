@@ -25,7 +25,7 @@ const withVertical: Decorator = (Story, context) => {
   }
 
   return (
-    <div data-vertical={vertical} className="min-h-dvh p-card-pad">
+    <div data-vertical={vertical} className="min-h-dvh p-card">
       <Story />
     </div>
   );

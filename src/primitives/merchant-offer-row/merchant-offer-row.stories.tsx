@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { productCreatine, productShoe01, productWatch } from "@/fixtures/products";
 import { SurfaceCard } from "@/primitives/surface-card";
-import { Labeled } from "@/stories/story-label";
+import { Specimen } from "@/stories/specimen";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { MerchantOfferList, MerchantOfferRow } from "./merchant-offer-row";
@@ -42,14 +42,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
   render: (args) => (
-    <ul className="max-w-2xl border-b-surface-w border-border-soft">
+    <ul className="m-0 max-w-2xl list-none border-y border-hairline p-0">
       <MerchantOfferRow {...args} />
     </ul>
   ),
 };
 
 export const ComparisonList: Story = {
-  name: "Pattern · full comparison list (auto highlight, shipping / delta subtitles)",
+  name: "Comparison list — five keylines",
   render: () => (
     <div className="max-w-2xl">
       <MerchantOfferList offers={offers} rowProps={{ productId: productShoe01.id, placement: "offer-list" }} />
@@ -58,61 +58,60 @@ export const ComparisonList: Story = {
 };
 
 export const DensityAndHighlight: Story = {
-  name: "Variants · density × highlight",
+  name: "Density × highlight",
   render: () => (
-    <div className="grid items-start gap-grid-gap lg:grid-cols-2">
+    <div className="grid items-start gap-grid lg:grid-cols-2">
       {(["comfortable", "compact"] as const).map((density) => (
-        <Labeled key={density} label={`density="${density}"`}>
-          <ul className="border-b-surface-w border-border-soft">
+        <Specimen key={density} caption={density === "compact" ? "Compact rows" : "Comfortable rows"}>
+          <ul className="m-0 list-none divide-y divide-hairline border-y border-hairline p-0">
             <MerchantOfferRow offer={bestOffer} referencePrice={reference} density={density} highlight="best-price" />
             <MerchantOfferRow offer={partnerOffer} referencePrice={reference} density={density} highlight="primary-partner" />
             <MerchantOfferRow offer={plainOffer} referencePrice={reference} density={density} highlight="none" />
             <MerchantOfferRow offer={outOfStockOffer} referencePrice={reference} density={density} highlight="none" />
           </ul>
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
 export const States: Story = {
-  name: "States · out of stock · strikethrough + promo · no reference price · custom CTA",
   render: () => (
-    <div className="flex max-w-2xl flex-col gap-section-gap">
-      <Labeled label="inStock=false → dimmed, struck price, ghost “Check stock”">
-        <ul className="border-b-surface-w border-border-soft">
+    <div className="flex max-w-2xl flex-col gap-section">
+      <Specimen caption="Out of stock — dimmed, struck price, ghost action">
+        <ul className="m-0 list-none border-y border-hairline p-0">
           <MerchantOfferRow offer={outOfStockOffer} referencePrice={reference} />
         </ul>
-      </Labeled>
-      <Labeled label="originalPrice + promoDescription + shippingNote">
-        <ul className="border-b-surface-w border-border-soft">
+      </Specimen>
+      <Specimen caption="Was-price, promo and shipping note">
+        <ul className="m-0 list-none border-y border-hairline p-0">
           <MerchantOfferRow offer={bestOffer} referencePrice={reference} highlight="none" />
         </ul>
-      </Labeled>
-      <Labeled label="no referencePrice → no delta subtitle">
-        <ul className="border-b-surface-w border-border-soft">
+      </Specimen>
+      <Specimen caption="No reference price — no delta subtitle">
+        <ul className="m-0 list-none border-y border-hairline p-0">
           <MerchantOfferRow offer={productCreatine.offers[0]!} />
         </ul>
-      </Labeled>
-      <Labeled label='ctaLabel="Enquire"'>
-        <ul className="border-b-surface-w border-border-soft">
+      </Specimen>
+      <Specimen caption="Custom action label">
+        <ul className="m-0 list-none border-y border-hairline p-0">
           <MerchantOfferRow offer={productWatch.offers[0]!} ctaLabel="Enquire" />
         </ul>
-      </Labeled>
+      </Specimen>
     </div>
   ),
 };
 
 export const InsideSurfaceCard: Story = {
-  name: "Composition · inside SurfaceCard (sheet / sidebar width)",
+  name: "Inside a card and a sidebar",
   render: () => (
-    <div className="grid items-start gap-grid-gap lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <div className="grid items-start gap-grid lg:grid-cols-[minmax(0,1fr)_22rem]">
       <SurfaceCard as="section">
-        <p className="type-eyebrow text-muted">Where to buy</p>
+        <p className="type-eyebrow m-0 text-ink-tertiary">Where to buy</p>
         <MerchantOfferList offers={offers} rowProps={{ productId: productShoe01.id }} />
       </SurfaceCard>
       <SurfaceCard as="aside" density="compact">
-        <p className="type-eyebrow text-muted">Best prices</p>
+        <p className="type-eyebrow m-0 text-ink-tertiary">Best prices</p>
         <MerchantOfferList offers={offers.slice(0, 3)} rowProps={{ density: "compact" }} />
       </SurfaceCard>
     </div>
@@ -129,10 +128,8 @@ export const SideBySideVerticals: Story = {
 };
 
 export const Viewports: Story = {
-  name: "Responsive · 375 (stacked CTA) vs 1280 (single line)",
+  name: "Responsive · 375 vs 1280",
   render: () => (
-    <ViewportFrames
-      render={() => <MerchantOfferList offers={offers} rowProps={{ productId: productShoe01.id }} />}
-    />
+    <ViewportFrames render={() => <MerchantOfferList offers={offers} rowProps={{ productId: productShoe01.id }} />} />
   ),
 };

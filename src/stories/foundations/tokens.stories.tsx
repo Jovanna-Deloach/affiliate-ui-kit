@@ -2,97 +2,123 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { VerticalCompare } from "../vertical-compare";
 
-const COLOR_TOKENS = [
-  "background",
-  "surface",
-  "surface-pedestal",
-  "foreground",
-  "muted",
-  "accent",
-  "accent-foreground",
-  "accent-soft",
-  "border",
-  "positive",
-  "negative",
-  "caution",
-  "badge-primary-bg",
-  "badge-secondary-bg",
-];
+const PLANES = [
+  ["--surface-canvas", "Plane 0 · canvas"],
+  ["--surface-primary", "Plane 1 · elevated card"],
+  ["--surface-recessed", "Plane 2 · recessed well"],
+  ["--surface-inverse", "Plane 3 · inverse CTA"],
+] as const;
 
-const PHYSICS_TOKENS = [
-  "--radius-surface",
-  "--radius-interactive",
-  "--radius-badge",
-  "--border-width-surface",
-  "--space-card-pad",
-  "--space-grid-gap",
-  "--space-media-inset",
-  "--media-fit",
-  "--aspect-product-media",
-  "--shadow-surface",
-  "--ease-spring",
+const INKS = [
+  ["--ink-primary", "Ink"],
+  ["--ink-secondary", "Secondary"],
+  ["--ink-tertiary", "Tertiary"],
+  ["--border-hairline", "Hairline"],
+  ["--border-strong", "Strong rule"],
+] as const;
+
+const SPINE = [
+  "--radius-container",
+  "--radius-inner",
+  "--radius-tag",
+  "--inset-card",
+  "--inset-well",
+  "--row-y",
+  "--keyline-monogram",
+  "--keyline-price",
+  "--keyline-cta",
+  "--keyline-label",
+  "--keyline-status",
+  "--size-control",
+  "--text-eyebrow",
+  "--text-body",
+  "--text-display",
   "--duration-interactive",
-  "--tracking-eyebrow",
-  "--font-display",
-];
+] as const;
 
-function TokenSheet() {
+const TONE = ["--font-display", "--weight-display", "--tracking-display", "--leading-display"] as const;
+
+function Swatch({ token, label }: { token: string; label: string }) {
   return (
-    <div className="flex flex-col gap-section-gap">
-      <div>
-        <p className="type-eyebrow text-muted">Color</p>
-        <ul className="mt-cluster-gap grid grid-cols-3 gap-cluster-gap sm:grid-cols-4">
-          {COLOR_TOKENS.map((t) => (
-            <li key={t} className="flex flex-col gap-1">
-              <span
-                className="block h-10 w-full rounded-interactive border-surface-w border-border"
-                style={{ background: `var(--color-${t})` }}
-              />
-              <code className="type-label-mono text-muted">--color-{t}</code>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <p className="type-eyebrow text-muted">Structural physics</p>
-        <dl className="mt-cluster-gap grid grid-cols-[auto_1fr] gap-x-cluster-gap gap-y-1 font-mono text-sm">
-          {PHYSICS_TOKENS.map((t) => (
-            <PhysicsRow key={t} token={t} />
-          ))}
-        </dl>
-      </div>
-      <div>
-        <p className="type-eyebrow text-muted">Type voices</p>
-        <p className="type-display mt-cluster-gap">Display voice</p>
-        <p className="type-display-sm">Display small voice</p>
-        <p className="type-metric mt-cluster-gap">9.4 / 10 · $1,249</p>
-        <p className="type-eyebrow mt-cluster-gap">Eyebrow voice</p>
-      </div>
-      <div>
-        <p className="type-eyebrow text-muted">Surface</p>
-        <div className="mt-cluster-gap rounded-surface border-surface-w border-border bg-surface p-card-pad shadow-surface transition-shadow duration-interactive ease-spring hover:shadow-surface-hover">
-          <div className="aspect-product-media w-32 rounded-media bg-surface-pedestal" />
-          <p className="mt-cluster-gap text-muted">
-            Surface card bound to radius, border, padding, shadow and media aspect.
-          </p>
-        </div>
-      </div>
-    </div>
+    <li className="flex min-w-0 flex-col gap-hairline">
+      <span className="block h-10 w-full rounded-inner border border-hairline" style={{ background: `var(${token})` }} />
+      <span className="truncate text-caption text-ink">{label}</span>
+      <span className="type-mono truncate text-ink-tertiary">{token}</span>
+    </li>
   );
 }
 
-function PhysicsRow({ token }: { token: string }) {
+function ValueRow({ token }: { token: string }) {
   return (
-    <>
-      <dt className="text-muted">{token}</dt>
+    <div className="grid grid-cols-[var(--keyline-label)_minmax(0,1fr)] items-baseline gap-x-stack border-b border-hairline py-row-compact">
+      <dt className="type-mono truncate text-ink-tertiary">{token}</dt>
       <dd
-        className="truncate"
+        className="type-metric m-0 truncate text-body-sm text-ink"
         ref={(el) => {
           if (!el) return;
           el.textContent = getComputedStyle(el).getPropertyValue(token).trim() || "—";
         }}
       />
-    </>
+    </div>
+  );
+}
+
+function TokenSheet() {
+  return (
+    <div className="flex flex-col gap-section">
+      <section className="flex flex-col gap-cluster">
+        <p className="type-eyebrow m-0 text-ink-tertiary">Luminance planes</p>
+        <ul className="m-0 grid list-none grid-cols-2 gap-cluster p-0 sm:grid-cols-4">
+          {PLANES.map(([token, label]) => (
+            <Swatch key={token} token={token} label={label} />
+          ))}
+        </ul>
+      </section>
+      <section className="flex flex-col gap-cluster">
+        <p className="type-eyebrow m-0 text-ink-tertiary">Ink and rules</p>
+        <ul className="m-0 grid list-none grid-cols-3 gap-cluster p-0 sm:grid-cols-5">
+          {INKS.map(([token, label]) => (
+            <Swatch key={token} token={token} label={label} />
+          ))}
+        </ul>
+      </section>
+      <section className="flex flex-col gap-cluster">
+        <p className="type-eyebrow m-0 text-ink-tertiary">Type voices</p>
+        <div className="flex flex-col gap-cluster rounded-container border border-hairline bg-surface p-card">
+          <p className="type-display m-0">Display voice — the vertical&apos;s tone</p>
+          <p className="type-title m-0">Title voice for cards and sections</p>
+          <p className="m-0 max-w-prose text-body leading-body text-ink-secondary">
+            Body prose at 15px on a 1.6 leading, held to a 62-character measure so wide viewports never stretch a paragraph across the page.
+          </p>
+          <p className="m-0 text-body-sm text-ink-secondary">Body small — dense cells, spec values, merchant rows.</p>
+          <p className="type-eyebrow m-0 text-ink-tertiary">Eyebrow voice</p>
+          <p className="type-mono m-0 text-ink-tertiary">Mono metadata · batch 2214</p>
+          <p className="m-0 flex items-baseline gap-cluster">
+            <span className="type-hero-metric">9.2</span>
+            <span className="type-metric text-body text-ink">$1,249</span>
+            <span className="type-metric text-body-sm text-ink-secondary">38 / 30 mm</span>
+          </p>
+        </div>
+      </section>
+      <section className="grid gap-grid md:grid-cols-2">
+        <div className="flex flex-col gap-cluster">
+          <p className="type-eyebrow m-0 text-ink-tertiary">Structural spine — identical in every vertical</p>
+          <dl className="m-0 border-t border-hairline">
+            {SPINE.map((t) => (
+              <ValueRow key={t} token={t} />
+            ))}
+          </dl>
+        </div>
+        <div className="flex flex-col gap-cluster">
+          <p className="type-eyebrow m-0 text-ink-tertiary">Tone — the only thing a vertical changes</p>
+          <dl className="m-0 border-t border-hairline">
+            {TONE.map((t) => (
+              <ValueRow key={t} token={t} />
+            ))}
+          </dl>
+        </div>
+      </section>
+    </div>
   );
 }
 

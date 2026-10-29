@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /* Web fonts are self-hosted woff2 via @fontsource and imported from JS
-   (src/lib/fonts.ts) so the bundler rebases their url() paths — Tailwind's
-   @import would leave them relative to node_modules. */
+   (.storybook/fonts.ts) or served by next/font (src/app/layout.tsx), so the
+   bundler rebases their url() paths. */
 
 @import "./tokens.css";
 @import "./mechanics.css";
@@ -11,90 +11,106 @@
    TAILWIND ↔ TOKEN BRIDGE
    --------------------------------------------------------------------------
    `@theme reference` registers the token names with Tailwind so utilities
-   such as `bg-surface`, `rounded-surface`, `p-card-pad`, `shadow-surface`,
-   `ease-spring`, `tracking-eyebrow` and `aspect-product-media` exist — but
+   such as `bg-surface`, `text-ink-secondary`, `rounded-container`, `p-card`,
+   `w-cta`, `gap-cluster`, `text-body-sm` and `ease-standard` exist — but
    emits NO `:root` declarations. The values live exclusively in tokens.css,
    so every utility resolves `var(--token)` at the element, against the
    nearest `[data-vertical]` ancestor. Nested verticals on one page work.
    ========================================================================== */
 @theme reference {
-  /* colors */
-  --color-canvas: var(--color-canvas);
-  --color-background: var(--color-background);
-  --color-surface: var(--color-surface);
-  --color-surface-recessed: var(--color-surface-recessed);
-  --color-surface-pedestal: var(--color-surface-pedestal);
-  --color-foreground: var(--color-foreground);
-  --color-muted: var(--color-muted);
-  --color-border: var(--color-border);
-  --color-border-soft: var(--color-border-soft);
-  --color-border-strong: var(--color-border-strong);
-  --color-ring-inner: var(--color-ring-inner);
-  --color-accent: var(--color-accent);
-  --color-accent-foreground: var(--color-accent-foreground);
-  --color-accent-soft: var(--color-accent-soft);
-  --color-badge-primary-bg: var(--color-badge-primary-bg);
-  --color-badge-primary-fg: var(--color-badge-primary-fg);
-  --color-badge-secondary-bg: var(--color-badge-secondary-bg);
-  --color-badge-secondary-fg: var(--color-badge-secondary-fg);
-  --color-positive: var(--color-positive);
-  --color-positive-soft: var(--color-positive-soft);
-  --color-negative: var(--color-negative);
-  --color-negative-soft: var(--color-negative-soft);
-  --color-caution: var(--color-caution);
-  --color-caution-soft: var(--color-caution-soft);
-  --color-meter-track: var(--color-meter-track);
-  --color-meter-fill: var(--color-meter-fill);
-  --color-scrim: var(--color-scrim);
-  --color-focus-ring: var(--color-focus-ring);
+  /* planes + ink */
+  --color-canvas: var(--surface-canvas);
+  --color-surface: var(--surface-primary);
+  --color-recessed: var(--surface-recessed);
+  --color-inverse: var(--surface-inverse);
+  --color-ink: var(--ink-primary);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-tertiary: var(--ink-tertiary);
+  --color-ink-inverse: var(--ink-inverse);
+  --color-hairline: var(--border-hairline);
+  --color-strong: var(--border-strong);
+  --color-meter-fill: var(--meter-fill);
+  --color-meter-track: var(--meter-track);
+  --color-scrim: var(--scrim);
+  --color-focus: var(--focus-ring);
+  /* semantic status */
+  --color-positive: var(--status-positive);
+  --color-positive-ink: var(--status-positive-ink);
+  --color-positive-soft: var(--status-positive-soft);
+  --color-caution: var(--status-caution);
+  --color-caution-ink: var(--status-caution-ink);
+  --color-caution-soft: var(--status-caution-soft);
+  --color-negative: var(--status-negative);
+  --color-negative-ink: var(--status-negative-ink);
+  --color-negative-soft: var(--status-negative-soft);
 
   /* geometry */
-  --radius-surface: var(--radius-surface);
-  --radius-interactive: var(--radius-interactive);
-  --radius-badge: var(--radius-badge);
-  --radius-media: var(--radius-media);
-  --radius-control: var(--radius-control);
-  --radius-avatar: var(--radius-avatar);
-  --radius-sheet: var(--radius-sheet);
+  --radius-container: var(--radius-container);
+  --radius-inner: var(--radius-inner);
+  --radius-tag: var(--radius-tag);
+  --radius-pill: var(--radius-pill);
 
-  /* density (spacing namespace → p-*, px-*, gap-*, m-*, inset-*, size-*) */
-  --spacing-card-pad: var(--space-card-pad);
-  --spacing-grid-gap: var(--space-grid-gap);
-  --spacing-row-pad: var(--space-row-pad);
-  --spacing-cluster-gap: var(--space-cluster-gap);
-  --spacing-section-gap: var(--space-section-gap);
-  --spacing-media-inset: var(--space-media-inset);
-  --spacing-pedestal-inset: var(--space-pedestal-inset);
-  --spacing-overlay-inset: var(--space-overlay-inset);
-  --spacing-badge-x: var(--space-badge-x);
-  --spacing-badge-y: var(--space-badge-y);
-  --spacing-tag-x: var(--space-tag-x);
-  --spacing-tag-y: var(--space-tag-y);
+  /* spacing namespace → p-*, px-*, gap-*, m-*, inset-*, size-*, w-*, h-*
+     (the numeric scale p-1 … p-12 is Tailwind's own 4px modulus) */
+  --spacing-card: var(--inset-card);
+  --spacing-card-compact: var(--inset-card-compact);
+  --spacing-card-spacious: var(--inset-card-spacious);
+  --spacing-well: var(--inset-well);
+  --spacing-bar-x: var(--inset-bar-x);
+  --spacing-bar-y: var(--inset-bar-y);
+  --spacing-cell-x: var(--inset-cell-x);
+  --spacing-overlay: var(--inset-overlay);
+  --spacing-pill-x: var(--inset-pill-x);
+  --spacing-pill-y: var(--inset-pill-y);
+  --spacing-tag-x: var(--inset-tag-x);
+  --spacing-tag-y: var(--inset-tag-y);
+  --spacing-accolade-x: var(--inset-accolade-x);
+  --spacing-accolade-y: var(--inset-accolade-y);
+  --spacing-pedestal: var(--inset-pedestal);
+  --spacing-row: var(--row-y);
+  --spacing-row-compact: var(--row-y-compact);
+  --spacing-hairline: var(--gap-hairline);
+  --spacing-cluster: var(--gap-cluster);
+  --spacing-stack: var(--gap-stack);
+  --spacing-grid: var(--gap-grid);
+  --spacing-section: var(--gap-section);
+  --spacing-column: var(--gap-column);
+  --spacing-monogram: var(--keyline-monogram);
+  --spacing-price: var(--keyline-price);
+  --spacing-cta: var(--keyline-cta);
+  --spacing-label: var(--keyline-label);
+  --spacing-subscore: var(--keyline-subscore);
+  --spacing-value: var(--keyline-value);
+  --spacing-status: var(--keyline-status);
+  --spacing-toggle: var(--keyline-toggle);
+  --spacing-rank: var(--keyline-rank);
   --spacing-control: var(--size-control);
-  --spacing-seal: var(--size-seal);
-  --spacing-avatar: var(--size-avatar);
-  --spacing-logo: var(--size-logo);
-  --spacing-meter: var(--size-meter);
-  --spacing-meter-inline: var(--size-meter-inline);
-  --spacing-monogram: var(--size-monogram);
+  --spacing-control-lg: var(--size-control-lg);
+  --spacing-portrait: var(--size-portrait);
+  --spacing-portrait-sm: var(--size-portrait-sm);
+  --spacing-dot: var(--size-dot);
+  --spacing-track: var(--size-track);
+  --spacing-track-sm: var(--size-track-sm);
+  --spacing-track-hero: var(--size-track-hero);
+  --spacing-micro-meter: var(--size-micro-meter);
+  --spacing-inline-meter: var(--size-inline-meter);
+  --spacing-ring: var(--size-ring);
   --spacing-sheet-compact: var(--size-sheet-compact);
   --spacing-sheet-dossier: var(--size-sheet-dossier);
-  --spacing-pin: var(--size-pin);
-  --spacing-dock-offset: var(--size-dock-offset);
+  --spacing-prose: var(--measure-prose);
+  --spacing-heading: var(--measure-heading);
 
   /* media */
-  --aspect-product-media: var(--aspect-product-media);
+  --aspect-media: var(--aspect-media);
   --blur-glass: var(--blur-glass);
 
   /* elevation */
-  --shadow-surface: var(--shadow-surface);
-  --shadow-surface-hover: var(--shadow-surface-hover);
-  --shadow-badge: var(--shadow-badge);
+  --shadow-elevated: var(--shadow-elevated);
   --shadow-overlay: var(--shadow-overlay);
-  --shadow-dock: var(--shadow-dock);
+  --shadow-badge: var(--shadow-badge);
 
   /* motion */
-  --ease-spring: var(--ease-spring);
+  --ease-standard: var(--ease-standard);
   --ease-exit: var(--ease-exit);
   --ease-media: var(--ease-media);
 
@@ -102,20 +118,31 @@
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --tracking-eyebrow: var(--tracking-eyebrow);
-  --tracking-label: var(--tracking-label);
-  --tracking-tag: var(--tracking-tag);
-  --tracking-display: var(--tracking-display);
-  --tracking-metric: var(--tracking-metric);
   --text-eyebrow: var(--text-eyebrow);
+  --text-eyebrow--line-height: 1.2;
+  --text-caption: var(--text-caption);
+  --text-caption--line-height: 1.4;
+  --text-body-sm: var(--text-body-sm);
+  --text-body-sm--line-height: 1.5;
+  --text-body: var(--text-body);
+  --text-body--line-height: var(--leading-body);
+  --text-title: var(--text-title);
+  --text-title--line-height: var(--leading-tight);
   --text-display: var(--text-display);
-  --text-display-sm: var(--text-display-sm);
-  --text-metric: var(--text-metric);
+  --text-display--line-height: var(--leading-display);
+  --text-hero-metric: var(--text-hero-metric);
+  --text-hero-metric--line-height: 1;
+  --tracking-eyebrow: var(--tracking-eyebrow);
+  --tracking-mono: var(--tracking-mono);
+  --tracking-metric: var(--tracking-metric);
+  --tracking-display: var(--tracking-display);
+  --leading-body: var(--leading-body);
+  --leading-tight: var(--leading-tight);
   --leading-display: var(--leading-display);
 }
 
-/* Tailwind has no theme namespace for durations, border widths, font weights
-   bound to variables, object-fit or text-transform. These close the gap. */
+/* Tailwind has no theme namespace for durations or variable-bound weights.
+   These close the gap. */
 @utility duration-interactive {
   transition-duration: var(--duration-interactive);
 }
@@ -128,66 +155,47 @@
 @utility duration-media {
   transition-duration: var(--duration-media);
 }
-@utility border-surface-w {
-  border-width: var(--border-width-surface);
-}
-@utility border-interactive-w {
-  border-width: var(--border-width-interactive);
-}
-@utility border-emphasis-w {
+@utility border-emphasis {
   border-width: var(--border-width-emphasis);
-}
-@utility border-b-surface-w {
-  border-bottom-width: var(--border-width-surface);
-}
-@utility border-t-surface-w {
-  border-top-width: var(--border-width-surface);
-}
-@utility border-l-surface-w {
-  border-left-width: var(--border-width-surface);
-}
-@utility border-l-emphasis-w {
-  border-left-width: var(--border-width-emphasis);
 }
 @utility font-weight-display {
   font-weight: var(--weight-display);
 }
-@utility font-weight-eyebrow {
-  font-weight: var(--weight-eyebrow);
-}
-@utility font-weight-metric {
-  font-weight: var(--weight-metric);
-}
-@utility transform-eyebrow {
-  text-transform: var(--transform-eyebrow);
-}
-@utility object-media-fit {
-  object-fit: var(--media-fit);
-}
 
-/* --------------------------------------------------------------------------
-   Composite type voices — the single source of truth for how every primitive
-   speaks. `--eyebrow-size` / `--eyebrow-tracking` are local override hooks so
-   a variant can scale the voice without fighting utility order.
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   COMPOSITE TYPE VOICES — the single source of truth for how the kit speaks.
+   `--eyebrow-size` is a local override hook so a variant can scale the voice
+   without fighting utility order.
+   ========================================================================== */
+
+/* 11px · 500 · 0.12em · uppercase — section labels, kickers, pill text */
 @utility type-eyebrow {
   font-family: var(--font-sans);
   font-size: var(--eyebrow-size, var(--text-eyebrow));
   font-weight: var(--weight-eyebrow);
-  letter-spacing: var(--eyebrow-tracking, var(--tracking-eyebrow));
-  text-transform: var(--transform-eyebrow);
-  line-height: 1.4; /* badges override with leading-none; paragraphs can wrap */
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  line-height: 1.2;
 }
-/* Mono metadata voice — ONLY short uppercase tags, batch IDs, timestamps,
-   rank numerals (Law 1). Never prices, never prose. */
-@utility type-label-mono {
+/* Mono metadata — ONLY batch IDs, timestamps, rank numerals, promo codes,
+   technical credentials. Never prices, never prose. */
+@utility type-mono {
   font-family: var(--font-mono);
   font-size: var(--eyebrow-size, var(--text-eyebrow));
   font-weight: 500;
-  letter-spacing: var(--tracking-label);
+  letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
+}
+/* Display voice at three sizes (the only thing a vertical may change). */
+@utility type-title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: var(--weight-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
 }
 @utility type-display {
   font-family: var(--font-display);
@@ -197,48 +205,30 @@
   line-height: var(--leading-display);
   text-wrap: balance;
 }
-@utility type-display-sm {
+@utility type-hero-metric {
   font-family: var(--font-display);
-  font-size: var(--text-display-sm);
+  font-size: var(--text-hero-metric);
   font-weight: var(--weight-display);
   letter-spacing: var(--tracking-display);
-  line-height: var(--leading-display);
-  text-wrap: balance;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
 }
-/* Prices, scores, primary metrics: sans · semibold · tabular · tight.
-   Never monospace (Law 1). `--metric-size` is a local override hook. */
+/* Prices, scores, measured values: sans · semibold · tabular · tight.
+   Size comes from a text-* utility beside it. */
 @utility type-metric {
   font-family: var(--font-sans);
-  font-size: var(--metric-size, var(--text-metric));
   font-weight: var(--weight-metric);
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--tracking-metric);
-  line-height: 1;
-}
-/* Inline price / value voice at body scale (rows, captions, chips). */
-@utility type-price {
-  font-family: var(--font-sans);
-  font-weight: var(--weight-metric);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: var(--tracking-metric);
-}
-/* Semantic pill voice: 10px · medium · wide tracking · uppercase. */
-@utility type-tag {
-  font-family: var(--font-sans);
-  font-size: var(--eyebrow-size, var(--text-eyebrow));
-  font-weight: 500;
-  letter-spacing: var(--tracking-tag);
-  text-transform: uppercase;
-  line-height: 1.2;
 }
 
-/* Focus ring bound to the vertical's focus color. */
+/* Focus ring bound to the vertical's focus colour. */
 @utility focus-ring {
   outline: none;
   &:focus-visible {
     box-shadow:
-      0 0 0 2px var(--color-surface),
-      0 0 0 4px var(--color-focus-ring);
+      0 0 0 2px var(--surface-primary),
+      0 0 0 4px var(--focus-ring);
   }
 }
 
@@ -246,7 +236,7 @@
 @utility reveal-grid {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows var(--duration-reveal) var(--ease-spring);
+  transition: grid-template-rows var(--duration-reveal) var(--ease-standard);
   &[data-state="open"] {
     grid-template-rows: 1fr;
   }
@@ -254,7 +244,7 @@
     overflow: hidden;
     min-height: 0;
     opacity: 0;
-    transition: opacity var(--duration-reveal) var(--ease-spring);
+    transition: opacity var(--duration-reveal) var(--ease-standard);
   }
   &[data-state="open"] > * {
     opacity: 1;
@@ -263,15 +253,16 @@
 
 @layer base {
   html {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--surface-canvas);
+    color: var(--ink-primary);
     font-family: var(--font-sans);
+    font-size: 16px;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
   [data-vertical] {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--surface-canvas);
+    color: var(--ink-primary);
     font-family: var(--font-sans);
   }
   button,

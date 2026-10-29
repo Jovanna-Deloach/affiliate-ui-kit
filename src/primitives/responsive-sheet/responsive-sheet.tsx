@@ -19,11 +19,10 @@ import { DESKTOP_QUERY, useMediaQuery } from "@/lib/use-media-query";
  * "Shop the look", any secondary surface.
  *
  *   --size-sheet-compact / --size-sheet-dossier   desktop panel width
- *   --radius-sheet                                bottom-sheet top corners (0 · 16px)
- *   --color-scrim                                 backdrop
- *   --shadow-overlay                              panel elevation
- *   --space-card-pad / --space-row-pad            header / body / footer padding
- *   --duration-reveal / --ease-spring             enter · --duration-interactive / --ease-exit  exit
+ *   --radius-container                            bottom-sheet top corners
+ *   --scrim / --shadow-overlay                    backdrop · panel elevation
+ *   --inset-card / --inset-bar-*                  header + body · recessed footer bar
+ *   --duration-reveal / --ease-standard           enter · --duration-interactive / --ease-exit  exit
  *
  * Mobbin anatomy (hers / sweetgreen / lululemon slide-overs, Fable & Tabby
  * bottom sheets): title top-left with ✕ top-right, scrollable body, footer
@@ -37,10 +36,7 @@ import { DESKTOP_QUERY, useMediaQuery } from "@/lib/use-media-query";
  */
 
 const panelVariants = cva(
-  [
-    "fixed z-50 flex flex-col bg-surface text-foreground shadow-overlay outline-none",
-    "max-h-dvh",
-  ],
+  ["fixed z-50 flex max-h-dvh flex-col bg-surface text-ink shadow-overlay outline-none"],
   {
     variants: {
       size: {
@@ -48,8 +44,8 @@ const panelVariants = cva(
         "half-screen-dossier": "w-[min(100vw,var(--size-sheet-dossier))]",
       },
       side: {
-        right: "inset-y-0 right-0 sheet-panel-right border-l-surface-w border-border",
-        left: "inset-y-0 left-0 sheet-panel-left border-r-[length:var(--border-width-surface)] border-border",
+        right: "inset-y-0 right-0 sheet-panel-right border-l border-hairline",
+        left: "inset-y-0 left-0 sheet-panel-left border-r border-hairline",
       },
     },
     defaultVariants: { size: "compact-offer-sheet", side: "right" },
@@ -99,19 +95,19 @@ export function ResponsiveSheet({
   const header = (TitleComp: typeof Dialog.Title, DescComp: typeof Dialog.Description, CloseComp: typeof Dialog.Close) => (
     <header
       data-slot="sheet-header"
-      className="flex items-start justify-between gap-cluster-gap border-b-surface-w border-border px-card-pad py-row-pad"
+      className="grid grid-cols-[minmax(0,1fr)_var(--size-control)] items-start gap-x-stack border-b border-hairline px-card py-stack"
     >
-      <div className="flex min-w-0 flex-col gap-[0.35em]">
-        <TitleComp className="type-display-sm m-0">{title}</TitleComp>
+      <div className="flex min-w-0 flex-col gap-hairline">
+        <TitleComp className="type-title m-0">{title}</TitleComp>
         {description ? (
-          <DescComp className="m-0 text-sm text-muted">{description}</DescComp>
+          <DescComp className="m-0 text-body-sm text-ink-secondary">{description}</DescComp>
         ) : (
           <DescComp className="sr-only">{typeof title === "string" ? title : "Sheet"}</DescComp>
         )}
       </div>
       <CloseComp
         aria-label="Close"
-        className="focus-ring -mr-[calc(var(--size-control)*0.25)] -mt-[calc(var(--size-control)*0.1)] flex size-control shrink-0 cursor-pointer items-center justify-center rounded-badge text-muted transition-colors duration-interactive ease-spring hover:bg-accent-soft hover:text-foreground"
+        className="focus-ring -mr-cluster -mt-cluster flex size-control shrink-0 cursor-pointer items-center justify-center rounded-inner text-ink-secondary transition-colors duration-interactive ease-standard hover:bg-recessed hover:text-ink"
       >
         <X size="1.25em" strokeWidth={1.5} aria-hidden="true" />
       </CloseComp>
@@ -119,7 +115,7 @@ export function ResponsiveSheet({
   );
 
   const body = (
-    <div data-slot="sheet-body" className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-card-pad py-row-pad">
+    <div data-slot="sheet-body" className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-card py-stack">
       {children}
     </div>
   );
@@ -127,7 +123,7 @@ export function ResponsiveSheet({
   const foot = footer ? (
     <footer
       data-slot="sheet-footer"
-      className="mt-auto flex flex-col gap-cluster-gap border-t-surface-w border-border px-card-pad py-row-pad pb-[max(var(--space-row-pad),env(safe-area-inset-bottom))]"
+      className="mt-auto flex flex-col gap-cluster border-t border-hairline bg-recessed px-bar-x py-bar-y pb-[max(var(--inset-bar-y),env(safe-area-inset-bottom))]"
     >
       {footer}
     </footer>
@@ -183,13 +179,13 @@ export function ResponsiveSheet({
           data-engine="drawer"
           data-vertical={vertical}
           className={cn(
-            "fixed inset-x-0 bottom-0 z-50 flex flex-col bg-surface text-foreground shadow-overlay outline-none",
-            "rounded-t-sheet border-t-surface-w border-border",
+            "fixed inset-x-0 bottom-0 z-50 flex flex-col bg-surface text-ink shadow-overlay outline-none",
+            "rounded-t-container border-t border-hairline",
             dossier ? "h-[92dvh]" : "max-h-[92dvh]",
             className,
           )}
         >
-          <Drawer.Handle className="mt-[calc(var(--space-row-pad)*0.75)] !h-[var(--border-width-emphasis)] !w-[calc(var(--size-control)*1.2)] !bg-border-strong" />
+          <Drawer.Handle className="mt-cluster !h-[var(--border-width-emphasis)] !w-[calc(var(--size-control)*1.2)] !bg-strong" />
           {header(Drawer.Title, Drawer.Description, Drawer.Close)}
           {body}
           {foot}

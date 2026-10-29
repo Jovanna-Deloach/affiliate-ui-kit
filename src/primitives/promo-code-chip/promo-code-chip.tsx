@@ -15,10 +15,10 @@ import type { AffiliateAttribution, AffiliateClickEvent } from "@/types/affiliat
  * Click-to-copy discount code with an SVG checkmark state morph and an
  * optional outbound trigger that routes through <AffiliateAction />.
  *
- *   --radius-badge / --space-badge-x / --space-badge-y   chip geometry
- *   --font-mono                                          code voice
- *   --color-border-strong / --color-accent-soft          ticket / pill ink
- *   --duration-micro / --ease-spring                     glyph + label morph
+ *   --radius-inner / --inset-cell-x / --row-y     chip geometry (shared spine)
+ *   type-mono                                     code voice — the one mono token
+ *   --border-strong / --surface-recessed          ticket rule / recessed chip
+ *   --duration-micro / --ease-standard            glyph + label morph
  *
  * Mobbin anatomy (Agoda perforated ticket, Tabby "Copy code", adidas voucher
  * + "copied" toast, Meta Quest "Code applied"): the code is the loudest
@@ -32,32 +32,29 @@ import type { AffiliateAttribution, AffiliateClickEvent } from "@/types/affiliat
  * is the status reset.
  */
 
-const chipVariants = cva(
-  [
-    "group/chip inline-flex max-w-full items-stretch text-foreground",
-    "font-sans text-sm",
-  ],
-  {
-    variants: {
-      chroming: {
-        "dashed-ticket": [
-          "rounded-badge border-[length:var(--border-width-interactive)] border-dashed border-border-strong bg-surface",
-          "[&_[data-slot=chip-action]]:border-l-[length:var(--border-width-interactive)] [&_[data-slot=chip-action]]:border-dashed [&_[data-slot=chip-action]]:border-border-strong",
-        ],
-        "pill-badge": [
-          "rounded-badge border-interactive-w border-transparent bg-surface-recessed",
-          "[&_[data-slot=chip-action]]:border-l-surface-w [&_[data-slot=chip-action]]:border-border-soft",
-        ],
-        "minimal-inline": "gap-[0.75em] rounded-badge bg-transparent",
-      },
-      size: {
-        sm: "[--chip-pad-y:calc(var(--space-badge-y)*0.8)] text-xs",
-        md: "[--chip-pad-y:var(--space-badge-y)]",
-      },
+const chipVariants = cva("group/chip inline-flex max-w-full items-stretch text-ink", {
+  variants: {
+    chroming: {
+      /** Perforated ticket: dashed strong hairline, code cell | copy stub | outbound. */
+      ticket: [
+        "rounded-inner border border-dashed border-strong bg-surface",
+        "[&_[data-slot=chip-action]]:border-l [&_[data-slot=chip-action]]:border-dashed [&_[data-slot=chip-action]]:border-strong",
+      ],
+      /** Plane-2 chip: recessed fill, hairline stub rule. */
+      recessed: [
+        "rounded-inner border border-transparent bg-recessed",
+        "[&_[data-slot=chip-action]]:border-l [&_[data-slot=chip-action]]:border-hairline",
+      ],
+      /** Bare inline lockup for prose and captions. */
+      inline: "gap-stack bg-transparent",
     },
-    defaultVariants: { chroming: "dashed-ticket", size: "md" },
+    size: {
+      sm: "[--chip-pad-y:var(--row-y-compact)]",
+      md: "[--chip-pad-y:var(--row-y)]",
+    },
   },
-);
+  defaultVariants: { chroming: "ticket", size: "md" },
+});
 
 export interface PromoCodeChipProps
   extends Omit<ComponentProps<"div">, "children" | "onCopy">,
@@ -90,13 +87,13 @@ export function PromoCodeChip({
   outboundLabel = "Shop with code",
   attribution,
   tracking,
-  chroming = "dashed-ticket",
+  chroming = "ticket",
   size,
   className,
   ...props
 }: PromoCodeChipProps) {
   const { copy, status } = useCopyToClipboard({ timeout, onCopy });
-  const inline = chroming === "minimal-inline";
+  const inline = chroming === "inline";
 
   return (
     <div
@@ -109,19 +106,13 @@ export function PromoCodeChip({
       {/* Code cell */}
       <div
         data-slot="chip-code"
-        className={cn(
-          "flex min-w-0 flex-col justify-center gap-[0.15em]",
-          !inline && "px-badge-x py-(--chip-pad-y)",
-        )}
+        className={cn("flex min-w-0 flex-col justify-center gap-hairline", !inline && "px-cell-x py-(--chip-pad-y)")}
       >
         {/* The code is a short uppercase token — the one place mono belongs (Law 1). */}
-        <span
-          className="truncate font-mono font-medium uppercase tracking-label tabular-nums text-foreground"
-          aria-label={`Promo code ${code}`}
-        >
+        <span className="type-mono truncate text-body-sm text-ink" aria-label={`Promo code ${code}`}>
           {code}
         </span>
-        {description && <span className="truncate text-xs text-muted">{description}</span>}
+        {description && <span className="truncate text-caption text-ink-secondary">{description}</span>}
       </div>
 
       {/* Copy stub */}
@@ -132,12 +123,12 @@ export function PromoCodeChip({
         onClick={() => void copy(code)}
         aria-label={`Copy code ${code}`}
         className={cn(
-          "check-draw focus-ring group/copy flex shrink-0 cursor-pointer items-center gap-[0.5em] type-eyebrow leading-none",
-          "transition-[background-color,color] duration-interactive ease-spring",
+          "check-draw focus-ring group/copy flex shrink-0 cursor-pointer items-center gap-[0.5em] type-eyebrow",
+          "transition-[background-color,color] duration-interactive ease-standard",
           inline
-            ? "text-muted hover:text-foreground"
-            : "px-badge-x hover:bg-surface-recessed data-[status=copied]:text-positive",
-          !inline && chroming === "pill-badge" && "hover:bg-surface",
+            ? "text-ink-secondary hover:text-ink"
+            : "px-cell-x hover:bg-recessed data-[status=copied]:text-positive-ink",
+          !inline && chroming === "recessed" && "hover:bg-surface",
         )}
       >
         <span aria-hidden="true" className="grid size-[1.1em] shrink-0 place-items-center [&>svg]:size-full">
@@ -161,16 +152,13 @@ export function PromoCodeChip({
       {href && (
         <div
           data-slot="chip-outbound"
-          className={cn(
-            "flex shrink-0 items-center",
-            !inline && "border-l-surface-w border-border px-badge-x",
-          )}
+          className={cn("flex shrink-0 items-center", !inline && "border-l border-hairline px-cell-x")}
         >
           <AffiliateAction
             href={href}
             attribution={attribution}
             tracking={tracking}
-            intent="inline-editorial"
+            intent="inline"
             motion="arrow-nudge"
             className="type-eyebrow no-underline"
           >

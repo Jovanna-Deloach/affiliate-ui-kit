@@ -20,46 +20,51 @@ import type { AffiliateAttribution, AffiliateClickEvent } from "@/types/affiliat
  *     fanned out to `onTrack` and a global `affiliate:click` CustomEvent
  *   • target="_blank" by default, with a visually-hidden "(opens in a new tab)"
  *
- * Variants bind to the contract: --size-control (tap target), --radius-interactive,
- * --radius-badge (price pill), --space-badge-x, type-eyebrow voice, accent ink.
+ * Geometry binds to the shared spine: `--size-control` (36px), `--radius-inner`,
+ * `--keyline-cta` (148px fixed width so CTA columns never shift a price
+ * column — Law of Continuity), `--inset-cell-x`.
  *
- * 21st.dev physics (mechanics.css): `arrow-nudge` (interactive-hover-button),
- * `sheen-sweep` (klyv shimmer, paused until hover). Client leaf because of the
- * handlers — but no animation controllers, so it is loop-safe.
+ * Intents
+ *   primary   inverse fill — the one CTA per surface
+ *   outline   hairline-strong on the card plane — secondary merchants
+ *   ghost     ink-secondary text, hairline — out-of-stock "Check stock"
+ *   price     recessed price chip ("$189") for dense comparison rows
+ *   inline    underlined editorial link inside prose
  *
- * Mobbin anatomy (adidas "ADD TO BAG →", Vipps "Select", Fable "Buy on …"):
- * a flat directional CTA with a trailing arrow; outline for secondary
- * merchants; price-as-label pill for dense comparison rows.
+ * 21st.dev physics (mechanics.css): `arrow-nudge`, `sheen-sweep` (paused
+ * until hover). Client leaf because of the handlers — no animation
+ * controllers, so it is loop-safe.
  */
 
 const actionVariants = cva(
   [
     "group/action relative inline-flex shrink-0 items-center justify-center gap-[0.5em]",
     "whitespace-nowrap select-none focus-ring cursor-pointer",
-    "transition-[background-color,color,border-color,box-shadow,opacity] duration-interactive ease-spring",
+    "transition-[background-color,color,border-color,box-shadow,opacity] duration-interactive ease-standard",
     "[&_svg]:shrink-0",
   ],
   {
     variants: {
       intent: {
-        "primary-cta": [
-          "type-eyebrow leading-none rounded-interactive border-interactive-w border-accent",
-          "bg-accent text-accent-foreground",
-          "hover:bg-[color-mix(in_srgb,var(--color-accent)_86%,var(--color-surface))]",
+        primary: [
+          "type-eyebrow rounded-inner border border-inverse bg-inverse text-ink-inverse",
+          "hover:bg-[color-mix(in_srgb,var(--surface-inverse)_88%,var(--surface-primary))]",
         ],
-        "merchant-outline": [
-          "type-eyebrow leading-none rounded-interactive border-interactive-w border-border-strong",
-          "bg-surface text-foreground",
-          "hover:border-foreground hover:bg-surface-recessed",
+        outline: [
+          "type-eyebrow rounded-inner border border-strong bg-surface text-ink",
+          "hover:border-ink hover:bg-recessed",
         ],
-        "price-pill": [
-          "rounded-badge border-interactive-w border-transparent bg-surface-recessed",
-          "type-price text-sm text-foreground",
-          "hover:border-border-strong",
+        ghost: [
+          "type-eyebrow rounded-inner border border-hairline bg-transparent text-ink-secondary",
+          "hover:border-strong hover:text-ink",
         ],
-        "inline-editorial": [
-          "font-sans text-current underline decoration-border-strong underline-offset-[0.3em]",
-          "decoration-[length:var(--border-width-interactive)] hover:decoration-foreground",
+        price: [
+          "type-metric rounded-inner border border-transparent bg-recessed text-body-sm text-ink",
+          "hover:border-strong",
+        ],
+        inline: [
+          "font-sans text-current underline decoration-strong underline-offset-[0.3em]",
+          "decoration-[length:var(--border-width)] hover:decoration-ink",
         ],
       },
       motion: {
@@ -68,19 +73,22 @@ const actionVariants = cva(
         flat: "",
       },
       size: {
-        sm: "h-[calc(var(--size-control)*0.8)] px-[calc(var(--space-badge-x)*1.4)]",
-        md: "h-control px-[calc(var(--space-badge-x)*1.8)]",
+        sm: "h-[calc(var(--size-control)-var(--space-2))] px-[calc(var(--inset-cell-x)*0.75)]",
+        md: "h-control px-cell-x",
+        lg: "h-control-lg px-well",
       },
-      fullWidth: {
-        true: "w-full",
-        false: "",
+      width: {
+        auto: "",
+        /** Fixed 148px keyline column — every CTA in a list lands on one axis. */
+        cta: "w-cta",
+        full: "w-full",
       },
     },
     compoundVariants: [
       // Inline text links have no box geometry.
-      { intent: "inline-editorial", size: ["sm", "md"], class: "h-auto px-0" },
+      { intent: "inline", size: ["sm", "md", "lg"], class: "h-auto px-0" },
     ],
-    defaultVariants: { intent: "primary-cta", motion: "arrow-nudge", size: "md", fullWidth: false },
+    defaultVariants: { intent: "primary", motion: "arrow-nudge", size: "md", width: "auto" },
   },
 );
 
@@ -115,7 +123,7 @@ export function AffiliateAction({
   intent,
   motion,
   size,
-  fullWidth,
+  width,
   rel,
   target,
   onClick,
@@ -126,7 +134,7 @@ export function AffiliateAction({
 }: AffiliateActionProps) {
   const finalHref = buildAffiliateHref(href, attribution);
   const Comp = asChild ? Slot : "a";
-  const resolvedIntent = intent ?? "primary-cta";
+  const resolvedIntent = intent ?? "primary";
 
   const track = (trigger: AffiliateClickEvent["trigger"]) =>
     emitAffiliateClick(
@@ -144,18 +152,13 @@ export function AffiliateAction({
     if (!e.defaultPrevented && e.button === 1) track("auxiliary");
   };
 
-  const Arrow = resolvedIntent === "inline-editorial" ? ArrowUpRight : ArrowRight;
+  const Arrow = resolvedIntent === "inline" ? ArrowUpRight : ArrowRight;
 
   const content = (
     <>
       {asChild ? <Slottable>{children}</Slottable> : children}
       {arrow && (
-        <Arrow
-          data-slot="action-arrow"
-          size="1.1em"
-          strokeWidth={1.5}
-          aria-hidden="true"
-        />
+        <Arrow data-slot="action-arrow" size="1.1em" strokeWidth={1.5} aria-hidden="true" />
       )}
       {newTab && <span className="sr-only"> (opens in a new tab)</span>}
     </>
@@ -170,7 +173,7 @@ export function AffiliateAction({
       target={target ?? (newTab ? "_blank" : undefined)}
       onClick={handleClick}
       onAuxClick={handleAuxClick}
-      className={cn(actionVariants({ intent, motion, size, fullWidth }), className)}
+      className={cn(actionVariants({ intent, motion, size, width }), className)}
       {...props}
     >
       {content}

@@ -1,19 +1,19 @@
 /**
- * Registry of vertical token profiles defined in `src/styles/tokens.css`.
- * Adding a vertical = adding a `[data-vertical="…"]` block there + one entry here.
+ * Registry of vertical TONE profiles defined in `src/styles/tokens.css`.
+ * A vertical only changes palette temperature and the display face; every
+ * keyline, radius and spacing value is shared. Adding a vertical = adding a
+ * `[data-vertical="…"]` tone block there + one entry here.
  */
 export const VERTICALS = [
   {
     id: "luxury-editorial",
     label: "Luxury Editorial",
-    description:
-      "Sharp, architectural, serif display, tracked eyebrows, slow motion.",
+    description: "Warm alabaster canvas · Playfair display",
   },
   {
     id: "clinical-performance",
     label: "Clinical Performance",
-    description:
-      "Crisp utility, tabular metrics, pills, tactile elevation, quick motion.",
+    description: "Cool lab canvas · Plus Jakarta display",
   },
 ] as const;
 

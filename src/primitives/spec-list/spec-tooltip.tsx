@@ -21,7 +21,7 @@ export function SpecTooltip({ label, children }: { label: ReactNode; children: R
             ref={anchorRef}
             type="button"
             aria-label={`Definition: ${typeof label === "string" ? label : "term"}`}
-            className="focus-ring inline-flex size-[1.25em] shrink-0 cursor-help items-center justify-center rounded-badge text-muted transition-colors duration-interactive ease-spring hover:text-foreground"
+            className="focus-ring inline-flex size-[1.25em] shrink-0 cursor-help items-center justify-center rounded-tag text-ink-tertiary transition-colors duration-interactive ease-standard hover:text-ink"
           >
             <Info size="1em" strokeWidth={1.5} aria-hidden="true" />
           </button>
@@ -33,7 +33,7 @@ export function SpecTooltip({ label, children }: { label: ReactNode; children: R
             align="start"
             sideOffset={6}
             collisionPadding={12}
-            className="z-50 max-w-[18rem] rounded-interactive border-surface-w border-border bg-surface px-row-pad py-[calc(var(--space-row-pad)*0.75)] text-sm leading-relaxed text-foreground shadow-overlay"
+            className="z-50 max-w-[18rem] rounded-inner border border-hairline bg-surface px-stack py-cluster text-body-sm text-ink shadow-overlay"
           >
             {children}
             <Tooltip.Arrow className="fill-surface" width={10} height={5} />

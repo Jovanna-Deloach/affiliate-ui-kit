@@ -25,42 +25,35 @@ const TIERS = [
 
 export default function KitIndexPage() {
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-section-gap p-card-pad">
-      <header className="flex flex-col gap-cluster-gap">
-        <p className="type-eyebrow text-muted">Affiliate UI Kit</p>
-        <h1 className="type-display">Twenty primitives. Two verticals. One codebase.</h1>
-        <p className="max-w-prose text-muted">
-          Every component binds its geometry, density, typography and motion to the
-          token contract in <code>src/styles/tokens.css</code>. Run{" "}
-          <code>bun run storybook</code> to switch profiles live.
+    <main className="mx-auto flex max-w-5xl flex-col gap-section p-card">
+      <header className="flex max-w-heading flex-col gap-cluster">
+        <p className="type-eyebrow m-0 text-ink-tertiary">Affiliate UI Kit</p>
+        <h1 className="type-display m-0">Twenty primitives. Two tones. One structural spine.</h1>
+        <p className="m-0 max-w-prose text-body leading-body text-ink-secondary">
+          Every component binds its keylines, geometry, rhythm and motion to the shared
+          contract in <code>src/styles/tokens.css</code>; a vertical only changes palette
+          temperature and the display face. Run <code>bun run storybook</code> to switch tones live.
         </p>
       </header>
 
-      <section className="grid gap-grid-gap sm:grid-cols-2">
+      <section className="grid gap-grid sm:grid-cols-2">
         {VERTICALS.map((v) => (
-          <div
-            key={v.id}
-            data-vertical={v.id}
-            className="rounded-surface border-surface-w border-border bg-surface p-card-pad shadow-surface"
-          >
-            <p className="type-eyebrow text-muted">{v.id}</p>
-            <h2 className="type-display-sm mt-cluster-gap">{v.label}</h2>
-            <p className="mt-cluster-gap text-muted">{v.description}</p>
+          <div key={v.id} data-vertical={v.id} className="flex flex-col gap-cluster rounded-container border border-hairline bg-surface p-card">
+            <p className="type-eyebrow m-0 text-ink-tertiary">{v.id}</p>
+            <h2 className="type-title m-0">{v.label}</h2>
+            <p className="m-0 text-body-sm text-ink-secondary">{v.description}</p>
           </div>
         ))}
       </section>
 
-      <section className="grid gap-grid-gap md:grid-cols-2">
+      <section className="grid gap-grid md:grid-cols-2">
         {TIERS.map((tier, i) => (
-          <div key={tier.title} className="border-t-surface-w border-border pt-row-pad">
-            <p className="type-eyebrow text-muted">Tier {i + 1}</p>
-            <h2 className="type-display-sm mt-cluster-gap">{tier.title}</h2>
-            <ul className="mt-row-pad flex flex-wrap gap-cluster-gap">
+          <div key={tier.title} className="flex flex-col gap-cluster border-t border-hairline pt-stack">
+            <p className="type-eyebrow m-0 text-ink-tertiary">Tier {i + 1}</p>
+            <h2 className="type-title m-0">{tier.title}</h2>
+            <ul className="m-0 flex list-none flex-wrap gap-cluster p-0 pt-cluster">
               {tier.items.map((item) => (
-                <li
-                  key={item}
-                  className="rounded-badge border-interactive-w border-border-soft bg-surface px-cluster-gap py-1 text-sm font-medium text-foreground"
-                >
+                <li key={item} className="rounded-tag border border-hairline bg-recessed px-tag-x py-tag-y text-caption font-medium text-ink-secondary">
                   {item}
                 </li>
               ))}

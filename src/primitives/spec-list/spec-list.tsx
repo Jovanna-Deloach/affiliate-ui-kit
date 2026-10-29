@@ -2,7 +2,6 @@ import { cva, type VariantProps } from "class-variance-authority";
 import type { ComponentProps, ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
-import { StatusPill } from "@/primitives/status-pill";
 import type { ProductSpecItem } from "@/types/affiliate";
 
 import { SpecTooltip } from "./spec-tooltip";
@@ -10,39 +9,47 @@ import { SpecTooltip } from "./spec-tooltip";
 /**
  * <SpecList />
  * ---------------------------------------------------------------------------
- * Technical key-value <dl>. Label left (muted), value right-aligned
- * (sans · medium · tabular), hairline under every row — never a collision on
- * the left with dead space on the right (audit fix #2).
+ * Technical key-value <dl> on a fixed LABEL KEYLINE (Law of Proximity: a
+ * value never drifts more than the label column away from its label):
  *
- *   --color-border-soft        row hairlines
- *   --color-surface-recessed   striped rows / highlighted rows / chips
- *   --space-row-pad            row density
- *   --font-sans (Law 1)        values are prose or numbers: never monospace
+ *   ┌ 180px ──────────┬ 1fr ────────────────────────┐
+ *   │ Weight          │ 8.4 oz                      │  hairline
+ *   │ Stack height ⓘ  │ 38 / 30 mm                  │  hairline
+ *   │ Outsole rubber  │ Carbon rubber heel, blown … │  (wraps on the right)
+ *   └─────────────────┴─────────────────────────────┘
+ *
+ *   --keyline-label        180px label track (≥ 24rem container; 38% below)
+ *   --row-y / --row-y-compact   row rhythm
+ *   --border-hairline      row rules
+ *   --surface-recessed     metric chips
  *
  * Presentations
- *   striped-rows   alternating recessed rows
- *   dotted-leader  label ····· value (index-style leaders)
- *   two-col-grid   label | value grid, hairline per row (default)
- *   metric-chips   highlighted specs as big-number chips, rest as rows
+ *   keyline       one column of keyline rows (default)
+ *   two-column    two columns of keyline rows at ≥ 40rem (`--gap-column`)
+ *   leader        label ····· value, value on the right edge (narrow cells only)
+ *   metric-chips  `isHighlight` specs as recessed metric chips, rest as rows
  *
- * Tooltips (jargon definitions) are the only client leaf.
+ * Numbers get tabular figures; prose values do not. Tooltips are the only
+ * client leaf.
  */
 
 const listVariants = cva("@container m-0 w-full min-w-0", {
   variants: {
     presentation: {
-      "two-col-grid": "flex flex-col",
-      "striped-rows": "flex flex-col",
-      "dotted-leader": "flex flex-col",
-      "metric-chips": "flex flex-col gap-row-pad",
+      keyline: "",
+      "two-column": "",
+      leader: "",
+      "metric-chips": "flex flex-col gap-stack",
     },
     density: {
-      compact: "[--spec-pad:calc(var(--space-row-pad)*0.5)]",
-      comfortable: "[--spec-pad:calc(var(--space-row-pad)*0.75)]",
+      compact: "[--spec-row-y:var(--row-y-compact)]",
+      comfortable: "[--spec-row-y:var(--row-y)]",
     },
   },
-  defaultVariants: { presentation: "two-col-grid", density: "comfortable" },
+  defaultVariants: { presentation: "keyline", density: "comfortable" },
 });
+
+type Presentation = NonNullable<VariantProps<typeof listVariants>["presentation"]>;
 
 export interface SpecListProps
   extends Omit<ComponentProps<"dl">, "children">,
@@ -58,12 +65,12 @@ export function SpecList({
   specs,
   highlightFirst = false,
   limit,
-  presentation = "two-col-grid",
+  presentation,
   density,
   className,
   ...props
 }: SpecListProps) {
-  const mode = presentation ?? "two-col-grid";
+  const mode: Presentation = presentation ?? "keyline";
   const ordered = highlightFirst
     ? [...specs].sort((a, b) => Number(Boolean(b.isHighlight)) - Number(Boolean(a.isHighlight)))
     : specs;
@@ -79,19 +86,17 @@ export function SpecList({
       {...props}
     >
       {chips.length > 0 && (
-        <div data-slot="spec-chips" className="grid grid-cols-2 gap-cluster-gap @md:grid-cols-3">
+        <div data-slot="spec-chips" className="grid grid-cols-2 gap-cluster @md:grid-cols-3">
           {chips.map((s) => (
             <div
               key={s.label}
-              className="flex min-w-0 flex-col gap-[0.25em] rounded-interactive border-surface-w border-border-soft bg-surface-recessed px-row-pad py-[calc(var(--space-row-pad)*0.75)]"
+              className="flex min-w-0 flex-col gap-hairline rounded-inner border border-hairline bg-recessed px-stack py-cluster"
             >
-              <dt className="type-eyebrow flex items-start gap-[0.4em] text-muted">
+              <dt className="type-eyebrow flex items-start gap-[0.4em] text-ink-tertiary">
                 <span className="line-clamp-2 min-w-0">{s.label}</span>
                 {s.tooltip && <SpecTooltip label={s.label}>{s.tooltip}</SpecTooltip>}
               </dt>
-              <dd className="type-metric m-0 [--metric-size:calc(var(--text-metric)*0.8)]">
-                {formatValue(s)}
-              </dd>
+              <dd className="type-metric m-0 text-title text-ink">{formatValue(s)}</dd>
             </div>
           ))}
         </div>
@@ -101,12 +106,12 @@ export function SpecList({
         <div
           data-slot="spec-rows"
           className={cn(
-            "flex min-w-0 flex-col",
-            mode !== "metric-chips" && "border-t-surface-w border-border-soft",
+            "min-w-0 border-t border-hairline",
+            mode === "two-column" ? "grid grid-cols-1 @2xl:grid-cols-2 @2xl:gap-x-column" : "flex flex-col",
           )}
         >
-          {rest.map((s, i) => (
-            <SpecRow key={s.label} spec={s} presentation={mode} index={i} />
+          {rest.map((s) => (
+            <SpecRow key={s.label} spec={s} leader={mode === "leader"} />
           ))}
         </div>
       )}
@@ -118,7 +123,7 @@ function formatValue(s: ProductSpecItem): ReactNode {
   return s.unit ? (
     <>
       {s.value}
-      <span className="ml-[0.2em] text-muted">{s.unit}</span>
+      <span className="ml-[0.2em] font-normal text-ink-tertiary">{s.unit}</span>
     </>
   ) : (
     s.value
@@ -130,51 +135,30 @@ function isNumeric(value: ProductSpecItem["value"]) {
   return typeof value === "number" || /^[\d\s.,/<>≤≥±%–-]+$/.test(String(value));
 }
 
-function SpecRow({
-  spec,
-  presentation,
-  index,
-}: {
-  spec: ProductSpecItem;
-  presentation: NonNullable<SpecListProps["presentation"]>;
-  index: number;
-}) {
-  const leader = presentation === "dotted-leader";
-  const striped = presentation === "striped-rows" && index % 2 === 0;
-  // Grid, not flex: `auto` label + `1fr` value means a long prose value wraps on
-  // the right instead of crushing the label, and the leader only ever takes
-  // what is left between them.
+function SpecRow({ spec, leader }: { spec: ProductSpecItem; leader: boolean }) {
   return (
     <div
       data-slot="spec-row"
       data-highlight={spec.isHighlight || undefined}
       className={cn(
-        "grid min-w-0 items-baseline gap-x-cluster-gap py-(--spec-pad)",
-        leader ? "grid-cols-[auto_minmax(1rem,1fr)_auto]" : "grid-cols-[auto_minmax(0,1fr)]",
-        "border-b-surface-w border-border-soft",
-        striped && "-mx-row-pad bg-surface-recessed px-row-pad",
-        spec.isHighlight && presentation !== "metric-chips" && "[&>dt]:text-foreground",
+        "grid min-w-0 items-baseline gap-x-stack border-b border-hairline py-(--spec-row-y)",
+        leader
+          ? "grid-cols-[auto_minmax(1rem,1fr)_auto]"
+          : "grid-cols-[minmax(6rem,38%)_minmax(0,1fr)] @md:grid-cols-[var(--keyline-label)_minmax(0,1fr)]",
       )}
     >
-      <dt className="flex min-w-0 items-center gap-[0.4em] text-sm text-muted">
+      <dt className={cn("flex min-w-0 items-center gap-[0.4em] text-body-sm text-ink-secondary", spec.isHighlight && "text-ink")}>
         <span className="min-w-0">{spec.label}</span>
         {spec.tooltip && <SpecTooltip label={spec.label}>{spec.tooltip}</SpecTooltip>}
-        {spec.isHighlight && presentation !== "metric-chips" && (
-          <StatusPill tone="neutral" size="sm" className="hidden @sm:inline-flex">
-            Key
-          </StatusPill>
-        )}
       </dt>
       {leader && (
-        <span
-          aria-hidden="true"
-          className="mb-[0.35em] self-end border-b-[length:var(--border-width-surface)] border-dotted border-border-strong"
-        />
+        <span aria-hidden="true" className="mb-[0.35em] self-end border-b border-dotted border-strong" />
       )}
       <dd
         className={cn(
-          "m-0 min-w-0 justify-self-end text-right text-sm font-medium text-foreground",
-          isNumeric(spec.value) && "type-price",
+          "m-0 min-w-0 text-body-sm font-medium text-ink",
+          leader ? "text-right" : "text-left",
+          isNumeric(spec.value) && "type-metric",
         )}
       >
         {formatValue(spec)}

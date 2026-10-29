@@ -4,29 +4,22 @@ import { Award, FlaskConical, Sparkles } from "lucide-react";
 import { directoryProducts, productShoe01, productWatch } from "@/fixtures/products";
 import { formatScore } from "@/lib/format";
 import { ProductMediaFrame } from "@/primitives/product-media-frame";
-import { Labeled } from "@/stories/story-label";
+import { StatusPill } from "@/primitives/status-pill";
+import { Specimen } from "@/stories/specimen";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
-import { AWARD_BADGE_SHAPES, AwardBadge } from "./award-badge";
+import { AWARD_BADGE_SURFACES, AwardBadge } from "./award-badge";
 
-const TIERS = ["winner", "runner-up", "callout"] as const;
-const LABELS = { winner: "Best Overall", "runner-up": "Editor's Pick", callout: "Lab Tested" } as const;
-const ICONS = { winner: Award, "runner-up": Sparkles, callout: FlaskConical } as const;
+const SURFACE_NAMES = { inverse: "Inverse — the accolade", glass: "Glass — over photography", outline: "Outline — secondary callout" } as const;
 
 const meta = {
   title: "Tier 2 · Evaluation & E-E-A-T/AwardBadge",
   component: AwardBadge,
   parameters: { layout: "fullscreen" },
-  args: {
-    children: "Best Overall",
-    shape: "architectural-flag",
-    tier: "winner",
-    size: "md",
-    rank: 1,
-  },
+  args: { children: "Best Overall", surface: "inverse", tier: "winner", size: "md", rank: 1 },
   argTypes: {
-    shape: { control: "select", options: AWARD_BADGE_SHAPES },
-    tier: { control: "inline-radio", options: TIERS },
+    surface: { control: "inline-radio", options: AWARD_BADGE_SURFACES },
+    tier: { control: "inline-radio", options: ["winner", "runner-up", "callout"] },
     size: { control: "inline-radio", options: ["sm", "md", "lg"] },
     icon: { control: false },
     badge: { control: false },
@@ -40,65 +33,80 @@ export const Playground: Story = {
   render: (args) => <AwardBadge {...args} icon={Award} />,
 };
 
-export const ShapeByTierMatrix: Story = {
-  name: "Variants · shape × tier",
+export const Surfaces: Story = {
+  name: "One silhouette, three surfaces",
   render: () => (
-    <div className="grid gap-section-gap">
-      {AWARD_BADGE_SHAPES.map((shape) => (
-        <Labeled key={shape} label={`shape="${shape}" · tier = ${TIERS.join(" | ")}`}>
-          <div className="flex flex-wrap items-center gap-cluster-gap">
-            {TIERS.map((tier, i) => (
-              <AwardBadge key={tier} shape={shape} tier={tier} rank={i + 1} icon={ICONS[tier]}>
-                {LABELS[tier]}
-              </AwardBadge>
-            ))}
+    <div className="grid gap-section">
+      {AWARD_BADGE_SURFACES.map((surface) => (
+        <Specimen key={surface} caption={SURFACE_NAMES[surface]}>
+          <div className="flex flex-wrap items-center gap-cluster">
+            <AwardBadge surface={surface} rank={1} icon={Award}>
+              Best Overall
+            </AwardBadge>
+            <AwardBadge surface={surface} rank={2} tier="runner-up" icon={Sparkles}>
+              Editor&apos;s Pick
+            </AwardBadge>
+            <AwardBadge surface={surface} tier="callout" icon={FlaskConical}>
+              Lab Tested
+            </AwardBadge>
+            <AwardBadge surface={surface}>Best for Speed Work</AwardBadge>
           </div>
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
-export const Iconography: Story = {
-  name: "Variants · lucide icons, rank numerals, sizes",
+export const Sizes: Story = {
+  name: "Sizes and rank index",
   render: () => (
-    <div className="flex flex-col gap-section-gap">
-      <Labeled label="size = sm | md | lg">
-        <div className="flex flex-wrap items-center gap-cluster-gap">
-          <AwardBadge size="sm" icon={Award}>Best Overall</AwardBadge>
-          <AwardBadge size="md" icon={Award}>Best Overall</AwardBadge>
-          <AwardBadge size="lg" icon={Award}>Best Overall</AwardBadge>
+    <div className="flex flex-col gap-section">
+      <Specimen caption="Small · medium · large">
+        <div className="flex flex-wrap items-center gap-cluster">
+          <AwardBadge size="sm" rank={1}>
+            Best Overall
+          </AwardBadge>
+          <AwardBadge size="md" rank={1}>
+            Best Overall
+          </AwardBadge>
+          <AwardBadge size="lg" rank={1}>
+            Best Overall
+          </AwardBadge>
         </div>
-      </Labeled>
-      <Labeled label='shape="split-rank" · rank numerals'>
-        <div className="flex flex-wrap items-center gap-cluster-gap">
-          <AwardBadge shape="split-rank" rank={1}>Best Overall</AwardBadge>
-          <AwardBadge shape="split-rank" rank={2} tier="runner-up">Editor&apos;s Pick</AwardBadge>
-          <AwardBadge shape="split-rank" rank={3} tier="callout" icon={FlaskConical}>Lab Tested</AwardBadge>
+      </Specimen>
+      <Specimen caption="Rank index with a vertical hairline, icon, plain">
+        <div className="flex flex-wrap items-center gap-cluster">
+          <AwardBadge rank={1}>Best Overall</AwardBadge>
+          <AwardBadge icon={Award}>Best Overall</AwardBadge>
+          <AwardBadge>Best Overall</AwardBadge>
         </div>
-      </Labeled>
-      <Labeled label='shape="editorial-seal"'>
-        <div className="flex flex-wrap items-center gap-cluster-gap">
-          <AwardBadge shape="editorial-seal" rank={1}>Best Overall</AwardBadge>
-          <AwardBadge shape="editorial-seal" tier="runner-up" icon={Sparkles}>Editor&apos;s Pick</AwardBadge>
-          <AwardBadge shape="editorial-seal" tier="callout" icon={FlaskConical} size="lg">Lab Tested</AwardBadge>
-        </div>
-      </Labeled>
+      </Specimen>
+    </div>
+  ),
+};
+
+export const Semantics: Story = {
+  name: "Accolade vs status vs credential",
+  render: () => (
+    <div className="flex flex-wrap items-center gap-cluster">
+      <AwardBadge rank={1}>Best Overall</AwardBadge>
+      <StatusPill tone="positive">Best price</StatusPill>
+      <StatusPill tone="caution">Low stock</StatusPill>
+      <StatusPill kind="technical">ISO 17025</StatusPill>
     </div>
   ),
 };
 
 export const GlassOverPhotography: Story = {
-  name: "Context · glass-pill over full-bleed photography",
+  name: "Over photography — safe zones",
   render: () => (
-    <div className="grid grid-cols-2 items-start gap-grid-gap md:grid-cols-3">
+    <div className="grid grid-cols-2 items-start gap-grid md:grid-cols-3">
       {[productShoe01, productWatch].map((p) => (
         <ProductMediaFrame
           key={p.id}
           media={p.media}
-          treatment="full-bleed-editorial"
-          badge={<AwardBadge shape="glass-pill" badge={p.awardBadge} icon={Award} />}
-          metric={<AwardBadge shape="glass-pill" tier="callout">Score {formatScore(p.overallScore!)}</AwardBadge>}
+          badge={<AwardBadge surface="glass" badge={p.awardBadge} rank={p.rank} />}
+          metric={<AwardBadge surface="glass">{formatScore(p.overallScore!)}</AwardBadge>}
           caption={{ eyebrow: p.brand, name: p.name }}
         />
       ))}
@@ -107,20 +115,20 @@ export const GlassOverPhotography: Story = {
 };
 
 export const FromCanonicalPayload: Story = {
-  name: "Data · badge prop from AffiliateProductEntity",
+  name: "From the AffiliateProductEntity badge slice",
   render: () => (
-    <div className="flex flex-wrap items-center gap-cluster-gap">
+    <div className="flex flex-wrap items-center gap-cluster">
       {directoryProducts.slice(0, 3).map((p) => (
-        <AwardBadge key={p.id} badge={p.awardBadge} shape="split-rank" rank={p.rank} />
+        <AwardBadge key={p.id} badge={p.awardBadge} rank={p.rank} />
       ))}
     </div>
   ),
 };
 
 export const AsLink: Story = {
-  name: "Polymorphic · asChild link to methodology",
+  name: "Polymorphic · asChild link",
   render: () => (
-    <AwardBadge asChild tier="callout" icon={FlaskConical}>
+    <AwardBadge asChild surface="outline" tier="callout" icon={FlaskConical}>
       <a href="#methodology" className="focus-ring">
         How we test
       </a>
@@ -132,14 +140,18 @@ export const SideBySideVerticals: Story = {
   name: "★ Multi-vertical side-by-side",
   render: () => (
     <VerticalCompare>
-      <div className="flex flex-col gap-cluster-gap">
-        {AWARD_BADGE_SHAPES.map((shape) => (
-          <div key={shape} className="flex flex-wrap items-center gap-cluster-gap">
-            {TIERS.map((tier, i) => (
-              <AwardBadge key={tier} shape={shape} tier={tier} rank={i + 1} icon={ICONS[tier]}>
-                {LABELS[tier]}
-              </AwardBadge>
-            ))}
+      <div className="flex flex-col gap-cluster">
+        {AWARD_BADGE_SURFACES.map((surface) => (
+          <div key={surface} className="flex flex-wrap items-center gap-cluster">
+            <AwardBadge surface={surface} rank={1} icon={Award}>
+              Best Overall
+            </AwardBadge>
+            <AwardBadge surface={surface} rank={2} tier="runner-up">
+              Editor&apos;s Pick
+            </AwardBadge>
+            <AwardBadge surface={surface} tier="callout" icon={FlaskConical}>
+              Lab Tested
+            </AwardBadge>
           </div>
         ))}
       </div>
@@ -152,17 +164,21 @@ export const Viewports: Story = {
   render: () => (
     <ViewportFrames
       render={({ grid }) => (
-        <div className={grid}>
+        <div className={`${grid} items-start`}>
           {directoryProducts.slice(0, 4).map((p, i) => (
             <ProductMediaFrame
               key={p.id}
               media={p.media}
               badge={
-                <AwardBadge shape={i % 2 ? "glass-pill" : "architectural-flag"} tier={TIERS[i % 3]} size="sm" icon={ICONS[TIERS[i % 3]!]}>
-                  {i === 1 ? "Best Overall Daily Trainer" : LABELS[TIERS[i % 3]!]}
+                <AwardBadge surface={i % 2 ? "glass" : "inverse"} size="sm" rank={p.rank}>
+                  {i === 1 ? "Best Overall Daily Trainer" : p.eyebrow}
                 </AwardBadge>
               }
-              metric={<AwardBadge shape="glass-pill" tier="callout" size="sm">{formatScore(p.overallScore!)}</AwardBadge>}
+              metric={
+                <AwardBadge surface="glass" size="sm">
+                  {formatScore(p.overallScore!)}
+                </AwardBadge>
+              }
               caption={{ eyebrow: p.brand, name: p.name }}
             />
           ))}

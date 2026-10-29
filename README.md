@@ -1,13 +1,14 @@
 # Affiliate UI Kit
 
-Multi-vertical affiliate & editorial commerce primitives. **One behavioral codebase,
-radically different verticals** — a luxury editorial publication and a clinical
-performance/testing database render the *same components and the same data* and
-look nothing alike, because every structural property binds to a token profile.
+Multi-vertical affiliate & editorial commerce primitives. **One structural
+spine, two tones.** A luxury editorial publication and a clinical
+performance/testing database render the *same components and the same data*;
+every keyline, radius, inset and rhythm is shared ("Editorial Precision"), and a
+vertical only shifts chromatic temperature and the display voice.
 
 ```
 bun install
-bun run storybook      # http://localhost:6006 — switch verticals from the toolbar
+bun run storybook      # http://localhost:6006 — switch tones from the toolbar
 bun run dev            # Next.js app (kit index)
 bun run check          # typecheck + lint + structural-token audit
 bun run verify:stories # headless Storybook verification (see below)
@@ -23,31 +24,40 @@ lucide-react · Storybook 10 (`@storybook/nextjs-vite`).
 
 ### 1. Token contract — `src/styles/tokens.css`
 
-Two baseline profiles, selected by `[data-vertical="luxury-editorial"]` /
-`[data-vertical="clinical-performance"]`. Five tiers: color, structure
-(radius / border / density / aspect / fit), elevation, motion, typography.
-Nested wrappers work, so one page can host both verticals side by side.
+`:root` carries the **structural spine** — identical in every vertical:
+
+| Tier | Tokens | Values |
+| --- | --- | --- |
+| Spatial modulus | `--space-1 … --space-12` | strict 4px / 8px scale |
+| Anatomy | `--inset-card` 24 · `--inset-well` 20 · `--inset-bar-*` 24/12 · `--row-y` 12 · `--gap-cluster` 8 · `--gap-stack` 16 · `--gap-section` 40 | named rhythm, never raw numbers |
+| Keylines | `--keyline-monogram` 40 · `--keyline-price` 110 · `--keyline-cta` 148 · `--keyline-label` 180 · `--keyline-subscore` 110 · `--keyline-value` 36 · `--keyline-status` 90 · `--keyline-toggle` 28 | fixed grid tracks (Law of Continuity) |
+| Geometry | `--radius-container` 6 · `--radius-inner` 4 · `--radius-tag` 3 · `--radius-pill` (dots + gauge tracks only) · 1px hairlines · `--size-control` 36 · `--size-portrait` 56 | crisp architectural geometry |
+| Type scale | 11 eyebrow · 12 caption · 13 body-sm · 15 body (1.6, 62ch) · 20 title · 30 display · 36 hero metric | modular, shared |
+| Motion | `--duration-interactive` 220ms · `--duration-reveal` 360ms · `--duration-media` 600ms · `--ease-standard` | one timing for the whole kit |
+
+A `[data-vertical]` block may only change **tone**:
 
 | | luxury-editorial | clinical-performance |
 | --- | --- | --- |
-| Display face | Playfair Display 400 · −0.02em · 1.12 | Plus Jakarta Sans 600 · −0.025em · 1.15 |
-| Prices / scores / metrics | Inter 600 · tabular · −0.025em (`type-price`, `type-metric`) | same voice, same rule |
-| Monospace | JetBrains Mono — short uppercase metadata only (batch IDs, timestamps, rank numerals, promo codes) | same |
-| Canvas → surface → recessed | `#F7F6F2` → `#FFFFFF` + `rgba(0,0,0,.08)` hairline → `#F2EFE9` | `#F8FAFC` → `#FFFFFF` → `#F1F5F9` |
-| Eyebrow | 10px · 0.18em · uppercase | 10px · 0.14em · uppercase |
-| Surface radius | 0 | 10px |
-| Badge radius | 0 | 6px (technical tag) |
-| Media | 4:5 · full-bleed cover | 1:1 · padded pedestal (contain) |
-| Elevation | none (hairlines) | tactile |
-| Motion | 400ms / 700ms media | 180ms / 500ms media |
+| Canvas → surface → recessed → inverse | `#F7F5F0` → `#FFFFFF` → `#F1EFEA` → `#141413` | `#F4F6F8` → `#FFFFFF` → `#EEF1F5` → `#0F172A` |
+| Ink primary / secondary / tertiary | `#141413` / `#57534E` / `#8C867E` | `#0F172A` / `#475569` / `#94A3B8` |
+| Hairline / strong rule | `rgba(20,20,19,.09)` / `.18` | `rgba(15,23,42,.09)` / `.18` |
+| Display voice | Playfair Display 400 · −0.02em · 1.12 | Plus Jakarta Sans 600 · −0.025em · 1.15 |
+
+Semantic status hues (emerald / amber / rose) are shared — meaning never
+changes with tone. Prices, scores and measured values are always Inter 600,
+tabular, −0.02em (`type-metric`); monospace is reserved for short uppercase
+metadata (`type-mono`).
 
 ### 2. Tailwind ↔ token bridge — `src/styles/globals.css`
 
-`@theme reference` registers the token names so `bg-surface`, `rounded-surface`,
-`p-card-pad`, `shadow-surface`, `ease-spring`, `aspect-product-media` … exist,
+`@theme reference` registers the token names so `bg-surface`, `bg-recessed`,
+`text-ink-secondary`, `border-hairline`, `rounded-container`, `p-card`,
+`px-bar-x`, `w-cta`, `gap-cluster`, `text-body-sm`, `ease-standard` … exist,
 but emits **no** `:root` values — every utility resolves `var(--token)` at the
-element. Composite voices (`type-eyebrow`, `type-display`, `type-metric`,
-`type-label-mono`) are the only way primitives speak.
+element. Composite voices (`type-eyebrow`, `type-mono`, `type-title`,
+`type-display`, `type-hero-metric`, `type-metric`) are the only way primitives
+speak.
 
 ### 3. Mechanics — `src/styles/mechanics.css`
 
@@ -70,21 +80,30 @@ every primitive is safe inside a 30-item `.map()`.
 4. **SEO-safe disclosure** — collapsibles stay mounted (`forceMount` + CSS grid
    `0fr → 1fr`).
 
-### 5. Typographic & surface laws (Tier 1–5 audit)
+### 5. Gestalt laws every primitive obeys
 
-- **Law 1 — type roles.** Display headings use `--font-display` (Playfair
-  Display in luxury, Plus Jakarta Sans in clinical — never Instrument Serif).
-  Every price, score and metric is `font-sans font-semibold tabular-nums
-  tracking-tight` via `type-price` / `type-metric` and formatted with
-  `formatScore()` (`9.0`, never `9`). Monospace is reserved for short uppercase
-  metadata (`type-label-mono`): batch IDs, timestamps, rank numerals, promo codes.
-- **Law 2 — three luminance planes.** `--color-canvas` (page) → `--color-surface`
-  (`#fff` card with a `rgba(0,0,0,.08)` hairline) → `--color-surface-recessed`
-  (data wells, monogram tiles, highlighted rows, credential pills, action bars).
-  Complex components use all three.
-- **Law 3 — labels live outside components.** Storybook prop/variant labels
-  render as muted mono pills *above* the component under test
-  (`src/stories/story-label.tsx`), never inside component markup.
+- **Continuity — keyline grids.** Lists and tables never use `justify-between`
+  with variable-width children. `<MerchantOfferRow />` is
+  `40px | minmax(140px,1fr) | auto | 110px | 148px`; every price and every
+  fixed-width CTA lands on one vertical axis, and the best-price row is a
+  recessed fill with an inset ring — never an indent.
+- **Proximity — a value never drifts from its label.** `<SpecList />` rows sit
+  on a 180px label keyline with the value left-aligned beside it (or a dotted
+  leader in narrow cells); `<ProgressiveCollapse layout="assay" />` locks
+  analyte · threshold meter · status pill · toggle onto four tracks.
+- **Figure-ground.** `<ScoreMeter />` separates the verdict (recessed zone,
+  hero numeral in the display voice, ten-block gauge) from the evidence
+  (card plane, `110px | 1fr | 36px` rows with recessed wells and ink/80 fills).
+- **Common region.** `<AuthorityByline variant="dossier-box" />` is two
+  full-width regions in one container — bio header, then a recessed
+  verification/methodology footer — no floating avatar column.
+- **Similarity — one silhouette per meaning.** Accolades are inverse-fill tags
+  (`<AwardBadge />`, `01 | BEST OVERALL`); inventory and commercial state are
+  pills with a status dot; lab credentials are recessed mono chips
+  (`<StatusPill kind="status" | "technical" />`).
+- **Closure.** Headings hold a 64ch measure or a 7 / 5 dossier bar with a
+  key-metric block; cards are anchored by a recessed action bar; grids that
+  hold cards use `items-start`.
 
 ## Primitive choreography
 
@@ -102,7 +121,7 @@ Every primitive is built with the same four steps, recorded in its file header:
 | Tier | Primitive | Status |
 | --- | --- | --- |
 | 1 | AffiliateAction · MerchantOfferRow · PromoCodeChip | ✓ Sprint 2A / 3A |
-| 2 | AwardBadge · StatusPill · ScoreMeter · AuthorityByline | ✓ Sprint 1A / 2A / audit |
+| 2 | AwardBadge · StatusPill · ScoreMeter (+ MicroMeter) · AuthorityByline | ✓ Sprint 1A / 2A / audit |
 | 3 | SurfaceCard · EditorialHeading · ProductMediaFrame | ✓ Sprint 1A |
 | 4 | SpecList · ProgressiveCollapse | ✓ audit / Sprint 3A |
 | 5 | ResponsiveSheet | ✓ Sprint 3A |

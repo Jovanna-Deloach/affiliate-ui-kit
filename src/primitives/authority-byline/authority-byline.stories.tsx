@@ -9,12 +9,13 @@ import {
 } from "@/fixtures/authors";
 import { productCreatine, productWatch } from "@/fixtures/products";
 import { EditorialHeading } from "@/primitives/editorial-heading";
-import { Labeled } from "@/stories/story-label";
+import { Specimen } from "@/stories/specimen";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { AuthorityByline } from "./authority-byline";
 
 const VARIANTS = ["inline-header", "dossier-box", "verified-strip"] as const;
+const NAMES = { "inline-header": "Inline header", "dossier-box": "Dossier box", "verified-strip": "Verified strip" } as const;
 
 const meta = {
   title: "Tier 2 · Evaluation & E-E-A-T/AuthorityByline",
@@ -47,21 +48,20 @@ export const Playground: Story = {
   ),
 };
 
-export const AllVariants: Story = {
-  name: "Variants · variant",
+export const Variants: Story = {
   render: (args) => (
-    <div className="flex max-w-2xl flex-col gap-section-gap">
+    <div className="flex max-w-2xl flex-col gap-section">
       {VARIANTS.map((variant) => (
-        <Labeled key={variant} label={`variant="${variant}"`}>
+        <Specimen key={variant} caption={NAMES[variant]}>
           <AuthorityByline {...args} variant={variant} />
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
 export const DossierClinical: Story = {
-  name: "Dossier · portrait, credential pills, methodology well (open by default)",
+  name: "Dossier — two regions, methodology open",
   render: () => (
     <div className="max-w-2xl">
       <AuthorityByline
@@ -76,29 +76,27 @@ export const DossierClinical: Story = {
 };
 
 export const MinimalData: Story = {
-  name: "Data · name only · no methodology · no dates",
+  name: "Minimal data",
   render: () => (
-    <div className="flex max-w-2xl flex-col gap-section-gap">
-      <Labeled label="author={{ name }} only → monogram fallback">
+    <div className="flex max-w-2xl flex-col gap-section">
+      <Specimen caption="Name only — monogram fallback">
         <AuthorityByline author={{ name: "Jonah Whitfield" }} />
-      </Labeled>
-      <Labeled label="verified-strip without methodology">
+      </Specimen>
+      <Specimen caption="Verified strip without methodology">
         <AuthorityByline author={{ name: "Celeste Marchetti", role: "Editor" }} verifiedAt="2026-10-01T00:00:00Z" variant="verified-strip" />
-      </Labeled>
+      </Specimen>
+      <Specimen caption="Dossier without portrait or methodology">
+        <AuthorityByline author={{ name: "Jonah Whitfield", role: "Contributing tester", credentials: ["UESCA run coach"] }} verifiedAt="2026-10-01T00:00:00Z" variant="dossier-box" />
+      </Specimen>
     </div>
   ),
 };
 
 export const UnderHeading: Story = {
-  name: "Composition · article header lockup",
+  name: "Under an article heading",
   render: () => (
-    <div className="flex max-w-3xl flex-col gap-row-pad">
-      <EditorialHeading
-        as="h1"
-        eyebrow={productWatch.eyebrow}
-        title={`${productWatch.brand} ${productWatch.name} review`}
-        dek={productWatch.verdictSummary}
-      />
+    <div className="flex max-w-3xl flex-col gap-stack">
+      <EditorialHeading as="h1" eyebrow={productWatch.eyebrow} title={`${productWatch.brand} ${productWatch.name} review`} dek={productWatch.verdictSummary} />
       <AuthorityByline
         author={authorEditorial}
         reviewedBy={reviewerFactCheck}
@@ -114,7 +112,7 @@ export const SideBySideVerticals: Story = {
   name: "★ Multi-vertical side-by-side",
   render: () => (
     <VerticalCompare>
-      <div className="flex flex-col gap-section-gap">
+      <div className="flex flex-col gap-section">
         <AuthorityByline author={authorClinical} verifiedAt={productCreatine.lastVerifiedAt} methodology={methodologyClinical} variant="inline-header" />
         <AuthorityByline author={authorClinical} reviewedBy={reviewerFactCheck} verifiedAt={productCreatine.lastVerifiedAt} methodology={methodologyClinical} variant="dossier-box" />
         <AuthorityByline author={authorClinical} verifiedAt={productCreatine.lastVerifiedAt} methodology={methodologyClinical} variant="verified-strip" />
@@ -128,9 +126,9 @@ export const Viewports: Story = {
   render: () => (
     <ViewportFrames
       render={() => (
-        <div className="flex flex-col gap-row-pad">
+        <div className="flex flex-col gap-stack">
           <AuthorityByline author={authorEditorial} reviewedBy={reviewerFactCheck} verifiedAt={productWatch.lastVerifiedAt} methodology={methodologyEditorial} variant="inline-header" />
-          <AuthorityByline author={authorEditorial} verifiedAt={productWatch.lastVerifiedAt} methodology={methodologyEditorial} variant="dossier-box" />
+          <AuthorityByline author={authorEditorial} reviewedBy={reviewerFactCheck} verifiedAt={productWatch.lastVerifiedAt} methodology={methodologyEditorial} variant="dossier-box" />
         </div>
       )}
     />

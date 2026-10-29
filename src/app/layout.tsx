@@ -37,7 +37,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Affiliate UI Kit",
   description:
-    "Multi-vertical affiliate & editorial commerce primitives. One behavioral codebase, radically different verticals via structural tokens.",
+    "Multi-vertical affiliate & editorial commerce primitives. One structural spine; verticals change only tone and display voice.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       data-vertical="luxury-editorial"
       className={`${inter.variable} ${playfair.variable} ${jakarta.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-dvh bg-background text-foreground">{children}</body>
+      <body className="min-h-dvh bg-canvas text-ink">{children}</body>
     </html>
   );
 }

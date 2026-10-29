@@ -20,7 +20,7 @@ function OpenButton({ label }: { label: string }) {
   return (
     <button
       type="button"
-      className="focus-ring inline-flex h-control cursor-pointer items-center gap-[0.5em] rounded-interactive border-interactive-w border-border-strong bg-surface px-[calc(var(--space-badge-x)*1.8)] type-eyebrow leading-none text-foreground transition-colors duration-interactive ease-spring hover:border-foreground hover:bg-surface-recessed"
+      className="focus-ring inline-flex h-control cursor-pointer items-center gap-[0.5em] rounded-inner border border-strong bg-surface px-cell-x type-eyebrow text-ink transition-colors duration-interactive ease-standard hover:border-ink hover:bg-recessed"
     >
       {label}
     </button>
@@ -29,8 +29,8 @@ function OpenButton({ label }: { label: string }) {
 
 function OffersBody() {
   return (
-    <div className="flex flex-col gap-row-pad">
-      <p className="text-sm text-muted">
+    <div className="flex flex-col gap-stack">
+      <p className="m-0 text-body-sm text-ink-secondary">
         Prices verified {formatDate(productShoe01.lastVerifiedAt!)}. Commissions never affect rankings.
       </p>
       <MerchantOfferList offers={productShoe01.offers} rowProps={{ productId: productShoe01.id, placement: "offer-sheet", density: "compact" }} />
@@ -51,7 +51,7 @@ const meta = {
     children: <OffersBody />,
     trigger: <OpenButton label="View all retailers" />,
     footer: (
-      <AffiliateAction href={best.affiliateUrl} fullWidth tracking={{ merchant: best.merchantName, offerId: best.id, productId: productShoe01.id, placement: "offer-sheet-footer" }}>
+      <AffiliateAction href={best.affiliateUrl} size="lg" width="full" tracking={{ merchant: best.merchantName, offerId: best.id, productId: productShoe01.id, placement: "offer-sheet-footer" }}>
         Shop best price · {bestPrice(productShoe01)}
       </AffiliateAction>
     ),
@@ -70,8 +70,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
   render: (args) => (
-    <div className="flex flex-col gap-cluster-gap">
-      <p className="text-sm text-muted">Resize below 768px to get the vaul bottom sheet; above it, the Radix slide-over.</p>
+    <div className="flex flex-col gap-cluster">
+      <p className="m-0 text-body-sm text-ink-secondary">Resize below 768px for the vaul bottom sheet; above it, the Radix slide-over.</p>
       <div>
         <ResponsiveSheet {...args} />
       </div>
@@ -80,7 +80,7 @@ export const Playground: Story = {
 };
 
 export const OpenCompactOfferSheet: Story = {
-  name: "Open · compact-offer-sheet (desktop slide-over / mobile bottom sheet)",
+  name: "Open · compact offer sheet",
   args: { defaultOpen: true },
   render: (args) => (
     <div className="min-h-[60dvh]">
@@ -90,7 +90,7 @@ export const OpenCompactOfferSheet: Story = {
 };
 
 export const OpenHalfScreenDossier: Story = {
-  name: "Open · half-screen-dossier (snap 55% → 100% on mobile)",
+  name: "Open · half-screen dossier (snap 55% → 100% on mobile)",
   args: {
     defaultOpen: true,
     size: "half-screen-dossier",
@@ -98,15 +98,15 @@ export const OpenHalfScreenDossier: Story = {
     description: productWatch.eyebrow,
     trigger: <OpenButton label="Open dossier" />,
     footer: (
-      <AffiliateAction href={productWatch.offers[0]!.affiliateUrl} fullWidth tracking={{ merchant: productWatch.offers[0]!.merchantName, productId: productWatch.id, placement: "dossier-footer" }}>
+      <AffiliateAction href={productWatch.offers[0]!.affiliateUrl} size="lg" width="full" tracking={{ merchant: productWatch.offers[0]!.merchantName, productId: productWatch.id, placement: "dossier-footer" }}>
         Shop at {productWatch.offers[0]!.merchantName} · {bestPrice(productWatch)}
       </AffiliateAction>
     ),
     children: (
-      <div className="flex flex-col gap-row-pad">
-        <ProductMediaFrame media={productWatch.media} badge={<AwardBadge shape="glass-pill" badge={productWatch.awardBadge} />} />
-        <ScoreMeter score={productWatch.overallScore!} subScores={productWatch.subScores} visual="tabular-row" label="Editor score" />
-        <p className="text-sm leading-relaxed text-muted">{productWatch.verdictSummary}</p>
+      <div className="flex flex-col gap-stack">
+        <ProductMediaFrame media={productWatch.media} badge={<AwardBadge surface="glass" badge={productWatch.awardBadge} />} />
+        <ScoreMeter score={productWatch.overallScore!} subScores={productWatch.subScores} label="Editor score" />
+        <p className="m-0 text-body leading-body text-ink-secondary">{productWatch.verdictSummary}</p>
         <AuthorityByline author={authorEditorial} verifiedAt={productWatch.lastVerifiedAt} methodology={methodologyEditorial} variant="verified-strip" />
       </div>
     ),
@@ -119,7 +119,7 @@ export const OpenHalfScreenDossier: Story = {
 };
 
 export const LeftSide: Story = {
-  name: "Variants · side=left (desktop)",
+  name: "Left side (desktop)",
   args: { defaultOpen: true, side: "left" },
   render: (args) => (
     <div className="min-h-[60dvh]">
@@ -130,7 +130,5 @@ export const LeftSide: Story = {
 
 export const SideBySideVerticals: Story = {
   name: "★ Multi-vertical side-by-side (triggers; open one to compare)",
-  render: (args) => (
-    <VerticalCompare render={() => <ResponsiveSheet {...args} />} />
-  ),
+  render: (args) => <VerticalCompare render={() => <ResponsiveSheet {...args} />} />,
 };

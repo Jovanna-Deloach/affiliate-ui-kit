@@ -3,23 +3,24 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { productCreatine, productShoe01, productWatch } from "@/fixtures/products";
 import { ProgressiveCollapse, ProgressiveCollapseGroup } from "@/primitives/progressive-collapse";
 import { SurfaceCard } from "@/primitives/surface-card";
-import { Labeled } from "@/stories/story-label";
+import { Specimen } from "@/stories/specimen";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 
 import { SpecList } from "./spec-list";
 
-const PRESENTATIONS = ["two-col-grid", "striped-rows", "dotted-leader", "metric-chips"] as const;
+const PRESENTATIONS = ["keyline", "two-column", "leader", "metric-chips"] as const;
+const NAMES = {
+  keyline: "Keyline — 180px label column",
+  "two-column": "Two columns of keyline rows",
+  leader: "Dotted leader (narrow cells)",
+  "metric-chips": "Metric chips + keyline rows",
+} as const;
 
 const meta = {
   title: "Tier 4 · Comparison & Discovery/SpecList",
   component: SpecList,
   parameters: { layout: "fullscreen" },
-  args: {
-    specs: productShoe01.specs,
-    presentation: "two-col-grid",
-    density: "comfortable",
-    highlightFirst: false,
-  },
+  args: { specs: productShoe01.specs, presentation: "keyline", density: "comfortable", highlightFirst: false },
   argTypes: {
     presentation: { control: "select", options: PRESENTATIONS },
     density: { control: "inline-radio", options: ["compact", "comfortable"] },
@@ -38,33 +39,32 @@ export const Playground: Story = {
   ),
 };
 
-export const AllPresentations: Story = {
-  name: "Variants · presentation",
+export const Presentations: Story = {
   render: (args) => (
-    <div className="grid items-start gap-grid-gap md:grid-cols-2">
+    <div className="grid items-start gap-grid md:grid-cols-2">
       {PRESENTATIONS.map((presentation) => (
-        <Labeled key={presentation} label={`presentation="${presentation}"`}>
+        <Specimen key={presentation} caption={NAMES[presentation]} className={presentation === "two-column" ? "md:col-span-2" : undefined}>
           <SurfaceCard as="section">
-            <p className="type-eyebrow text-muted">Specifications</p>
+            <p className="type-eyebrow m-0 text-ink-tertiary">Specifications</p>
             <SpecList {...args} presentation={presentation} highlightFirst={presentation === "metric-chips"} />
           </SurfaceCard>
-        </Labeled>
+        </Specimen>
       ))}
     </div>
   ),
 };
 
-export const Density: Story = {
-  name: "Variants · density · highlightFirst · limit",
+export const DensityAndLimit: Story = {
+  name: "Density · highlightFirst · limit",
   render: () => (
-    <div className="grid items-start gap-grid-gap md:grid-cols-3">
-      <Labeled label='density="compact"'>
+    <div className="grid items-start gap-grid md:grid-cols-3">
+      <Specimen caption="Compact rows">
         <SpecList specs={productShoe01.specs} density="compact" />
-      </Labeled>
-      <Labeled label="highlightFirst (Key pills float to the top)">
+      </Specimen>
+      <Specimen caption="Highlights first">
         <SpecList specs={productShoe01.specs} highlightFirst />
-      </Labeled>
-      <Labeled label="limit={4} inside a ProgressiveCollapse for the rest">
+      </Specimen>
+      <Specimen caption="Four rows, the rest behind a disclosure">
         <div className="flex flex-col">
           <SpecList specs={productShoe01.specs} limit={4} />
           <ProgressiveCollapseGroup className="border-t-0">
@@ -73,27 +73,31 @@ export const Density: Story = {
             </ProgressiveCollapse>
           </ProgressiveCollapseGroup>
         </div>
-      </Labeled>
+      </Specimen>
     </div>
   ),
 };
 
 export const Payloads: Story = {
-  name: "Data · prose values, tooltips, mixed units",
+  name: "Prose values, tooltips, mixed units",
   render: () => (
-    <div className="grid items-start gap-grid-gap md:grid-cols-2">
-      <Labeled label="luxury watch payload (prose values + tooltip)">
+    <div className="grid items-start gap-grid md:grid-cols-2">
+      <Specimen caption="Luxury watch — prose values and a tooltip">
         <SurfaceCard as="section">
-          <p className="type-eyebrow text-muted">{productWatch.brand} {productWatch.name}</p>
-          <SpecList specs={productWatch.specs} presentation="dotted-leader" />
+          <p className="type-eyebrow m-0 text-ink-tertiary">
+            {productWatch.brand} {productWatch.name}
+          </p>
+          <SpecList specs={productWatch.specs} />
         </SurfaceCard>
-      </Labeled>
-      <Labeled label="clinical payload (metric chips for highlights)">
+      </Specimen>
+      <Specimen caption="Clinical — metric chips for the highlights">
         <SurfaceCard as="section">
-          <p className="type-eyebrow text-muted">{productCreatine.brand} {productCreatine.name}</p>
+          <p className="type-eyebrow m-0 text-ink-tertiary">
+            {productCreatine.brand} {productCreatine.name}
+          </p>
           <SpecList specs={productCreatine.specs} presentation="metric-chips" />
         </SurfaceCard>
-      </Labeled>
+      </Specimen>
     </div>
   ),
 };
@@ -103,7 +107,7 @@ export const SideBySideVerticals: Story = {
   render: () => (
     <VerticalCompare>
       <SurfaceCard as="section">
-        <p className="type-eyebrow text-muted">Specifications</p>
+        <p className="type-eyebrow m-0 text-ink-tertiary">Specifications</p>
         <SpecList specs={productShoe01.specs} presentation="metric-chips" />
       </SurfaceCard>
     </VerticalCompare>
@@ -111,7 +115,7 @@ export const SideBySideVerticals: Story = {
 };
 
 export const Viewports: Story = {
-  name: "Responsive · 375 (2 chips per row) vs 1280 (3)",
+  name: "Responsive · 375 (38% label column) vs 1280 (180px)",
   render: () => (
     <ViewportFrames
       render={() => (
