@@ -16,10 +16,11 @@ import type { AffiliateAttribution, MerchantOffer } from "@/types/affiliate";
  * axis across all rows (Law of Continuity) while a longer label widens its
  * track for every row instead of clipping:
  *
- *   ┌ 40px ─┬ minmax(140px,1fr) ──┬ max-content ┬ ≥110px ─┬ ≥148px ─┐
- *   │ mark  │ name                │ one pill    │ $189    │ CTA     │
- *   │       │ shipping · promo    │ (if any)    │ was/Δ   │         │
- *   └───────┴─────────────────────┴─────────────┴─────────┴─────────┘
+ *   ┌0┬ 40px ─┬ minmax(120px,1fr) ──┬ max-content ┬ ≥110px ─┬ ≥148px ─┬0┐
+ *   │ │ mark  │ name                │ one pill    │ $189    │ CTA     │ │
+ *   │ │       │ shipping · promo    │ (if any)    │ was/Δ   │         │ │
+ *   └─┴───────┴─────────────────────┴─────────────┴─────────┴─────────┴─┘
+ *   (zero-width gutter tracks + the 16px column gap give the row its inset)
  *
  * Quiet by default: in-stock is the normal state and gets no pill; the row
  * carries at most ONE pill — Best price, Our partner, or Out of stock.
@@ -31,7 +32,7 @@ import type { AffiliateAttribution, MerchantOffer } from "@/types/affiliate";
  *                                                           (fill, never an indent)
  *   --row-y / --inset-cell-x                                row rhythm + inset
  *
- * Below a 38rem container (the list is the `@container`) the pill drops to a
+ * Below a 40rem container (the list is the `@container`) the pill drops to a
  * second row and the CTA to a full-width third; the price keyline holds.
  * CTA labels are short verbs ("View deal", "Check availability" — about 18
  * characters at most): the track grows to the longest one in the list, and
@@ -41,16 +42,23 @@ import type { AffiliateAttribution, MerchantOffer } from "@/types/affiliate";
  * Out of stock: identity + price dim to 55 %, the price strikes through and
  * the action becomes a ghost "Check stock". Server Component; only the CTA
  * leaf is client. A bare row outside <MerchantOfferList /> lays out its own
- * tracks and needs a `@container` ancestor to reach the five-column layout.
+ * tracks and needs a `@container` ancestor to reach the single-row layout.
  */
 
-const MOBILE_TRACKS = "grid-cols-[var(--keyline-monogram)_minmax(0,1fr)_minmax(var(--keyline-price),max-content)]";
+/**
+ * Tracks. The first and last tracks are ZERO-WIDTH GUTTERS: together with the
+ * column gap they inset the content by one gap on each side, so the row needs
+ * no horizontal padding. (A subgrid's padding is carved out of its edge
+ * tracks — padding a row would shrink the fixed 40px monogram track and the
+ * mark would spill into the gap.) Content lives in columns 2 … n-1.
+ */
+const MOBILE_TRACKS = "grid-cols-[0_var(--keyline-monogram)_minmax(0,1fr)_minmax(var(--keyline-price),max-content)_0]";
 const DESKTOP_TRACKS =
-  "@min-[38rem]:grid-cols-[var(--keyline-monogram)_minmax(140px,1fr)_max-content_minmax(var(--keyline-price),max-content)_minmax(var(--keyline-cta),max-content)]";
+  "@min-[40rem]:grid-cols-[0_var(--keyline-monogram)_minmax(120px,1fr)_max-content_minmax(var(--keyline-price),max-content)_minmax(var(--keyline-cta),max-content)_0]";
 
 const rowVariants = cva(
-  // `dense` so an explicitly placed column 3 (pill) still lands on row 1 after column 4 (price).
-  "grid min-w-0 grid-flow-dense items-center gap-x-stack gap-y-cluster px-cell-x py-(--offer-row-y)",
+  // `dense` so an explicitly placed pill column still lands on row 1 after the price column.
+  "grid min-w-0 grid-flow-dense items-center gap-x-stack gap-y-cluster py-(--offer-row-y)",
   {
     variants: {
       density: {
@@ -146,18 +154,18 @@ export function MerchantOfferRow({
       className={cn(rowVariants({ density, highlight: resolvedHighlight, inList }), className)}
       {...props}
     >
-      <MerchantMonogram offer={offer} className={cn(dim && "opacity-55")} />
+      <MerchantMonogram offer={offer} className={cn("col-start-2", dim && "opacity-55")} />
 
-      {/* Col 2 — identity: name + one muted fact line */}
-      <div data-slot="offer-identity" className={cn("flex min-w-0 flex-col gap-hairline", dim && "opacity-55")}>
+      {/* Identity: name + one muted fact line */}
+      <div data-slot="offer-identity" className={cn("col-start-3 flex min-w-0 flex-col gap-hairline", dim && "opacity-55")}>
         <span className="truncate text-body-sm font-medium text-ink">{offer.merchantName}</span>
         {facts.length > 0 && <span className="truncate text-caption text-ink-tertiary">{facts.join(" · ")}</span>}
       </div>
 
-      {/* Col 4 — price stack on the price keyline, strictly right-aligned */}
+      {/* Price stack on the price keyline, strictly right-aligned */}
       <div
         data-slot="offer-price"
-        className={cn("flex min-w-0 flex-col items-end gap-hairline text-right @min-[38rem]:col-start-4", dim && "opacity-55")}
+        className={cn("col-start-4 flex min-w-0 flex-col items-end gap-hairline text-right @min-[40rem]:col-start-5", dim && "opacity-55")}
       >
         <span className={cn("type-metric whitespace-nowrap text-body text-ink", dim && "line-through text-ink-tertiary")}>
           {formatPrice(offer.price, currency)}
@@ -169,18 +177,18 @@ export function MerchantOfferRow({
         ) : null}
       </div>
 
-      {/* Col 3 — the one pill: full-width second row on mobile, right-aligned column on desktop */}
+      {/* The one pill: full-width second row on mobile, right-aligned column on desktop */}
       {pill && (
         <div
           data-slot="offer-pill"
-          className="col-span-3 flex min-w-0 items-center @min-[38rem]:col-span-1 @min-[38rem]:col-start-3 @min-[38rem]:justify-end"
+          className="col-span-3 col-start-2 flex min-w-0 items-center @min-[40rem]:col-span-1 @min-[40rem]:col-start-4 @min-[40rem]:justify-end"
         >
           {pill}
         </div>
       )}
 
-      {/* Col 5 — CTA on the CTA keyline; full-width last row on mobile */}
-      <div data-slot="offer-cta" className="col-span-3 @min-[38rem]:col-span-1 @min-[38rem]:col-start-5 @min-[38rem]:justify-self-stretch">
+      {/* CTA on the CTA keyline; full-width last row on mobile */}
+      <div data-slot="offer-cta" className="col-span-3 col-start-2 @min-[40rem]:col-span-1 @min-[40rem]:col-start-6 @min-[40rem]:justify-self-stretch">
         <AffiliateAction
           href={offer.affiliateUrl}
           attribution={attribution}
@@ -220,9 +228,9 @@ function MerchantMonogram({ offer, className }: { offer: MerchantOffer; classNam
 
 /**
  * A complete comparison list. Owns the column tracks (rows are subgrids),
- * the `@container` that switches them, and the hairlines. Rows are inset
- * 16px so the best-price fill has breathing room; the list bleeds by the
- * same amount so content stays on its container's keyline.
+ * the `@container` that switches them, and the hairlines. The gutter tracks
+ * inset every row by one gap so the best-price fill has breathing room; the
+ * list bleeds by the same amount so content stays on its container's keyline.
  */
 export function MerchantOfferList({
   offers,

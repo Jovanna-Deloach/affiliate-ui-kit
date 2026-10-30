@@ -60,7 +60,7 @@ export const ComparisonList: Story = {
 export const DensityAndHighlight: Story = {
   name: "Density × highlight",
   render: () => (
-    <div className="grid items-start gap-grid lg:grid-cols-2">
+    <div className="flex max-w-2xl flex-col gap-section">
       {(["comfortable", "compact"] as const).map((density) => (
         <Specimen key={density} caption={density === "compact" ? "Compact rows" : "Comfortable rows"}>
           <MerchantOfferList offers={[bestOffer, partnerOffer, plainOffer, outOfStockOffer]} rowProps={{ density }} />
