@@ -26,6 +26,8 @@ const twMerge = extendTailwindMerge<"type-style">({
         "accolade-x",
         "accolade-y",
         "pedestal",
+        "compact",
+        "inline",
         "row",
         "row-compact",
         "hairline",
@@ -47,6 +49,9 @@ const twMerge = extendTailwindMerge<"type-style">({
         "control-lg",
         "portrait",
         "portrait-sm",
+        "portrait-xs",
+        "thumb",
+        "thumb-lg",
         "dot",
         "track",
         "track-sm",
@@ -95,6 +100,8 @@ const twMerge = extendTailwindMerge<"type-style">({
     classGroups: {
       duration: ["duration-interactive", "duration-reveal", "duration-micro", "duration-media"],
       "border-w": ["border-emphasis"],
+      "border-w-l": ["border-l-emphasis"],
+      "border-w-t": ["border-t-emphasis"],
       "font-weight": ["font-weight-display"],
       "type-style": [
         "type-eyebrow",

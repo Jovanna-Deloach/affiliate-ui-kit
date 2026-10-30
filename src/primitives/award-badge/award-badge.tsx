@@ -89,13 +89,8 @@ export function AwardBadge({
   const label = badge?.label ?? children;
   const Comp = asChild ? Slot : "span";
 
-  const content = (
-    <>
-      {Icon && <Icon size="1.1em" strokeWidth={1.5} aria-hidden="true" />}
-      <span className="min-w-0 truncate">{label}</span>
-    </>
-  );
-
+  // asChild: the Slottable must be a DIRECT child of the Slot so Radix clones
+  // the consumer's element (an <a>) and keeps the icon beside its children.
   return (
     <Comp
       data-slot="award-badge"
@@ -104,7 +99,8 @@ export function AwardBadge({
       className={cn(badgeVariants({ surface: resolvedSurface, size }), className)}
       {...props}
     >
-      {asChild ? <Slottable>{content}</Slottable> : content}
+      {Icon && <Icon size="1.1em" strokeWidth={1.5} aria-hidden="true" />}
+      {asChild ? <Slottable>{children}</Slottable> : <span className="min-w-0 truncate">{label}</span>}
     </Comp>
   );
 }

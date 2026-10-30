@@ -71,8 +71,10 @@ speak.
 
 21st.dev micro-interactions sanitized into pure, token-bound CSS: spotlight
 ring (`@property`-registered alpha), sheen sweep, arrow nudge, check-draw,
-media crossfade / zoom. Nothing instantiates a JS animation controller, so
-every primitive is safe inside a 30-item `.map()`.
+media crossfade / zoom, loupe crossfade (stacked frames, opacity only) and
+split reveal (`clip-path: inset()` driven by one `--split` custom property).
+Nothing instantiates a JS animation controller — framer-motion is banned by
+the audit — so every primitive is safe inside a 30-item `.map()`.
 
 ### 4. Guardrails (enforced)
 
@@ -84,7 +86,9 @@ every primitive is safe inside a 30-item `.map()`.
    Components; interaction physics are CSS.
 3. **Affiliate compliance** — monetized links route through `<AffiliateAction />`
    (`rel="sponsored nofollow noopener"`, UTM/subId injection, `onClick` +
-   `onAuxClick` tracking).
+   `onAuxClick` tracking). Under `asChild` compliance still wins: the child's
+   own `href`/`rel`/`target` are replaced or merged, never trusted alone
+   (`affiliate-action.test.tsx`).
 4. **SEO-safe disclosure** — collapsibles stay mounted (`forceMount` + CSS grid
    `0fr → 1fr`).
 
@@ -138,6 +142,7 @@ Every primitive is built with the same four steps, recorded in its file header:
 | 3 | SurfaceCard · EditorialHeading · ProductMediaFrame | ✓ Sprint 1A |
 | 4 | SpecList · ProgressiveCollapse | ✓ audit / Sprint 3A |
 | 5 | ResponsiveSheet | ✓ Sprint 3A |
+| 6 | InlineProductMention · MediaLoupeCarousel · SplitComparisonSlider · TesterCalloutQuote | ✓ Expansion batch 4 |
 | 1 | DisclosureBanner | backlog |
 | 2 | ProsConsGrid | backlog |
 | 3 | HotspotCanvas | backlog (3B) |
@@ -165,4 +170,8 @@ Photography is real studio packshots from Unsplash
 colour so contain-fit frames match their tile to the shot. Author portraits
 are real photographs too. `src/fixtures/lab-assays.ts` is a 16-row certificate
 of analysis (analyte · result · reference · method · verdict) for the
-clinical disclosure and pill stories.
+clinical disclosure and pill stories. `src/fixtures/gallery.ts` carries the
+Tier 6 visual-proof material: four loupe angles of the Aerolite 3 with tester
+inspection notes, an out-of-box / after-400-miles wear pair, and attributed
+tester quotes with their logged mileage. The midsole and upper crops and the
+worn derivative are generated from the same packshot (see `ATTRIBUTION.md`).

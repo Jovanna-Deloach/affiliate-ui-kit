@@ -340,3 +340,44 @@
     scale: 1 0;
   }
 }
+
+/* --------------------------------------------------------------------------
+   loupe-crossfade  (source anatomy: ibrandify/thumbnail-image-viewer, which
+   re-keys the <img>; here every frame stays mounted and the active one fades
+   in over --duration-media). No controller, no framer: a gallery of five is
+   five opacity transitions.
+   -------------------------------------------------------------------------- */
+@utility loupe-crossfade {
+  & [data-slot="loupe-frame"] {
+    opacity: 0;
+    transition: opacity var(--duration-media) var(--ease-media);
+  }
+  & [data-slot="loupe-frame"][data-active="true"] {
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   split-reveal  (source physics: 0xuser64bit/image-compare — clip-path inset
+   driven by a percentage). The "before" layer is clipped at --split; the
+   divider and handle sit on the same line. Compositor-only: clip-path and
+   translate, nothing re-lays out while dragging.
+   -------------------------------------------------------------------------- */
+@utility split-reveal {
+  --split: 50%;
+  & [data-slot="split-before"] {
+    clip-path: inset(0 calc(100% - var(--split)) 0 0);
+    will-change: clip-path;
+  }
+  & [data-slot="split-divider"] {
+    left: var(--split);
+    translate: -50% 0;
+    will-change: translate, left;
+  }
+  /* Keyboard focus on the (invisible) range input rings the visible handle. */
+  &:has(input:focus-visible) [data-slot="split-handle"] {
+    box-shadow:
+      0 0 0 2px var(--surface-primary),
+      0 0 0 4px var(--focus-ring);
+  }
+}

@@ -16,3 +16,8 @@ export * from "./spec-list";
 export * from "./progressive-collapse";
 /* Tier 5 — High-Intent Conversion & Interactive Tools */
 export * from "./responsive-sheet";
+/* Tier 6 — Long-Form Editorial & Visual Proof */
+export * from "./inline-product-mention";
+export * from "./media-loupe-carousel";
+export * from "./split-comparison-slider";
+export * from "./tester-callout-quote";

@@ -68,6 +68,7 @@
   --spacing-accolade-x: var(--inset-accolade-x);
   --spacing-accolade-y: var(--inset-accolade-y);
   --spacing-pedestal: var(--inset-pedestal);
+  --spacing-compact: var(--inset-compact);
   --spacing-row: var(--row-y);
   --spacing-row-compact: var(--row-y-compact);
   --spacing-hairline: var(--gap-hairline);
@@ -76,6 +77,7 @@
   --spacing-grid: var(--gap-grid);
   --spacing-section: var(--gap-section);
   --spacing-column: var(--gap-column);
+  --spacing-inline: var(--gap-inline);
   --spacing-monogram: var(--keyline-monogram);
   --spacing-price: var(--keyline-price);
   --spacing-cta: var(--keyline-cta);
@@ -89,6 +91,9 @@
   --spacing-control-lg: var(--size-control-lg);
   --spacing-portrait: var(--size-portrait);
   --spacing-portrait-sm: var(--size-portrait-sm);
+  --spacing-portrait-xs: var(--size-portrait-xs);
+  --spacing-thumb: var(--size-thumb);
+  --spacing-thumb-lg: var(--size-thumb-lg);
   --spacing-dot: var(--size-dot);
   --spacing-track: var(--size-track);
   --spacing-track-sm: var(--size-track-sm);
@@ -159,6 +164,12 @@
 }
 @utility border-emphasis {
   border-width: var(--border-width-emphasis);
+}
+@utility border-l-emphasis {
+  border-left-width: var(--border-width-emphasis);
+}
+@utility border-t-emphasis {
+  border-top-width: var(--border-width-emphasis);
 }
 @utility font-weight-display {
   font-weight: var(--weight-display);

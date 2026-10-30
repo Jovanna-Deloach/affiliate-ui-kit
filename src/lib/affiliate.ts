@@ -55,9 +55,11 @@ export function mergeRel(rel?: string): string {
  * shell (`window.addEventListener("affiliate:click", e => sendBeacon(...))`).
  */
 export function emitAffiliateClick(
-  event: AffiliateClickEvent,
+  input: Omit<AffiliateClickEvent, "timestamp"> & { timestamp?: number },
   onTrack?: (event: AffiliateClickEvent) => void,
 ) {
+  // Stamped here, at dispatch time — never during a component render.
+  const event: AffiliateClickEvent = { ...input, timestamp: input.timestamp ?? Date.now() };
   onTrack?.(event);
   if (typeof window !== "undefined" && typeof window.dispatchEvent === "function") {
     window.dispatchEvent(new CustomEvent(AFFILIATE_CLICK_EVENT, { detail: event }));

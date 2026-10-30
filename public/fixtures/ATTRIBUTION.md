@@ -9,6 +9,9 @@ required — credited here anyway). Downloaded at `w=1600&q=82`.
 | --- | --- | --- |
 | `shoe-aerolite-01.jpg` | White/orange athletic sneaker, floating, light studio background | [LG88A2XgIXY](https://unsplash.com/photos/LG88A2XgIXY) |
 | `shoe-aerolite-02.jpg` | Same sneaker, secondary angle (same shoot) | [J2-wAQDckus](https://unsplash.com/photos/J2-wAQDckus) |
+| `shoe-aerolite-03-midsole.jpg` | Loupe crop of `shoe-aerolite-01.jpg` (midsole + outsole) — derivative | same as above |
+| `shoe-aerolite-04-upper.jpg` | Loupe crop of `shoe-aerolite-02.jpg` (perforated upper + lacing) — derivative | same as above |
+| `shoe-aerolite-02-worn.jpg` | Demo "after 400 miles" derivative of `shoe-aerolite-02.jpg` (desaturated, darkened, vignetted) for the comparison slider | same as above |
 | `shoe-tempo-01.jpg` | Grey running shoe, floating on white | [LxVxPA1LOVM](https://unsplash.com/photos/LxVxPA1LOVM) |
 | `shoe-cumulus-01.jpg` | Volt training shoe on green | [kP6knT7tjn4](https://unsplash.com/photos/kP6knT7tjn4) |
 | `watch-ardent-01.jpg` | Two-tone dive watch on white | [O703kpzIsQI](https://unsplash.com/photos/O703kpzIsQI) |
