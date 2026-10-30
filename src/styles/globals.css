@@ -87,6 +87,9 @@
   --spacing-status: var(--keyline-status);
   --spacing-toggle: var(--keyline-toggle);
   --spacing-rank: var(--keyline-rank);
+  --spacing-thumbnail: var(--keyline-thumbnail);
+  --spacing-figure: var(--keyline-figure);
+  --spacing-switch: var(--keyline-switch);
   --spacing-control: var(--size-control);
   --spacing-control-lg: var(--size-control-lg);
   --spacing-portrait: var(--size-portrait);
@@ -104,6 +107,9 @@
   --spacing-ring: var(--size-ring);
   --spacing-sheet-compact: var(--size-sheet-compact);
   --spacing-sheet-dossier: var(--size-sheet-dossier);
+  --spacing-dialog: var(--size-dialog);
+  --spacing-popover: var(--size-popover);
+  --spacing-switch-track: var(--size-switch);
   --spacing-row-touch: var(--size-row-touch);
   --spacing-ribbon: var(--size-ribbon);
   --spacing-masthead: var(--size-masthead);
@@ -183,6 +189,36 @@
 }
 @utility font-weight-display {
   font-weight: var(--weight-display);
+}
+/* The text field: one silhouette for every input in the kit (search,
+   newsletter, magic link, steppers). Height and radius match the control. */
+@utility control-field {
+  height: var(--size-control);
+  min-width: 0;
+  width: 100%;
+  border-radius: var(--radius-control);
+  border: var(--border-width) solid var(--border-hairline);
+  background-color: var(--surface-primary);
+  padding-inline: var(--inset-cell-x);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  color: var(--ink-primary);
+  outline: none;
+  transition:
+    border-color var(--duration-interactive) var(--ease-standard),
+    box-shadow var(--duration-interactive) var(--ease-standard);
+  &::placeholder {
+    color: var(--ink-tertiary);
+  }
+  &:hover {
+    border-color: var(--border-strong);
+  }
+  &:focus-visible {
+    border-color: var(--border-strong);
+    box-shadow:
+      0 0 0 2px var(--surface-primary),
+      0 0 0 4px var(--focus-ring);
+  }
 }
 /* The page well: every full-bleed band (masthead, ribbon, footer) centres
    its content on this measure so keylines align from header to footer. */

@@ -1,5 +1,7 @@
 /* Tier 0 — Shared controls */
 export * from "./button";
+export * from "./switch";
+export * from "./number-stepper";
 /* Tier 1 — Monetization & Attribution */
 export * from "./affiliate-action";
 export * from "./merchant-offer-row";
@@ -28,3 +30,11 @@ export * from "./mega-menu-editorial-panel";
 export * from "./sub-category-ribbon";
 export * from "./mobile-drilldown-drawer";
 export * from "./authority-footer";
+/* Tier 12 — Category Hubs (pulled forward) */
+export * from "./guide-index-card";
+/* Tier 15 — Account, Saved Dossier & Personalization */
+export * from "./auth-dialog-modal";
+export * from "./account-menu-popover";
+export * from "./saved-dossier-grid";
+export * from "./price-alerts-manager-table";
+export * from "./personalization-preset-bar";

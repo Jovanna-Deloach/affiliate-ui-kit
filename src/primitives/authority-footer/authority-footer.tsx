@@ -179,7 +179,7 @@ function NewsletterCapture({
           required
           autoComplete="email"
           placeholder="you@example.com"
-          className="focus-ring h-control min-w-0 rounded-control border border-hairline bg-surface px-cell-x text-body-sm text-ink transition-colors duration-interactive ease-standard placeholder:text-ink-tertiary hover:border-strong"
+          className="control-field"
         />
         <Button type="submit">{ctaLabel}</Button>
       </div>

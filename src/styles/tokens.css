@@ -81,6 +81,9 @@
   --keyline-status: 90px;                  /* status pill column */
   --keyline-toggle: 28px;                  /* +/− indicator column */
   --keyline-rank: 2.5rem;                  /* 40px rank index column */
+  --keyline-thumbnail: 3rem;               /* 48px thumbnail column in management tables */
+  --keyline-figure: 7.5rem;                /* 120px figure column (a price, a stepper) */
+  --keyline-switch: 5.5rem;                /* 88px switch + delete column */
 
   /* ---- 4. GEOMETRY ----------------------------------------------------- */
   --radius-container: 6px;                 /* every card / sheet / panel */
@@ -107,6 +110,9 @@
   --size-ring: 4.5rem;                     /* 72px radial verdict */
   --size-sheet-compact: 26rem;
   --size-sheet-dossier: 40rem;
+  --size-dialog: 47.5rem;                  /* 760px split dialog */
+  --size-popover: 17.5rem;                 /* 280px account menu / FTC popover */
+  --size-switch: 2.25rem;                  /* 36px switch track (thumb = control − 20px) */
   --size-row-touch: 3rem;                  /* 48px navigation row (mobile drill-down) */
   --size-ribbon: 2.75rem;                  /* 44px sticky sub-category ribbon */
   --size-masthead: 4rem;                   /* 64px site masthead (ribbon docks under it) */
