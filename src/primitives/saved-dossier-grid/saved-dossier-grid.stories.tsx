@@ -11,14 +11,24 @@ const meta = {
   title: "Tier 15 · Account & Personalization/SavedDossierGrid",
   component: SavedDossierGrid,
   parameters: { layout: "fullscreen" },
-  args: { savedProducts, savedGuides, defaultTab: "products", attribution, onCompare: () => {} },
-  argTypes: { savedProducts: { control: false }, savedGuides: { control: false }, defaultTab: { control: "inline-radio", options: ["products", "guides"] } },
+  args: { savedProducts, savedGuides, defaultTab: "products", defaultSort: "biggest-drop", attribution, onCompare: () => {} },
+  argTypes: {
+    savedProducts: { control: false },
+    savedGuides: { control: false },
+    defaultTab: { control: "inline-radio", options: ["products", "guides"] },
+    defaultSort: { control: "inline-radio", options: ["biggest-drop", "recent", "name"] },
+  },
 } satisfies Meta<typeof SavedDossierGrid>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
+
+export const OnlyRises: Story = {
+  name: "No drops — strip and ledger without movers",
+  args: { savedProducts: savedProducts.filter((s) => s.product.id === "prod-cumulus-max" || s.product.id === "prod-tempo-pro") },
+};
 
 export const SavedGuidesTab: Story = {
   name: "Saved guides tab",

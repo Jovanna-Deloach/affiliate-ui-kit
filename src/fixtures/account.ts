@@ -26,15 +26,32 @@ export const memberBenefits = [
   { id: "presets", title: "Sync calculator presets", description: "Your dose, pace and fit profiles follow you across every tool and directory." },
 ];
 
+/**
+ * Thirty days of daily lowest prices, from the saved price to today's, as a
+ * step series (merchant prices move in steps, not curves). Deterministic —
+ * the same fixture renders the same sparkline on the server and the client.
+ */
+type Step = [day: number, pct: number];
+function drop(savedPrice: number, now: number, steps: Step[]): number[] {
+  const points: number[] = [];
+  let price = savedPrice;
+  for (let day = 0; day < 30; day++) {
+    const step = steps.find(([at]) => at === day);
+    if (step) price = Math.round(savedPrice * (1 + step[1]));
+    points.push(day === 29 ? now : price);
+  }
+  return points;
+}
+
 export const savedProducts: SavedProduct[] = [
-  { product: productShoe01, savedAt: "2026-10-12T10:00:00Z", savedPrice: 210 },
-  { product: productShoe02, savedAt: "2026-10-14T10:00:00Z", savedPrice: 149 },
-  { product: productShoe03, savedAt: "2026-09-30T10:00:00Z", savedPrice: 84 },
-  { product: productWatch, savedAt: "2026-10-02T10:00:00Z", savedPrice: 4850 },
-  { product: productCreatine, savedAt: "2026-10-20T10:00:00Z", savedPrice: 24 },
-  { product: directoryProducts[3]!, savedAt: "2026-10-05T10:00:00Z", savedPrice: 189 },
-  { product: directoryProducts[8]!, savedAt: "2026-09-22T10:00:00Z", savedPrice: 95 },
-  { product: directoryProducts[13]!, savedAt: "2026-10-25T10:00:00Z", savedPrice: 189 },
+  { product: productShoe01, savedAt: "2026-10-12T10:00:00Z", savedPrice: 210, watching: true, priceHistory: drop(210, 189, [[5, -0.05], [12, 0], [19, -0.1]]) },
+  { product: productShoe02, savedAt: "2026-10-14T10:00:00Z", savedPrice: 149, priceHistory: drop(149, 149, [[9, 0.07], [16, 0]]) },
+  { product: productShoe03, savedAt: "2026-09-30T10:00:00Z", savedPrice: 84, priceHistory: drop(84, 89, [[4, 0.02], [15, 0.06]]) },
+  { product: productWatch, savedAt: "2026-10-02T10:00:00Z", savedPrice: 4850, watching: true, priceHistory: drop(4850, 4850, []) },
+  { product: productCreatine, savedAt: "2026-10-20T10:00:00Z", savedPrice: 24, watching: true, priceHistory: drop(24, 21, [[8, -0.08], [22, -0.12]]) },
+  { product: directoryProducts[3]!, savedAt: "2026-10-05T10:00:00Z", savedPrice: 189, priceHistory: drop(189, 189, [[11, -0.05], [20, 0]]) },
+  { product: directoryProducts[8]!, savedAt: "2026-09-22T10:00:00Z", savedPrice: 95, priceHistory: drop(95, 89, [[3, -0.03], [13, -0.06]]) },
+  { product: directoryProducts[13]!, savedAt: "2026-10-25T10:00:00Z", savedPrice: 189, watching: true, priceHistory: drop(189, 149, [[2, -0.1], [10, -0.15], [24, -0.21]]) },
 ];
 
 export const savedGuides: SavedGuide[] = [

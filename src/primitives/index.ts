@@ -2,6 +2,8 @@
 export * from "./button";
 export * from "./switch";
 export * from "./number-stepper";
+export * from "./select";
+export * from "./sparkline";
 /* Tier 1 — Monetization & Attribution */
 export * from "./affiliate-action";
 export * from "./merchant-offer-row";

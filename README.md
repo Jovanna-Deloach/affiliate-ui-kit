@@ -32,7 +32,7 @@ lucide-react · Storybook 10 (`@storybook/nextjs-vite`).
 | Anatomy | `--inset-card` 24 · `--inset-well` 20 · `--inset-bar-*` 24/12 · `--row-y` 12 · `--gap-cluster` 8 · `--gap-stack` 16 · `--gap-section` 40 | named rhythm, never raw numbers |
 | Keylines | `--keyline-monogram` 40 · `--keyline-price` 110 · `--keyline-cta` 148 · `--keyline-label` 180 · `--keyline-subscore` 110 · `--keyline-value` 36 · `--keyline-status` 90 · `--keyline-toggle` 28 | fixed grid tracks (Law of Continuity) |
 | Site chrome | `--size-masthead` 64 · `--size-ribbon` 44 · `--size-row-touch` 48 · `--measure-page` 80rem · `--inset-page-x` 24 (`page-well` utility) | masthead, ribbon and footer share one page well |
-| Account | `--keyline-thumbnail` 48 · `--keyline-figure` 120 · `--keyline-switch` 88 · `--size-dialog` 760 · `--size-popover` 280 · `--size-switch` 36 · `--size-thumb-xl` 96 (`control-field` utility) | management tables, dialogs, menus share one field silhouette |
+| Account | `--keyline-thumbnail` 48 · `--keyline-figure` 120 · `--keyline-switch` 88 · `--size-dialog` 760 · `--size-popover` 280 · `--size-switch` 36 · `--size-thumb-xl` 96 · `--size-sparkline` 80 × 24 (`control-field` utility) | management tables, dialogs, menus share one field silhouette |
 | Geometry | `--radius-container` 6 · `--radius-inner` 4 · `--radius-control` 4 · `--radius-tag` 3 · `--radius-pill` (dots + gauge tracks) · 1px hairlines · `--size-control` 36 · `--size-portrait` 56 | crisp architectural geometry |
 | Type scale | 11 eyebrow · 12 caption · 13 body-sm · 15 body (1.6, 62ch) · 20 title · 30 display · 36 hero metric | modular, shared |
 | Motion | `--duration-interactive` 220ms · `--duration-reveal` 360ms · `--duration-media` 600ms · `--ease-standard` | one timing for the whole kit |
@@ -148,10 +148,10 @@ Every primitive is built with the same four steps, recorded in its file header:
 | 4 | SpecList · ProgressiveCollapse | ✓ audit / Sprint 3A |
 | 5 | ResponsiveSheet | ✓ Sprint 3A |
 | 6 | InlineProductMention · MediaLoupeCarousel · SplitComparisonSlider · TesterCalloutQuote | ✓ Expansion batch 4 |
-| 0 | Button (the non-monetized control — same silhouettes as AffiliateAction, no compliance) · Switch · NumberStepper | ✓ Expansion batches 8 / 11 |
+| 0 | Button (the non-monetized control — same silhouettes as AffiliateAction, no compliance) · Switch · NumberStepper · Select · Sparkline | ✓ Expansion batches 8 / 11 |
 | 11 | MegaMenuEditorialPanel (+ MegaMenu host) · SubCategoryRibbon · MobileDrilldownDrawer · AuthorityFooter | ✓ Expansion batch 8 |
 | 12 | GuideIndexCard (pulled forward for the saved dossier) | ✓ Expansion batch 11 |
-| 15 | AuthDialogModal · AccountMenuPopover · SavedDossierGrid · PriceAlertsManagerTable · PersonalizationPresetBar | ✓ Expansion batch 11 |
+| 15 | AuthDialogModal · AccountMenuPopover · SavedDossierGrid (price ledger: summary strip, movers, subgrid rows with Δ + sparkline) · PriceAlertsManagerTable · PersonalizationPresetBar | ✓ Expansion batch 11 |
 | 7–10 | TugOfWarMeter · DecisionTreeGrid · AlternativeSwapRow · CitationPopover · PriceContextBar · UnitEconomicsChip · EditorialMasthead · SpotlightSearchModal · SchemaBreadcrumbBar · ComparisonTrayDock · PriceAlertCapture | specified, not yet built |
 | 1 | DisclosureBanner | backlog |
 | 2 | ProsConsGrid | backlog |

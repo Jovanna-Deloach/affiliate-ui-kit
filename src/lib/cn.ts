@@ -63,6 +63,8 @@ const twMerge = extendTailwindMerge<"type-style">({
         "micro-meter",
         "inline-meter",
         "ring",
+        "sparkline",
+        "sparkline-h",
         "sheet-compact",
         "sheet-dossier",
         "dialog",

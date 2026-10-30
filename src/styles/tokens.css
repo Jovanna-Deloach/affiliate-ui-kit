@@ -108,6 +108,8 @@
   --size-micro-meter: 5rem;                /* 80px threshold track */
   --size-inline-meter: 6rem;               /* 96px ranked-list bar */
   --size-ring: 4.5rem;                     /* 72px radial verdict */
+  --size-sparkline: 5rem;                  /* 80px price-history sparkline */
+  --size-sparkline-h: 1.5rem;              /* 24px sparkline height */
   --size-sheet-compact: 26rem;
   --size-sheet-dossier: 40rem;
   --size-dialog: 47.5rem;                  /* 760px split dialog */

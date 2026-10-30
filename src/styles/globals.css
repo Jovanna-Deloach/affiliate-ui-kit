@@ -105,6 +105,8 @@
   --spacing-micro-meter: var(--size-micro-meter);
   --spacing-inline-meter: var(--size-inline-meter);
   --spacing-ring: var(--size-ring);
+  --spacing-sparkline: var(--size-sparkline);
+  --spacing-sparkline-h: var(--size-sparkline-h);
   --spacing-sheet-compact: var(--size-sheet-compact);
   --spacing-sheet-dossier: var(--size-sheet-dossier);
   --spacing-dialog: var(--size-dialog);

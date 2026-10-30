@@ -46,6 +46,10 @@ export interface SavedProduct {
   /** Lowest in-stock price at save time. */
   savedPrice: number;
   currency?: string;
+  /** Daily lowest price since saving, oldest → newest (the sparkline). */
+  priceHistory?: number[];
+  /** A price watch is active for this product. */
+  watching?: boolean;
 }
 
 export interface SavedGuide {
