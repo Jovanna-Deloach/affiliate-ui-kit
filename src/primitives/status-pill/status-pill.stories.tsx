@@ -56,8 +56,8 @@ export const ThreeSilhouettes: Story = {
       </Specimen>
       <Specimen caption="Editorial accolade — inverse tag (AwardBadge, never a pill)">
         <div className="flex flex-wrap items-center gap-cluster">
-          <AwardBadge rank={1}>Best Overall</AwardBadge>
-          <AwardBadge rank={2}>Editor&apos;s Pick</AwardBadge>
+          <AwardBadge>Best Overall</AwardBadge>
+          <AwardBadge>Editor&apos;s Pick</AwardBadge>
           <AwardBadge surface="outline" tier="callout">
             Lab tested
           </AwardBadge>
@@ -135,7 +135,7 @@ export const SideBySideVerticals: Story = {
           </StatusPill>
         ))}
         <StatusPill kind="technical">ISO 17025</StatusPill>
-        <AwardBadge rank={1}>Best Overall</AwardBadge>
+        <AwardBadge>Best Overall</AwardBadge>
       </div>
     </VerticalCompare>
   ),

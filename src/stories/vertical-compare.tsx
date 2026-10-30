@@ -44,7 +44,7 @@ export const VIEWPORTS: ViewportSpec[] = [
 /**
  * Real viewport simulation. The 375 px demo is a hard `w-[375px]` frame with
  * a compact 2-column grid; the 1280 px demo is a `max-w-[1280px]` frame with
- * a 4-column grid. Frames are hairline device frames on the canvas plane;
+ * a 4-column grid. Frames are hairline device frames on the surface plane;
  * the outer scroller keeps the document from overflowing when the Storybook
  * viewport itself is 375.
  */
@@ -60,8 +60,8 @@ export function ViewportFrames({ render }: { render: (spec: ViewportSpec) => Rea
             <div
               className={
                 spec.width === 375
-                  ? "w-[375px] max-w-full rounded-container border border-hairline bg-canvas p-4"
-                  : "w-full max-w-[1280px] shrink-0 rounded-container border border-hairline bg-canvas p-8"
+                  ? "w-[375px] max-w-full rounded-container border border-hairline bg-surface p-4"
+                  : "w-full max-w-[1280px] shrink-0 rounded-container border border-hairline bg-surface p-8"
               }
               style={{ containerType: "inline-size" }}
             >

@@ -1,0 +1,14 @@
+<style>
+  /* The workshop stage is white. Components keep their three planes
+     (canvas → surface → recessed); the "Stage" toolbar switches the page
+     plane back to the vertical's canvas when you need to judge contrast. */
+  html,
+  body,
+  .sb-show-main {
+    background: #ffffff !important;
+  }
+  [data-stage="white"],
+  [data-stage="white"] [data-vertical] {
+    background-color: var(--surface-primary);
+  }
+</style>

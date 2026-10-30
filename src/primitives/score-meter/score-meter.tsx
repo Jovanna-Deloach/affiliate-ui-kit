@@ -40,7 +40,7 @@ import type { SubScoreItem } from "@/types/affiliate";
 const meterVariants = cva("min-w-0", {
   variants: {
     visual: {
-      scorecard: "w-full overflow-hidden rounded-container border border-hairline bg-surface",
+      scorecard: "w-full overflow-hidden rounded-container border border-hairline bg-surface shadow-surface",
       radial: "flex flex-wrap items-center gap-x-stack gap-y-cluster",
       "inline-bar": "flex items-center gap-cluster",
       compact: "flex items-baseline gap-hairline",

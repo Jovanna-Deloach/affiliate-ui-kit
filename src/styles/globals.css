@@ -47,6 +47,7 @@
   /* geometry */
   --radius-container: var(--radius-container);
   --radius-inner: var(--radius-inner);
+  --radius-control: var(--radius-control);
   --radius-tag: var(--radius-tag);
   --radius-pill: var(--radius-pill);
 
@@ -105,6 +106,7 @@
   --blur-glass: var(--blur-glass);
 
   /* elevation */
+  --shadow-surface: var(--shadow-surface);
   --shadow-elevated: var(--shadow-elevated);
   --shadow-overlay: var(--shadow-overlay);
   --shadow-badge: var(--shadow-badge);

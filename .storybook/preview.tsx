@@ -8,10 +8,14 @@ import { VERTICALS, type Vertical } from "../src/lib/verticals";
 import { VerticalCompare } from "../src/stories/vertical-compare";
 
 type VerticalGlobal = Vertical | "side-by-side";
+type Shape = "architectural" | "soft" | "pill";
+type Elevation = "flat" | "soft" | "tactile";
+type Stage = "white" | "canvas";
 
 /**
- * Every story renders inside a `[data-vertical]` wrapper. The toolbar global
- * swaps the profile; the component code never changes.
+ * Every story renders inside a `[data-vertical]` wrapper. The toolbar globals
+ * swap the tone, the system shape preset, the elevation preset and the stage
+ * plane; the component code never changes.
  *
  *   luxury-editorial | clinical-performance → single wrapper
  *   side-by-side                            → the SAME story rendered once per
@@ -19,13 +23,25 @@ type VerticalGlobal = Vertical | "side-by-side";
  */
 const withVertical: Decorator = (Story, context) => {
   const vertical = (context.globals.vertical as VerticalGlobal) ?? "luxury-editorial";
+  const shape = (context.globals.shape as Shape) ?? "architectural";
+  const elevation = (context.globals.elevation as Elevation) ?? "flat";
+  const stage = (context.globals.stage as Stage) ?? "white";
+  const presets = {
+    "data-shape": shape === "architectural" ? undefined : shape,
+    "data-elevation": elevation === "flat" ? undefined : elevation,
+    "data-stage": stage,
+  };
 
   if (vertical === "side-by-side") {
-    return <VerticalCompare render={() => <Story />} />;
+    return (
+      <div {...presets} className="min-h-dvh">
+        <VerticalCompare render={() => <Story />} />
+      </div>
+    );
   }
 
   return (
-    <div data-vertical={vertical} className="min-h-dvh p-card">
+    <div data-vertical={vertical} {...presets} className="min-h-dvh p-card">
       <Story />
     </div>
   );
@@ -53,7 +69,7 @@ const preview: Preview = {
   decorators: [withVertical],
   globalTypes: {
     vertical: {
-      description: "Vertical token profile",
+      description: "Vertical tone profile",
       toolbar: {
         title: "Vertical",
         icon: "paintbrush",
@@ -64,9 +80,50 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    shape: {
+      description: "System shape preset (data-shape)",
+      toolbar: {
+        title: "Shape",
+        icon: "component",
+        items: [
+          { value: "architectural", title: "Architectural · 6 / 4 / 3" },
+          { value: "soft", title: "Soft · 10 / 8 / 6" },
+          { value: "pill", title: "Pill · capsule controls & tags" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+    elevation: {
+      description: "System elevation preset (data-elevation)",
+      toolbar: {
+        title: "Elevation",
+        icon: "contrast",
+        items: [
+          { value: "flat", title: "Flat · hairlines only" },
+          { value: "soft", title: "Soft · resting lift" },
+          { value: "tactile", title: "Tactile · key + ambient" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+    stage: {
+      description: "Stage plane behind the story",
+      toolbar: {
+        title: "Stage",
+        icon: "photo",
+        items: [
+          { value: "white", title: "White" },
+          { value: "canvas", title: "Vertical canvas" },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
   initialGlobals: {
     vertical: "luxury-editorial",
+    shape: "architectural",
+    elevation: "flat",
+    stage: "white",
     viewport: { value: "desktop1280", isRotated: false },
   },
   parameters: {

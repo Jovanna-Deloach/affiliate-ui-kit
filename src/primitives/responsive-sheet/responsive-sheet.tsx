@@ -107,7 +107,7 @@ export function ResponsiveSheet({
       </div>
       <CloseComp
         aria-label="Close"
-        className="focus-ring -mr-cluster -mt-cluster flex size-control shrink-0 cursor-pointer items-center justify-center rounded-inner text-ink-secondary transition-colors duration-interactive ease-standard hover:bg-recessed hover:text-ink"
+        className="focus-ring -mr-cluster -mt-cluster flex size-control shrink-0 cursor-pointer items-center justify-center rounded-control text-ink-secondary transition-colors duration-interactive ease-standard hover:bg-recessed hover:text-ink"
       >
         <X size="1.25em" strokeWidth={1.5} aria-hidden="true" />
       </CloseComp>

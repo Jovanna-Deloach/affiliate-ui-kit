@@ -20,9 +20,9 @@ import type { AffiliateAttribution, AffiliateClickEvent } from "@/types/affiliat
  *     fanned out to `onTrack` and a global `affiliate:click` CustomEvent
  *   • target="_blank" by default, with a visually-hidden "(opens in a new tab)"
  *
- * Geometry binds to the shared spine: `--size-control` (36px), `--radius-inner`,
- * `--keyline-cta` (148px fixed width so CTA columns never shift a price
- * column — Law of Continuity), `--inset-cell-x`.
+ * Geometry binds to the shared spine: `--size-control` (36px), `--radius-control`,
+ * `--keyline-cta` (148px minimum so CTA columns share one axis — Law of
+ * Continuity; a longer label widens the track instead of clipping), `--inset-cell-x`.
  *
  * Intents
  *   primary   inverse fill — the one CTA per surface
@@ -47,19 +47,19 @@ const actionVariants = cva(
     variants: {
       intent: {
         primary: [
-          "type-eyebrow rounded-inner border border-inverse bg-inverse text-ink-inverse",
+          "type-eyebrow rounded-control border border-inverse bg-inverse text-ink-inverse",
           "hover:bg-[color-mix(in_srgb,var(--surface-inverse)_88%,var(--surface-primary))]",
         ],
         outline: [
-          "type-eyebrow rounded-inner border border-strong bg-surface text-ink",
+          "type-eyebrow rounded-control border border-strong bg-surface text-ink",
           "hover:border-ink hover:bg-recessed",
         ],
         ghost: [
-          "type-eyebrow rounded-inner border border-hairline bg-transparent text-ink-secondary",
+          "type-eyebrow rounded-control border border-hairline bg-transparent text-ink-secondary",
           "hover:border-strong hover:text-ink",
         ],
         price: [
-          "type-metric rounded-inner border border-transparent bg-recessed text-body-sm text-ink",
+          "type-metric rounded-control border border-transparent bg-recessed text-body-sm text-ink",
           "hover:border-strong",
         ],
         inline: [
@@ -79,8 +79,8 @@ const actionVariants = cva(
       },
       width: {
         auto: "",
-        /** Fixed 148px keyline column — every CTA in a list lands on one axis. */
-        cta: "w-cta",
+        /** 148px keyline minimum — lists share one CTA axis; a longer label widens the track, never clips. */
+        cta: "min-w-cta",
         full: "w-full",
       },
     },
@@ -156,7 +156,8 @@ export function AffiliateAction({
 
   const content = (
     <>
-      {asChild ? <Slottable>{children}</Slottable> : children}
+      {/* Last-resort guard: a label squeezed by a narrow consumer ellipsizes, never overflows. */}
+      {asChild ? <Slottable>{children}</Slottable> : <span className="min-w-0 truncate">{children}</span>}
       {arrow && (
         <Arrow data-slot="action-arrow" size="1.1em" strokeWidth={1.5} aria-hidden="true" />
       )}

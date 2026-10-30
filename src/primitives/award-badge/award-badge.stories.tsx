@@ -16,7 +16,7 @@ const meta = {
   title: "Tier 2 · Evaluation & E-E-A-T/AwardBadge",
   component: AwardBadge,
   parameters: { layout: "fullscreen" },
-  args: { children: "Best Overall", surface: "inverse", tier: "winner", size: "md", rank: 1 },
+  args: { children: "Best Overall", surface: "inverse", tier: "winner", size: "md" },
   argTypes: {
     surface: { control: "inline-radio", options: AWARD_BADGE_SURFACES },
     tier: { control: "inline-radio", options: ["winner", "runner-up", "callout"] },
@@ -40,10 +40,10 @@ export const Surfaces: Story = {
       {AWARD_BADGE_SURFACES.map((surface) => (
         <Specimen key={surface} caption={SURFACE_NAMES[surface]}>
           <div className="flex flex-wrap items-center gap-cluster">
-            <AwardBadge surface={surface} rank={1} icon={Award}>
+            <AwardBadge surface={surface} icon={Award}>
               Best Overall
             </AwardBadge>
-            <AwardBadge surface={surface} rank={2} tier="runner-up" icon={Sparkles}>
+            <AwardBadge surface={surface} tier="runner-up" icon={Sparkles}>
               Editor&apos;s Pick
             </AwardBadge>
             <AwardBadge surface={surface} tier="callout" icon={FlaskConical}>
@@ -58,27 +58,27 @@ export const Surfaces: Story = {
 };
 
 export const Sizes: Story = {
-  name: "Sizes and rank index",
+  name: "Sizes and icons",
   render: () => (
     <div className="flex flex-col gap-section">
       <Specimen caption="Small · medium · large">
         <div className="flex flex-wrap items-center gap-cluster">
-          <AwardBadge size="sm" rank={1}>
+          <AwardBadge size="sm">
             Best Overall
           </AwardBadge>
-          <AwardBadge size="md" rank={1}>
+          <AwardBadge size="md">
             Best Overall
           </AwardBadge>
-          <AwardBadge size="lg" rank={1}>
+          <AwardBadge size="lg">
             Best Overall
           </AwardBadge>
         </div>
       </Specimen>
-      <Specimen caption="Rank index with a vertical hairline, icon, plain">
+      <Specimen caption="Plain, with a lucide icon, long label truncates in a narrow slot">
         <div className="flex flex-wrap items-center gap-cluster">
-          <AwardBadge rank={1}>Best Overall</AwardBadge>
-          <AwardBadge icon={Award}>Best Overall</AwardBadge>
           <AwardBadge>Best Overall</AwardBadge>
+          <AwardBadge icon={Award}>Best Overall</AwardBadge>
+          <AwardBadge className="max-w-[9rem]">Best Overall Daily Trainer For Most Runners</AwardBadge>
         </div>
       </Specimen>
     </div>
@@ -89,7 +89,7 @@ export const Semantics: Story = {
   name: "Accolade vs status vs credential",
   render: () => (
     <div className="flex flex-wrap items-center gap-cluster">
-      <AwardBadge rank={1}>Best Overall</AwardBadge>
+      <AwardBadge>Best Overall</AwardBadge>
       <StatusPill tone="positive">Best price</StatusPill>
       <StatusPill tone="caution">Low stock</StatusPill>
       <StatusPill kind="technical">ISO 17025</StatusPill>
@@ -105,7 +105,7 @@ export const GlassOverPhotography: Story = {
         <ProductMediaFrame
           key={p.id}
           media={p.media}
-          badge={<AwardBadge surface="glass" badge={p.awardBadge} rank={p.rank} />}
+          badge={<AwardBadge surface="glass" badge={p.awardBadge} />}
           metric={<AwardBadge surface="glass">{formatScore(p.overallScore!)}</AwardBadge>}
           caption={{ eyebrow: p.brand, name: p.name }}
         />
@@ -119,7 +119,7 @@ export const FromCanonicalPayload: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-cluster">
       {directoryProducts.slice(0, 3).map((p) => (
-        <AwardBadge key={p.id} badge={p.awardBadge} rank={p.rank} />
+        <AwardBadge key={p.id} badge={p.awardBadge} />
       ))}
     </div>
   ),
@@ -143,10 +143,10 @@ export const SideBySideVerticals: Story = {
       <div className="flex flex-col gap-cluster">
         {AWARD_BADGE_SURFACES.map((surface) => (
           <div key={surface} className="flex flex-wrap items-center gap-cluster">
-            <AwardBadge surface={surface} rank={1} icon={Award}>
+            <AwardBadge surface={surface} icon={Award}>
               Best Overall
             </AwardBadge>
-            <AwardBadge surface={surface} rank={2} tier="runner-up">
+            <AwardBadge surface={surface} tier="runner-up">
               Editor&apos;s Pick
             </AwardBadge>
             <AwardBadge surface={surface} tier="callout" icon={FlaskConical}>
@@ -170,7 +170,7 @@ export const Viewports: Story = {
               key={p.id}
               media={p.media}
               badge={
-                <AwardBadge surface={i % 2 ? "glass" : "inverse"} size="sm" rank={p.rank}>
+                <AwardBadge surface={i % 2 ? "glass" : "inverse"} size="sm">
                   {i === 1 ? "Best Overall Daily Trainer" : p.eyebrow}
                 </AwardBadge>
               }

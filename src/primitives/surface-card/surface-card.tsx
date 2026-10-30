@@ -41,11 +41,11 @@ const surfaceCardVariants = cva(
   {
     variants: {
       chroming: {
-        bordered: "rounded-container border border-hairline bg-surface",
+        bordered: "rounded-container border border-hairline bg-surface shadow-surface",
         elevated: "rounded-container border border-hairline bg-surface shadow-elevated",
         recessed: "rounded-inner border border-hairline bg-recessed",
         "hairline-divide": "border-t border-hairline bg-transparent",
-        spotlight: "spotlight-ring rounded-container hover:shadow-elevated",
+        spotlight: "spotlight-ring rounded-container shadow-surface hover:shadow-elevated",
         ghost: "bg-transparent",
       },
       density: {

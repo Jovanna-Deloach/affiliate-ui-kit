@@ -15,7 +15,7 @@ import type { AffiliateAttribution, AffiliateClickEvent } from "@/types/affiliat
  * Click-to-copy discount code with an SVG checkmark state morph and an
  * optional outbound trigger that routes through <AffiliateAction />.
  *
- *   --radius-inner / --inset-cell-x / --row-y     chip geometry (shared spine)
+ *   --radius-control / --inset-cell-x / --row-y   chip geometry (shared spine)
  *   type-mono                                     code voice — the one mono token
  *   --border-strong / --surface-recessed          ticket rule / recessed chip
  *   --duration-micro / --ease-standard            glyph + label morph
@@ -37,12 +37,12 @@ const chipVariants = cva("group/chip inline-flex max-w-full items-stretch text-i
     chroming: {
       /** Perforated ticket: dashed strong hairline, code cell | copy stub | outbound. */
       ticket: [
-        "rounded-inner border border-dashed border-strong bg-surface",
+        "rounded-control border border-dashed border-strong bg-surface",
         "[&_[data-slot=chip-action]]:border-l [&_[data-slot=chip-action]]:border-dashed [&_[data-slot=chip-action]]:border-strong",
       ],
       /** Plane-2 chip: recessed fill, hairline stub rule. */
       recessed: [
-        "rounded-inner border border-transparent bg-recessed",
+        "rounded-control border border-transparent bg-recessed",
         "[&_[data-slot=chip-action]]:border-l [&_[data-slot=chip-action]]:border-hairline",
       ],
       /** Bare inline lockup for prose and captions. */

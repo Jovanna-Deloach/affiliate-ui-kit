@@ -82,9 +82,10 @@
 
   /* ---- 4. GEOMETRY ----------------------------------------------------- */
   --radius-container: 6px;                 /* every card / sheet / panel */
-  --radius-inner: 4px;                     /* wells, buttons, media frames, portraits */
+  --radius-inner: 4px;                     /* wells, media frames, portraits, monograms */
+  --radius-control: 4px;                   /* buttons, chips, inputs, toggles */
   --radius-tag: 3px;                       /* accolades, technical chips */
-  --radius-pill: 9999px;                   /* ONLY status dots + gauge tracks */
+  --radius-pill: 9999px;                   /* status dots + gauge tracks (+ controls under data-shape="pill") */
   --border-width: 1px;
   --border-width-emphasis: 2px;
   --size-control: 2.25rem;                 /* 36px buttons / fields */
@@ -106,6 +107,7 @@
   --blur-glass: 12px;
 
   /* ---- 5. ELEVATION (hairlines carry structure; shadows are rare) ------ */
+  --shadow-surface: none;                  /* resting card (Plane 1) */
   --shadow-elevated: 0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 32px -12px rgba(0, 0, 0, 0.1);
   --shadow-overlay: 0 24px 48px -12px rgba(0, 0, 0, 0.22);
   --shadow-badge: 0 1px 2px rgba(0, 0, 0, 0.08);
@@ -213,6 +215,41 @@
   --weight-display: 600;
   --tracking-display: -0.025em;
   --leading-display: 1.15;
+}
+
+/* ==========================================================================
+   SYSTEM PRESETS — shape and elevation
+   --------------------------------------------------------------------------
+   Set on the same wrapper as `data-vertical` (or any ancestor). They move the
+   WHOLE kit at once — a component never chooses its own corner or shadow, so
+   every primitive on a page shares one geometry and one elevation language.
+
+     data-shape      architectural (default) · soft · pill
+     data-elevation  flat (default) · soft · tactile
+   ========================================================================== */
+
+[data-shape="soft"] {
+  --radius-container: 10px;
+  --radius-inner: 8px;
+  --radius-control: 8px;
+  --radius-tag: 6px;
+}
+[data-shape="pill"] {
+  --radius-container: 12px;
+  --radius-inner: 8px;
+  --radius-control: 9999px;                /* capsule buttons, chips, toggles */
+  --radius-tag: 9999px;                    /* capsule accolades + technical chips */
+}
+
+[data-elevation="soft"] {
+  --shadow-surface: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03);
+  --shadow-elevated: 0 1px 2px rgba(0, 0, 0, 0.05), 0 16px 40px -16px rgba(0, 0, 0, 0.14);
+}
+[data-elevation="tactile"] {
+  --shadow-surface: 0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 12px -4px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 2px 4px rgba(0, 0, 0, 0.06), 0 24px 48px -16px rgba(0, 0, 0, 0.18);
+  --shadow-overlay: 0 32px 64px -16px rgba(0, 0, 0, 0.3);
+  --shadow-badge: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 /* --------------------------------------------------------------------------

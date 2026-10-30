@@ -14,11 +14,15 @@ export interface MethodologyFact {
 }
 
 /**
- * "How we tested" disclosure for bylines. A two-cell header grid — the
- * verification line on the left keyline, the trigger on the right — with the
- * protocol revealed underneath across the full width (SEO-safe: forceMount +
- * CSS grid 0fr → 1fr, `inert` while closed). When `facts` are supplied they
- * render as a three-column testing-metric summary above the prose.
+ * "How we tested" disclosure for bylines.
+ *
+ * Header = a two-cell keyline grid: whatever the byline puts on the left
+ * (portrait + name, or the verification line) and, on the right, the trigger
+ * as a proper outline CONTROL (`--size-control`, `--radius-control`) — a solid
+ * box that balances a one- or two-line text block, unlike a floating text
+ * link. The protocol reveals underneath across the full width (SEO-safe:
+ * forceMount + CSS grid 0fr → 1fr, `inert` while closed). `facts` render as a
+ * three-column stat strip with vertical hairlines above the prose.
  */
 export function MethodologyDisclosure({
   leading,
@@ -28,7 +32,7 @@ export function MethodologyDisclosure({
   defaultOpen = false,
   className,
 }: {
-  /** Left-hand content of the header row (verification line). */
+  /** Left-hand content of the header row. */
   leading?: ReactNode;
   trigger?: ReactNode;
   facts?: MethodologyFact[];
@@ -48,9 +52,9 @@ export function MethodologyDisclosure({
         <div className="min-w-0">{leading}</div>
         <Collapsible.Trigger
           className={cn(
-            "focus-ring inline-flex w-fit cursor-pointer items-center gap-[0.4em] type-eyebrow text-ink",
-            "underline decoration-strong underline-offset-[0.3em] decoration-[length:var(--border-width)] hover:decoration-ink",
-            "transition-colors duration-interactive ease-standard",
+            "focus-ring inline-flex h-control shrink-0 cursor-pointer items-center gap-[0.5em] whitespace-nowrap",
+            "rounded-control border border-strong bg-surface px-cell-x type-eyebrow text-ink",
+            "transition-colors duration-interactive ease-standard hover:border-ink hover:bg-recessed",
           )}
         >
           <span>{trigger}</span>
@@ -66,9 +70,9 @@ export function MethodologyDisclosure({
         <div inert={!open} className="min-w-0">
           <div data-slot="methodology-panel" className="flex flex-col gap-stack pt-stack">
             {facts && facts.length > 0 && (
-              <dl className="m-0 grid grid-cols-3 gap-x-stack border-y border-hairline py-cluster">
+              <dl className="m-0 grid grid-cols-3 divide-x divide-hairline border-y border-hairline py-cluster">
                 {facts.map((f, i) => (
-                  <div key={i} className="flex min-w-0 flex-col gap-hairline">
+                  <div key={i} className={cn("flex min-w-0 flex-col gap-hairline", i > 0 && "pl-stack")}>
                     <dd className="type-metric m-0 truncate text-body text-ink">{f.value}</dd>
                     <dt className="truncate text-caption text-ink-tertiary">{f.label}</dt>
                   </div>

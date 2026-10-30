@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { productCreatine, productShoe01, productWatch } from "@/fixtures/products";
+import { productShoe01, productWatch } from "@/fixtures/products";
 import { SurfaceCard } from "@/primitives/surface-card";
 import { Specimen } from "@/stories/specimen";
 import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
@@ -42,7 +42,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
   render: (args) => (
-    <ul className="m-0 max-w-2xl list-none border-y border-hairline p-0">
+    <ul className="@container m-0 max-w-2xl list-none border-y border-hairline p-0">
       <MerchantOfferRow {...args} />
     </ul>
   ),
@@ -63,12 +63,7 @@ export const DensityAndHighlight: Story = {
     <div className="grid items-start gap-grid lg:grid-cols-2">
       {(["comfortable", "compact"] as const).map((density) => (
         <Specimen key={density} caption={density === "compact" ? "Compact rows" : "Comfortable rows"}>
-          <ul className="m-0 list-none divide-y divide-hairline border-y border-hairline p-0">
-            <MerchantOfferRow offer={bestOffer} referencePrice={reference} density={density} highlight="best-price" />
-            <MerchantOfferRow offer={partnerOffer} referencePrice={reference} density={density} highlight="primary-partner" />
-            <MerchantOfferRow offer={plainOffer} referencePrice={reference} density={density} highlight="none" />
-            <MerchantOfferRow offer={outOfStockOffer} referencePrice={reference} density={density} highlight="none" />
-          </ul>
+          <MerchantOfferList offers={[bestOffer, partnerOffer, plainOffer, outOfStockOffer]} rowProps={{ density }} />
         </Specimen>
       ))}
     </div>
@@ -79,24 +74,16 @@ export const States: Story = {
   render: () => (
     <div className="flex max-w-2xl flex-col gap-section">
       <Specimen caption="Out of stock — dimmed, struck price, ghost action">
-        <ul className="m-0 list-none border-y border-hairline p-0">
-          <MerchantOfferRow offer={outOfStockOffer} referencePrice={reference} />
-        </ul>
+        <MerchantOfferList offers={[outOfStockOffer]} />
       </Specimen>
-      <Specimen caption="Was-price, promo and shipping note">
-        <ul className="m-0 list-none border-y border-hairline p-0">
-          <MerchantOfferRow offer={bestOffer} referencePrice={reference} highlight="none" />
-        </ul>
+      <Specimen caption="Was-price, promo and shipping note as one quiet fact line">
+        <MerchantOfferList offers={[bestOffer]} rowProps={{ highlight: "none" }} />
       </Specimen>
-      <Specimen caption="No reference price — no delta subtitle">
-        <ul className="m-0 list-none border-y border-hairline p-0">
-          <MerchantOfferRow offer={productCreatine.offers[0]!} />
-        </ul>
+      <Specimen caption="Delta vs. best price when there is no was-price">
+        <MerchantOfferList offers={[bestOffer, plainOffer]} />
       </Specimen>
-      <Specimen caption="Custom action label">
-        <ul className="m-0 list-none border-y border-hairline p-0">
-          <MerchantOfferRow offer={productWatch.offers[0]!} ctaLabel="Enquire" />
-        </ul>
+      <Specimen caption="Longer action label widens the CTA track for every row — never clips">
+        <MerchantOfferList offers={[productWatch.offers[0]!, productWatch.offers[1]!]} rowProps={{ ctaLabel: "Check availability" }} />
       </Specimen>
     </div>
   ),

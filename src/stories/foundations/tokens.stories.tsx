@@ -20,7 +20,9 @@ const INKS = [
 const SPINE = [
   "--radius-container",
   "--radius-inner",
+  "--radius-control",
   "--radius-tag",
+  "--shadow-surface",
   "--inset-card",
   "--inset-well",
   "--row-y",

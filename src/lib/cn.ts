@@ -9,7 +9,7 @@ import { extendTailwindMerge } from "tailwind-merge";
 const twMerge = extendTailwindMerge<"type-style">({
   extend: {
     theme: {
-      radius: ["container", "inner", "tag", "pill"],
+      radius: ["container", "inner", "control", "tag", "pill"],
       spacing: [
         "card",
         "card-compact",
@@ -59,7 +59,7 @@ const twMerge = extendTailwindMerge<"type-style">({
         "prose",
         "heading",
       ],
-      shadow: ["elevated", "overlay", "badge"],
+      shadow: ["surface", "elevated", "overlay", "badge"],
       ease: ["standard", "exit", "media"],
       tracking: ["eyebrow", "mono", "metric", "display"],
       text: ["eyebrow", "caption", "body-sm", "body", "title", "display", "hero-metric"],

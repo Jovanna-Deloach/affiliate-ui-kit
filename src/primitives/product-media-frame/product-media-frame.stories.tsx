@@ -39,7 +39,7 @@ export const Playground: Story = {
     <div className="max-w-sm">
       <ProductMediaFrame
         {...args}
-        badge={<AwardBadge surface="glass" badge={productShoe01.awardBadge} rank={productShoe01.rank} icon={Award} />}
+        badge={<AwardBadge surface="glass" badge={productShoe01.awardBadge} icon={Award} />}
         metric={<AwardBadge surface="glass">{formatScore(productShoe01.overallScore!)}</AwardBadge>}
         caption={shoeCaption}
       />
@@ -58,7 +58,7 @@ export const Treatments: Story = {
               media={p.media}
               treatment={treatment}
               hover="subtle-zoom"
-              badge={<AwardBadge surface="glass" badge={p.awardBadge} rank={p.rank} />}
+              badge={<AwardBadge surface="glass" badge={p.awardBadge} />}
               caption={{ eyebrow: p.brand, name: p.name, price: bestPrice(p) }}
             />
           </Specimen>
@@ -93,11 +93,11 @@ export const SafeZones: Story = {
           badge={
             i === 0 ? (
               // Over-long label: truncates inside the safe zone instead of colliding.
-              <AwardBadge rank={1} icon={Award}>
+              <AwardBadge icon={Award}>
                 Best Overall Daily Trainer For Most Runners
               </AwardBadge>
             ) : (
-              <AwardBadge surface={i % 2 ? "glass" : "inverse"} badge={p.awardBadge} rank={p.rank} icon={i === 2 ? FlaskConical : Sparkles} />
+              <AwardBadge surface={i % 2 ? "glass" : "inverse"} badge={p.awardBadge} icon={i === 2 ? FlaskConical : Sparkles} />
             )
           }
           metric={<AwardBadge surface="glass">{formatScore(p.overallScore!)}</AwardBadge>}
@@ -138,7 +138,7 @@ export const DirectoryLoop30: Story = {
             as="div"
             media={p.media}
             hover="secondary-angle-swap"
-            badge={p.awardBadge ? <AwardBadge badge={p.awardBadge} rank={p.rank} size="sm" /> : undefined}
+            badge={p.awardBadge ? <AwardBadge badge={p.awardBadge} size="sm" /> : undefined}
             caption={{ eyebrow: p.brand, name: p.name, price: bestPrice(p) }}
           />
         </li>
@@ -155,7 +155,7 @@ export const SideBySideVerticals: Story = {
         <ProductMediaFrame
           media={productShoe01.media}
           hover="secondary-angle-swap"
-          badge={<AwardBadge surface="glass" badge={productShoe01.awardBadge} rank={productShoe01.rank} icon={Award} />}
+          badge={<AwardBadge surface="glass" badge={productShoe01.awardBadge} icon={Award} />}
           metric={<AwardBadge surface="glass">{formatScore(productShoe01.overallScore!)}</AwardBadge>}
           caption={shoeCaption}
           priority
@@ -181,7 +181,7 @@ export const Viewports: Story = {
             <ProductMediaFrame
               key={p.id}
               media={p.media}
-              badge={p.awardBadge ? <AwardBadge surface="glass" badge={p.awardBadge} rank={p.rank} size="sm" /> : undefined}
+              badge={p.awardBadge ? <AwardBadge surface="glass" badge={p.awardBadge} size="sm" /> : undefined}
               metric={
                 <AwardBadge surface="glass" size="sm">
                   {formatScore(p.overallScore!)}

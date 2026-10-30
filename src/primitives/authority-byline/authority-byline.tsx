@@ -23,17 +23,22 @@ import { MethodologyDisclosure, type MethodologyFact } from "./methodology-discl
  *   │                  Role · credential chips                     │
  *   │ Bio paragraph, max-w 62ch, spanning the full width           │
  *   ├─ Region 2 · recessed · px-bar-x py-bar-y ────────────────────┤
- *   │ ✓ Verified Oct 29, 2026 · Reviewed by …     How we tested ⌄  │
+ *   │ ✓ Verified Oct 29, 2026 · Reviewed by …   [ HOW WE TESTED ⌄ ]│
  *   │ (protocol + 3-column testing facts reveal inside the well)   │
  *   └──────────────────────────────────────────────────────────────┘
+ *
+ * Every variant keeps the same header grammar: text on the left keyline,
+ * the methodology trigger as an outline control on the right, the panel
+ * underneath across the full width. The verification line is ONE line
+ * (one date — verified, else updated — then the reviewer).
  *
  *   --size-portrait / --radius-inner      56px portrait, inset ring
  *   --surface-primary → --surface-recessed  the two planes
  *   --inset-card / --inset-bar-*          region insets
  *   type-mono                             ONLY the timestamp
  *
- * inline-header  one line: portrait · By Name · role · verification
- * verified-strip hairline strip: ✓ Verified by … · date · How we tested
+ * inline-header  portrait · By Name · role over the verification line, trigger right
+ * verified-strip hairline strip: ✓ Verified by … · date, trigger right
  *
  * Server Component; the only client leaf is the methodology disclosure.
  */
@@ -58,8 +63,8 @@ export interface Methodology {
 const bylineVariants = cva("min-w-0", {
   variants: {
     variant: {
-      "inline-header": "flex flex-wrap items-center gap-x-stack gap-y-cluster",
-      "dossier-box": "w-full overflow-hidden rounded-container border border-hairline bg-surface",
+      "inline-header": "flex flex-col gap-cluster",
+      "dossier-box": "w-full overflow-hidden rounded-container border border-hairline bg-surface shadow-surface",
       "verified-strip": "flex flex-col gap-cluster border-y border-hairline py-row",
     },
   },
@@ -162,8 +167,8 @@ export function AuthorityByline({
     );
   }
 
-  return (
-    <div data-slot="authority-byline" data-variant={variant} className={base} {...props}>
+  const inlineLeading = (
+    <div className="flex min-w-0 flex-col gap-hairline">
       {/* Portrait + name travel together; the role wraps beside the portrait, never under it. */}
       <span className="flex min-w-0 items-center gap-cluster">
         <Avatar author={author} size="sm" />
@@ -174,10 +179,17 @@ export function AuthorityByline({
         </span>
       </span>
       <VerificationLine author={reviewedBy} verifiedAt={verifiedAt} updatedAt={updatedAt} />
-      {methodology && (
-        <MethodologyDisclosure trigger={methodologyTitle} facts={methodology.facts} defaultOpen={methodology.defaultOpen} className="basis-full">
+    </div>
+  );
+
+  return (
+    <div data-slot="authority-byline" data-variant={variant} className={base} {...props}>
+      {methodology ? (
+        <MethodologyDisclosure leading={inlineLeading} trigger={methodologyTitle} facts={methodology.facts} defaultOpen={methodology.defaultOpen}>
           {methodology.summary}
         </MethodologyDisclosure>
+      ) : (
+        inlineLeading
       )}
     </div>
   );
@@ -222,8 +234,8 @@ function VerifiedMark() {
 }
 
 /**
- * "✓ VERIFIED OCT 29, 2026 · Reviewed by Tomás Ferreira · Fact-check"
- * Prose in sans; only the timestamp is mono (Law 1).
+ * "✓ VERIFIED OCT 29, 2026 · Reviewed by Tomás Ferreira · Fact-check" — one
+ * line. One date (verified, else updated) in mono; prose in sans (Law 1).
  */
 function VerificationLine({
   author,
@@ -236,21 +248,23 @@ function VerificationLine({
   updatedAt?: string;
   mark?: boolean;
 }) {
-  if (!verifiedAt && !updatedAt && !author) return null;
+  const date = verifiedAt ? { label: "Verified", iso: verifiedAt } : updatedAt ? { label: "Updated", iso: updatedAt } : null;
+  if (!date && !author) return null;
   return (
     <span
       data-slot="verification-line"
       className="flex min-w-0 flex-wrap items-center gap-x-cluster gap-y-hairline text-caption text-ink-secondary"
+      title={verifiedAt && updatedAt && updatedAt !== verifiedAt ? `Updated ${formatDate(updatedAt)}` : undefined}
     >
-      {verifiedAt && (
+      {date && (
         <span className="flex items-center gap-[0.45em]">
           {mark && <VerifiedMark />}
-          <span className="type-mono whitespace-nowrap text-ink">Verified {formatDate(verifiedAt)}</span>
+          <span className="type-mono whitespace-nowrap text-ink">
+            {date.label} {formatDate(date.iso)}
+          </span>
         </span>
       )}
-      {updatedAt && updatedAt !== verifiedAt && (
-        <span className="type-mono whitespace-nowrap">Updated {formatDate(updatedAt)}</span>
-      )}
+      {date && author && <span aria-hidden="true">·</span>}
       {author && (
         <span className="min-w-0 truncate">
           Reviewed by <AuthorName author={author} className="font-medium" />

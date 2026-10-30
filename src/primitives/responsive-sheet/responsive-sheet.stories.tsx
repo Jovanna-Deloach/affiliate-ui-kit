@@ -20,7 +20,7 @@ function OpenButton({ label }: { label: string }) {
   return (
     <button
       type="button"
-      className="focus-ring inline-flex h-control cursor-pointer items-center gap-[0.5em] rounded-inner border border-strong bg-surface px-cell-x type-eyebrow text-ink transition-colors duration-interactive ease-standard hover:border-ink hover:bg-recessed"
+      className="focus-ring inline-flex h-control cursor-pointer items-center gap-[0.5em] rounded-control border border-strong bg-surface px-cell-x type-eyebrow text-ink transition-colors duration-interactive ease-standard hover:border-ink hover:bg-recessed"
     >
       {label}
     </button>

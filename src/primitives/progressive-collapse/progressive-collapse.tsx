@@ -42,7 +42,7 @@ const triggerVariants = cva(
       triggerStyle: {
         row: "grid w-full items-center gap-x-stack py-row",
         button: [
-          "inline-flex h-control w-fit items-center gap-[0.6em] rounded-inner border border-strong bg-surface px-cell-x type-eyebrow",
+          "inline-flex h-control w-fit items-center gap-[0.6em] rounded-control border border-strong bg-surface px-cell-x type-eyebrow",
           "hover:border-ink hover:bg-recessed",
         ],
         inline: [

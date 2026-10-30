@@ -31,7 +31,7 @@ lucide-react · Storybook 10 (`@storybook/nextjs-vite`).
 | Spatial modulus | `--space-1 … --space-12` | strict 4px / 8px scale |
 | Anatomy | `--inset-card` 24 · `--inset-well` 20 · `--inset-bar-*` 24/12 · `--row-y` 12 · `--gap-cluster` 8 · `--gap-stack` 16 · `--gap-section` 40 | named rhythm, never raw numbers |
 | Keylines | `--keyline-monogram` 40 · `--keyline-price` 110 · `--keyline-cta` 148 · `--keyline-label` 180 · `--keyline-subscore` 110 · `--keyline-value` 36 · `--keyline-status` 90 · `--keyline-toggle` 28 | fixed grid tracks (Law of Continuity) |
-| Geometry | `--radius-container` 6 · `--radius-inner` 4 · `--radius-tag` 3 · `--radius-pill` (dots + gauge tracks only) · 1px hairlines · `--size-control` 36 · `--size-portrait` 56 | crisp architectural geometry |
+| Geometry | `--radius-container` 6 · `--radius-inner` 4 · `--radius-control` 4 · `--radius-tag` 3 · `--radius-pill` (dots + gauge tracks) · 1px hairlines · `--size-control` 36 · `--size-portrait` 56 | crisp architectural geometry |
 | Type scale | 11 eyebrow · 12 caption · 13 body-sm · 15 body (1.6, 62ch) · 20 title · 30 display · 36 hero metric | modular, shared |
 | Motion | `--duration-interactive` 220ms · `--duration-reveal` 360ms · `--duration-media` 600ms · `--ease-standard` | one timing for the whole kit |
 
@@ -45,7 +45,15 @@ A `[data-vertical]` block may only change **tone**:
 | Display voice | Playfair Display 400 · −0.02em · 1.12 | Plus Jakarta Sans 600 · −0.025em · 1.15 |
 
 Semantic status hues (emerald / amber / rose) are shared — meaning never
-changes with tone. Prices, scores and measured values are always Inter 600,
+changes with tone.
+
+**System presets** (set beside `data-vertical`, never per component) move the
+whole kit at once, so a page always shares one geometry and one elevation
+language: `data-shape="architectural | soft | pill"` (6/4/3 → 10/8/6 →
+capsule controls and tags; media frames and wells stay rectangular) and
+`data-elevation="flat | soft | tactile"` (`--shadow-surface` on resting cards,
+`--shadow-elevated` on floating ones). Both are toolbar globals in Storybook
+and rendered as a matrix under Foundations → Presets. Prices, scores and measured values are always Inter 600,
 tabular, −0.02em (`type-metric`); monospace is reserved for short uppercase
 metadata (`type-mono`).
 
@@ -83,10 +91,13 @@ every primitive is safe inside a 30-item `.map()`.
 ### 5. Gestalt laws every primitive obeys
 
 - **Continuity — keyline grids.** Lists and tables never use `justify-between`
-  with variable-width children. `<MerchantOfferRow />` is
-  `40px | minmax(140px,1fr) | auto | 110px | 148px`; every price and every
-  fixed-width CTA lands on one vertical axis, and the best-price row is a
-  recessed fill with an inset ring — never an indent.
+  with variable-width children. `<MerchantOfferList />` owns
+  `40px | minmax(140px,1fr) | auto | ≥110px | ≥148px` and every row is a CSS
+  subgrid of it, so prices and CTAs share one axis across the list while a
+  longer label widens its track for every row instead of clipping; the
+  best-price row is a recessed fill with an inset ring — never an indent.
+  A row carries at most one pill (Best price · Our partner · Out of stock);
+  shipping and promo facts are one muted caption.
 - **Proximity — a value never drifts from its label.** `<SpecList />` rows sit
   on a 180px label keyline with the value left-aligned beside it (or a dotted
   leader in narrow cells); `<ProgressiveCollapse layout="assay" />` locks
@@ -96,11 +107,13 @@ every primitive is safe inside a 30-item `.map()`.
   (card plane, `110px | 1fr | 36px` rows with recessed wells and ink/80 fills).
 - **Common region.** `<AuthorityByline variant="dossier-box" />` is two
   full-width regions in one container — bio header, then a recessed
-  verification/methodology footer — no floating avatar column.
+  verification/methodology footer. Every byline variant shares one header
+  grammar: text on the left keyline, the "How we tested" trigger as an outline
+  control on the right, the protocol underneath across the full width.
 - **Similarity — one silhouette per meaning.** Accolades are inverse-fill tags
-  (`<AwardBadge />`, `01 | BEST OVERALL`); inventory and commercial state are
-  pills with a status dot; lab credentials are recessed mono chips
-  (`<StatusPill kind="status" | "technical" />`).
+  (`<AwardBadge />`, `BEST OVERALL`; ranking lives in `<EditorialHeading rank />`);
+  inventory and commercial state are pills with a status dot; lab credentials
+  are recessed mono chips (`<StatusPill kind="status" | "technical" />`).
 - **Closure.** Headings hold a 64ch measure or a 7 / 5 dossier bar with a
   key-metric block; cards are anchored by a recessed action bar; grids that
   hold cards use `items-start`.
