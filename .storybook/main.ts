@@ -6,27 +6,29 @@ import { mergeConfig } from "vite";
 const require = createRequire(import.meta.url);
 
 /**
- * The workshop self-hosts its faces (.storybook/fonts.ts). A missing package
- * would otherwise surface as a cryptic Vite "Failed to resolve import" in the
- * browser, so check up front and name the fix.
+ * Every runtime dependency in package.json must be installed before the
+ * workshop starts — a package added by a later commit would otherwise
+ * surface as a cryptic Vite "Failed to resolve import" in the browser.
+ * Check up front and name the fix.
  */
-const FONT_PACKAGES = [
-  "@fontsource-variable/playfair-display",
-  "@fontsource-variable/plus-jakarta-sans",
-  "@fontsource-variable/inter",
-  "@fontsource-variable/jetbrains-mono",
-];
-const missing = FONT_PACKAGES.filter((name) => {
+const pkg = require("../package.json") as { dependencies?: Record<string, string> };
+const missing = Object.keys(pkg.dependencies ?? {}).filter((name) => {
   try {
     require.resolve(`${name}/package.json`);
     return false;
   } catch {
-    return true;
+    // Packages without an exported package.json (rare) resolve their entry instead.
+    try {
+      require.resolve(name);
+      return false;
+    } catch {
+      return true;
+    }
   }
 });
 if (missing.length > 0) {
   throw new Error(
-    `Storybook fonts are not installed: ${missing.join(", ")}.\n` +
+    `Dependencies are not installed: ${missing.join(", ")}.\n` +
       "They are declared in package.json — run `bun install` and start Storybook again.",
   );
 }
