@@ -97,6 +97,7 @@
   --size-portrait-xs: 2rem;                /* 32px tester photo in quotes */
   --size-thumb: 2.75rem;                   /* 44px product thumbnail in a mention bar */
   --size-thumb-lg: 4rem;                   /* 64px gallery thumbnail */
+  --size-thumb-xl: 6rem;                   /* 96px spotlight / winner thumbnail */
   --size-dot: 6px;                         /* status dot */
   --size-track: 0.5rem;                    /* 8px sub-score well */
   --size-track-sm: 0.375rem;               /* 6px micro-meter / inline bar */
@@ -106,9 +107,14 @@
   --size-ring: 4.5rem;                     /* 72px radial verdict */
   --size-sheet-compact: 26rem;
   --size-sheet-dossier: 40rem;
+  --size-row-touch: 3rem;                  /* 48px navigation row (mobile drill-down) */
+  --size-ribbon: 2.75rem;                  /* 44px sticky sub-category ribbon */
+  --size-masthead: 4rem;                   /* 64px site masthead (ribbon docks under it) */
   --aspect-media: 4 / 5;
   --measure-prose: 62ch;
   --measure-heading: 64ch;
+  --measure-page: 80rem;                   /* 1280px page well */
+  --inset-page-x: var(--space-6);          /* 24px page gutter */
   --blur-glass: 12px;
 
   /* ---- 5. ELEVATION (hairlines carry structure; shadows are rare) ------ */

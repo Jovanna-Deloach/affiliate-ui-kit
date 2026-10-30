@@ -381,3 +381,92 @@
       0 0 0 4px var(--focus-ring);
   }
 }
+
+/* --------------------------------------------------------------------------
+   menu-panel  (source physics: wensity/navigation-menu #31509 — a shared
+   viewport whose content fades/slides in on open and out on close, gated by
+   [data-state]; sanitized to token durations, no transform-origin scaling).
+   Radix NavigationMenu waits for the exit animation before unmounting.
+   -------------------------------------------------------------------------- */
+@keyframes menu-in {
+  from { opacity: 0; translate: 0 calc(var(--space-1) * -1); }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes menu-out {
+  from { opacity: 1; translate: 0 0; }
+  to { opacity: 0; translate: 0 calc(var(--space-1) * -1); }
+}
+@utility menu-panel {
+  &[data-state="open"] {
+    animation: menu-in var(--duration-interactive) var(--ease-standard);
+  }
+  &[data-state="closed"] {
+    animation: menu-out var(--duration-micro) var(--ease-exit);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ribbon-scroller / ribbon-indicator  (source physics: kuratlielia/tabs
+   #35021 — edge detection drives fades; the selection highlight glides).
+   The scroller's mask fades whichever edge still has content; the
+   indicator is a 2px ink rule positioned by two custom properties that a
+   tiny measurement effect sets — the glide itself is a CSS transition, so
+   no animation runtime is involved (framer's layoutId is replaced).
+   -------------------------------------------------------------------------- */
+@utility ribbon-scroller {
+  --ribbon-fade: var(--space-8);
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &[data-fade="start"] {
+    mask-image: linear-gradient(to right, transparent, #000 var(--ribbon-fade));
+  }
+  &[data-fade="end"] {
+    mask-image: linear-gradient(to left, transparent, #000 var(--ribbon-fade));
+  }
+  &[data-fade="both"] {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--ribbon-fade),
+      #000 calc(100% - var(--ribbon-fade)),
+      transparent
+    );
+  }
+}
+@utility ribbon-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: var(--border-width-emphasis);
+  width: var(--indicator-w, 0px);
+  translate: var(--indicator-x, 0px) 0;
+  background: var(--ink-primary);
+  pointer-events: none;
+  transition:
+    translate var(--duration-interactive) var(--ease-standard),
+    width var(--duration-interactive) var(--ease-standard),
+    opacity var(--duration-micro) var(--ease-standard);
+  opacity: 0;
+  &[data-measured="true"] {
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   drill-track  (source physics: moumensoliman/unlimited-nested-menu #31804 —
+   stacked sub-panels that slide in from the end; sanitized to a two-stage
+   track driven by [data-stage]). Both stages stay mounted; the inactive one
+   is inert so focus and the accessibility tree never land off-screen.
+   -------------------------------------------------------------------------- */
+@utility drill-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  translate: 0 0;
+  transition: translate var(--duration-reveal) var(--ease-standard);
+  &[data-stage="2"] {
+    translate: -100% 0;
+  }
+}

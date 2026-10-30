@@ -94,6 +94,7 @@
   --spacing-portrait-xs: var(--size-portrait-xs);
   --spacing-thumb: var(--size-thumb);
   --spacing-thumb-lg: var(--size-thumb-lg);
+  --spacing-thumb-xl: var(--size-thumb-xl);
   --spacing-dot: var(--size-dot);
   --spacing-track: var(--size-track);
   --spacing-track-sm: var(--size-track-sm);
@@ -103,8 +104,17 @@
   --spacing-ring: var(--size-ring);
   --spacing-sheet-compact: var(--size-sheet-compact);
   --spacing-sheet-dossier: var(--size-sheet-dossier);
+  --spacing-row-touch: var(--size-row-touch);
+  --spacing-ribbon: var(--size-ribbon);
+  --spacing-masthead: var(--size-masthead);
   --spacing-prose: var(--measure-prose);
   --spacing-heading: var(--measure-heading);
+  --spacing-page-x: var(--inset-page-x);
+  /* max-w-* reads --container-* first; without these, max-w-prose would be
+     Tailwind's default 65ch instead of the spine's measure. */
+  --container-prose: var(--measure-prose);
+  --container-heading: var(--measure-heading);
+  --container-page: var(--measure-page);
 
   /* media */
   --aspect-media: var(--aspect-media);
@@ -173,6 +183,14 @@
 }
 @utility font-weight-display {
   font-weight: var(--weight-display);
+}
+/* The page well: every full-bleed band (masthead, ribbon, footer) centres
+   its content on this measure so keylines align from header to footer. */
+@utility page-well {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--measure-page);
+  padding-inline: var(--inset-page-x);
 }
 
 /* ==========================================================================

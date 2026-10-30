@@ -31,6 +31,7 @@ lucide-react · Storybook 10 (`@storybook/nextjs-vite`).
 | Spatial modulus | `--space-1 … --space-12` | strict 4px / 8px scale |
 | Anatomy | `--inset-card` 24 · `--inset-well` 20 · `--inset-bar-*` 24/12 · `--row-y` 12 · `--gap-cluster` 8 · `--gap-stack` 16 · `--gap-section` 40 | named rhythm, never raw numbers |
 | Keylines | `--keyline-monogram` 40 · `--keyline-price` 110 · `--keyline-cta` 148 · `--keyline-label` 180 · `--keyline-subscore` 110 · `--keyline-value` 36 · `--keyline-status` 90 · `--keyline-toggle` 28 | fixed grid tracks (Law of Continuity) |
+| Site chrome | `--size-masthead` 64 · `--size-ribbon` 44 · `--size-row-touch` 48 · `--measure-page` 80rem · `--inset-page-x` 24 (`page-well` utility) | masthead, ribbon and footer share one page well |
 | Geometry | `--radius-container` 6 · `--radius-inner` 4 · `--radius-control` 4 · `--radius-tag` 3 · `--radius-pill` (dots + gauge tracks) · 1px hairlines · `--size-control` 36 · `--size-portrait` 56 | crisp architectural geometry |
 | Type scale | 11 eyebrow · 12 caption · 13 body-sm · 15 body (1.6, 62ch) · 20 title · 30 display · 36 hero metric | modular, shared |
 | Motion | `--duration-interactive` 220ms · `--duration-reveal` 360ms · `--duration-media` 600ms · `--ease-standard` | one timing for the whole kit |
@@ -71,8 +72,11 @@ speak.
 
 21st.dev micro-interactions sanitized into pure, token-bound CSS: spotlight
 ring (`@property`-registered alpha), sheen sweep, arrow nudge, check-draw,
-media crossfade / zoom, loupe crossfade (stacked frames, opacity only) and
-split reveal (`clip-path: inset()` driven by one `--split` custom property).
+media crossfade / zoom, loupe crossfade (stacked frames, opacity only),
+split reveal (`clip-path: inset()` driven by one `--split` custom property),
+menu-panel (viewport enter/exit keyed to `[data-state]`), ribbon-scroller /
+ribbon-indicator (edge fades from `data-fade`; the active rule glides on two
+measured custom properties) and drill-track (a two-stage `translate` track).
 Nothing instantiates a JS animation controller — framer-motion is banned by
 the audit — so every primitive is safe inside a 30-item `.map()`.
 
@@ -143,6 +147,9 @@ Every primitive is built with the same four steps, recorded in its file header:
 | 4 | SpecList · ProgressiveCollapse | ✓ audit / Sprint 3A |
 | 5 | ResponsiveSheet | ✓ Sprint 3A |
 | 6 | InlineProductMention · MediaLoupeCarousel · SplitComparisonSlider · TesterCalloutQuote | ✓ Expansion batch 4 |
+| 0 | Button (the non-monetized control — same silhouettes as AffiliateAction, no compliance) | ✓ Expansion batch 8 |
+| 11 | MegaMenuEditorialPanel (+ MegaMenu host) · SubCategoryRibbon · MobileDrilldownDrawer · AuthorityFooter | ✓ Expansion batch 8 |
+| 7–10 | TugOfWarMeter · DecisionTreeGrid · AlternativeSwapRow · CitationPopover · PriceContextBar · UnitEconomicsChip · EditorialMasthead · SpotlightSearchModal · SchemaBreadcrumbBar · ComparisonTrayDock · PriceAlertCapture | specified, not yet built |
 | 1 | DisclosureBanner | backlog |
 | 2 | ProsConsGrid | backlog |
 | 3 | HotspotCanvas | backlog (3B) |
@@ -175,3 +182,7 @@ Tier 6 visual-proof material: four loupe angles of the Aerolite 3 with tester
 inspection notes, an out-of-box / after-400-miles wear pair, and attributed
 tester quotes with their logged mileage. The midsole and upper crops and the
 worn derivative are generated from the same packshot (see `ATTRIBUTION.md`).
+`src/fixtures/navigation.ts` is the site chrome: three verticals with silos
+(and tested counts), most-read guides, a winner or tool spotlight and top-three
+winners; the running ribbon; the footer's trust stats, five-column directory
+and compliance copy, under the fictional masthead "Proving Ground".

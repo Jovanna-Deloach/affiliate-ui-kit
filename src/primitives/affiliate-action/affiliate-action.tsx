@@ -1,11 +1,12 @@
 "use client";
 
-import { cva, type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Children, cloneElement, isValidElement, type ComponentProps, type MouseEvent, type ReactElement, type ReactNode } from "react";
 
 import { buildAffiliateHref, emitAffiliateClick, mergeRel } from "@/lib/affiliate";
 import { cn } from "@/lib/cn";
+import { buttonVariants } from "@/primitives/button";
 import type { AffiliateAttribution, AffiliateClickEvent } from "@/types/affiliate";
 
 /**
@@ -39,61 +40,9 @@ import type { AffiliateAttribution, AffiliateClickEvent } from "@/types/affiliat
  * controllers, so it is loop-safe.
  */
 
-const actionVariants = cva(
-  [
-    "group/action relative inline-flex shrink-0 items-center justify-center gap-[0.5em]",
-    "whitespace-nowrap select-none focus-ring cursor-pointer",
-    "transition-[background-color,color,border-color,box-shadow,opacity] duration-interactive ease-standard",
-    "[&_svg]:shrink-0",
-  ],
-  {
-    variants: {
-      intent: {
-        primary: [
-          "type-eyebrow rounded-control border border-inverse bg-inverse text-ink-inverse",
-          "hover:bg-[color-mix(in_srgb,var(--surface-inverse)_88%,var(--surface-primary))]",
-        ],
-        outline: [
-          "type-eyebrow rounded-control border border-strong bg-surface text-ink",
-          "hover:border-ink hover:bg-recessed",
-        ],
-        ghost: [
-          "type-eyebrow rounded-control border border-hairline bg-transparent text-ink-secondary",
-          "hover:border-strong hover:text-ink",
-        ],
-        price: [
-          "type-metric rounded-control border border-transparent bg-recessed text-body-sm text-ink",
-          "hover:border-strong",
-        ],
-        inline: [
-          "font-sans text-current underline decoration-strong underline-offset-[0.3em]",
-          "decoration-[length:var(--border-width)] hover:decoration-ink",
-        ],
-      },
-      motion: {
-        "arrow-nudge": "arrow-nudge",
-        shimmer: "sheen-sweep arrow-nudge",
-        flat: "",
-      },
-      size: {
-        sm: "h-[calc(var(--size-control)-var(--space-2))] px-[calc(var(--inset-cell-x)*0.75)]",
-        md: "h-control px-cell-x",
-        lg: "h-control-lg px-well",
-      },
-      width: {
-        auto: "",
-        /** 148px keyline minimum — lists share one CTA axis; a longer label widens the track, never clips. */
-        cta: "min-w-cta",
-        full: "w-full",
-      },
-    },
-    compoundVariants: [
-      // Inline text links have no box geometry.
-      { intent: "inline", size: ["sm", "md", "lg"], class: "h-auto px-0" },
-    ],
-    defaultVariants: { intent: "primary", motion: "arrow-nudge", size: "md", width: "auto" },
-  },
-);
+// Geometry and intents are shared with <Button /> so a merchant CTA and a
+// plain control beside it share one silhouette; only compliance differs.
+const actionVariants = buttonVariants;
 
 export interface AffiliateActionProps
   extends Omit<ComponentProps<"a">, "href" | "children">,
@@ -164,7 +113,7 @@ export function AffiliateAction({
     href: finalHref,
     target: target ?? (newTab ? "_blank" : undefined),
   };
-  const classes = actionVariants({ intent, motion, size, width });
+  const classes = actionVariants({ intent, motion: motion ?? "arrow-nudge", size, width });
 
   if (asChild) {
     const child = Children.only(children) as ReactElement<ChildProps>;

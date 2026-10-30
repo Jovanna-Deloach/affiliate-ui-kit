@@ -6,6 +6,7 @@ import { formatDate } from "@/lib/format";
 import { AffiliateAction } from "@/primitives/affiliate-action";
 import { AuthorityByline } from "@/primitives/authority-byline";
 import { AwardBadge } from "@/primitives/award-badge";
+import { Button } from "@/primitives/button";
 import { MerchantOfferList } from "@/primitives/merchant-offer-row";
 import { ProductMediaFrame } from "@/primitives/product-media-frame";
 import { ScoreMeter } from "@/primitives/score-meter";
@@ -15,17 +16,6 @@ import { ResponsiveSheet } from "./responsive-sheet";
 
 const SIZES = ["compact-offer-sheet", "half-screen-dossier"] as const;
 const best = productShoe01.offers[0]!;
-
-function OpenButton({ label }: { label: string }) {
-  return (
-    <button
-      type="button"
-      className="focus-ring inline-flex h-control cursor-pointer items-center gap-[0.5em] rounded-control border border-strong bg-surface px-cell-x type-eyebrow text-ink transition-colors duration-interactive ease-standard hover:border-ink hover:bg-recessed"
-    >
-      {label}
-    </button>
-  );
-}
 
 function OffersBody() {
   return (
@@ -49,7 +39,7 @@ const meta = {
     side: "right",
     defaultOpen: false,
     children: <OffersBody />,
-    trigger: <OpenButton label="View all retailers" />,
+    trigger: <Button intent="outline">View all retailers</Button>,
     footer: (
       <AffiliateAction href={best.affiliateUrl} size="lg" width="full" tracking={{ merchant: best.merchantName, offerId: best.id, productId: productShoe01.id, placement: "offer-sheet-footer" }}>
         Shop best price · {bestPrice(productShoe01)}
@@ -96,7 +86,7 @@ export const OpenHalfScreenDossier: Story = {
     size: "half-screen-dossier",
     title: `${productWatch.brand} ${productWatch.name}`,
     description: productWatch.eyebrow,
-    trigger: <OpenButton label="Open dossier" />,
+    trigger: <Button intent="outline">Open dossier</Button>,
     footer: (
       <AffiliateAction href={productWatch.offers[0]!.affiliateUrl} size="lg" width="full" tracking={{ merchant: productWatch.offers[0]!.merchantName, productId: productWatch.id, placement: "dossier-footer" }}>
         Shop at {productWatch.offers[0]!.merchantName} · {bestPrice(productWatch)}

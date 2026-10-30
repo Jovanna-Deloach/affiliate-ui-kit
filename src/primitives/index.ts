@@ -1,3 +1,5 @@
+/* Tier 0 — Shared controls */
+export * from "./button";
 /* Tier 1 — Monetization & Attribution */
 export * from "./affiliate-action";
 export * from "./merchant-offer-row";
@@ -21,3 +23,8 @@ export * from "./inline-product-mention";
 export * from "./media-loupe-carousel";
 export * from "./split-comparison-slider";
 export * from "./tester-callout-quote";
+/* Tier 11 — Navigation, Mega-Menu & Site Chrome */
+export * from "./mega-menu-editorial-panel";
+export * from "./sub-category-ribbon";
+export * from "./mobile-drilldown-drawer";
+export * from "./authority-footer";

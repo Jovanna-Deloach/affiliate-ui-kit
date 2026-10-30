@@ -4,6 +4,7 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
+import { cheapestOffer } from "@/lib/offers";
 import { AffiliateAction } from "@/primitives/affiliate-action";
 import type { AffiliateAttribution, AffiliateProductEntity, MerchantOffer } from "@/types/affiliate";
 
@@ -63,14 +64,6 @@ export interface InlineProductMentionProps
   placement?: string;
 }
 
-function cheapest(product: AffiliateProductEntity): MerchantOffer | undefined {
-  const inStock = product.offers.filter((o) => o.inStock);
-  return (inStock.length ? inStock : product.offers).reduce<MerchantOffer | undefined>(
-    (min, o) => (!min || o.price < min.price ? o : min),
-    undefined,
-  );
-}
-
 export function InlineProductMention({
   product,
   offer,
@@ -81,7 +74,7 @@ export function InlineProductMention({
   className,
   ...props
 }: InlineProductMentionProps) {
-  const resolvedOffer = offer ?? cheapest(product);
+  const resolvedOffer = offer ?? cheapestOffer(product);
   const price = resolvedOffer ? formatPrice(resolvedOffer.price, resolvedOffer.currency ?? "USD") : undefined;
   const tracking = resolvedOffer
     ? { merchant: resolvedOffer.merchantName, offerId: resolvedOffer.id, productId: product.id, placement }
