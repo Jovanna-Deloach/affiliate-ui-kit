@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 import type { RoundupGuide } from "@/kit/types";
 
 /**
- * How the testing was done, as a full-width band on the well. Heading and
+ * How the testing was done, as an elevated card on the ground. Heading and
  * summary on the left; the protocol as native disclosures on the right
  * (no script; collapsed steps stay in the document for search engines).
  * The figures live in the header’s testing card, so they are not repeated
@@ -18,8 +18,8 @@ export interface MethodologyAccordionProps {
 
 export function MethodologyAccordion({ methodology, id = "methodology", className }: MethodologyAccordionProps) {
   return (
-    <section id={id} data-slot="methodology" aria-labelledby={`${id}-heading`} className={cn("scroll-mt-8 bg-well", className)}>
-      <div className="kit-well @container py-16 md:py-20">
+    <section id={id} data-slot="methodology" aria-labelledby={`${id}-heading`} className={cn("kit-well scroll-mt-8", className)}>
+      <div className="@container kit-card p-6 md:p-10">
         <div className="grid items-start gap-10 @4xl:grid-cols-12 @4xl:gap-x-12">
           <div className="@4xl:col-span-4">
             <h2 id={`${id}-heading`} className="m-0 t-headline text-fg">

@@ -32,7 +32,6 @@ export const versusGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     reference: watchesGuide.telemetry.reference,
   },
   picks: [{ ...pick(watchesGuide, "w-halden-meridian-40") }, { ...pick(watchesGuide, "w-okada-tide-40"), award: "Best for the water" }],
-  bentoCount: 2,
   railHeading: undefined,
   compare: { heading: "Side by side" },
   methodology: { ...watchesGuide.methodology, heading: "How we compared them" },
@@ -58,7 +57,6 @@ export const assayGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     reference: creatineGuide.telemetry.reference,
   },
   picks: [{ ...pick(creatineGuide, "c-peak-mono-500"), synthesis: "100.4% of label claim, the mean of six blinded HPLC runs across three tubs, at $0.21 a serving." }],
-  bentoCount: 2,
   notRecommended: undefined,
   methodology: { ...creatineGuide.methodology, heading: "How we assayed it" },
 });
@@ -73,6 +71,6 @@ export const collectorsGuide: RoundupGuide = typesetDeep<RoundupGuide>({
   ],
   title: "Five watches worth keeping for twenty years",
   dek: "Not the best in a category, but the five we would still wear in 2046: serviceable movements, honest finishing and cases that age well.",
-  railHeading: "The five",
+  railHeading: "The five pieces",
   methodology: { ...watchesGuide.methodology, heading: "How we chose them" },
 });

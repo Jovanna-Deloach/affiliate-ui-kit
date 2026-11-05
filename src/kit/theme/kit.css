@@ -6,6 +6,11 @@
    colour only, `[data-category]`). A new site gets a new theme block, never a
    new component variant.
 
+   SURFACES: three layers, never more.
+     ground — the page canvas, toned (never pure white)
+     paper  — elevated cards: white, 1px hairline, 24–32px padding
+     well   — recessed modules inside a card: media, score header, buy box
+
    TYPE: two scales.
      editorial — headlines, deks, pull-quotes. Anchored at the theme's body
                  size; ratio chosen by the theme (Atelier √2, Assay 4:3).
@@ -35,7 +40,7 @@
   --accent-category: var(--accent);
   --accent-category-soft: var(--accent-soft);
 
-  background-color: var(--paper);
+  background-color: var(--ground);
   color: var(--fg);
   font-family: var(--font-text);
   font-size: var(--t-body-size);
@@ -52,11 +57,12 @@
 
 /* ---- Atelier: luxury goods ---------------------------------------------- */
 [data-theme="atelier"] {
+  --ground: oklch(0.978 0.007 80); /* #F8F6F1 alabaster */
   --paper: #ffffff;
-  --well: #efede9;
+  --well: oklch(0.955 0.008 80);
   --fg: #1f1d1b;
   --fg-muted: #6b6560;
-  --line: #e4e1dc;
+  --line: oklch(0.905 0.009 80);
   --accent: #6f1d2b;
   --accent-hover: #561520;
   --on-accent: #ffffff;
@@ -89,7 +95,8 @@
   --t-title-size: clamp(1.3379rem, 1.0167rem + 1.3704vw, 2.25rem);
   --t-title-lh: 1.15;
   --t-quote-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem);
-  --t-quote-lh: 1.35;
+  --t-quote-lh: 1.4;
+  --quote-family: var(--font-text);
   --t-lead-size: clamp(1.1875rem, 1.1346rem + 0.2259vw, 1.3379rem);
   --t-lead-lh: 1.5;
   --t-body-size: 1.125rem;
@@ -103,16 +110,17 @@
   --wordmark-tracking: -0.02em;
   --meter: var(--fg);
 
-  --radius-box: 0px;
-  --radius-ctl: 2px;
-  --radius-media: 0px;
+  --radius-box: 4px;
+  --radius-ctl: 3px;
+  --radius-media: 3px;
   --section-gap: clamp(5rem, 3rem + 6vw, 8rem);
 }
 
 /* ---- Assay: lab-tested health & performance ------------------------------ */
 [data-theme="assay"] {
+  --ground: oklch(0.972 0.004 250); /* #F4F5F7 architectural stone */
   --paper: #ffffff;
-  --well: #f1f3f6;
+  --well: oklch(0.948 0.006 250);
   --fg: #0e1726;
   --fg-muted: #556070;
   --line: #dde2e9;
@@ -148,7 +156,8 @@
   --t-title-size: clamp(1.3333rem, 1.1768rem + 0.6677vw, 1.7778rem);
   --t-title-lh: 1.2;
   --t-quote-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.3333rem);
-  --t-quote-lh: 1.4;
+  --t-quote-lh: 1.45;
+  --quote-family: var(--font-text);
   --t-lead-size: clamp(1.0625rem, 1.03rem + 0.1385vw, 1.1547rem);
   --t-lead-lh: 1.5;
   --t-body-size: 1rem;
@@ -162,9 +171,9 @@
   --wordmark-tracking: -0.02em;
   --meter: var(--accent-category);
 
-  --radius-box: 10px;
+  --radius-box: 12px;
   --radius-ctl: 8px;
-  --radius-media: 10px;
+  --radius-media: 8px;
   --section-gap: clamp(3.5rem, 2.5rem + 3vw, 5rem);
 }
 
@@ -188,6 +197,7 @@
 
 /* ---- bridge: role names → Tailwind utilities ----------------------------- */
 @theme reference {
+  --color-ground: var(--ground);
   --color-paper: var(--paper);
   --color-well: var(--well);
   --color-fg: var(--fg);
@@ -254,12 +264,13 @@
 /* Pull-quotes: one editorial step below the product title; the opening mark
    hangs in the margin (wrap it in .kit-hang) so the text edge stays true. */
 @utility t-quote {
-  font-family: var(--font-headline);
+  font-family: var(--quote-family);
   font-size: var(--t-quote-size);
   line-height: var(--t-quote-lh);
-  font-weight: var(--title-weight);
-  font-stretch: var(--title-stretch);
-  letter-spacing: calc(var(--headline-tracking) * 0.4);
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: 100%;
+  letter-spacing: 0;
   text-wrap: pretty;
 }
 @utility kit-hang {
@@ -333,6 +344,51 @@
   font-weight: var(--wordmark-weight);
   font-stretch: var(--wordmark-stretch);
   letter-spacing: var(--wordmark-tracking);
+}
+
+/* Layer 1: an elevated editorial card on the toned ground. */
+@utility kit-card {
+  background-color: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-box);
+}
+
+/* Layer 2: a recessed module inside a card. */
+@utility kit-recess {
+  background-color: var(--well);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-box);
+}
+
+/* A faint drafting grid for lab documents (certificates, plates). */
+@utility kit-grid {
+  background-image:
+    linear-gradient(color-mix(in oklab, var(--line) 60%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--line) 60%, transparent) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: -1px -1px;
+}
+
+/* The composite score numeral: the focal point of a review. */
+@utility t-score {
+  font-family: var(--font-ui);
+  font-size: 2.25rem;
+  line-height: 1;
+  font-weight: 600;
+  font-stretch: var(--figure-stretch);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Product names in compact cards: the headline face at lead size. */
+@utility t-name {
+  font-family: var(--font-headline);
+  font-size: var(--t-lead-size);
+  line-height: 1.25;
+  font-weight: var(--title-weight);
+  font-stretch: var(--title-stretch);
+  letter-spacing: calc(var(--headline-tracking) * 0.4);
+  text-wrap: balance;
 }
 
 /* Page well: every band centres on the same 1200px column. */

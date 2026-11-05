@@ -31,6 +31,7 @@ pages that break the rules below.
 | Measure | Reading text at most `65ch` (`max-w-measure`), set with `text-wrap: pretty`. Headlines are balanced (`text-wrap: balance`); the H1 is capped at the theme’s title measure, 18–35ch (`max-w-measure-title`: 22ch Atelier, 20ch Assay) |
 | Spacing | Tailwind’s 4px scale, restricted to 0.5 1 1.5 2 2.5 3 4 5 6 8 10 12 16 20 24 32. Page sections use `mt-chapter`, the theme’s section gap |
 | Alignment | Columns that sit side by side start on one line (`items-start`). Bottom alignment (`items-end`, `self-end`, `place-*-end`) is banned in the kit |
+| Surfaces | Three layers, never more. **Ground**: the page canvas, a tinted off-white (`bg-ground`; never `#FFFFFF`). **Paper**: cards, white with a 1px `line` border, 20–32px padding (`kit-card`). **Well**: a recess inside a card for media, the score header and the buy box (`bg-well`, `kit-recess`). Depth comes from these tones and hairlines, not shadows |
 
 ## Typography
 
@@ -90,9 +91,11 @@ Enforced by `scripts/audit-kit.ts` wherever a machine can check them.
    buy button of the pick in view. Everything else is outlined, a quiet row
    or a text link.
 5. **Space first, tone second, line last.** Separate content with space.
-   When space is not enough, use the well tone. 1px rules are for tables and
-   lists of rows (specifications, retailers, the protocol).
-6. **Containers nest once.** A section may contain one boxed element.
+   When space is not enough, use the well tone. 1px rules are for cards,
+   tables and lists of rows (specifications, retailers, the protocol).
+6. **Containers nest twice at most: card, then well.** A card on the ground
+   may hold wells (media, score header, buy box); a well never holds another
+   framed box.
 7. **Numbers only for sequences.** Picks are awards (“Our pick”, “Budget
    pick”), never “01 — Best overall”. The protocol steps are numbered
    because they are a sequence.
@@ -108,38 +111,87 @@ Enforced by `scripts/audit-kit.ts` wherever a machine can check them.
 ### Quick verdict ≠ deep dive
 
 The answer above the fold and the proof below it must not repeat each other.
-A pick carries two different lines:
+A pick carries three different lines:
 
 | Field | Where | What it says |
 | --- | --- | --- |
-| `bestFor` | quick-verdict tile, also-great rail | who it is for: “Best for the office, the pool and a second time zone.” |
+| `verdict` | the verdict hero, when the pick leads the page | why, in two lines: “The one watch that travels, swims and dresses up without asking you to choose.” |
+| `bestFor` | compact verdict cards, pick rows | who it is for: “Best for the office, the pool and a second time zone.” |
 | `synthesis` | deep-dive subhead | what we measured: “+1.6 s/day over 30 days of wrist and nightstand timing, the best of any automatic we tested.” |
 
-The audit fails a contract whose `synthesis` restates `bestFor`, and a page
-where any long block repeats.
+The audit fails a contract whose `synthesis` restates `bestFor` or whose
+`verdict` restates the `synthesis`, and a page where any long block repeats.
+
+### The verdict bento
+
+The answer, above the fold, as an asymmetric bento on the ground:
+
+```
+┌ 7 columns ───────────────────────────┐ ┌ 5 columns ───────────────────┐
+│ ▬ 3px category rule                   │ │ well │ award, name, best for  │
+│ well, media fills │ award, display    │ │      │ price  [Buy at X]      │
+│                   │ name, 2-line      │ │      │ Read the full review ↓ │
+│                   │ verdict … price,  │ ├──────────────────────────────┤
+│                   │ Best price, the   │ │ compact card, pick 3         │
+│                   │ one filled button │ │                              │
+└───────────────────────────────────────┘ └──────────────────────────────┘
+┌ 12 columns: also tested and recommended (picks 4+), two to a row ──────┐
+```
+
+- The hero says **why** (`verdict`); compact cards say **who** (`bestFor`);
+  the deep dive says **what we measured** (`synthesis`). None repeats another.
+- One filled button on the page’s first viewport, on the hero. Compact cards
+  carry an outlined button; the sub-bar rows carry pills.
+- The price stands alone; the merchant is named once, on the button.
+  “Best price” appears only when another retailer has it in stock for more.
+- **Media fills its well.** A verdict card’s well takes its height from the
+  card, and the media (`detail="card"`) is laid in absolutely and
+  contain-fit, so it never sets the card’s height and never floats small in
+  a tall well. Watches use a portrait drafting plate whose strap runs to the
+  15% margin and ends in a break line.
 
 ### Deep-dive geometry
 
-Every `ProductDeepDiveCard` has the same geometry, so a page of them reads
-as one system:
+Every `ProductDeepDiveCard` is a paper card with the same geometry, so a
+page of them reads as one system:
 
 ```
-┌ 5 columns, sticky ─────────┐ ┌ 7 columns ──────────────────────────────┐
-│ media, 4:3, ≤ 340px tall   │ │ award                                   │
-│ how it scored / lab results│ │ H2 product name                         │
-│ specifications             │ │ synthesis: the measured result          │
-└────────────────────────────┘ │ buy block: one button, inline disclosure│
-                               │ narrative, ≤ 65ch                       │
-                               │ what we like  │  what to know           │
-                               │ tester’s words (pull-quote)             │
-                               └─────────────────────────────────────────┘
+┌ award · what it is ─────────────────────── Score · Specifications · Where to buy ┐
+├ 5 columns, sticky ──────────┬ 7 columns ──────────────────────────────────────────┤
+│ media well, 4:3 (3:2 wide)  │ H2 product name                                     │
+│ composite score             │ synthesis: the measured result                      │
+│   9.2 /10 · tier · standing │ buy box (well): price, Best price, provenance,      │
+│   10-segment meter          │   one 46px button; other retailers as rows         │
+│   five sub-scores           │ narrative, ≤ 65ch                                   │
+│ measurements graphic        │ what we like │ what to know (hairline sub-grid)     │
+│                             │ tester callout: italic, hanging quote, proof pill   │
+├ 12 columns ─────────────────┴─────────────────────────────────────────────────────┤
+│ specifications: a two-column spec sheet                                          │
+└───────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 - Both columns start on the same line (the story checks require < 4px).
-- No gap over 150px between blocks in either column.
-- Every pick has media: a photograph, or its technical specimen.
+- No gap over 150px between blocks in either column, and the sticky media
+  column never runs more than 150px past the story: the spec sheet sits
+  full width beneath both columns so neither ends in a void.
+- Every pick has media, an award in the header and a composite score under
+  its media.
 - In a narrow container the columns dissolve into one reading order: media,
-  the story, then the evidence and specifications.
+  the story, then score, measurements and specifications.
+
+**Composite score.** `t-score` (2.25rem, weight 600, tabular) with “/10”
+muted, the tier (“Exceptional”, “Lab verified”) and an honest standing
+(“1st of 14 tested”, “100.4% of claim”; never an invented percentile) on
+a recessed header; a 10-segment meter whose part-filled segment is clipped,
+not shrunk to a dot; then sub-scores on 6px tracks with right-aligned
+tabular figures.
+
+**Points and callout.** What we like / what to know sit in a two-column
+sub-grid between hairlines, with a vertical rule between them: check badges
+in the pass tone, dash badges in the warning tone. The tester’s words are a
+recessed callout set in the theme’s quote voice (italic) with a hanging
+opening mark, their portrait or monogram, name and role, and a proof pill
+(“64 days on the wrist”, “Ran both HPLC assays”) on the right.
 
 ### Provenance
 
@@ -158,8 +210,12 @@ running test.
   (`src/kit/lib/offers.ts`; the Proving Ground running guide is the proof
   case). Every surface — tile, table, rail, buy block — leads with the
   lowest in-stock price.
-- **One button per product.** Other retailers are quiet rows (merchant,
-  price, “Buy”), each a 44px target.
+- **One button per product.** The buy box is a recessed well: the lead
+  price with its struck original and a “Best price” badge (only when another
+  retailer has it in stock), the merchant and the date the price was
+  verified, and one button (46px tall, at least 220px wide, with an arrow
+  icon). Every other retailer is a full-width row — merchant, price and a
+  bordered “Buy” pill — each a 48px target; sold-out rows are not links.
 - **Disclosure twice, in two lengths.** A notice in the article header’s
   byline region, before the first buy link on the page, and an inline line
   under 40 characters inside every buy block (“We may earn a commission.”).
@@ -185,15 +241,16 @@ book; the interface stays out of the way.
 
 | Role | Value |
 | --- | --- |
-| Paper | `#FFFFFF` |
-| Plinth (wells) | `#EFEDE9` |
+| Ground (canvas) | Alabaster `oklch(0.978 0.007 80)` ≈ `#F8F6F1` |
+| Paper (cards) | `#FFFFFF` |
+| Well (recess) | `oklch(0.955 0.008 80)` ≈ `#F3F0EA` |
 | Ink / Muted | `#1F1D1B` / `#6B6560` |
-| Line | `#E4E1DC` |
+| Line | `oklch(0.905 0.009 80)` ≈ `#E3DFD9` |
 | Accent (buy, links, category) | Oxblood `#6F1D2B` |
 
-- **Type:** Newsreader with optical sizes, headlines light (300); Hanken
-  Grotesk 500 for interface, prices, tables.
-- **Shape:** square images, 2px controls. **Density:** generous.
+- **Type:** Newsreader with optical sizes, headlines light (300), quotes in
+  Newsreader italic; Hanken Grotesk 500 for interface, prices, tables.
+- **Shape:** 4px cards, 3px controls and media. **Density:** generous.
 
 ### Assay — lab-tested health and performance (Proving Ground)
 
@@ -201,35 +258,57 @@ book; the interface stays out of the way.
 
 | Role | Value |
 | --- | --- |
-| Paper | `#FFFFFF` |
-| Bench (wells) | `#F1F3F6` |
+| Ground (canvas) | Architectural stone `oklch(0.972 0.004 250)` ≈ `#F4F5F7` |
+| Paper (cards) | `#FFFFFF` |
+| Well (recess) | `oklch(0.948 0.006 250)` ≈ `#EBEEF2` |
 | Ink / Muted | `#0E1726` / `#556070` |
 | Line | `#DDE2E9` |
 | Accent (buy, links) | Cobalt `#2F45D8` |
 | Category: supplements / running | Cobalt `#2F45D8` / Teal `#0B6B7D` |
 | Pass / Fail / Near limit | `#0E7543` / `#C2362B` / `#9A5B00` |
 
-- **Type:** Archivo only; headlines and figures semi-expanded.
-- **Shape:** 10px boxes, 8px controls. **Density:** compact. No shadows.
+- **Type:** Archivo only; headlines and figures semi-expanded, quotes in
+  Archivo italic.
+- **Shape:** 12px cards, 8px controls and media. **Density:** compact. No
+  shadows.
 
-## Imagery: technical specimens
+## Imagery: photographs, plates and certificates
 
-Without photography, each product is drawn from its own measurements by
-`<TechnicalSpecimen>` (`src/kit/ui/specimen`) — never shared artwork.
+What stands for a product is chosen by `PickMedia` (`src/kit/blocks/pick-media.tsx`):
 
-| Kind | Parameters | Drawing |
+1. **Studio photography**, when the site has it (`KitProduct.image`):
+   cut-outs on the theme’s well, `object-fit: contain` inside a fixed inset
+   (24px at full size, 7% of the box in verdict cards), so nothing is ever
+   cropped. Wide objects (≥ 1.5:1, a shoe in profile) get a 3:2 frame in
+   the deep dive instead of 4:3.
+2. Otherwise a **data graphic generated from the product’s own numbers**:
+   - Watches — a **drafting plate**: front elevation and side profile at one
+     millimetre scale across SKUs, 0.75px drafting lines with inked dial
+     furniture, dimension lines for Ø, lug to lug and thickness, and at
+     least 14% clear margin inside the viewBox. Never cropped: straps end in
+     a break line inside the plate.
+   - Supplements — the **certificate of analysis**: every HPLC run overlaid
+     on a shaded 95–110% acceptance window, the batch, the ISO 17025 lab,
+     the measured dose on its window (4.75–5.50 g), heavy metals as ppb
+     gauges against their limits, and the remaining checks.
+
+**Never a drawing of the object.** No hand-drawn outlines of shoes, jars or
+bottles: photography shows the object, graphics show the numbers.
+
+Each review adds a **measurements module** beside its media:
+
+| Category | Module | Shows |
 | --- | --- | --- |
-| Watch | `caseDiameterMm`, `lugToLugMm`, `thicknessMm`, `lugWidthMm`, `complicationType` (gmt, dress-subdial, diver-bezel, field-arabic), `strapType` (bracelet, leather, nato), `dialTone`, `date` | front and side profile at **one millimetre scale** across SKUs, with 1px architectural dimension lines (Ø, lug to lug, thickness) |
-| Supplement | `formFactor` (wide-tub, micronised-pouch, capsule-bottle, gummy-jar), `netWeight`, `assayScore`, `impurities` | container in elevation, sized by net weight, beside its HPLC trace: peak height against a dashed 100% line, with the minor peaks found |
-| Running shoe | `heelStackMm`, `forefootStackMm`, `weightOz`, `plate`, `rocker`, `upper` | lateral elevation at true proportion, heel and forefoot stack, drop, plate, toe spring |
+| Watches | `TimingStrip` | rate in six positions, diverging from zero over the tolerance band; positions outside tolerance in the warning tone; swatch legend |
+| Running | `BiomechMatrix` | stack and drop drawn to scale; energy return, rebound lost at 300 miles and weight against the test average (2 × 2, one column in a narrow module) |
+| Supplements | the certificate | (it is the media; it moves beside a photograph when a site has one) |
 
-Detail levels: `full` (dimensioned, 4:3, deep dives), `card` (studio crop,
-verdict tiles), `thumb` (square, tables and rails). Lines are
-`vector-effect: non-scaling-stroke` (always 1px); labels are HTML laid over
-the drawing, so they stay at caption size on a phone. Each drawing carries
-`data-specimen-hash`; the audit and the story checks fail a page where two
-SKUs draw the same picture. Real photography replaces specimens per site
-through `KitProduct.image`.
+Detail levels: `full` (deep dives), `card` (fills a verdict card’s well),
+`thumb` (square, tables and rows). Lines are `vector-effect:
+non-scaling-stroke`; labels are HTML laid over the drawing, so they stay at
+caption size on a phone. Each graphic carries `data-specimen-hash`; the
+audit and the story checks fail a page where two SKUs draw the same
+picture, or two products share a photograph.
 
 ## Macro-primitives and archetypes
 
@@ -240,9 +319,9 @@ Eight container-driven blocks, each documented in Storybook
 | --- | --- |
 | `EditorialArticleHeader` | breadcrumb; title, dek, byline and disclosure notice on 7 columns; the testing summary card on 5 |
 | `TestingTelemetryBadge` | what was tested, how much, against what reference; links to the method |
-| `QuickVerdictBento` | 1–3 tiles: award, name, who it is for, lowest price, one button, jump to the review. Rows align across tiles through subgrid |
-| `AlsoGreatRail` | the remaining picks as quiet thumbnails with text links |
-| `ComparisonMatrix` | every pick on the same columns; rows become labelled blocks in a narrow container |
+| `QuickVerdictBento` | the asymmetric bento above: hero on 7 columns, two compact cards on 5 matching its height, picks 4+ in a two-up sub-bar inside the same frame |
+| `AlsoGreatRail` | picks as `PickRow`s (thumbnail, award, name, best for, price, retailer pill, jump link) in a card grid: the collector’s catalogue |
+| `ComparisonMatrix` | a decision tool in a card: toned header row, our pick tinted with a 3px accent bar, price and a retailer pill in the last column. In a narrow container each contender is a small card: header, three key measurements as pills, a price line |
 | `DisqualifiedSubTable` | what failed, on the comparison’s own columns (shared colgroup), never linked |
 | `ProductDeepDiveCard` | one pick in full, the geometry above |
 | `MethodologyAccordion` | the protocol as native disclosures on a full-width well band |
@@ -261,8 +340,8 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 
 | Gate | What it proves |
 | --- | --- |
-| `bun run audit:kit` (in `bun run check`) | source rules; contracts (provenance, media, awards, synthesis); every archetype server-rendered and checked for repeated text, typesetting, merchant order, disclosure placement, numbered eyebrows, deep-dive structure, self-reference and unique specimens; then a self-test that feeds each rule a page that breaks it and fails if the rule does not fire |
-| Story `play()` (`src/kit/testing/page-checks.ts`) | in the browser, at every width: deep-dive columns start within 4px, no gap over 150px, primary/secondary/row CTAs ≥ 44px, tabular numerals computed on every numeric cell, merchant order, unique drawings, no repeated text, and axe-core WCAG 2.0/2.1/2.2 A + AA with zero violations |
+| `bun run audit:kit` (in `bun run check`) | source rules; contracts (provenance, media, awards, at least three sub-scores, scores within 0–10, a proof for every quote, measurements that match the category, a verdict that does not restate the synthesis); every archetype server-rendered and checked for repeated text, typesetting, merchant order, disclosure placement, numbered eyebrows, deep-dive structure and story order, an award and a composite score in every deep dive, self-reference, unique drawings and unique photographs; then a self-test that feeds each rule a page that breaks it and fails if the rule does not fire |
+| Story `play()` (`src/kit/testing/page-checks.ts`) | in the browser, at every width: deep-dive columns start within 4px, no gap over 150px, the sticky media column at most 150px longer than the story, primary/secondary/row CTAs ≥ 44px, tabular numerals computed on every numeric cell, merchant order, unique drawings, no repeated text, and axe-core WCAG 2.0/2.1/2.2 A + AA with zero violations |
 | `node scripts/verify-stories.mjs --build --widths 375,1440` | runs every story at both widths and fails on play() errors, console errors, failed requests, layout shift and horizontal overflow |
 
 ## What exists today
@@ -271,8 +350,8 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | --- | --- |
 | Theme | `src/kit/theme/kit.css` — foundation, dual type scales, Atelier, Assay, categories, Tailwind bridge, text styles |
 | Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer` |
-| Parts | `src/kit/ui` — Button, BuyButton / BuyRow / BuyLink, JumpLink, ProductImage, TechnicalSpecimen, Award, ResultMark, ScoreBars |
-| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter, the eight macro-primitives, BuyBlock |
+| Parts | `src/kit/ui` — Button, BuyButton / BuyRow / BuyPill / BuyLink, JumpLink, ProductImage, TechnicalSpecimen, AssayGraphic, Scorecard, TimingStrip, BiomechMatrix, Award, ResultMark, BestPrice |
+| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter, the eight macro-primitives, BuyBlock, PickMedia, PickRow |
 | Templates | `src/kit/templates` — RoundupPage, VersusPage, LabAssayPage, CollectorsGuidePage |
 
 The older `src/primitives` library is frozen; its running guide now lives in

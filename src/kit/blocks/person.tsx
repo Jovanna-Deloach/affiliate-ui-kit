@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 import { initials } from "@/lib/format";
 import type { Person } from "@/kit/types";
 
-/** A person’s portrait, or their initials on the well when there is no photograph. */
+/** A person’s portrait, or their initials on a paper disc (legible on paper, well and ground) when there is no photograph. */
 export function Avatar({ person, size = "md", className }: { person: Person; size?: "sm" | "md"; className?: string }) {
   const box = size === "sm" ? "size-9" : "size-11";
   if (person.avatar)
@@ -14,7 +14,7 @@ export function Avatar({ person, size = "md", className }: { person: Person; siz
       </span>
     );
   return (
-    <span aria-hidden="true" className={cn("grid shrink-0 place-items-center rounded-full bg-well t-caption font-medium text-fg-muted", box, className)}>
+    <span aria-hidden="true" className={cn("grid shrink-0 place-items-center rounded-full border border-line bg-paper t-caption font-medium text-fg-muted", box, className)}>
       {initials(person.name)}
     </span>
   );

@@ -114,6 +114,7 @@ const twMerge = extendTailwindMerge<"type-style" | "kit-type">({
         "negative-ink",
         "negative-soft",
         // kit roles (docs/DESIGN.md)
+        "ground",
         "paper",
         "well",
         "fg",
@@ -142,7 +143,7 @@ const twMerge = extendTailwindMerge<"type-style" | "kit-type">({
       "border-w-l": ["border-l-emphasis"],
       "border-w-t": ["border-t-emphasis"],
       "font-weight": ["font-weight-display"],
-      "kit-type": ["t-display", "t-headline", "t-title", "t-quote", "t-lead", "t-body", "t-ui", "t-small", "t-caption", "t-figure-xl", "t-figure-table"],
+      "kit-type": ["t-display", "t-headline", "t-title", "t-name", "t-score", "t-quote", "t-lead", "t-body", "t-ui", "t-small", "t-caption", "t-figure-xl", "t-figure-table"],
       "type-style": [
         "type-eyebrow",
         "type-mono",

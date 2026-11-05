@@ -27,7 +27,7 @@ interface ArchetypeProps {
 
 function Shell({ site, guide, children }: { site: SiteChrome; guide: RoundupGuide; children: ReactNode }) {
   return (
-    <div data-category={guide.category} className="min-h-dvh bg-paper text-fg">
+    <div data-category={guide.category} className="min-h-dvh bg-ground text-fg">
       <SiteHeader site={site} category={guide.category} />
       <main>
         <EditorialArticleHeader guide={guide} notice={{ text: site.disclosureNotice, href: site.disclosureHref }} />
@@ -51,9 +51,9 @@ export function VersusPage({ site, guide: input, attribution }: ArchetypeProps) 
       <div className="kit-well mt-chapter">
         <ComparisonMatrix heading={guide.compare.heading} intro={guide.compare.intro} metrics={guide.metrics} picks={pair} attribution={attribution} />
       </div>
-      <div className="kit-well">
+      <div className="kit-well mt-chapter flex flex-col gap-10">
         {pair.map((pick) => (
-          <ProductDeepDiveCard key={pick.product.id} pick={pick} disclosureHref={site.disclosureHref} attribution={attribution} className="mt-chapter" />
+          <ProductDeepDiveCard key={pick.product.id} pick={pick} disclosureHref={site.disclosureHref} attribution={attribution} />
         ))}
       </div>
     </Shell>
@@ -70,8 +70,8 @@ export function LabAssayPage({ site, guide: input, attribution }: ArchetypeProps
       <div className="kit-well mt-12 md:mt-16">
         <QuickVerdictBento picks={[pick]} jumpLabel={guide.jumpLabel} attribution={attribution} heading="The verdict" />
       </div>
-      <div className="kit-well">
-        <ProductDeepDiveCard pick={pick} disclosureHref={site.disclosureHref} attribution={attribution} className="mt-chapter" />
+      <div className="kit-well mt-chapter">
+        <ProductDeepDiveCard pick={pick} disclosureHref={site.disclosureHref} attribution={attribution} />
       </div>
     </Shell>
   );
@@ -85,9 +85,9 @@ export function CollectorsGuidePage({ site, guide: input, attribution }: Archety
       <div className="kit-well mt-12 md:mt-16">
         <AlsoGreatRail picks={guide.picks} heading={guide.railHeading ?? "In this guide"} jumpLabel={guide.jumpLabel} attribution={attribution} />
       </div>
-      <div className="kit-well">
+      <div className="kit-well mt-chapter flex flex-col gap-10">
         {guide.picks.map((pick) => (
-          <ProductDeepDiveCard key={pick.product.id} pick={pick} disclosureHref={site.disclosureHref} attribution={attribution} className="mt-chapter" />
+          <ProductDeepDiveCard key={pick.product.id} pick={pick} disclosureHref={site.disclosureHref} attribution={attribution} />
         ))}
       </div>
     </Shell>

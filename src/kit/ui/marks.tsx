@@ -31,3 +31,8 @@ export function ResultMark({ status, children, className }: { status: keyof type
     </span>
   );
 }
+
+/** “Best price”: shown beside a lead price only when another retailer has it in stock for more. */
+export function BestPrice({ className }: { className?: string }) {
+  return <span className={cn("inline-flex items-center rounded-full bg-pass-soft px-2 py-0.5 t-caption font-medium text-pass", className)}>Best price</span>;
+}

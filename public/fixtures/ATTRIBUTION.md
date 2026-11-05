@@ -22,8 +22,24 @@ required — credited here anyway). Downloaded at `w=1600&q=82`.
 
 Merchants are fictional; they render as monogram tiles (no wordmarks).
 
-## Kit specimens
+## Kit photography
 
-Kit pages have no product photography: each product is drawn from its own
-measurements by `<TechnicalSpecimen>` (`src/kit/ui/specimen`), as inline SVG
-generated at render time. No image files, no third-party artwork.
+Kit pages show studio photography only where a site has it (the Proving
+Ground running section). These are cut-outs made for the kit from the
+Unsplash photos above (background removed, edges cleaned, exported as WebP);
+the shoes carry their manufacturers’ real logos and stand in for the
+fictional products until a site supplies its own packshots.
+
+| File | Derived from | Unsplash photo |
+| --- | --- | --- |
+| `kit/shoe-aerolite.webp` | `shoe-aerolite-02.jpg` | [J2-wAQDckus](https://unsplash.com/photos/J2-wAQDckus) |
+| `kit/shoe-tempo.webp` | `shoe-tempo-01.jpg` | [LxVxPA1LOVM](https://unsplash.com/photos/LxVxPA1LOVM) |
+| `kit/shoe-cumulus.webp` | `shoe-cumulus-01.jpg` | [kP6knT7tjn4](https://unsplash.com/photos/kP6knT7tjn4) |
+
+## Kit graphics
+
+Everything else on kit pages is generated at render time from each
+product’s own numbers, as inline SVG and HTML: watch drafting plates
+(`src/kit/ui/specimen/watch.tsx`), certificates of analysis
+(`src/kit/ui/specimen/assay.tsx`) and the measurement modules
+(`src/kit/ui/measurements.tsx`). No image files, no third-party artwork.

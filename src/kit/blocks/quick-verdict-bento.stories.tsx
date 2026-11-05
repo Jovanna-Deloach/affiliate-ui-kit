@@ -18,11 +18,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ThreePicks: Story = {
-  name: "Three picks, Atelier",
+export const FivePicks: Story = {
+  name: "Five picks, Atelier",
   parameters: { theme: "atelier" },
   decorators: [inWell()],
-  args: { picks: watchesGuide.picks.slice(0, 3), jumpLabel: watchesGuide.jumpLabel },
+  args: { picks: watchesGuide.picks, jumpLabel: watchesGuide.jumpLabel, moreHeading: watchesGuide.railHeading },
 };
 
 export const TwoPicks: Story = {

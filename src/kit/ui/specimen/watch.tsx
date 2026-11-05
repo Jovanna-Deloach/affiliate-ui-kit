@@ -12,12 +12,15 @@ import { type Callout, type Detail, Dimension, Extension, polar, pts, r2, stroke
  * specimen; nothing is shared artwork.
  */
 
-const LAYOUT = {
-  full: { w: 100, h: 75, cx: 43, cy: 38 },
-  card: { w: 72, h: 54, cx: 36, cy: 27 },
-  thumb: { w: 52, h: 52, cx: 26, cy: 26 },
-} as const;
-const PROFILE_X = 76;
+// Every layout keeps at least ~14% clear margin: nothing touches the plate edge.
+// `card` is portrait, for verdict-card wells: the strap runs to the 15%
+// margin line and ends in a break, so the plate is full without cropping.
+const LAYOUT: Record<Detail, { w: number; h: number; cx: number; cy: number; strapTo?: number }> = {
+  full: { w: 124, h: 93, cx: 57.3, cy: 46.4 },
+  card: { w: 62, h: 86, cx: 29.85, cy: 43, strapTo: 0.15 },
+  thumb: { w: 72, h: 72, cx: 35, cy: 36 },
+};
+const PROFILE_DX = 33;
 const STUB = 3.5;
 const NB = " ";
 const mm = (n: number) => `${Number.isInteger(n) ? n : n.toFixed(1)}${NB}mm`;
@@ -30,7 +33,7 @@ const MINUTE = 9.6 * 6;
 const SECOND = 36 * 6;
 
 export function watchDrawing(s: WatchSpecimen, detail: Detail, name: string) {
-  const { w, h, cx, cy } = LAYOUT[detail];
+  const { w, h, cx, cy, strapTo } = LAYOUT[detail];
   const full = detail === "full";
   const thumb = detail === "thumb";
   const R = s.caseDiameterMm / 2;
@@ -38,7 +41,8 @@ export function watchDrawing(s: WatchSpecimen, detail: Detail, name: string) {
   const T = s.thicknessMm;
   const LW = s.lugWidthMm;
   const dark = s.dialTone === "dark";
-  const ink = dark ? "text-paper" : "text-fg";
+  // Dial furniture and hands are inked; case, strap and dimensions are drafting lines.
+  const ink = "text-fg";
   const rb = R - BEZEL[s.complicationType];
   const rd = rb - (BEZEL[s.complicationType] > 2 ? 0.5 : 0.3);
   const P = (r: number, deg: number) => polar(cx, cy, r, deg);
@@ -79,8 +83,9 @@ export function watchDrawing(s: WatchSpecimen, detail: Detail, name: string) {
   };
 
   /* -- strap ---------------------------------------------------------------- */
-  const topEnd = full ? cy - L / 2 - STUB : -2;
-  const botEnd = full ? cy + L / 2 + STUB : h + 2;
+  // Straps always end in a break line inside the plate: the watch is never cropped.
+  const topEnd = strapTo ? Math.min(cy - L / 2 - STUB, h * strapTo) : cy - L / 2 - STUB;
+  const botEnd = strapTo ? Math.max(cy + L / 2 + STUB, h * (1 - strapTo)) : cy + L / 2 + STUB;
   const strap = (dir: -1 | 1) => {
     const y0 = cy + dir * (R - 1.5);
     const y1 = dir < 0 ? topEnd : botEnd;
@@ -88,21 +93,16 @@ export function watchDrawing(s: WatchSpecimen, detail: Detail, name: string) {
     const half0 = LW / 2;
     const half1 = half0 * (1 - (1 - taper) * Math.min(1, Math.abs(y1 - y0) / 24));
     const halfAt = (y: number) => half0 + (half1 - half0) * ((y - y0) / (y1 - y0));
-    const end: [number, number][] = full
-      ? [
-          [cx - half1, y1],
-          [cx - half1 * 0.26, y1],
-          [cx - half1 * 0.09, y1 - dir * 1.2],
-          [cx + half1 * 0.09, y1 + dir * 1.2],
-          [cx + half1 * 0.26, y1],
-          [cx + half1, y1],
-        ]
-      : [
-          [cx - half1, y1],
-          [cx + half1, y1],
-        ];
+    const end: [number, number][] = [
+      [cx - half1, y1],
+      [cx - half1 * 0.26, y1],
+      [cx - half1 * 0.09, y1 - dir * 1.2],
+      [cx + half1 * 0.09, y1 + dir * 1.2],
+      [cx + half1 * 0.26, y1],
+      [cx + half1, y1],
+    ];
     const outline = pts([[cx - half0, y0], ...end, [cx + half0, y0]]);
-    const stop = y1 - dir * (full ? 1.6 : 0);
+    const stop = y1 - dir * 1.6;
     const details: ReactNode[] = [];
     if (s.strapType === "bracelet") {
       const split = 0.34;
@@ -237,7 +237,7 @@ export function watchDrawing(s: WatchSpecimen, detail: Detail, name: string) {
   const gmt = local(150);
 
   /* -- profile (full detail) ---------------------------------------------------- */
-  const x0 = PROFILE_X;
+  const x0 = cx + PROFILE_DX;
   const bezelT = (s.complicationType === "diver-bezel" ? 0.22 : 0.16) * T;
   const x1 = x0 + 0.07 * T;
   const x2 = x1 + bezelT;
@@ -303,7 +303,8 @@ export function watchDrawing(s: WatchSpecimen, detail: Detail, name: string) {
             return <line key={i} x1={ax} y1={ay} x2={bx} y2={by} {...stroke.hair} />;
           })}
       {s.complicationType === "gmt" && <polygon points={pts([P(rb + 0.5, 0), P(R - 0.6, -4), P(R - 0.6, 4)])} className="fill-current" stroke="none" />}
-      <circle cx={cx} cy={cy} r={r2(rd)} className={dark ? "fill-fg" : "fill-paper"} stroke={dark ? "none" : "currentColor"} strokeOpacity={0.35} {...stroke.hair} />
+      <circle cx={cx} cy={cy} r={r2(rd)} className="fill-paper" strokeOpacity={0.6} {...stroke.hair} />
+      {dark && <circle cx={cx} cy={cy} r={r2(rd)} fill="currentColor" fillOpacity={0.09} stroke="none" className="text-fg" />}
       {furniture}
       {sub && (
         <g className={ink}>

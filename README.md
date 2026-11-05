@@ -28,12 +28,18 @@ composed from **templates** (`src/kit/templates`), not assembled from parts.
 - **Kit / Templates / Archetypes**: the same eight macro-primitives
   (**Kit / Blocks**) recomposed as a head-to-head, a single-product lab assay
   and a collector’s guide.
-- Products are drawn from their measurements (**Kit / Parts / Technical
-  specimen**), never shared placeholder art.
+- Every page is built in three surface layers — a tinted ground, white
+  cards, recessed wells — with an asymmetric verdict bento, deep-dive cards
+  (composite score, measurements, buy box, spec sheet) and a comparison
+  card that condenses to pills on a phone.
+- Products show studio photography where a site has it, otherwise a data
+  graphic from their own numbers — a watch drafting plate, a certificate of
+  analysis (**Kit / Parts / Product media**) — never an outline drawing or
+  shared placeholder art.
 - `bun run check` includes the kit audit (source, contracts, server-rendered
   pages, self-test); every kit story runs browser checks in `play()`
-  (alignment, voids, 44px targets, numerals, merchant order, axe-core
-  WCAG 2.2 AA). `node scripts/verify-stories.mjs --build --widths 375,1440`
+  (alignment, voids, column balance, 44px targets, numerals, merchant
+  order, axe-core WCAG 2.2 AA). `node scripts/verify-stories.mjs --build --widths 375,1440`
   runs them all.
 - The legacy primitives below are frozen; do not build new pages from them.
 

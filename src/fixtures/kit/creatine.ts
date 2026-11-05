@@ -1,12 +1,12 @@
 import { typesetDeep } from "@/kit/lib/typeset";
-import type { LabResult, Person, RoundupGuide } from "@/kit/types";
+import type { Measurements, Person, RoundupGuide } from "@/kit/types";
 
 import { offer, product } from "./build";
 
 /** Assay proof page: creatine, assayed in an accredited lab (all brands fictional). */
 
 const raman: Person = { name: "Dr. Priya Raman", role: "Lab director", avatar: { src: "/fixtures/portrait-raman.jpg", alt: "Dr. Priya Raman" }, href: "#priya", beats: ["supplements"] };
-const ibarra = (role: string): Person => ({ name: "Tomás Ibarra", role, href: "#tomas", beats: ["supplements"] });
+const ibarra: Person = { name: "Tomás Ibarra", role: "Analytical chemist", href: "#tomas", beats: ["supplements"] };
 
 const peak = product({
   id: "c-peak-mono-500",
@@ -41,13 +41,34 @@ const fieldwork = product({
   lastVerifiedAt: "2026-10-29T08:00:00Z",
 });
 
-const results = (creatine: string, lead: string, arsenic: string, dcd: string, moisture: string, moistureStatus: "pass" | "caution" = "pass"): LabResult[] => [
-  { label: "Creatine", value: creatine, limit: "4.75–5.50 g", status: "pass" },
-  { label: "Lead", value: lead, limit: "≤ 0.5 µg", status: "pass" },
-  { label: "Arsenic (inorganic)", value: arsenic, limit: "≤ 10 µg", status: "pass" },
-  { label: "Dicyandiamide", value: dcd, limit: "≤ 50 ppm", status: "pass" },
-  { label: "Moisture", value: moisture, limit: "≤ 12.5%", status: moistureStatus },
-];
+/** A certificate of analysis: runs, minor peaks, dose against its window, metals in ppb, other checks. */
+const assay = (
+  batch: string,
+  runs: number[],
+  impurities: number[],
+  measured: number,
+  metals: [lead: number, arsenic: number, cadmium: number, mercury: number],
+  dcd: string,
+  moisture: string,
+  moistureStatus: "pass" | "caution" = "pass",
+): Measurements => ({
+  kind: "assay",
+  batch,
+  assayedAt: "2026-10-14T00:00:00Z",
+  runs,
+  impurities,
+  claim: { label: "Creatine per 5 g serving", measured, low: 4.75, high: 5.5, unit: "g" },
+  metals: [
+    { label: "Lead", ppb: metals[0], limitPpb: 100 },
+    { label: "Arsenic", ppb: metals[1], limitPpb: 2000 },
+    { label: "Cadmium", ppb: metals[2], limitPpb: 100 },
+    { label: "Mercury", ppb: metals[3], limitPpb: 40 },
+  ],
+  checks: [
+    { label: "Dicyandiamide", value: dcd, limit: "≤ 50 ppm", status: "pass" },
+    { label: "Moisture", value: moisture, limit: "≤ 12.5%", status: moistureStatus },
+  ],
+});
 
 export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
   id: "creatine",
@@ -74,7 +95,6 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     { key: "metals", label: "Heavy metals" },
     { key: "cost", label: "Cost per 5 g" },
   ],
-  bentoCount: 3,
   jumpLabel: "See the lab data",
   railHeading: "Also passed every test",
   compare: { heading: "The lab results", intro: "Every product, the same tests. Products that failed are listed so you know which to avoid." },
@@ -82,8 +102,19 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     {
       product: peak,
       award: "Our pick",
+      descriptor: "Creatine monohydrate, 500 g tub",
       bestFor: "most people who want plain, proven creatine",
+      verdict: "Plain, unflavoured monohydrate that does exactly what the label promises, at a fair price.",
       synthesis: "100.4% of label claim across two blinded HPLC runs, at $0.21 a serving.",
+      rating: { score: 9.6, tier: "Lab verified", standing: "100.4% of claim" },
+      scores: [
+        { label: "Label accuracy", score: 9.9 },
+        { label: "Purity", score: 9.7 },
+        { label: "Value", score: 9.4 },
+        { label: "Mixability", score: 7.8 },
+        { label: "Dosing", score: 7.6 },
+      ],
+      measurements: assay("2214", [100.2, 100.6], [0.018, 0.009], 5.02, [16, 42, 6, 1.8], "< 10 ppm", "11.9%", "caution"),
       body: [
         "Peak Supply’s monohydrate was the closest to its label of anything we tested. Lead, arsenic and cadmium all came in under a fifth of their limits, and the synthesis by-products that turn up in cheap creatine were below quantitation.",
         "It is plain, unflavoured monohydrate, the form with the most research behind it, and it mixes into anything without changing the taste.",
@@ -97,15 +128,24 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Batch tested", value: "2214, assayed October 2026" },
       ],
       metrics: { accuracy: { value: "100.4%", status: "pass" }, metals: { value: "Pass", status: "pass" }, cost: { value: "$0.21" } },
-      evidence: { kind: "results", heading: "Lab results per 5 g serving", items: results("5.02 g", "0.08 µg", "0.21 µg", "< 10 ppm", "11.9%", "caution") },
-      specimen: { kind: "supplement", formFactor: "wide-tub", netWeight: 500, assayScore: 100.4, impurities: [0.018, 0.009] },
-      quote: { text: "Two runs, two days apart, within half a percent of each other. That is a well-made product.", person: ibarra("Analytical chemist, ran both assays") },
+      quote: { text: "Two runs, two days apart, within half a percent of each other. That is a well-made product.", person: ibarra, proof: "Ran both HPLC assays" },
     },
     {
       product: ironhouse,
       award: "Best micronised",
+      descriptor: "Micronised creatine, 300 g pouch",
       bestFor: "mixing into cold drinks without grit",
+      verdict: "The creatine to buy if grit in a cold shake is why you stopped taking it.",
       synthesis: "Fully dissolved at 20 °C in our saturation test, and 99.1% of its claim in both runs.",
+      rating: { score: 9.3, tier: "Lab verified", standing: "99.1% of claim" },
+      scores: [
+        { label: "Label accuracy", score: 9.7 },
+        { label: "Purity", score: 9.6 },
+        { label: "Value", score: 7.9 },
+        { label: "Mixability", score: 9.8 },
+        { label: "Dosing", score: 9.5 },
+      ],
+      measurements: assay("IH-77", [98.9, 99.3], [0.012, 0.006], 4.96, [22, 60, 8, 2.1], "< 10 ppm", "10.8%"),
       body: [
         "If grit in a cold shake bothers you, Ironhouse is the answer. Micronising shrinks the particles so they dissolve completely, and it costs a little more per serving to get there.",
         "Every contaminant we screened for was well inside its limit, and the scoop holds a true 5 g, so a dose is one level scoop.",
@@ -119,15 +159,24 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Raw material", value: "Creapure" },
       ],
       metrics: { accuracy: { value: "99.1%", status: "pass" }, metals: { value: "Pass", status: "pass" }, cost: { value: "$0.48" } },
-      evidence: { kind: "results", heading: "Lab results per 5 g serving", items: results("4.96 g", "0.11 µg", "0.30 µg", "< 10 ppm", "10.8%") },
-      specimen: { kind: "supplement", formFactor: "micronised-pouch", netWeight: 300, assayScore: 99.1, impurities: [0.012, 0.006] },
-      quote: { text: "If texture is why you stopped taking creatine, start here.", person: { ...raman, role: "Lab director, ran the solubility test" } },
+      quote: { text: "If texture is why you stopped taking creatine, start here.", person: raman, proof: "Ran the solubility test" },
     },
     {
       product: basics,
       award: "Budget pick",
+      descriptor: "Creatine monohydrate, 1 kg tub",
       bestFor: "the lowest cost per dose that still passed",
+      verdict: "The cheapest creatine that passed our full panel, in a tub that lasts 200 servings.",
       synthesis: "98.2% of claim and clean on every screen, at $0.16 a serving, the lowest of any product that passed.",
+      rating: { score: 8.9, tier: "Lab verified", standing: "98.2% of claim" },
+      scores: [
+        { label: "Label accuracy", score: 9.1 },
+        { label: "Purity", score: 9.2 },
+        { label: "Value", score: 9.9 },
+        { label: "Mixability", score: 7.6 },
+        { label: "Dosing", score: 7.4 },
+      ],
+      measurements: assay("N-0931", [97.9, 98.5], [0.024, 0.011, 0.007], 4.91, [38, 84, 11, 2.6], "18 ppm", "11.2%"),
       body: [
         "Northlane Basics is the least expensive creatine that cleared our full panel. It landed inside the acceptance window, though at the low end, and dicyandiamide was detectable but far below its limit.",
         "The 1 kg tub lasts 200 servings. It is plain monohydrate with nothing added, so it mixes the same as our pick.",
@@ -141,15 +190,24 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Batch tested", value: "N-0931, assayed October 2026" },
       ],
       metrics: { accuracy: { value: "98.2%", status: "pass" }, metals: { value: "Pass", status: "pass" }, cost: { value: "$0.16" } },
-      evidence: { kind: "results", heading: "Lab results per 5 g serving", items: results("4.91 g", "0.19 µg", "0.42 µg", "18 ppm", "11.2%") },
-      specimen: { kind: "supplement", formFactor: "wide-tub", netWeight: 1000, assayScore: 98.2, impurities: [0.024, 0.011, 0.007] },
-      quote: { text: "Inside the window on both runs. Cheap does not have to mean dirty.", person: ibarra("Analytical chemist, checked the by-products") },
+      quote: { text: "Inside the window on both runs. Cheap does not have to mean dirty.", person: ibarra, proof: "Checked the by-products" },
     },
     {
       product: fieldwork,
       award: "Best capsules",
+      descriptor: "Creatine capsules, 180 count",
       bestFor: "people who hate powders",
+      verdict: "Accurate, clean creatine for people who will only ever take a capsule.",
       synthesis: "96.5% of claim in vegan capsules, with the lowest moisture we measured; six make one 5 g dose.",
+      rating: { score: 8.5, tier: "Lab verified", standing: "96.5% of claim" },
+      scores: [
+        { label: "Label accuracy", score: 8.6 },
+        { label: "Purity", score: 9.5 },
+        { label: "Value", score: 7.2 },
+        { label: "Mixability", score: 10 },
+        { label: "Dosing", score: 8.2 },
+      ],
+      measurements: assay("FW-4410", [96.1, 96.9], [0.02, 0.015], 4.83, [18, 50, 7, 1.5], "< 10 ppm", "6.1%"),
       body: [
         "Capsules solve the taste and texture problem entirely. Fieldwork’s landed inside the acceptance window and passed every contaminant screen.",
         "You pay for the convenience: at $0.54 a serving it is the most expensive of our picks, and six capsules a day is a lot of swallowing.",
@@ -163,9 +221,7 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Capsule", value: "Pullulan, size 00" },
       ],
       metrics: { accuracy: { value: "96.5%", status: "pass" }, metals: { value: "Pass", status: "pass" }, cost: { value: "$0.54" } },
-      evidence: { kind: "results", heading: "Lab results per 5 g serving", items: results("4.83 g", "0.09 µg", "0.25 µg", "< 10 ppm", "6.1%") },
-      specimen: { kind: "supplement", formFactor: "capsule-bottle", netWeight: 150, assayScore: 96.5, impurities: [0.02, 0.015] },
-      quote: { text: "Accurate enough, clean, and the only format some people will actually take every day.", person: { ...raman, role: "Lab director, reviewed the results" } },
+      quote: { text: "Accurate enough, clean, and the only format some people will actually take every day.", person: raman, proof: "Reviewed the results" },
     },
   ],
   notRecommended: [

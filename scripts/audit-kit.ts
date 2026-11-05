@@ -126,8 +126,14 @@ for (const [name, guide] of GUIDES) {
   for (const pick of guide.picks) {
     const id = `${name}/${pick.product.id}`;
     if (!pick.quote.person.beats.includes(guide.category)) fail(id, `quoted tester ${pick.quote.person.name} does not cover “${guide.category}”`);
-    if (!pick.specimen && !pick.product.image) fail(id, "no media: give the pick a specimen or a photograph");
-    if (!pick.evidence.items.length) fail(id, "no evidence");
+    if (!pick.specimen && !pick.product.image && pick.measurements.kind !== "assay") fail(id, "no media: give the pick a photograph, a drafting plate or a certificate");
+    if (pick.scores.length < 3) fail(id, "fewer than three sub-scores under the composite");
+    if (pick.rating.score < 0 || pick.rating.score > 10) fail(id, `composite score ${pick.rating.score} is outside 0–10`);
+    if (!pick.quote.proof.trim()) fail(id, "tester quote without its proof");
+    const expected = { watches: "timing", supplements: "assay", running: "biomech" }[guide.category];
+    if (pick.measurements.kind !== expected) fail(id, `measurements are “${pick.measurements.kind}”, the ${guide.category} category draws “${expected}”`);
+    const v = pick.verdict.toLowerCase();
+    if (v.includes(pick.synthesis.toLowerCase()) || pick.synthesis.toLowerCase().includes(v)) fail(id, "verdict restates synthesis");
     if (/^\s*(?:\d|#|No\.)/.test(pick.award)) fail(id, `numbered award “${pick.award}”`);
     const a = pick.synthesis.toLowerCase();
     const b = pick.bestFor.toLowerCase();
@@ -212,7 +218,7 @@ function serialize(el: El): string {
 }
 
 const BLOCKS = new Set(["p", "li", "h1", "h2", "h3", "h4", "h5", "h6", "dd", "dt", "td", "th", "blockquote", "figcaption", "summary", "caption"]);
-const STORY_ORDER = ["award", "title", "synthesis", "buy-block", "narrative", "points", "pull-quote"];
+const STORY_ORDER = ["title", "synthesis", "buy-block", "narrative", "points", "pull-quote"];
 
 interface Page {
   name: string;
@@ -304,6 +310,8 @@ function checkHtml(html: string, { names: extraNames = [], products = new Map<st
     if (order.join(",") !== STORY_ORDER.join(",")) problems.push(`deep dive: ${id} story order is ${order.join(" → ")} (expected ${STORY_ORDER.join(" → ")})`);
     const primaries = all(card, (e) => e.attrs["data-cta"] === "primary").length;
     if (primaries !== 1) problems.push(`deep dive: ${id} has ${primaries} filled buttons (one)`);
+    if (!bySlot(card, "award").length) problems.push(`deep dive: ${id} has no award in its header`);
+    if (!bySlot(media, "scorecard").length) problems.push(`deep dive: ${id} has no composite score under its media`);
     const self = `#review-${product?.slug ?? card.attrs.id?.replace(/^review-/, "") ?? ""}`;
     if (all(card, (e) => e.attrs["data-product-ref"] === id || e.attrs.href === self).length) problems.push(`self reference: ${id} links or pills back to the product under review`);
   }
@@ -311,10 +319,18 @@ function checkHtml(html: string, { names: extraNames = [], products = new Map<st
     const primaries = all(verdict, (e) => e.attrs["data-cta"] === "primary").length;
     if (primaries !== 1) problems.push(`quick verdict: ${primaries} filled buttons (one)`);
   }
+  const photos = new Map<string, string>();
+  for (const well of bySlot(doc, "media-well")) {
+    const id = well.attrs["data-product-id"] ?? "?";
+    const src = all(well, (e) => e.tag === "img")[0]?.attrs.src ?? "";
+    const owner = photos.get(src);
+    if (src && owner && owner !== id) problems.push(`same specimen: ${id} and ${owner} use the same photograph`);
+    if (src) photos.set(src, id);
+  }
   const drawings = new Map<string, string>();
   for (const spec of bySlot(doc, "specimen")) {
     const id = spec.attrs["data-product-id"] ?? "?";
-    const svg = all(spec, (e) => e.tag === "svg")[0];
+    const svg = all(spec, (e) => e.tag === "svg" && e.attrs.role === "img")[0];
     const key = `${spec.attrs["data-detail"]}|${svg ? serialize(svg).replace(/ aria-label="[^"]*"/, "") : ""}`;
     const owner = drawings.get(key);
     if (owner && owner !== id) problems.push(`same specimen: ${id} and ${owner} draw the same picture`);
@@ -350,7 +366,7 @@ const BROKEN: [rule: string, html: string][] = [
   ["merchant clutter", `${notice}<div data-slot="buy-block" data-product-id="tempo">${offerLink("primary", 149, "Verra")}<a rel="sponsored" data-cta="secondary" data-offer-price="160" data-in-stock="true" data-merchant="Northlane" href="#">Northlane</a><p data-slot="inline-disclosure">We may earn a commission.</p></div>`],
   ["disclosure", `${offerLink("link", 149, "Verra")}${notice}`],
   ["self reference", `<article data-slot="deep-dive" data-product-id="w" id="review-w"><div data-col="media"><figure data-slot="media"><img src="x.jpg" alt=""></figure></div><div data-col="story"><a href="#review-w">Halden Meridian</a></div></article>`],
-  ["same specimen", `<div data-slot="specimen" data-detail="thumb" data-product-id="a"><svg><circle r="1"></circle></svg></div><div data-slot="specimen" data-detail="thumb" data-product-id="b"><svg><circle r="1"></circle></svg></div>`],
+  ["same specimen", `<div data-slot="specimen" data-detail="thumb" data-product-id="a"><svg role="img"><circle r="1"></circle></svg></div><div data-slot="specimen" data-detail="thumb" data-product-id="b"><svg role="img"><circle r="1"></circle></svg></div>`],
 ];
 console.log(`▶ self-test: ${BROKEN.length} broken pages`);
 for (const [rule, html] of BROKEN) {

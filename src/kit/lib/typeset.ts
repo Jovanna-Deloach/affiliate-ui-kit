@@ -111,6 +111,11 @@ const PROSE = new Set([
   "disclosure",
   "disclosureNotice",
   "tagline",
+  "descriptor",
+  "verdict",
+  "tier",
+  "standing",
+  "proof",
 ]);
 
 /** Typeset every prose string in a fixture or page contract, deeply. */

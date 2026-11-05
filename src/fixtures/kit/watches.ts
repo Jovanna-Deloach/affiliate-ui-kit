@@ -6,8 +6,16 @@ import { offer, product } from "./build";
 /** Atelier proof page: everyday watches under $5,000 (all brands fictional). */
 
 const marchetti: Person = { name: "Celeste Marchetti", role: "Watches editor", avatar: { src: "/fixtures/portrait-marchetti.jpg", alt: "Celeste Marchetti" }, href: "#celeste", beats: ["watches"] };
-const aalto = (role: string): Person => ({ name: "Henrik Aalto", role, href: "#henrik", beats: ["watches"] });
-const lindgren = (role: string): Person => ({ name: "Mara Lindgren", role, href: "#mara", beats: ["watches"] });
+const aalto: Person = { name: "Henrik Aalto", role: "Watchmaker", href: "#henrik", beats: ["watches"] };
+const lindgren: Person = { name: "Mara Lindgren", role: "Reviewer", href: "#mara", beats: ["watches"] };
+
+const POSITIONS = ["Dial up", "Dial down", "Crown up", "Crown down", "Crown left", "Crown right"];
+const timing = (rates: number[]) => ({
+  kind: "timing" as const,
+  positions: rates.map((rate, i) => ({ label: POSITIONS[i]!, rate })),
+  tolerance: [-4, 6] as [number, number],
+  reference: "Bench test on a timegrapher after 30 days of wear.",
+});
 
 const meridian = product({
   id: "w-halden-meridian-40",
@@ -75,16 +83,26 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     { key: "accuracy", label: "Accuracy", note: "Mean daily deviation over 30 days, on the wrist and resting overnight." },
     { key: "water", label: "Water resistance" },
   ],
-  bentoCount: 3,
   jumpLabel: "Read the full review",
-  railHeading: "Two more we would wear",
+  railHeading: "Also tested and recommended",
   compare: { heading: "Compare our picks" },
   picks: [
     {
       product: meridian,
       award: "Our pick",
+      descriptor: "Automatic GMT, 40 mm steel",
       bestFor: "the office, the pool and a second time zone",
+      verdict: "The one watch that travels, swims and dresses up without asking you to choose.",
       synthesis: "+1.6 s/day over 30 days of wrist and nightstand timing, the best of any automatic we tested.",
+      rating: { score: 9.2, tier: "Exceptional", standing: "1st of 14 tested" },
+      scores: [
+        { label: "Accuracy", score: 9.6 },
+        { label: "Wearability", score: 9.4 },
+        { label: "Legibility", score: 9.1 },
+        { label: "Finishing", score: 8.9 },
+        { label: "Value", score: 9.2 },
+      ],
+      measurements: timing([0.9, 2.1, 1.4, 2.3, 1.2, 1.7]),
       body: [
         "The Meridian is the watch we kept reaching for after testing ended. At 40 mm across and 11.8 mm thick it slips under a cuff, the bracelet tapers from 20 to 16 mm so it never feels like a tool watch, and the 24-hour hand keeps home time while you travel.",
         "Its movement is a widely serviced calibre, which matters more than finishing when you plan to wear a watch for twenty years. Any competent watchmaker can regulate it, and parts are inexpensive.",
@@ -99,25 +117,25 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Crystal", value: "Flat sapphire, anti-reflective inside" },
       ],
       metrics: { case: { value: "40 mm" }, accuracy: { value: "+1.6 s/day" }, water: { value: "100 m" } },
-      evidence: {
-        kind: "scores",
-        heading: "How it scored",
-        items: [
-          { label: "Accuracy", score: 9.6 },
-          { label: "Wearability", score: 9.4 },
-          { label: "Legibility", score: 9.1 },
-          { label: "Finishing", score: 8.9 },
-          { label: "Value", score: 9.2 },
-        ],
-      },
       specimen: { kind: "watch", caseDiameterMm: 40, lugToLugMm: 47, thicknessMm: 11.8, lugWidthMm: 20, complicationType: "gmt", strapType: "bracelet", dialTone: "light", date: true },
-      quote: { text: "I stopped thinking about which watch to wear in the morning. That is the whole review.", person: { ...marchetti, role: "Wore it for 64 days" } },
+      quote: { text: "I stopped thinking about which watch to wear in the morning. That is the whole review.", person: marchetti, proof: "64 days on the wrist" },
     },
     {
       product: ardent,
       award: "Upgrade pick",
+      descriptor: "Hand-wound dress watch, 38 mm",
       bestFor: "a dress watch you can wear every day",
+      verdict: "Enamel, a hand-wound movement and proportions that suit a knit as well as a dinner jacket.",
       synthesis: "8.9 mm thin with a 72-hour hand-wound reserve, and the finest finishing we found under $5,000.",
+      rating: { score: 9.1, tier: "Exceptional", standing: "2nd of 14 tested" },
+      scores: [
+        { label: "Accuracy", score: 8.8 },
+        { label: "Wearability", score: 9.5 },
+        { label: "Legibility", score: 9.2 },
+        { label: "Finishing", score: 9.8 },
+        { label: "Value", score: 8.6 },
+      ],
+      measurements: timing([2.2, 4, 3.4, 2.6, 3.9, 2.5]),
       body: [
         "Dress watches usually wait for an occasion. The Ardent does not: it slides under any sleeve, and the grand feu enamel dial has a depth you notice from across a room without ever looking loud.",
         "Winding it becomes a small morning ritual. The in-house calibre is built to be serviced by any competent watchmaker, not only the manufacturer, which is rare at this price.",
@@ -132,25 +150,25 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Dial", value: "Grand feu enamel" },
       ],
       metrics: { case: { value: "38 mm" }, accuracy: { value: "+3.1 s/day" }, water: { value: "30 m" } },
-      evidence: {
-        kind: "scores",
-        heading: "How it scored",
-        items: [
-          { label: "Accuracy", score: 8.8 },
-          { label: "Wearability", score: 9.5 },
-          { label: "Legibility", score: 9.2 },
-          { label: "Finishing", score: 9.8 },
-          { label: "Value", score: 8.6 },
-        ],
-      },
       specimen: { kind: "watch", caseDiameterMm: 38, lugToLugMm: 45, thicknessMm: 8.9, lugWidthMm: 19, complicationType: "dress-subdial", strapType: "leather", dialTone: "light" },
-      quote: { text: "The bridges are finished better than watches at twice the price, and nothing is hidden behind the caseback.", person: aalto("Watchmaker, opened it at the bench") },
+      quote: { text: "The bridges are finished better than watches at twice the price, and nothing is hidden behind the caseback.", person: aalto, proof: "Opened at the bench" },
     },
     {
       product: marine,
       award: "Budget pick",
+      descriptor: "Automatic diver, 38 mm",
       bestFor: "trying a mechanical watch without spending much",
+      verdict: "Solid steel, sapphire and a serviceable automatic for less than a good pair of shoes.",
       synthesis: "Sapphire, solid steel and a serviceable automatic for $420, running a steady +9.4 s/day.",
+      rating: { score: 8.1, tier: "Very good", standing: "Best under $500" },
+      scores: [
+        { label: "Accuracy", score: 7.4 },
+        { label: "Wearability", score: 8.8 },
+        { label: "Legibility", score: 8.2 },
+        { label: "Finishing", score: 7.6 },
+        { label: "Value", score: 9.7 },
+      ],
+      measurements: timing([7.8, 11.2, 9, 10.6, 8.3, 9.5]),
       body: [
         "The Marine is the only watch under $500 we would keep. Finishing is simple, but the case is solid steel, the crystal is sapphire, and the movement is the same workhorse calibre found in watches three times the price.",
         "It ran fast but steadily, which a watchmaker can regulate in minutes. The fabric strap is comfortable from the first day and takes seconds to swap.",
@@ -165,25 +183,25 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Strap", value: "Nylon, 20 mm" },
       ],
       metrics: { case: { value: "38 mm" }, accuracy: { value: "+9.4 s/day" }, water: { value: "100 m" } },
-      evidence: {
-        kind: "scores",
-        heading: "How it scored",
-        items: [
-          { label: "Accuracy", score: 7.4 },
-          { label: "Wearability", score: 8.8 },
-          { label: "Legibility", score: 8.2 },
-          { label: "Finishing", score: 7.6 },
-          { label: "Value", score: 9.7 },
-        ],
-      },
       specimen: { kind: "watch", caseDiameterMm: 38, lugToLugMm: 46, thicknessMm: 12, lugWidthMm: 20, complicationType: "diver-bezel", strapType: "nato", dialTone: "dark" },
-      quote: { text: "It is the watch I would hand a friend who wants to try mechanical without spending much.", person: lindgren("Reviewer, wore it for 30 days") },
+      quote: { text: "It is the watch I would hand a friend who wants to try mechanical without spending much.", person: lindgren, proof: "30 days on the wrist" },
     },
     {
       product: tide,
       award: "Best dive watch",
+      descriptor: "Automatic diver, 40 mm, 200 m",
       bestFor: "swimming and travel",
+      verdict: "A real dive watch that wears like a smaller one and survives the open water.",
       synthesis: "Rated to 200 m, ran +4.8 s/day, and had the cleanest bezel of the fourteen: 120 firm clicks, no back-play.",
+      rating: { score: 8.9, tier: "Excellent", standing: "3rd of 14 tested" },
+      scores: [
+        { label: "Accuracy", score: 8.6 },
+        { label: "Wearability", score: 9 },
+        { label: "Legibility", score: 9.3 },
+        { label: "Finishing", score: 8.4 },
+        { label: "Value", score: 9.5 },
+      ],
+      measurements: timing([3.9, 5.6, 4.4, 5.9, 4.1, 4.9]),
       body: [
         "Most dive watches are thick and top-heavy. The Tide’s short lugs and 12.4 mm case keep it planted, and the bracelet extends on the fly when your wrist swells in the heat.",
         "It survived three weeks of open-water swims without a mark on the sapphire, and stayed comfortably inside its own accuracy specification throughout.",
@@ -198,25 +216,25 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Bezel", value: "Unidirectional, 120 clicks" },
       ],
       metrics: { case: { value: "40 mm" }, accuracy: { value: "+4.8 s/day" }, water: { value: "200 m" } },
-      evidence: {
-        kind: "scores",
-        heading: "How it scored",
-        items: [
-          { label: "Accuracy", score: 8.6 },
-          { label: "Wearability", score: 9 },
-          { label: "Legibility", score: 9.3 },
-          { label: "Finishing", score: 8.4 },
-          { label: "Value", score: 9.5 },
-        ],
-      },
       specimen: { kind: "watch", caseDiameterMm: 40, lugToLugMm: 47, thicknessMm: 12.4, lugWidthMm: 20, complicationType: "diver-bezel", strapType: "bracelet", dialTone: "dark", date: true },
-      quote: { text: "Three weeks of open water and the bezel still clicks like it did on the first day.", person: lindgren("Reviewer, swam with it for three weeks") },
+      quote: { text: "Three weeks of open water and the bezel still clicks like it did on the first day.", person: lindgren, proof: "3 weeks of open water" },
     },
     {
       product: field,
       award: "Best field watch",
+      descriptor: "Hand-wound field watch, 36 mm",
       bestFor: "smaller wrists and rough use",
+      verdict: "The smallest, most legible watch here, built for rough use and smaller wrists.",
       synthesis: "The most legible dial we tested, on a 36 mm case that shrugged off a season of hiking.",
+      rating: { score: 8.7, tier: "Excellent", standing: "4th of 14 tested" },
+      scores: [
+        { label: "Accuracy", score: 8.3 },
+        { label: "Wearability", score: 9.1 },
+        { label: "Legibility", score: 9.8 },
+        { label: "Finishing", score: 8 },
+        { label: "Value", score: 9 },
+      ],
+      measurements: timing([4.1, 6.3, 5, 6.1, 4.6, 5.1]),
       body: [
         "The Field 36 is the smallest watch on this list and the easiest to read: a matte dial, large numerals and hands you can read at a glance in low light.",
         "We wore it through a season of hiking and garden work. The bead-blasted case hides scratches, and the hand-wound movement is simple enough for any watchmaker.",
@@ -231,19 +249,8 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Crystal", value: "Sapphire or acrylic" },
       ],
       metrics: { case: { value: "36 mm" }, accuracy: { value: "+5.2 s/day" }, water: { value: "100 m" } },
-      evidence: {
-        kind: "scores",
-        heading: "How it scored",
-        items: [
-          { label: "Accuracy", score: 8.3 },
-          { label: "Wearability", score: 9.1 },
-          { label: "Legibility", score: 9.8 },
-          { label: "Finishing", score: 8 },
-          { label: "Value", score: 9 },
-        ],
-      },
       specimen: { kind: "watch", caseDiameterMm: 36, lugToLugMm: 43, thicknessMm: 10.2, lugWidthMm: 18, complicationType: "field-arabic", strapType: "leather", dialTone: "dark" },
-      quote: { text: "A simple, honest movement. Anyone can service it, and it will outlive its owner.", person: aalto("Watchmaker, serviced it after testing") },
+      quote: { text: "A simple, honest movement. Anyone can service it, and it will outlive its owner.", person: aalto, proof: "Serviced after testing" },
     },
   ],
   methodology: {
@@ -253,7 +260,7 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       { title: "Bought at retail", body: "Every watch came from the retailers we link to, at full price, so we went through the same purchase you will. Nothing was loaned." },
       { title: "Worn for thirty days", body: "Each watch spent a month on one of three reviewers’ wrists, through office days, travel and at least one swim where the rating allowed it." },
       { title: "Timed every morning", body: "We logged the deviation each morning against our reference, on the wrist and resting crown-up overnight, and report the mean daily rate." },
-      { title: "Opened at the bench", body: "Our watchmaker removed every caseback to inspect the movement, the finishing and how easily the watch can be serviced." },
+      { title: "Opened at the bench", body: "Our watchmaker removed every caseback, timed each movement in six positions and judged how easily it can be serviced." },
       { title: "Prices checked weekly", body: "We re-check every retailer each week and always lead with the lowest in-stock price, whoever sells it." },
     ],
   },

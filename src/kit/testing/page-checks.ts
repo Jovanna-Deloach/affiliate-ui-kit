@@ -10,7 +10,8 @@ import { isRanked } from "@/kit/lib/offers";
  * scripts/audit-kit.ts (server-rendered, part of `bun run check`).
  *
  *   • deep dives: both columns start within 4px; no gap over 150px between
- *     blocks; media present
+ *     blocks; the sticky media column never runs more than 150px past the
+ *     story (its overrun would be a void beside the story); media present
  *   • primary, secondary and row CTAs at least 44px tall
  *   • every [data-numeric] cell set in tabular numerals
  *   • merchant order: in-stock lowest first, one button per buy block
@@ -59,6 +60,8 @@ export async function collectPageProblems(root: HTMLElement, { runAxe = true } =
     if (getComputedStyle(media).display !== "contents") {
       const delta = Math.abs(rect(media).top - rect(story).top);
       if (delta >= ALIGN) problems.push(`${id}: columns start ${delta.toFixed(1)}px apart (limit ${ALIGN}px)`);
+      const overrun = rect(media).bottom - rect(story).bottom;
+      if (overrun > VOID) problems.push(`${id}: the media column runs ${overrun.toFixed(0)}px past the story (limit ${VOID}px)`);
       for (const [label, col] of [
         ["media", media],
         ["story", story],
@@ -108,7 +111,7 @@ export async function collectPageProblems(root: HTMLElement, { runAxe = true } =
   const owners = new Map<string, string>();
   for (const el of Array.from(root.querySelectorAll<HTMLElement>('[data-slot="specimen"]'))) {
     const id = el.dataset.productId ?? "";
-    const key = `${el.dataset.detail}|${el.querySelector("svg")?.innerHTML ?? ""}`;
+    const key = `${el.dataset.detail}|${el.querySelector('svg[role="img"]')?.innerHTML ?? ""}`;
     const owner = owners.get(key);
     if (owner && owner !== id) problems.push(`${id} and ${owner} render the same drawing`);
     owners.set(key, id);

@@ -1,6 +1,7 @@
 export * from "./site-header";
 export * from "./site-footer";
 export * from "./person";
+export * from "./pick-media";
 export * from "./editorial-article-header";
 export * from "./testing-telemetry-badge";
 export * from "./quick-verdict-bento";

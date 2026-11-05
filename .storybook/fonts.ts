@@ -20,3 +20,4 @@ import "@fontsource-variable/newsreader/opsz.css";
 import "@fontsource-variable/newsreader/opsz-italic.css";
 import "@fontsource-variable/hanken-grotesk";
 import "@fontsource-variable/archivo/standard.css";
+import "@fontsource-variable/archivo/standard-italic.css";

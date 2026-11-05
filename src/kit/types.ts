@@ -67,33 +67,6 @@ export interface WatchSpecimen {
   date?: boolean;
 }
 
-/** Supplements: the container in elevation beside its HPLC purity trace. */
-export interface SupplementSpecimen {
-  kind: "supplement";
-  formFactor: "wide-tub" | "micronised-pouch" | "capsule-bottle" | "gummy-jar";
-  /** Net weight in grams. */
-  netWeight: number;
-  /** Measured active as a share of the label claim, mean of the lab runs (100.4 = 100.4%). */
-  assayScore: number;
-  /** Minor peaks as a share of the main peak (creatinine, DCD…), in elution order. */
-  impurities: number[];
-}
-
-/** Running shoes: lateral elevation with the stack measured at heel and forefoot. */
-export interface ShoeSpecimen {
-  kind: "shoe";
-  heelStackMm: number;
-  forefootStackMm: number;
-  /** Weight of one shoe, US men's 10. */
-  weightOz: number;
-  plate: "carbon" | "nylon" | "none";
-  /** Toe spring, 0 (flat) to 1 (aggressive rocker). */
-  rocker: number;
-  upper: "knit" | "mesh" | "engineered";
-}
-
-export type Specimen = WatchSpecimen | SupplementSpecimen | ShoeSpecimen;
-
 /* ---------------------------------------------------------------------- */
 /* Evidence                                                               */
 /* ---------------------------------------------------------------------- */
@@ -104,6 +77,8 @@ export interface Metric {
   label: string;
   /** Short explanation shown under the table. */
   note?: string;
+  /** Shown as a pill on the condensed phone row (the first three are used when none is marked). */
+  compact?: boolean;
 }
 
 export interface MetricValue {
@@ -111,41 +86,86 @@ export interface MetricValue {
   status?: "pass" | "fail" | "caution";
 }
 
-export interface LabResult {
-  label: string;
-  value: string;
-  limit: string;
-  status: "pass" | "fail" | "caution";
+/** The composite score: the focal point of a review. */
+export interface Rating {
+  /** Out of 10, one decimal. */
+  score: number;
+  /** “Exceptional”, “Lab verified”. */
+  tier: string;
+  /** Where it stands, in plain words: “1st of 14 tested”, “100.4% of claim”. */
+  standing: string;
 }
 
-export type Evidence =
-  | { kind: "scores"; heading: string; items: SubScoreItem[] }
-  | { kind: "results"; heading: string; items: LabResult[] };
+/**
+ * What the lab or bench measured, drawn as a data graphic. Never an
+ * illustration of the product: photography shows the object, these show
+ * the numbers.
+ */
+export type Measurements =
+  | {
+      /** Watches: rate in six positions against chronometer tolerance. */
+      kind: "timing";
+      positions: { label: string; rate: number }[];
+      /** Tolerance band in s/day, e.g. [-4, 6]. */
+      tolerance: [number, number];
+      reference: string;
+    }
+  | {
+      /** Supplements: the certificate of analysis. */
+      kind: "assay";
+      batch: string;
+      assayedAt: string;
+      /** Each HPLC run as a share of the label claim (100.2 = 100.2%). */
+      runs: number[];
+      /** Minor peaks as a share of the main peak, in elution order. */
+      impurities: number[];
+      claim: { label: string; measured: number; low: number; high: number; unit: string };
+      metals: { label: string; ppb: number; limitPpb: number }[];
+      checks: { label: string; value: string; limit: string; status: "pass" | "caution" | "fail" }[];
+    }
+  | {
+      /** Running shoes: cushioning geometry and energy return against the test average. */
+      kind: "biomech";
+      heelMm: number;
+      forefootMm: number;
+      energyReturn: number;
+      energyAverage: number;
+      /** Rebound lost after 300 miles, percent (smaller is better). */
+      reboundLoss: number;
+      reboundAverage: number;
+      weightOz: number;
+      weightAverage: number;
+    };
 
 export interface Pick {
   product: KitProduct;
-  /** The award, sentence case: "Our pick", "Budget pick". Never numbered. */
+  /** The award, sentence case: “Our pick”, “Budget pick”. Never numbered. */
   award: string;
-  /**
-   * The quick-verdict line: who it is for, completing "Best for …".
-   * Shown once, in the bento or the also-great rail.
-   */
+  /** What it is, for the card header: “Automatic GMT, 40 mm steel”. */
+  descriptor: string;
+  /** Who it is for, completing “Best for …”. Shown in compact verdict cards and rails. */
   bestFor: string;
+  /** The hero verdict (two lines) when this pick leads the page. Never a measurement. */
+  verdict: string;
   /**
    * The deep-dive subhead: the measured result in one sentence
-   * ("+1.6 s/day over 30 days of wrist and nightstand timing").
-   * Never a restatement of `bestFor`.
+   * (“+1.6 s/day over 30 days of wrist and nightstand timing”).
    */
   synthesis: string;
+  rating: Rating;
+  /** Sub-scores under the composite (five is the norm). */
+  scores: SubScoreItem[];
+  measurements: Measurements;
   body: string[];
   likes: string[];
   caveats: string[];
   /** Specifications, label and value. */
   facts: { label: string; value: string }[];
   metrics: Record<string, MetricValue>;
-  evidence: Evidence;
-  specimen?: Specimen;
-  quote: { text: string; person: Person };
+  /** Watches: a drafting plate drawn from the case geometry. */
+  specimen?: WatchSpecimen;
+  /** A tester’s words, and the proof they earned the right to say them (“160 miles logged”). */
+  quote: { text: string; person: Person; proof: string };
 }
 
 export interface NotRecommended {
@@ -154,7 +174,7 @@ export interface NotRecommended {
   metrics: Record<string, MetricValue>;
 }
 
-export interface Telemetry {
+export interface TestingStat {
   /** "14" — a figure, set large. */
   value: string;
   /** "watches bought at retail" — completes the figure. */
@@ -177,13 +197,12 @@ export interface RoundupGuide {
   testedWith: string;
   updatedAt: string;
   /** The header's testing summary card. */
-  telemetry: { stats: Telemetry[]; reference: string };
+  telemetry: { stats: TestingStat[]; reference: string };
   metrics: Metric[];
   picks: Pick[];
-  /** How many picks the quick-verdict bento holds (2 or 3); the rest go to the also-great rail. */
-  bentoCount?: 2 | 3;
   /** Jump-link label from the verdict to each deep dive: "Read the full review". */
   jumpLabel: string;
+  /** Heading for picks 4+ in the verdict bento, and for the collector’s catalogue. */
   railHeading?: string;
   /** The comparison section: a heading that says something, and an optional intro. */
   compare: { heading: string; intro?: string };

@@ -11,7 +11,7 @@ import type { Category, SiteChrome } from "@/kit/types";
  */
 export function SiteHeader({ site, category, className }: { site: SiteChrome; category?: Category; className?: string }) {
   return (
-    <header className={cn("relative border-b border-line bg-paper", className)}>
+    <header className={cn("relative border-b border-line bg-ground", className)}>
       <div className="kit-well flex h-16 items-center gap-10">
         <a href={site.publication.href} className="kit-focus kit-wordmark rounded-ctl text-fg">
           {site.publication.name}
@@ -49,7 +49,7 @@ export function SiteHeader({ site, category, className }: { site: SiteChrome; ca
               <Menu size={22} strokeWidth={1.75} aria-hidden="true" />
               <span className="sr-only">Menu</span>
             </summary>
-            <nav aria-label="Sections (menu)" className="absolute inset-x-0 top-full z-40 border-b border-line bg-paper">
+            <nav aria-label="Sections (menu)" className="absolute inset-x-0 top-full z-40 border-b border-line bg-ground">
               <ul className="kit-well m-0 flex list-none flex-col py-2">
                 {site.nav.map((item) => {
                   const current = !!category && item.category === category;

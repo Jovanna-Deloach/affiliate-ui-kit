@@ -56,8 +56,8 @@ export function seeded(seed: string) {
 }
 
 // vector-effect does not inherit: spread these on every stroked element, never on a <g>.
-const HAIR = { vectorEffect: "non-scaling-stroke" as const, strokeWidth: 1 };
-const LINE = { vectorEffect: "non-scaling-stroke" as const, strokeWidth: 1.25 };
+const HAIR = { vectorEffect: "non-scaling-stroke" as const, strokeWidth: 0.75 };
+const LINE = { vectorEffect: "non-scaling-stroke" as const, strokeWidth: 0.75 };
 export const stroke = { hair: HAIR, line: LINE };
 
 /** Architectural dimension line: thin rule with 45° ticks at both ends. */
@@ -68,7 +68,7 @@ export function Dimension({ x1, y1, x2, y2, tick = 1.1 }: { x1: number; y1: numb
   const tx = ((ux + uy) / Math.SQRT2) * tick;
   const ty = ((uy - ux) / Math.SQRT2) * tick;
   return (
-    <g className="text-fg-muted">
+    <g className="text-fg-muted" strokeOpacity={0.75}>
       <line x1={r2(x1)} y1={r2(y1)} x2={r2(x2)} y2={r2(y2)} {...HAIR} />
       <line x1={r2(x1 - tx)} y1={r2(y1 - ty)} x2={r2(x1 + tx)} y2={r2(y1 + ty)} {...HAIR} />
       <line x1={r2(x2 - tx)} y1={r2(y2 - ty)} x2={r2(x2 + tx)} y2={r2(y2 + ty)} {...HAIR} />
@@ -85,7 +85,7 @@ export function Extension({ x1, y1, x2, y2, dashed = false }: { x1: number; y1: 
       x2={r2(x2)}
       y2={r2(y2)}
       className="text-fg-muted"
-      strokeOpacity={dashed ? 0.45 : 0.7}
+      strokeOpacity={dashed ? 0.4 : 0.55}
       strokeDasharray={dashed ? "3 2" : undefined}
       {...HAIR}
     />
@@ -142,6 +142,8 @@ export interface FrameProps {
   /** What the drawing shows, for screen readers. */
   label: string;
   callouts?: Callout[];
+  /** Line colour of the drawing: muted drafting lines (default) or ink. */
+  tone?: "muted" | "ink";
   children: ReactNode;
   className?: string;
 }
@@ -151,25 +153,31 @@ export interface FrameProps {
  * The plate may be wider than the drawing (a capped height on a wide
  * column); the drawing and its labels stay centred together at their own
  * aspect ratio, so labels never drift from the lines they name.
+ *
+ * At `card` detail the plate fills whatever box it is given (a verdict
+ * card's well, whose height the card decides) and the drawing is the
+ * largest box of its ratio that fits, centred: contain-fit by container
+ * units, so it never crops and never floats small.
  */
-export function SpecimenFrame({ w, h, detail, hash, productId, label, callouts = [], children, className }: FrameProps) {
+export function SpecimenFrame({ w, h, detail, hash, productId, label, callouts = [], tone = "muted", children, className }: FrameProps) {
   const ratio = `${w} / ${h}`;
+  const fill = detail === "card";
   return (
     <div
       data-slot="specimen"
       data-detail={detail}
       data-specimen-hash={hash}
       data-product-id={productId}
-      className={cn("relative w-full overflow-hidden rounded-media bg-well text-fg", className)}
-      style={{ aspectRatio: ratio }}
+      className={cn("relative overflow-hidden rounded-media bg-well text-fg", fill ? "size-full" : "w-full", className)}
+      style={fill ? { containerType: "size" } : { aspectRatio: ratio }}
     >
-      <div className="absolute inset-0 flex justify-center">
-        <div className="relative h-full" style={{ aspectRatio: ratio }}>
+      <div className={cn("absolute inset-0 flex justify-center", fill && "items-center")}>
+        <div className={cn("relative", !fill && "h-full")} style={fill ? { aspectRatio: ratio, width: `min(100cqw, ${r2((w / h) * 100)}cqh)` } : { aspectRatio: ratio }}>
           <svg
             viewBox={`0 0 ${w} ${h}`}
             role="img"
             aria-label={label}
-            className="absolute inset-0 size-full"
+            className={cn("absolute inset-0 size-full", tone === "muted" ? "text-fg-muted" : "text-fg")}
             fill="none"
             stroke="currentColor"
             strokeLinecap="round"

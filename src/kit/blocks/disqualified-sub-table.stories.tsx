@@ -20,12 +20,12 @@ type Story = StoryObj<typeof meta>;
 export const Supplements: Story = {
   parameters: { theme: "assay" },
   decorators: [inWell("supplements")],
-  args: { items: creatineGuide.notRecommended ?? [], metrics: creatineGuide.metrics },
+  args: { items: creatineGuide.notRecommended ?? [], metrics: creatineGuide.metrics, standalone: true },
 };
 
 export const RunningNarrow: Story = {
   name: "Running, narrow container",
   parameters: { theme: "assay" },
   decorators: [inNarrowColumn("running")],
-  args: { items: runningGuide.notRecommended ?? [], metrics: runningGuide.metrics },
+  args: { items: runningGuide.notRecommended ?? [], metrics: runningGuide.metrics, standalone: true },
 };

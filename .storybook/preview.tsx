@@ -71,6 +71,8 @@ const FACES = [
   'italic 300 1em "Newsreader Variable"',
   '500 1em "Hanken Grotesk Variable"',
   '400 1em "Archivo Variable"',
+  'italic 400 1em "Archivo Variable"',
+  'italic 400 1em "Newsreader Variable"',
 ];
 const withFontsReady = async () => {
   if (typeof document === "undefined" || !document.fonts) return {};

@@ -18,7 +18,7 @@ export interface TestingTelemetryBadgeProps {
 
 export function TestingTelemetryBadge({ telemetry, heading = "How we tested", methodHref = "#methodology", methodLabel = "Read the full method", className }: TestingTelemetryBadgeProps) {
   return (
-    <aside data-slot="telemetry" aria-labelledby="telemetry-heading" className={cn("@container rounded-box bg-well p-6", className)}>
+    <aside data-slot="telemetry" aria-labelledby="telemetry-heading" className={cn("@container kit-card p-6", className)}>
       <h2 id="telemetry-heading" className="m-0 t-ui font-medium text-fg">
         {heading}
       </h2>
