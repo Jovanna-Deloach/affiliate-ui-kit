@@ -6,6 +6,7 @@
 
 @import "./tokens.css";
 @import "./mechanics.css";
+@import "../kit/theme/kit.css";
 
 /* ==========================================================================
    TAILWIND ↔ TOKEN BRIDGE

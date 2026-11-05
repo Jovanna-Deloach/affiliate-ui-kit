@@ -21,3 +21,8 @@ required — credited here anyway). Downloaded at `w=1600&q=82`.
 | `portrait-raman.jpg` | Lab director portrait (white studio) | [1l6UeCc9P9o](https://unsplash.com/photos/1l6UeCc9P9o) |
 
 Merchants are fictional; they render as monogram tiles (no wordmarks).
+
+## Kit placeholders (`kit/*.svg`)
+
+Neutral product renders drawn for this repository by `scripts/generate-placeholders.py`
+(generic shapes, no brands, no third-party imagery). Free to use with the kit.

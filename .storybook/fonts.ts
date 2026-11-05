@@ -13,3 +13,10 @@ import "@fontsource-variable/playfair-display";
 import "@fontsource-variable/plus-jakarta-sans";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
+
+/* Kit themes (docs/DESIGN.md): Newsreader with optical sizes (Atelier),
+   Hanken Grotesk (Atelier interface), Archivo with the width axis (Assay). */
+import "@fontsource-variable/newsreader/opsz.css";
+import "@fontsource-variable/newsreader/opsz-italic.css";
+import "@fontsource-variable/hanken-grotesk";
+import "@fontsource-variable/archivo/standard.css";

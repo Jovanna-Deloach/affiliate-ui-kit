@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="246 401 508 508" width="800" height="800">
+<defs><filter id="s" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="18"/></filter></defs>
+<ellipse cx="500" cy="858" rx="209.00000000000003" ry="24" fill="#000" fill-opacity="0.18" filter="url(#s)"/>
+<rect x="310.0" y="430" width="380" height="420" rx="26" fill="#000" fill-opacity="0.16"/>
+<rect x="328.0" y="570" width="344" height="220" rx="6" fill="#fff" fill-opacity="0.6"/>
+<rect x="370.0" y="610" width="159.6" height="18" rx="9" fill="#000" fill-opacity="0.22"/>
+<rect x="370.0" y="644" width="106.4" height="12" rx="6" fill="#000" fill-opacity="0.12"/>
+<rect x="300.0" y="424" width="400" height="90" rx="20" fill="#000" fill-opacity="0.42"/>
+<rect x="342.44444444444446" y="438" width="4" height="62" rx="2" fill="#fff" fill-opacity="0.18"/>
+<rect x="386.8888888888889" y="438" width="4" height="62" rx="2" fill="#fff" fill-opacity="0.18"/>
+<rect x="431.33333333333337" y="438" width="4" height="62" rx="2" fill="#fff" fill-opacity="0.18"/>
+<rect x="475.77777777777777" y="438" width="4" height="62" rx="2" fill="#fff" fill-opacity="0.18"/>
+<rect x="520.2222222222222" y="438" width="4" height="62" rx="2" fill="#fff" fill-opacity="0.18"/>
+<rect x="564.6666666666667" y="438" width="4" height="62" rx="2" fill="#fff" fill-opacity="0.18"/>
+<rect x="609.1111111111111" y="438" width="4" height="62" rx="2" fill="#fff" fill-opacity="0.18"/>
+<rect x="653.5555555555555" y="438" width="4" height="62" rx="2" fill="#fff" fill-opacity="0.18"/>
+<rect x="320.0" y="528" width="10" height="290" rx="5" fill="#fff" fill-opacity="0.35"/>
+</svg>

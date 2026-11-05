@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="194 311 611 611" width="800" height="800">
+<defs><filter id="s" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="18"/></filter></defs>
+<ellipse cx="500" cy="866" rx="220.00000000000003" ry="20" fill="#000" fill-opacity="0.16" filter="url(#s)"/>
+<path d="M320.0,380 L680.0,380 Q714.0,820 670.0,860 L330.0,860 Q286.0,820 320.0,380 Z" fill="#000" fill-opacity="0.18"/>
+<rect x="316.0" y="340" width="368" height="54" rx="6" fill="#000" fill-opacity="0.3"/>
+<rect x="345.1666666666667" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="375.8333333333333" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="406.5" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="437.1666666666667" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="467.83333333333337" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="498.5" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="529.1666666666666" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="559.8333333333334" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="590.5" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="621.1666666666667" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="651.8333333333333" y="348" width="3" height="38" fill="#fff" fill-opacity="0.25"/>
+<rect x="360.0" y="490" width="280" height="197.6" rx="8" fill="#fff" fill-opacity="0.6"/>
+<rect x="390.0" y="530" width="160.0" height="18" rx="9" fill="#000" fill-opacity="0.22"/>
+<rect x="390.0" y="562" width="104.0" height="12" rx="6" fill="#000" fill-opacity="0.12"/>
+</svg>

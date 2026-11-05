@@ -1,0 +1,305 @@
+/* ==========================================================================
+   KIT — foundation + themes (see docs/DESIGN.md)
+   --------------------------------------------------------------------------
+   Structure is shared; art direction is the theme. Every value a component
+   reads comes from a role below, set on `[data-theme]`. A new site gets a
+   new theme block, never a new component variant.
+   ========================================================================== */
+
+[data-theme] {
+  /* ---- foundation: identical in every theme ---------------------------- */
+  --kit-well: 75rem;
+  --kit-gutter: 1rem;
+  --measure: 40rem;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 180ms;
+
+  background-color: var(--paper);
+  color: var(--fg);
+  font-family: var(--font-text);
+  font-size: var(--t-body-size);
+  line-height: var(--t-body-lh);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-optical-sizing: auto;
+}
+@media (min-width: 48rem) {
+  [data-theme] {
+    --kit-gutter: 1.5rem;
+  }
+}
+
+/* ---- Atelier: luxury goods ---------------------------------------------- */
+[data-theme="atelier"] {
+  --paper: #ffffff;
+  --well: #efede9;
+  --fg: #1f1d1b;
+  --fg-muted: #6b6560;
+  --line: #e4e1dc;
+  --accent: #6f1d2b;
+  --accent-hover: #561520;
+  --on-accent: #ffffff;
+  --accent-soft: #f5ecec;
+  --pass: #2f6b45;
+  --pass-soft: #eaf2ec;
+  --fail: #9b2c2c;
+  --fail-soft: #f8eaea;
+  --caution: #8a5a12;
+  --caution-soft: #f6efe3;
+
+  --font-headline: "Newsreader Variable", "Newsreader", Georgia, serif;
+  --font-text: "Newsreader Variable", "Newsreader", Georgia, serif;
+  --font-ui: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
+
+  --headline-weight: 300;
+  --headline-stretch: 100%;
+  --headline-tracking: -0.015em;
+  --title-weight: 400;
+  --title-stretch: 100%;
+  --ui-weight: 500;
+  --figure-weight: 500;
+  --figure-stretch: 100%;
+
+  --t-display-size: clamp(2.625rem, 1.55rem + 3.9vw, 4.25rem);
+  --t-display-lh: 1.04;
+  --t-headline-size: clamp(2rem, 1.45rem + 1.9vw, 2.75rem);
+  --t-headline-lh: 1.1;
+  --t-title-size: clamp(1.625rem, 1.35rem + 0.9vw, 2rem);
+  --t-title-lh: 1.15;
+  --t-lead-size: clamp(1.1875rem, 1.08rem + 0.4vw, 1.375rem);
+  --t-lead-lh: 1.5;
+  --t-body-size: 1.125rem;
+  --t-body-lh: 1.65;
+  --t-figure-xl-size: clamp(2rem, 1.6rem + 1.3vw, 2.5rem);
+  --t-figure-table-size: 1.0625rem;
+  --wordmark-size: 1.625rem;
+  --wordmark-weight: 400;
+  --wordmark-stretch: 100%;
+  --wordmark-tracking: -0.02em;
+  --meter: var(--fg);
+
+  --radius-box: 0px;
+  --radius-ctl: 2px;
+  --radius-media: 0px;
+  --section-gap: clamp(5rem, 3rem + 6vw, 8rem);
+}
+
+/* ---- Assay: lab-tested health & performance ------------------------------ */
+[data-theme="assay"] {
+  --paper: #ffffff;
+  --well: #f1f3f6;
+  --fg: #0e1726;
+  --fg-muted: #556070;
+  --line: #dde2e9;
+  --accent: #2f45d8;
+  --accent-hover: #2236b5;
+  --on-accent: #ffffff;
+  --accent-soft: #eceffe;
+  --pass: #13804a;
+  --pass-soft: #e5f4eb;
+  --fail: #c2362b;
+  --fail-soft: #fcebe9;
+  --caution: #9a5b00;
+  --caution-soft: #fff2de;
+
+  --font-headline: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-text: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-ui: "Archivo Variable", "Archivo", system-ui, sans-serif;
+
+  --headline-weight: 640;
+  --headline-stretch: 112%;
+  --headline-tracking: -0.025em;
+  --title-weight: 620;
+  --title-stretch: 108%;
+  --ui-weight: 560;
+  --figure-weight: 620;
+  --figure-stretch: 116%;
+
+  --t-display-size: clamp(2.25rem, 1.45rem + 3.1vw, 3.5rem);
+  --t-display-lh: 1.04;
+  --t-headline-size: clamp(1.625rem, 1.25rem + 1.3vw, 2.125rem);
+  --t-headline-lh: 1.12;
+  --t-title-size: clamp(1.3125rem, 1.15rem + 0.55vw, 1.5625rem);
+  --t-title-lh: 1.2;
+  --t-lead-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --t-lead-lh: 1.5;
+  --t-body-size: 1rem;
+  --t-body-lh: 1.6;
+  --t-figure-xl-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+  --t-figure-table-size: 1.25rem;
+  --wordmark-size: 1.25rem;
+  --wordmark-weight: 720;
+  --wordmark-stretch: 118%;
+  --wordmark-tracking: -0.02em;
+  --meter: var(--accent);
+
+  --radius-box: 10px;
+  --radius-ctl: 8px;
+  --radius-media: 10px;
+  --section-gap: clamp(3.5rem, 2.5rem + 3vw, 5rem);
+}
+
+/* ---- bridge: role names → Tailwind utilities ----------------------------- */
+@theme reference {
+  --color-paper: var(--paper);
+  --color-well: var(--well);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-pass: var(--pass);
+  --color-pass-soft: var(--pass-soft);
+  --color-fail: var(--fail);
+  --color-fail-soft: var(--fail-soft);
+  --color-caution: var(--caution);
+  --color-caution-soft: var(--caution-soft);
+  --color-meter: var(--meter);
+
+  --font-headline: var(--font-headline);
+  --font-text: var(--font-text);
+  --font-ui: var(--font-ui);
+
+  --radius-box: var(--radius-box);
+  --radius-ctl: var(--radius-ctl);
+  --radius-media: var(--radius-media);
+
+  /* `chapter`, not `section`: the legacy bridge already owns --spacing-section. */
+  --spacing-chapter: var(--section-gap);
+  --container-measure: var(--measure);
+  --container-well: var(--kit-well);
+}
+
+/* ---- text styles: the only type voices a page uses ----------------------- */
+@utility t-display {
+  font-family: var(--font-headline);
+  font-size: var(--t-display-size);
+  line-height: var(--t-display-lh);
+  font-weight: var(--headline-weight);
+  font-stretch: var(--headline-stretch);
+  letter-spacing: var(--headline-tracking);
+  text-wrap: balance;
+}
+@utility t-headline {
+  font-family: var(--font-headline);
+  font-size: var(--t-headline-size);
+  line-height: var(--t-headline-lh);
+  font-weight: var(--headline-weight);
+  font-stretch: var(--headline-stretch);
+  letter-spacing: var(--headline-tracking);
+  text-wrap: balance;
+}
+@utility t-title {
+  font-family: var(--font-headline);
+  font-size: var(--t-title-size);
+  line-height: var(--t-title-lh);
+  font-weight: var(--title-weight);
+  font-stretch: var(--title-stretch);
+  letter-spacing: calc(var(--headline-tracking) * 0.6);
+  text-wrap: balance;
+}
+@utility t-lead {
+  font-family: var(--font-text);
+  font-size: var(--t-lead-size);
+  line-height: var(--t-lead-lh);
+  font-weight: 400;
+  text-wrap: pretty;
+}
+@utility t-body {
+  font-family: var(--font-text);
+  font-size: var(--t-body-size);
+  line-height: var(--t-body-lh);
+  font-weight: 400;
+  text-wrap: pretty;
+}
+@utility t-ui {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  font-weight: var(--ui-weight);
+  letter-spacing: 0;
+}
+@utility t-small {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+@utility t-caption {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  font-weight: 400;
+}
+@utility t-figure {
+  font-family: var(--font-ui);
+  font-weight: var(--figure-weight);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.01em;
+}
+@utility t-figure-xl {
+  font-family: var(--font-ui);
+  font-size: var(--t-figure-xl-size);
+  line-height: 1;
+  font-weight: var(--figure-weight);
+  font-stretch: var(--figure-stretch);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Numbers in comparison tables: the Assay theme spends its boldness here. */
+@utility t-figure-table {
+  font-family: var(--font-ui);
+  font-size: var(--t-figure-table-size);
+  line-height: 1.2;
+  font-weight: var(--figure-weight);
+  font-stretch: var(--figure-stretch);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.01em;
+}
+@utility kit-wordmark {
+  font-family: var(--font-headline);
+  font-size: var(--wordmark-size);
+  line-height: 1;
+  font-weight: var(--wordmark-weight);
+  font-stretch: var(--wordmark-stretch);
+  letter-spacing: var(--wordmark-tracking);
+}
+
+/* Page well: every band centres on the same 1200px column. */
+@utility kit-well {
+  width: 100%;
+  max-width: calc(var(--kit-well) + var(--kit-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--kit-gutter);
+}
+
+/* One focus treatment for every interactive element in the kit. */
+@utility kit-focus {
+  outline: none;
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Inline reading links: underline sits low and thin, darkens on hover. */
+@utility kit-link {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  transition: text-decoration-color var(--dur) var(--ease);
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme] {
+    --dur: 1ms;
+  }
+}

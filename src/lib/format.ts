@@ -33,6 +33,20 @@ export function formatDate(iso: string): string {
   }).format(d);
 }
 
+/** "October 27, 2026" — long form for bylines; UTC like formatDate. */
+export function formatDateLong(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(d);
+}
+
+/** "Oct 27" — short form for "checked" stamps beside prices. */
+export function formatDateShort(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(d);
+}
+
 /** Score with one decimal, tabular ("9.0" not "9"). */
 export function formatScore(score: number, decimals = 1): string {
   return score.toFixed(decimals);

@@ -61,6 +61,11 @@ export interface AffiliateActionProps
   arrow?: boolean;
   /** Merge onto a single child element instead of rendering an <a>; href/rel/tracking are still enforced. */
   asChild?: boolean;
+  /**
+   * Skip the built-in visual variants: the consumer's className is the whole
+   * look (the kit's BuyButton / BuyLink). Compliance is unchanged.
+   */
+  unstyled?: boolean;
   children: ReactNode;
 }
 
@@ -71,6 +76,7 @@ export function AffiliateAction({
   onTrack,
   newTab = true,
   arrow = true,
+  unstyled = false,
   asChild = false,
   intent,
   motion,
@@ -113,7 +119,7 @@ export function AffiliateAction({
     href: finalHref,
     target: target ?? (newTab ? "_blank" : undefined),
   };
-  const classes = actionVariants({ intent, motion: motion ?? "arrow-nudge", size, width });
+  const classes = unstyled ? "" : actionVariants({ intent, motion: motion ?? "arrow-nudge", size, width });
 
   if (asChild) {
     const child = Children.only(children) as ReactElement<ChildProps>;
@@ -152,7 +158,7 @@ export function AffiliateAction({
       {...props}
     >
       {/* Last-resort guard: a label squeezed by a narrow consumer ellipsizes, never overflows. */}
-      <span className="min-w-0 truncate">{children}</span>
+      {unstyled ? children : <span className="min-w-0 truncate">{children}</span>}
       {trailing}
     </a>
   );

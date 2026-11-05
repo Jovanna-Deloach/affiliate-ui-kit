@@ -6,10 +6,10 @@ import { extendTailwindMerge } from "tailwind-merge";
  * `rounded-container` and `rounded-none` (or `p-card` vs `p-0`) would both
  * survive a merge and the consumer override would silently fail.
  */
-const twMerge = extendTailwindMerge<"type-style">({
+const twMerge = extendTailwindMerge<"type-style" | "kit-type">({
   extend: {
     theme: {
-      radius: ["container", "inner", "control", "tag", "pill"],
+      radius: ["container", "inner", "control", "tag", "pill", "box", "ctl", "media"],
       spacing: [
         "card",
         "card-compact",
@@ -77,13 +77,16 @@ const twMerge = extendTailwindMerge<"type-style">({
         "heading",
         "page",
         "page-x",
+        "chapter",
+        "measure",
+        "well",
       ],
       shadow: ["surface", "elevated", "overlay", "badge"],
       ease: ["standard", "exit", "media"],
       tracking: ["eyebrow", "mono", "metric", "display"],
       text: ["eyebrow", "caption", "body-sm", "body", "title", "display", "hero-metric"],
       leading: ["body", "tight", "display"],
-      font: ["display", "sans", "mono"],
+      font: ["display", "sans", "mono", "headline", "text", "ui"],
       blur: ["glass"],
       color: [
         "canvas",
@@ -109,6 +112,23 @@ const twMerge = extendTailwindMerge<"type-style">({
         "negative",
         "negative-ink",
         "negative-soft",
+        // kit roles (docs/DESIGN.md)
+        "paper",
+        "well",
+        "fg",
+        "fg-muted",
+        "line",
+        "accent",
+        "accent-hover",
+        "on-accent",
+        "accent-soft",
+        "pass",
+        "pass-soft",
+        "fail",
+        "fail-soft",
+        "caution",
+        "caution-soft",
+        "meter",
       ],
     },
     classGroups: {
@@ -117,6 +137,7 @@ const twMerge = extendTailwindMerge<"type-style">({
       "border-w-l": ["border-l-emphasis"],
       "border-w-t": ["border-t-emphasis"],
       "font-weight": ["font-weight-display"],
+      "kit-type": ["t-display", "t-headline", "t-title", "t-lead", "t-body", "t-ui", "t-small", "t-caption", "t-figure-xl", "t-figure-table"],
       "type-style": [
         "type-eyebrow",
         "type-mono",

@@ -14,6 +14,19 @@ bun run check          # typecheck + lint + structural-token audit
 bun run verify:stories # headless Storybook verification (see below)
 ```
 
+## Start here: the kit (page-first reset)
+
+The kit in `src/kit` is the current system. Read [`docs/DESIGN.md`](docs/DESIGN.md)
+before building anything: uniqueness comes from **themes** (`data-theme`),
+quality from **constraints** enforced by `bun run audit:kit`, and pages are
+composed from **templates** (`src/kit/templates`), not assembled from parts.
+
+- Storybook → **Kit / Templates / Roundup page**: one template, two
+  publications — *Caliber* (Atelier theme, object-led) and *Proving Ground*
+  (Assay theme, results-led).
+- The legacy primitives below are frozen and will be consolidated into the
+  kit; do not build new pages from them.
+
 ## Stack
 
 Bun · Next.js 16 (App Router, Server Components by default) · React 19 ·

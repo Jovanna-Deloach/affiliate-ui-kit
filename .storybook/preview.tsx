@@ -22,6 +22,16 @@ type Stage = "white" | "canvas";
  *                                             vertical, in adjacent columns
  */
 const withVertical: Decorator = (Story, context) => {
+  // Kit stories (src/kit, docs/DESIGN.md) render full-bleed inside a theme,
+  // with no workshop padding: a page template is a page.
+  if (context.parameters.kit) {
+    const theme = (context.parameters.theme as string | undefined) ?? (context.globals.theme as string) ?? "atelier";
+    return (
+      <div data-theme={theme} className="min-h-dvh">
+        <Story />
+      </div>
+    );
+  }
   const vertical = (context.globals.vertical as VerticalGlobal) ?? "luxury-editorial";
   const shape = (context.globals.shape as Shape) ?? "architectural";
   const elevation = (context.globals.elevation as Elevation) ?? "flat";
@@ -57,6 +67,10 @@ const FACES = [
   '600 1em "Plus Jakarta Sans Variable"',
   '400 1em "Inter Variable"',
   '400 1em "JetBrains Mono Variable"',
+  '300 1em "Newsreader Variable"',
+  'italic 300 1em "Newsreader Variable"',
+  '500 1em "Hanken Grotesk Variable"',
+  '400 1em "Archivo Variable"',
 ];
 const withFontsReady = async () => {
   if (typeof document === "undefined" || !document.fonts) return {};
@@ -68,6 +82,18 @@ const preview: Preview = {
   loaders: [withFontsReady],
   decorators: [withVertical],
   globalTypes: {
+    theme: {
+      description: "Kit theme (docs/DESIGN.md) — applies to kit stories",
+      toolbar: {
+        title: "Theme",
+        icon: "mirror",
+        items: [
+          { value: "atelier", title: "Atelier · luxury goods" },
+          { value: "assay", title: "Assay · lab-tested" },
+        ],
+        dynamicTitle: true,
+      },
+    },
     vertical: {
       description: "Vertical tone profile",
       toolbar: {
@@ -120,6 +146,7 @@ const preview: Preview = {
     },
   },
   initialGlobals: {
+    theme: "atelier",
     vertical: "luxury-editorial",
     shape: "architectural",
     elevation: "flat",
