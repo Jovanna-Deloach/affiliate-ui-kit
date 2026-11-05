@@ -131,7 +131,8 @@ const browser = await chromium.launch();
 // global vertical is irrelevant for them.
 const jobs = [];
 for (const story of stories) {
-  const verticalsForStory = /side-?by-?side|multi-?vertical|compare|token-driven/i.test(story.id)
+  // Kit stories carry their own theme (data-theme), so the vertical global is irrelevant too.
+  const verticalsForStory = /side-?by-?side|multi-?vertical|compare|token-driven/i.test(story.id) || story.id.startsWith("kit-")
     ? [VERTICALS[0]]
     : VERTICALS;
   for (const vertical of verticalsForStory) {
@@ -242,6 +243,25 @@ async function runJob({ story, vertical, width }) {
       ]);
     });
     await page.waitForTimeout(SETTLE_MS);
+
+    // CSF3 play() functions run after render; wait until every story render
+    // in the preview has finished (or errored) so assertion failures — which
+    // Storybook reports as console errors — are captured for this check.
+    const playPhase = await page
+      .waitForFunction(
+        () => {
+          const renders = window.__STORYBOOK_PREVIEW__?.storyRenders ?? [];
+          if (renders.length === 0) return false;
+          const done = renders.every((r) => ["finished", "errored", "aborted"].includes(r.phase));
+          return done ? renders.map((r) => r.phase).join(",") : false;
+        },
+        null,
+        { timeout: 30_000, polling: 100 },
+      )
+      .then((h) => h.jsonValue())
+      .catch(() => "timeout");
+    if (playPhase === "timeout") pageErrors.push("play: story render did not finish within 30 s");
+    else if (String(playPhase).includes("errored")) pageErrors.push("play: story render errored");
 
     const sbError = await page.$("#error-message, .sb-errordisplay:not([hidden]) #error-message");
     if (sbError) {

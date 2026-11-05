@@ -2,17 +2,38 @@
    KIT — foundation + themes (see docs/DESIGN.md)
    --------------------------------------------------------------------------
    Structure is shared; art direction is the theme. Every value a component
-   reads comes from a role below, set on `[data-theme]`. A new site gets a
-   new theme block, never a new component variant.
+   reads comes from a role below, set on `[data-theme]` (and, for wayfinding
+   colour only, `[data-category]`). A new site gets a new theme block, never a
+   new component variant.
+
+   TYPE: two scales.
+     editorial — headlines, deks, pull-quotes. Anchored at the theme's body
+                 size; ratio chosen by the theme (Atelier √2, Assay 4:3).
+                 Roles are fluid between two steps (375px → 1440px).
+     ui        — controls, tables, specifications, captions, prices. Major
+                 third (1.25) anchored at 15px: 12 · 15 · 18.75 · 23.4 · 29.3
+                 · 36.6. UI text always sets tabular, lining figures.
    ========================================================================== */
 
 [data-theme] {
   /* ---- foundation: identical in every theme ---------------------------- */
   --kit-well: 75rem;
   --kit-gutter: 1rem;
-  --measure: 40rem;
+  --measure: 65ch;
+  --media-max-h: 340px;
   --ease: cubic-bezier(0.2, 0, 0, 1);
   --dur: 180ms;
+
+  /* ui scale — major third from 15px */
+  --ui-1: 0.75rem;
+  --ui-0: 0.9375rem;
+  --ui-1-up: 1.1719rem;
+  --ui-2-up: 1.4648rem;
+  --t-price: clamp(1.8311rem, 1.6699rem + 0.6877vw, 2.2888rem);
+
+  /* wayfinding colour defaults to the brand accent */
+  --accent-category: var(--accent);
+  --accent-category-soft: var(--accent-soft);
 
   background-color: var(--paper);
   color: var(--fg);
@@ -60,18 +81,22 @@
   --figure-weight: 500;
   --figure-stretch: 100%;
 
-  --t-display-size: clamp(2.625rem, 1.55rem + 3.9vw, 4.25rem);
+  /* editorial scale: √2 from 18px — 21.4 · 25.5 · 36 · 50.9 · 72 */
+  --t-display-size: clamp(2.25rem, 1.4577rem + 3.3803vw, 4.5rem);
   --t-display-lh: 1.04;
-  --t-headline-size: clamp(2rem, 1.45rem + 1.9vw, 2.75rem);
+  --t-headline-size: clamp(1.591rem, 1.0308rem + 2.3902vw, 3.182rem);
   --t-headline-lh: 1.1;
-  --t-title-size: clamp(1.625rem, 1.35rem + 0.9vw, 2rem);
+  --t-title-size: clamp(1.3379rem, 1.0167rem + 1.3704vw, 2.25rem);
   --t-title-lh: 1.15;
-  --t-lead-size: clamp(1.1875rem, 1.08rem + 0.4vw, 1.375rem);
+  --t-quote-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem);
+  --t-quote-lh: 1.35;
+  --t-lead-size: clamp(1.1875rem, 1.1346rem + 0.2259vw, 1.3379rem);
   --t-lead-lh: 1.5;
   --t-body-size: 1.125rem;
   --t-body-lh: 1.65;
-  --t-figure-xl-size: clamp(2rem, 1.6rem + 1.3vw, 2.5rem);
-  --t-figure-table-size: 1.0625rem;
+  --measure-title: 22ch;
+  --hang-quote: -0.42em;
+
   --wordmark-size: 1.625rem;
   --wordmark-weight: 400;
   --wordmark-stretch: 100%;
@@ -95,7 +120,7 @@
   --accent-hover: #2236b5;
   --on-accent: #ffffff;
   --accent-soft: #eceffe;
-  --pass: #13804a;
+  --pass: #0e7543;
   --pass-soft: #e5f4eb;
   --fail: #c2362b;
   --fail-soft: #fcebe9;
@@ -115,28 +140,50 @@
   --figure-weight: 620;
   --figure-stretch: 116%;
 
-  --t-display-size: clamp(2.25rem, 1.45rem + 3.1vw, 3.5rem);
+  /* editorial scale: 4:3 from 16px — 18.5 · 21.3 · 28.4 · 37.9 · 50.6 */
+  --t-display-size: clamp(2.3704rem, 2.0922rem + 1.187vw, 3.1605rem);
   --t-display-lh: 1.04;
-  --t-headline-size: clamp(1.625rem, 1.25rem + 1.3vw, 2.125rem);
+  --t-headline-size: clamp(1.7778rem, 1.5691rem + 0.8903vw, 2.3704rem);
   --t-headline-lh: 1.12;
-  --t-title-size: clamp(1.3125rem, 1.15rem + 0.55vw, 1.5625rem);
+  --t-title-size: clamp(1.3333rem, 1.1768rem + 0.6677vw, 1.7778rem);
   --t-title-lh: 1.2;
-  --t-lead-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --t-quote-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.3333rem);
+  --t-quote-lh: 1.4;
+  --t-lead-size: clamp(1.0625rem, 1.03rem + 0.1385vw, 1.1547rem);
   --t-lead-lh: 1.5;
   --t-body-size: 1rem;
   --t-body-lh: 1.6;
-  --t-figure-xl-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
-  --t-figure-table-size: 1.25rem;
+  --measure-title: 20ch;
+  --hang-quote: -0.5em;
+
   --wordmark-size: 1.25rem;
   --wordmark-weight: 720;
   --wordmark-stretch: 118%;
   --wordmark-tracking: -0.02em;
-  --meter: var(--accent);
+  --meter: var(--accent-category);
 
   --radius-box: 10px;
   --radius-ctl: 8px;
   --radius-media: 10px;
   --section-gap: clamp(3.5rem, 2.5rem + 3vw, 5rem);
+}
+
+/* ---- categories: wayfinding colour only (one publication, many beats) ----
+   A category changes nothing but --accent-category: the nav marker, award
+   tags, score meters and specimen highlights. Wordmark, surfaces, type and
+   the buy action stay the publication's. Custom properties resolve where
+   they are declared, so roles built on the category colour are restated. */
+[data-theme="assay"] [data-category="supplements"],
+[data-theme="assay"][data-category="supplements"] {
+  --accent-category: #2f45d8;
+  --accent-category-soft: #eceffe;
+  --meter: var(--accent-category);
+}
+[data-theme="assay"] [data-category="running"],
+[data-theme="assay"][data-category="running"] {
+  --accent-category: #0b6b7d;
+  --accent-category-soft: #e2f2f5;
+  --meter: var(--accent-category);
 }
 
 /* ---- bridge: role names → Tailwind utilities ----------------------------- */
@@ -150,12 +197,15 @@
   --color-accent-hover: var(--accent-hover);
   --color-on-accent: var(--on-accent);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-category: var(--accent-category);
+  --color-accent-category-soft: var(--accent-category-soft);
   --color-pass: var(--pass);
   --color-pass-soft: var(--pass-soft);
   --color-fail: var(--fail);
   --color-fail-soft: var(--fail-soft);
-  --color-caution: var(--caution);
-  --color-caution-soft: var(--caution-soft);
+  /* `warn`, not `caution`: the legacy bridge already owns --color-caution. */
+  --color-warn: var(--caution);
+  --color-warn-soft: var(--caution-soft);
   --color-meter: var(--meter);
 
   --font-headline: var(--font-headline);
@@ -169,6 +219,7 @@
   /* `chapter`, not `section`: the legacy bridge already owns --spacing-section. */
   --spacing-chapter: var(--section-gap);
   --container-measure: var(--measure);
+  --container-measure-title: var(--measure-title);
   --container-well: var(--kit-well);
 }
 
@@ -200,6 +251,20 @@
   letter-spacing: calc(var(--headline-tracking) * 0.6);
   text-wrap: balance;
 }
+/* Pull-quotes: one editorial step below the product title; the opening mark
+   hangs in the margin (wrap it in .kit-hang) so the text edge stays true. */
+@utility t-quote {
+  font-family: var(--font-headline);
+  font-size: var(--t-quote-size);
+  line-height: var(--t-quote-lh);
+  font-weight: var(--title-weight);
+  font-stretch: var(--title-stretch);
+  letter-spacing: calc(var(--headline-tracking) * 0.4);
+  text-wrap: pretty;
+}
+@utility kit-hang {
+  margin-inline-start: var(--hang-quote);
+}
 @utility t-lead {
   font-family: var(--font-text);
   font-size: var(--t-lead-size);
@@ -216,22 +281,25 @@
 }
 @utility t-ui {
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: var(--ui-0);
   line-height: 1.4;
   font-weight: var(--ui-weight);
   letter-spacing: 0;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 @utility t-small {
   font-family: var(--font-ui);
-  font-size: 0.875rem;
+  font-size: var(--ui-0);
   line-height: 1.5;
   font-weight: 400;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 @utility t-caption {
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: var(--ui-1);
   line-height: 1.45;
   font-weight: 400;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 @utility t-figure {
   font-family: var(--font-ui);
@@ -239,25 +307,24 @@
   font-variant-numeric: tabular-nums lining-nums;
   letter-spacing: -0.01em;
 }
-@utility t-figure-xl {
-  font-family: var(--font-ui);
-  font-size: var(--t-figure-xl-size);
-  line-height: 1;
-  font-weight: var(--figure-weight);
-  font-stretch: var(--figure-stretch);
-  font-variant-numeric: tabular-nums lining-nums;
-  letter-spacing: -0.02em;
-}
-
-/* Numbers in comparison tables: the Assay theme spends its boldness here. */
+/* Comparison-table numbers: the Assay theme spends its boldness here. */
 @utility t-figure-table {
   font-family: var(--font-ui);
-  font-size: var(--t-figure-table-size);
+  font-size: var(--ui-1-up);
   line-height: 1.2;
   font-weight: var(--figure-weight);
   font-stretch: var(--figure-stretch);
   font-variant-numeric: tabular-nums lining-nums;
   letter-spacing: -0.01em;
+}
+@utility t-figure-xl {
+  font-family: var(--font-ui);
+  font-size: var(--t-price);
+  line-height: 1;
+  font-weight: var(--figure-weight);
+  font-stretch: var(--figure-stretch);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
 }
 @utility kit-wordmark {
   font-family: var(--font-headline);
@@ -295,6 +362,24 @@
   transition: text-decoration-color var(--dur) var(--ease);
   &:hover {
     text-decoration-color: currentColor;
+  }
+}
+
+/* Native <details> accordions: hide the default marker; the summary owns
+   its own plus/minus. Content stays in the DOM for search engines. */
+@utility kit-details {
+  & > summary {
+    list-style: none;
+    cursor: pointer;
+  }
+  & > summary::-webkit-details-marker {
+    display: none;
+  }
+  & [data-slot="toggle-icon"] {
+    transition: rotate var(--dur) var(--ease);
+  }
+  &[open] [data-slot="toggle-icon"] {
+    rotate: 45deg;
   }
 }
 

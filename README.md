@@ -21,11 +21,21 @@ before building anything: uniqueness comes from **themes** (`data-theme`),
 quality from **constraints** enforced by `bun run audit:kit`, and pages are
 composed from **templates** (`src/kit/templates`), not assembled from parts.
 
-- Storybook → **Kit / Templates / Roundup page**: one template, two
-  publications — *Caliber* (Atelier theme, object-led) and *Proving Ground*
-  (Assay theme, results-led).
-- The legacy primitives below are frozen and will be consolidated into the
-  kit; do not build new pages from them.
+- Storybook → **Kit / Templates / Roundup page**: *Caliber* (Atelier theme,
+  watches) and *Proving Ground* (Assay theme), one publication with two
+  sections — supplements and running — told apart only by
+  `--accent-category`.
+- **Kit / Templates / Archetypes**: the same eight macro-primitives
+  (**Kit / Blocks**) recomposed as a head-to-head, a single-product lab assay
+  and a collector’s guide.
+- Products are drawn from their measurements (**Kit / Parts / Technical
+  specimen**), never shared placeholder art.
+- `bun run check` includes the kit audit (source, contracts, server-rendered
+  pages, self-test); every kit story runs browser checks in `play()`
+  (alignment, voids, 44px targets, numerals, merchant order, axe-core
+  WCAG 2.2 AA). `node scripts/verify-stories.mjs --build --widths 375,1440`
+  runs them all.
+- The legacy primitives below are frozen; do not build new pages from them.
 
 ## Stack
 

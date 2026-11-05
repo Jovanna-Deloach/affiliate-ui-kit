@@ -29,7 +29,7 @@ export function SiteFooter({ site, className }: { site: SiteChrome; className?: 
           ))}
         </div>
       </div>
-      <div className="kit-well flex flex-col gap-3 pb-12 md:flex-row md:items-end md:justify-between">
+      <div className="kit-well flex flex-col gap-3 pb-12 md:flex-row md:items-baseline md:justify-between">
         <p className="m-0 max-w-[40rem] t-caption text-fg-muted">
           {site.disclosure}{" "}
           <a href={site.disclosureHref} className="kit-focus kit-link rounded-ctl text-fg">

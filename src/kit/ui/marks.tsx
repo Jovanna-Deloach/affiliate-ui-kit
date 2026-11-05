@@ -3,15 +3,22 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 
-/** The award a pick holds, in sentence case. Information, not decoration. */
+/**
+ * The award a pick holds, in sentence case. Information, not decoration;
+ * set in the section’s category colour, never numbered.
+ */
 export function Award({ children, className }: { children: ReactNode; className?: string }) {
-  return <span className={cn("inline-flex items-center rounded-ctl bg-accent-soft px-2 py-1 t-caption font-medium text-accent", className)}>{children}</span>;
+  return (
+    <span data-slot="award" className={cn("inline-flex items-center self-start justify-self-start rounded-ctl bg-accent-category-soft px-2 py-1 t-caption font-medium text-accent-category", className)}>
+      {children}
+    </span>
+  );
 }
 
 const RESULT = {
   pass: { icon: Check, cls: "bg-pass-soft text-pass" },
   fail: { icon: X, cls: "bg-fail-soft text-fail" },
-  caution: { icon: AlertTriangle, cls: "bg-caution-soft text-caution" },
+  caution: { icon: AlertTriangle, cls: "bg-warn-soft text-warn" },
 } as const;
 
 /** Pass / fail / caution with an icon, so colour is never the only signal. */

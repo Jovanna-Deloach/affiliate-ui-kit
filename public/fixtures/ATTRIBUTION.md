@@ -22,7 +22,8 @@ required — credited here anyway). Downloaded at `w=1600&q=82`.
 
 Merchants are fictional; they render as monogram tiles (no wordmarks).
 
-## Kit placeholders (`kit/*.svg`)
+## Kit specimens
 
-Neutral product renders drawn for this repository by `scripts/generate-placeholders.py`
-(generic shapes, no brands, no third-party imagery). Free to use with the kit.
+Kit pages have no product photography: each product is drawn from its own
+measurements by `<TechnicalSpecimen>` (`src/kit/ui/specimen`), as inline SVG
+generated at render time. No image files, no third-party artwork.
