@@ -11,12 +11,12 @@ export const caliberSite: SiteChrome = {
   nav: [
     { label: "Watches", href: "#watches", category: "watches" },
     { label: "Leather goods", href: "#leather" },
-    { label: "Jewellery", href: "#jewellery" },
+    { label: "Jewelry", href: "#jewelry" },
     { label: "Buying guides", href: "#guides" },
     { label: "How we review", href: "#how-we-review" },
   ],
   footer: [
-    { heading: "Reviews", links: [{ label: "Watches", href: "#watches" }, { label: "Leather goods", href: "#leather" }, { label: "Jewellery", href: "#jewellery" }] },
+    { heading: "Reviews", links: [{ label: "Watches", href: "#watches" }, { label: "Leather goods", href: "#leather" }, { label: "Jewelry", href: "#jewelry" }] },
     { heading: "Caliber", links: [{ label: "How we review", href: "#how-we-review" }, { label: "Our reviewers", href: "#reviewers" }, { label: "Corrections", href: "#corrections" }] },
     { heading: "Legal", links: [{ label: "How we make money", href: "#disclosure" }, { label: "Privacy", href: "#privacy" }, { label: "Terms", href: "#terms" }] },
   ],

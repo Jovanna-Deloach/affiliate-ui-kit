@@ -28,7 +28,7 @@ import type { ProductImage } from "@/types/affiliate";
  *   type-mono                                the angle index ("02 / 04")
  *   --duration-media / --ease-media          crossfade
  *
- * Accessibility (21st.dev thumbnail-image-viewer anatomy, sanitised): the
+ * Accessibility (21st.dev thumbnail-image-viewer anatomy, sanitized): the
  * strip is a `tablist`, the stage a `tabpanel`; ← → Home End move the
  * selection; the caption bar is `aria-live="polite"`. No animation runtime
  * and no framer-motion: a gallery of five is five opacity transitions, so it

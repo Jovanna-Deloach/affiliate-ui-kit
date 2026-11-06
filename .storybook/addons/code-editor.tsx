@@ -12,7 +12,7 @@ import { useEditable } from "use-editable";
 
 const ink = "#181614";
 
-/** The kit's palette as syntax colours: oxblood components, brass props, green strings. */
+/** The kit's palette as syntax colors: oxblood components, brass props, green strings. */
 export const kitCodeTheme: PrismTheme = {
   plain: { color: ink, backgroundColor: "transparent" },
   styles: [

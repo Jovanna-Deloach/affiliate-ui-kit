@@ -18,7 +18,7 @@ hunting, with the commission disclosed in plain words before the first buy
 link.
 
 The kit must produce **unique** sites — a watch magazine and a supplement
-lab must not look like the same template recoloured — while every page
+lab must not look like the same template recolored — while every page
 built from it meets the same quality floor. The bar is an editorial
 publication with a design desk, not a dashboard: real photography of every
 product, a typographic system with three distinct voices, warm surfaces,
@@ -39,7 +39,7 @@ order (Primitives → Components → Blocks → Templates).
 | --- | --- | --- | --- |
 | **Primitives** | `src/kit/ui` | the smallest pieces: Price, Meter, Disclosure, Eyebrow and Breadcrumb, Badge (Award, BestPrice, ResultMark), Button and the buy links, ProductImage, Avatar, Monogram, Sep | plain props and theme roles only |
 | **Components** | `src/kit/components` | primitives composed into the pieces of a review: OfferCard, RetailerList, BuyBlock, VerdictCard, Scorecard and Telemetry, ProsCons, PullQuote, SpecSheet, PickMedia | the product contract (`Pick`, `KitProduct`, offers) |
-| **Blocks** | `src/kit/blocks` | the sections of a page: article header, verdict bento, comparison, deep dive, catalogue, method, masthead, footer | a guide’s sections |
+| **Blocks** | `src/kit/blocks` | the sections of a page: article header, verdict bento, comparison, deep dive, catalog, method, masthead, footer | a guide’s sections |
 | **Templates** | `src/kit/templates` | whole pages: the roundup and its archetypes | the whole `RoundupGuide` |
 
 A block never re-draws something a component or primitive already draws: a
@@ -126,7 +126,7 @@ Enforced by `scripts/audit-kit.ts` wherever a machine can check them.
    and never typed in capitals.
 3. **Headings say something.** “How we tested 14 watches”, “The lab results”,
    not “Methodology”, “Comparison”.
-4. **One filled action per viewport.** The action colour is reserved for
+4. **One filled action per viewport.** The action color is reserved for
    the buy button of the pick in view (and the comparison’s pill for our
    pick). Everything else is outlined, a quiet row or a text link.
 5. **Space first, tone second, line last.** Separate content with space.
@@ -159,7 +159,7 @@ A pick carries three different lines:
 | Field | Where | What it says |
 | --- | --- | --- |
 | `verdict` | the verdict hero, when the pick leads the page | why, in two lines: “The one watch that travels, swims and dresses up without asking you to choose.” |
-| `bestFor` | compact verdict cards, the comparison’s “Best for” column, catalogue cards | who it is for: “Best for the office, the pool and a second time zone.” |
+| `bestFor` | compact verdict cards, the comparison’s “Best for” column, catalog cards | who it is for: “Best for the office, the pool and a second time zone.” |
 | `synthesis` | deep-dive subhead | what we measured: “+1.6 s/day over 30 days of wrist and nightstand timing, the best of any automatic we tested.” |
 
 The audit fails a contract whose `synthesis` restates `bestFor` or whose
@@ -231,7 +231,7 @@ page of them reads as one system:
 frame), the media radius (6px), `radial-gradient(circle at 50% 45%,
 #FAF8F4, #E8E4DA)`. The cut-out is contain-fit inside a 9% inset with
 `drop-shadow(0 16px 24px rgb(0 0 0 / 0.12))`. The award is a solid pill
-pinned top-left (`Award`: the award colour, 10px tracked mono). Supplements
+pinned top-left (`Award`: the award color, 10px tracked mono). Supplements
 add the lab’s verdict in the bottom-left corner, frosted (`AssayBadge`):
 “ISO 17025 · 100.4% label claim · Pass”; under a 24rem frame the
 accreditation is left to screen readers so the stamp stays on one line.
@@ -253,7 +253,7 @@ category’s telemetry on a hairline:
 columns under micro-caps headings, with check and dash icons in the pass
 and warning tones. No boxes, no rules. They stack under 36rem.
 
-**Pull-quote** (`PullQuote`). A 2px rule in the action colour, 20px of air, the tester’s
+**Pull-quote** (`PullQuote`). A 2px rule in the action color, 20px of air, the tester’s
 words in the display serif italic (1.25rem) with a hanging opening mark,
 then their portrait or monogram, name and role, and a proof badge in
 micro-caps (“64 days on the wrist”, “Ran both HPLC assays”).
@@ -278,7 +278,7 @@ running test.
   first; sold-out offers follow. A partner relationship never moves an offer
   up: a $160 partner cannot sit above a $149 retailer
   (`src/kit/lib/offers.ts`; the Proving Ground running guide is the proof
-  case). Every surface — card, table, catalogue, buy box — leads with the
+  case). Every surface — card, table, catalog, buy box — leads with the
   lowest in-stock price.
 - **The buy box** (`BuyBlock`). The lead offer is a recessed offer card
   (`kit-recess`, 16px × 20px): on the left a 28px bordered monogram, the
@@ -293,7 +293,7 @@ running test.
 - **One button per product.** The audit and the story checks fail a buy box
   with a second button.
 - **The comparison’s last column** is the best price, “at {merchant}” and a
-  “Buy” pill: filled in the action colour for our pick, bordered for every
+  “Buy” pill: filled in the action color for our pick, bordered for every
   other row.
 - **Disclosure twice, in two lengths.** A notice in the article header’s
   byline region, before the first buy link on the page, and an inline line
@@ -312,9 +312,9 @@ by `--accent-category`, set with `data-category`: the nav marker, award
 text in tables, telemetry bars and verification badges. Wordmark, surfaces,
 type and the buy action stay the publication’s.
 
-### Atelier — luxury goods (Caliber)
+### Atelier — a watch magazine (Caliber)
 
-*A museum catalogue, not a newspaper.* Objects get room; prose is set like a
+*A museum catalog, not a newspaper.* Objects get room; prose is set like a
 book; the interface stays out of the way.
 
 | Role | Value |
@@ -366,7 +366,7 @@ beside the photograph (the scorecard’s telemetry) or on it (the lab badge).
 
 Detail levels, through `PickMedia`: `full` (the deep dive’s frame),
 `card` (fills a verdict card’s well), `thumb` (a square for tables, rows
-and catalogue cards).
+and catalog cards).
 
 The fixture photographs are cut-outs from Unsplash and Pexels
 (`public/fixtures/ATTRIBUTION.md`). They are real products — several carry
@@ -408,7 +408,7 @@ container:
 | `EditorialArticleHeader` | micro-caps breadcrumb; title, dek, byline with the verification stamp, and the disclosure notice on 7 columns; the testing summary card on 5 |
 | `TestingTelemetryBadge` | what was tested, how much (display-serif figures), against what reference; links to the method |
 | `QuickVerdictBento` | the bento above: our pick on 7 columns, at most two compact cards on 5 matching its height |
-| `AlsoGreatRail` | picks as catalogue cards (`PickRow`: studio thumbnail, award, name, best for, price, Buy pill, jump link): the collector’s index |
+| `AlsoGreatRail` | picks as catalog cards (`PickRow`: studio thumbnail, award, name, best for, price, Buy pill, jump link): the collector’s index |
 | `ComparisonMatrix` | a decision tool in a card: micro-caps column heads on a rule (Product, Best for, the metrics, Best price), our pick on a warm tint, a Buy pill per row. In a narrow container each contender is a small card: header, three key measurements as pills, a price line |
 | `DisqualifiedSubTable` | what failed, on the comparison’s own columns (shared colgroup), never linked |
 | `ProductDeepDiveCard` | one pick in full, the geometry above |
@@ -422,18 +422,19 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | Roundup | header → verdict bento → comparison (+ disqualified) → deep dives → method |
 | Head-to-head versus | header → two verdict cards → two-row comparison → two deep dives → method |
 | Single-product lab assay | header → one verdict card → one deep dive → method |
-| Collector’s guide | header → catalogue of every piece → deep dives → method |
+| Collector’s guide | header → catalog of every piece → deep dives → method |
 
 ## Verification
 
 | Gate | What it proves |
 | --- | --- |
-| `bun run audit:kit` (in `bun run check`) | **source:** type only through the voice utilities, elevation only through the theme shadows, colour only through roles, spacing on the scale, icons not arrow glyphs, `<Sep />` not typed dots, no bottom alignment; **contracts:** provenance, a photograph for every pick, awards in words, sub-scores, a proof for every quote, measurements that match the category, a verdict that does not restate the synthesis; **rendered pages:** every archetype server-rendered and checked for repeated text, typesetting, copy typed in capitals, numbered eyebrows, merchant order, disclosure placement, deep-dive structure and story order, an award, a photograph and a composite score in every deep dive, self-reference and shared photographs; then a self-test that feeds each rule a page that breaks it |
+| `bun run audit:kit` (in `bun run check`) | **source:** type only through the voice utilities, elevation only through the theme shadows, color only through roles, spacing on the scale, icons not arrow glyphs, `<Sep />` not typed dots, no bottom alignment; **contracts:** provenance, a photograph for every pick, awards in words, sub-scores, a proof for every quote, measurements that match the category, a verdict that does not restate the synthesis; **rendered pages:** every archetype server-rendered and checked for repeated text, typesetting, copy typed in capitals, numbered eyebrows, merchant order, disclosure placement, deep-dive structure and story order, an award, a photograph and a composite score in every deep dive, self-reference and shared photographs; then a self-test that feeds each rule a page that breaks it |
 | Story `play()` (`src/kit/testing/page-checks.ts`) | on every kit story — each primitive and component page as well as the blocks and templates — in the browser, at every width: deep-dive columns start within 4px, no gap over 150px, the sticky rail at most 150px longer than the story, primary/secondary/row CTAs ≥ 44px, tabular numerals computed on every numeric cell, merchant order, one photograph per product, no repeated text, and axe-core WCAG 2.0/2.1/2.2 A + AA with zero violations |
 | `node scripts/verify-stories.mjs --build --widths 375,1440` | runs every story at both widths and fails on play() errors, console errors, failed requests, layout shift and horizontal overflow |
 | `bun run test:stories` (Vitest, `@storybook/addon-vitest`) | runs every story’s play() in Chromium; the Storybook MCP server runs the same tests for agents (`test-run`), and a failure lists every problem |
+| `bun run audit:spelling` (in `bun run check`) | American English in every file: copy, docs, comments, names and IDs |
 | `bun run docs:check` (in `bun run check`) | the Data model guide matches `src/kit/types.ts` |
-| `bun run build-storybook && bun run audit:manifest` | what agents read is complete: only kit components, each with a summary, a “Not for”, a resolving import line, documented props and summarised stories; only kit guides, each with a summary |
+| `bun run build-storybook && bun run audit:manifest` | what agents read is complete: only kit components, each with a summary, a “Not for”, a resolving import line, documented props and summarized stories; only kit guides, each with a summary |
 
 ## What exists today
 
@@ -442,10 +443,10 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | Theme | `src/kit/theme/kit.css` — foundation, the three voices, Atelier, Assay, categories, Tailwind bridge, surface and studio utilities |
 | Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst` |
 | Story kit | `src/kit/testing` — the story frame (`theme`, `category` and `frame` parameters), `Specimen` and `State` for the specimen sheets, the page checks; `src/fixtures/kit/cases.ts` for edge cases |
-| Guides | `src/kit/docs` — Start here; Foundations (Themes, Colour, Typography, Layout, Surfaces); Data model (generated contract), Composing pages, Making pages distinct; Writing stories |
+| Guides | `src/kit/docs` — Start here; Foundations (Themes, Color, Typography, Layout, Surfaces); Data model (generated contract), Composing pages, Making pages distinct; Writing stories |
 | Primitives | `src/kit/ui` — Price, Meter, Disclosure, Eyebrow, Breadcrumb, Badge, Award, BestPrice, ResultMark, Button, BuyButton / BuyPill / BuyRow / BuyLink, JumpLink, ProductImage, Avatar, Monogram, Sep |
 | Components | `src/kit/components` — BuyBlock, OfferCard, RetailerList, VerdictCard, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, ProsCons, PullQuote, SpecSheet, PickMedia |
-| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalogue) |
+| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalog) |
 | Templates | `src/kit/templates` — RoundupPage, VersusPage, LabAssayPage, CollectorsGuidePage |
 
 The older `src/primitives` library is frozen; its running guide now lives in

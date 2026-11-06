@@ -23,7 +23,7 @@ export default meta;
 /** Specimen pages render every state themselves, so stories take no args. */
 type Story = StoryObj;
 
-const DESCRIPTION = "A tester’s words on a 2px rule in the action colour, in the display serif italic, then who said it and the proof they earned the right to.";
+const DESCRIPTION = "A tester’s words on a 2px rule in the action color, in the display serif italic, then who said it and the proof they earned the right to.";
 
 export const Atelier: Story = {
   parameters: { theme: "atelier" },

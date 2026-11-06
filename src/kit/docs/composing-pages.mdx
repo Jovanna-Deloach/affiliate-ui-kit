@@ -15,7 +15,7 @@ Every archetype takes the same `SiteChrome` and `RoundupGuide`, so content moves
 | `RoundupPage` | “The best X”: three or more products ranked on the same measurements | Masthead · article header · quick verdict (up to three picks) · comparison, with what failed · a deep dive per pick · method · footer |
 | `VersusPage` | “X vs. Y”: a decision between two products | Masthead · article header · two verdict cards side by side · a two-row comparison · both deep dives · method · footer |
 | `LabAssayPage` | One product tested in depth, such as a lab assay | Masthead · article header · one verdict card across the width · the full review · method · footer |
-| `CollectorsGuidePage` | A curated set of peers, not ranked | Masthead · article header · a catalogue of every piece · each piece in full · method · footer |
+| `CollectorsGuidePage` | A curated set of peers, not ranked | Masthead · article header · a catalog of every piece · each piece in full · method · footer |
 
 The answer comes first (the quick verdict), the proof follows (comparison, deep dives), and the method closes. The verdict and the deep dive never repeat each other: the verdict card says why or who, the deep dive what was measured.
 
@@ -81,7 +81,7 @@ export function Page({ site, guide: input }: { site: SiteChrome; guide: RoundupG
 | Lowest price first, sold out last | `BuyBlock`, `VerdictCard`, `ComparisonMatrix` and `PickRow` rank offers themselves; pass all of them |
 | One filled button in view | The feature `VerdictCard` and the comparison’s first row carry it; every other card is outlined. Keep the lead pick first in `picks` |
 | One buy box per product | Each `ProductDeepDiveCard` has one; do not add another for the same product |
-| Jump links reach their review | A deep dive’s id is `review-{slug}` (`reviewId(pick)` from `@/kit/components`); verdict cards and catalogue entries link to it |
+| Jump links reach their review | A deep dive’s id is `review-{slug}` (`reviewId(pick)` from `@/kit/components`); verdict cards and catalog entries link to it |
 | The method is linked from the testing card | `MethodologyAccordion`’s id defaults to `methodology`, the testing card’s default target |
 
 ## Composing beyond the templates

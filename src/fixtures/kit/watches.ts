@@ -116,10 +116,10 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       measurements: timing([0.9, 2.1, 1.4, 2.3, 1.2, 1.7]),
       body: [
         "The Meridian is the watch we kept reaching for after testing ended. At 40 mm across and 11.8 mm thick it slips under a cuff, the bracelet tapers from 20 to 16 mm so it never feels like a tool watch, and the 24-hour hand keeps home time while you travel.",
-        "Its movement is a widely serviced calibre, which matters more than finishing when you plan to wear a watch for twenty years. Any competent watchmaker can regulate it, and parts are inexpensive.",
+        "Its movement is a widely serviced caliber, which matters more than finishing when you plan to wear a watch for twenty years. Any competent watchmaker can regulate it, and parts are inexpensive.",
       ],
       likes: ["Local hour hand jumps on its own for travel", "Clasp micro-adjusts without tools", "Date and hands legible at a glance"],
-      caveats: ["Polished centre links scratch quickly", "Lume fades after about four hours"],
+      caveats: ["Polished center links scratch quickly", "Lume fades after about four hours"],
       facts: [
         { label: "Case", value: "40 mm steel, 11.8 mm thick" },
         { label: "Lug to lug", value: "47 mm" },
@@ -148,7 +148,7 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       measurements: timing([2.2, 4, 3.4, 2.6, 3.9, 2.5]),
       body: [
         "Dress watches usually wait for an occasion. The Ardent does not: it slides under any sleeve, and the grand feu enamel dial has a depth you notice from across a room without ever looking loud.",
-        "Winding it becomes a small morning ritual. The in-house calibre is built to be serviced by any competent watchmaker, not only the manufacturer, which is rare at this price.",
+        "Winding it becomes a small morning ritual. The in-house caliber is built to be serviced by any competent watchmaker, not only the manufacturer, which is rare at this price.",
       ],
       likes: ["Grand feu enamel dial with real depth", "Slim hands and indices keep the dial quiet", "Thin without feeling fragile"],
       caveats: ["30 m water resistance: keep it dry", "No quick-release on the strap", "Runs slow as the reserve nears empty"],
@@ -179,7 +179,7 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       ],
       measurements: timing([7.8, 11.2, 9, 10.6, 8.3, 9.5]),
       body: [
-        "The Marine is the only watch under $500 we would keep. Finishing is simple, but the case is solid steel, the crystal is sapphire, and the movement is the same workhorse calibre found in watches three times the price.",
+        "The Marine is the only watch under $500 we would keep. Finishing is simple, but the case is solid steel, the crystal is sapphire, and the movement is the same workhorse caliber found in watches three times the price.",
         "It ran fast but steadily, which a watchmaker can regulate in minutes. The rubber strap is comfortable from the first day and takes seconds to swap.",
       ],
       likes: ["Sapphire crystal at this price", "Workhorse movement, cheap to service", "Light enough to forget on the wrist"],

@@ -24,7 +24,7 @@ export interface BuyProps {
   offer: MerchantOffer;
   /** The product the offer is for, for click tracking. */
   productId: string;
-  /** Where the link sits, for click tracking: `verdict-hero`, `verdict-card`, `deep-dive`, `deep-dive-row`, `comparison`, `catalogue`. */
+  /** Where the link sits, for click tracking: `verdict-hero`, `verdict-card`, `deep-dive`, `deep-dive-row`, `comparison`, `catalog`. */
   placement: string;
   /** Campaign attribution added to the link: source, medium, campaign. */
   attribution?: AffiliateAttribution;
@@ -52,9 +52,9 @@ const offerData = (offer: MerchantOffer) => ({ "data-offer-price": offer.price, 
  * gets in the place it is being decided on.
  *
  * **Use it for** the verdict cards and the offer card. `primary` (filled in
- * the action colour) is for the one pick in view; every other card takes
+ * the action color) is for the one pick in view; every other card takes
  * `secondary`. **Not for** a list of retailers (`BuyRow`), a table or a
- * catalogue card (`BuyPill`), prose (`BuyLink`), or an action that is not a
+ * catalog card (`BuyPill`), prose (`BuyLink`), or an action that is not a
  * purchase (`Button`). One button per product: a second one fails the page
  * checks.
  *
@@ -146,20 +146,20 @@ export function BuyRow({ offer, productId, placement, attribution, best, classNa
 export interface BuyPillProps extends BuyProps {
   /** The label. Default “Buy”; write “Buy at {merchant}” where the retailer is not named beside it. */
   children?: ReactNode;
-  /** Filled in the action colour: only for the row that leads, the page’s top pick. */
+  /** Filled in the action color: only for the row that leads, the page’s top pick. */
   filled?: boolean;
 }
 
 /**
  * A compact “Buy” pill to a retailer, for places where a 44px button would
- * crowd the row: a comparison table’s last column, a catalogue card. Bordered
+ * crowd the row: a comparison table’s last column, a catalog card. Bordered
  * by default; `filled` marks the one row that leads.
  *
- * **Use it for** tables and catalogue cards, beside the price it buys.
+ * **Use it for** tables and catalog cards, beside the price it buys.
  * **Not for** a verdict or offer card (`BuyButton`) or a list of retailers
  * (`BuyRow`).
  *
- * @summary A compact Buy pill for tables and catalogue cards; filled only for the top pick.
+ * @summary A compact Buy pill for tables and catalog cards; filled only for the top pick.
  * @import import { BuyPill } from "@/kit/ui";
  */
 export function BuyPill({ offer, productId, placement, attribution, children, filled = false, className }: BuyPillProps) {
@@ -190,7 +190,7 @@ export interface BuyLinkProps extends BuyProps {
 }
 
 /**
- * A retailer link inside a sentence: underlined, in the action colour, with
+ * A retailer link inside a sentence: underlined, in the action color, with
  * the same rel, attribution and tracking as every buy link.
  *
  * **Use it for** prose (“Our pick is $3,950 at Haus & Field”) and table

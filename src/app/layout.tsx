@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      data-vertical="luxury-editorial"
+      data-vertical="editorial"
       className={`${inter.variable} ${playfair.variable} ${jakarta.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-dvh bg-canvas text-ink">{children}</body>

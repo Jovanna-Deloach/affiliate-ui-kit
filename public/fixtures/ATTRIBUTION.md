@@ -12,7 +12,7 @@ required — credited here anyway). Downloaded at `w=1600&q=82`.
 | `shoe-aerolite-03-midsole.jpg` | Loupe crop of `shoe-aerolite-01.jpg` (midsole + outsole) — derivative | same as above |
 | `shoe-aerolite-04-upper.jpg` | Loupe crop of `shoe-aerolite-02.jpg` (perforated upper + lacing) — derivative | same as above |
 | `shoe-aerolite-02-worn.jpg` | Demo "after 400 miles" derivative of `shoe-aerolite-02.jpg` (desaturated, darkened, vignetted) for the comparison slider | same as above |
-| `shoe-tempo-01.jpg` | Grey running shoe, floating on white | [LxVxPA1LOVM](https://unsplash.com/photos/LxVxPA1LOVM) |
+| `shoe-tempo-01.jpg` | Gray running shoe, floating on white | [LxVxPA1LOVM](https://unsplash.com/photos/LxVxPA1LOVM) |
 | `shoe-cumulus-01.jpg` | Volt training shoe on green | [kP6knT7tjn4](https://unsplash.com/photos/kP6knT7tjn4) |
 | `watch-ardent-01.jpg` | Two-tone dive watch on white | [O703kpzIsQI](https://unsplash.com/photos/O703kpzIsQI) |
 | `supplement-creatine-01.jpg` | Clear capsule jar with blank label, cream background | [yYZthq7bucQ](https://unsplash.com/photos/yYZthq7bucQ) |
@@ -29,7 +29,7 @@ cut-outs made for the kit (background removed with rembg’s
 `isnet-general-use` model, edges and holes cleaned by hand, exported as
 transparent WebP) from photographs on Unsplash
 ([Unsplash License](https://unsplash.com/license)) and Pexels
-([Pexels License](https://www.pexels.com/license/)); neither licence
+([Pexels License](https://www.pexels.com/license/)); neither license
 requires attribution, credited here anyway.
 
 The products on the pages are fictional, but the photographs are of real
@@ -40,7 +40,7 @@ supplies its own packshots and must not be published as-is.
 | File | Shows (stands in for) | Source |
 | --- | --- | --- |
 | `kit/shoe-aerolite.webp` | White/orange sneaker (Meridian Aerolite 3), from `shoe-aerolite-02.jpg` | Unsplash [J2-wAQDckus](https://unsplash.com/photos/J2-wAQDckus) |
-| `kit/shoe-tempo.webp` | Grey running shoe (Halvard Tempo Pro), from `shoe-tempo-01.jpg` | Unsplash [LxVxPA1LOVM](https://unsplash.com/photos/LxVxPA1LOVM) |
+| `kit/shoe-tempo.webp` | Gray running shoe (Halvard Tempo Pro), from `shoe-tempo-01.jpg` | Unsplash [LxVxPA1LOVM](https://unsplash.com/photos/LxVxPA1LOVM) |
 | `kit/shoe-cumulus.webp` | Volt training shoe (Oriel Cumulus Max), from `shoe-cumulus-01.jpg` | Unsplash [kP6knT7tjn4](https://unsplash.com/photos/kP6knT7tjn4) |
 | `kit/watch-meridian.webp` | Steel diver, red and blue bezel (Halden Meridian 40 GMT); stand removed, bracelet faded at the foot | Pexels [33684303](https://www.pexels.com/photo/33684303/) |
 | `kit/watch-ardent.webp` | Rose-gold dress watch on brown leather (Lindqvist Ardent 38) | Pexels [5058216](https://www.pexels.com/photo/5058216/) |

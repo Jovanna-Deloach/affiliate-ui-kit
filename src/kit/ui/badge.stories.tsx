@@ -33,7 +33,7 @@ export const OnPhotograph: Story = {
 };
 
 /**
- * A result that passed, in the pass tone. Pair the colour with the word:
+ * A result that passed, in the pass tone. Pair the color with the word:
  * tone is never the only signal.
  * @summary A soft status pill in the pass tone.
  */

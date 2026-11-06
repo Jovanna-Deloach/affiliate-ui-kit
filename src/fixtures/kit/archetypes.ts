@@ -61,7 +61,7 @@ export const assayGuide: RoundupGuide = typesetDeep<RoundupGuide>({
   methodology: { ...creatineGuide.methodology, heading: "How we assayed it" },
 });
 
-/** Collector’s guide: the five watches as a catalogue, then each in full. */
+/** Collector’s guide: the five watches as a catalog, then each in full. */
 export const collectorsGuide: RoundupGuide = typesetDeep<RoundupGuide>({
   ...watchesGuide,
   id: "watches-worth-keeping",

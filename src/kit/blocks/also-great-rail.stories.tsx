@@ -21,11 +21,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * A collector’s guide opens with its catalogue: every piece a peer, on the
+ * A collector’s guide opens with its catalog: every piece a peer, on the
  * same card, three across on a wide screen.
- * @summary A catalogue of every piece in a collector’s guide.
+ * @summary A catalog of every piece in a collector’s guide.
  */
-export const Catalogue: Story = {};
+export const Catalog: Story = {};
 
 /**
  * A long guide can follow its verdict with the remaining picks as a rail.
@@ -36,8 +36,8 @@ export const AfterTheVerdict: Story = {
 };
 
 /**
- * In a narrow container the catalogue is one column of cards.
- * @summary The catalogue in a phone-width container (Assay).
+ * In a narrow container the catalog is one column of cards.
+ * @summary The catalog in a phone-width container (Assay).
  */
 export const NarrowContainer: Story = {
   parameters: { theme: "assay", category: "supplements", frame: "narrow" },

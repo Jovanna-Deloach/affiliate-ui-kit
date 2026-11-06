@@ -128,7 +128,7 @@ export function ProductMediaFrame({
   const hasCaption = Boolean(caption) && showCaption;
 
   // Contain-fit frames adopt the packshot's own backdrop so the photo edge
-  // disappears; cover frames keep the recessed tile as a loading colour.
+  // disappears; cover frames keep the recessed tile as a loading color.
   const tile =
     resolvedTreatment === "cover"
       ? "var(--surface-recessed)"

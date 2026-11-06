@@ -55,7 +55,7 @@ export const CardWell: Story = {
 };
 
 /**
- * A square thumbnail for a table row or a catalogue entry.
+ * A square thumbnail for a table row or a catalog entry.
  * @summary A square thumbnail of a pick.
  */
 export const Thumbnail: Story = {

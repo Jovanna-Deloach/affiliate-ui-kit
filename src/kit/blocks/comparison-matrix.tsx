@@ -78,7 +78,7 @@ export const matrixRow = "border-t border-line @max-3xl:grid @max-3xl:gap-3 @max
 export const matrixHead = "py-4 pr-4 pl-6 text-left align-middle font-normal @max-3xl:p-0";
 export const matrixCell = "px-4 py-4 align-middle @max-3xl:hidden";
 export const matrixEnd = "py-4 pr-6 pl-4 text-right align-middle @max-3xl:p-0 @max-3xl:text-left";
-/** Column heads: mono micro-caps on the secondary text colour. */
+/** Column heads: mono micro-caps on the secondary text color. */
 export const matrixTh = "px-4 pt-4 pb-3 align-bottom t-micro text-fg-muted";
 
 export interface ComparisonMatrixProps {
@@ -108,7 +108,7 @@ export interface ComparisonMatrixProps {
  *
  * **Use it for** two or more picks measured on the same things. **Not for**
  * specifications of one product (`SpecSheet`), products we would not buy
- * (`DisqualifiedSubTable`, as its child) or a catalogue without measurements
+ * (`DisqualifiedSubTable`, as its child) or a catalog without measurements
  * (`AlsoGreatRail`).
  *
  * @summary Every pick on the same columns, with each one’s lowest price and a Buy pill.

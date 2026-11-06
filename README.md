@@ -1,7 +1,7 @@
 # Affiliate UI Kit
 
 Multi-vertical affiliate & editorial commerce primitives. **One structural
-spine, two tones.** A luxury editorial publication and a clinical
+spine, two tones.** An editorial watch publication and a clinical
 performance/testing database render the *same components and the same data*;
 every keyline, radius, inset and rhythm is shared ("Editorial Precision"), and a
 vertical only shifts chromatic temperature and the display voice.
@@ -10,7 +10,7 @@ vertical only shifts chromatic temperature and the display voice.
 bun install
 bun run storybook      # http://localhost:6006 (and the MCP server for AI agents at /mcp)
 bun run dev            # Next.js app (kit index)
-bun run check          # typecheck + lint + token and kit audits + guides in sync
+bun run check          # typecheck + lint + token, kit and spelling audits + guides in sync
 bun run test:stories   # every story's play checks in Chromium (Vitest)
 bun run verify:stories # headless Storybook verification (see below)
 ```
@@ -107,7 +107,7 @@ lucide-react · Storybook 10 (`@storybook/nextjs-vite`).
 
 A `[data-vertical]` block may only change **tone**:
 
-| | luxury-editorial | clinical-performance |
+| | editorial | clinical-performance |
 | --- | --- | --- |
 | Canvas → surface → recessed → inverse | `#F7F5F0` → `#FFFFFF` → `#F1EFEA` → `#141413` | `#F4F6F8` → `#FFFFFF` → `#EEF1F5` → `#0F172A` |
 | Ink primary / secondary / tertiary | `#141413` / `#57534E` / `#8C867E` | `#0F172A` / `#475569` / `#94A3B8` |
@@ -242,11 +242,11 @@ horizontal overflow, and a full-page screenshot in `.verify/screens/`.
 ## Fixtures
 
 `src/fixtures/products.ts` — canonical `AffiliateProductEntity` payloads
-(running-shoe roundup, a luxury watch, a lab-tested supplement, a 30-item
+(running-shoe roundup, a mechanical watch, a lab-tested supplement, a 30-item
 directory of distinct brand + model names — never concatenated loop indices).
 Photography is real studio packshots from Unsplash
 (`public/fixtures/ATTRIBUTION.md`); each image carries a sampled `backdrop`
-colour so contain-fit frames match their tile to the shot. Author portraits
+color so contain-fit frames match their tile to the shot. Author portraits
 are real photographs too. `src/fixtures/lab-assays.ts` is a 16-row certificate
 of analysis (analyte · result · reference · method · verdict) for the
 clinical disclosure and pill stories. `src/fixtures/gallery.ts` carries the

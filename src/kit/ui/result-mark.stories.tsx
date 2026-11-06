@@ -25,7 +25,7 @@ export const Pass: Story = {};
 
 /**
  * A failed test, with a cross. In a comparison it sits beside the failing
- * figure, which is printed in the fail colour too.
+ * figure, which is printed in the fail color too.
  * @summary A failed test, with a cross.
  */
 export const Fail: Story = {

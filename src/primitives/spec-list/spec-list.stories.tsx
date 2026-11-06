@@ -84,7 +84,7 @@ export const Payloads: Story = {
   name: "Prose values, tooltips, mixed units",
   render: () => (
     <div className="grid items-start gap-grid md:grid-cols-2">
-      <Specimen caption="Luxury watch — prose values and a tooltip">
+      <Specimen caption="Mechanical watch — prose values and a tooltip">
         <SurfaceCard as="section">
           <p className="type-eyebrow m-0 text-ink-tertiary">
             {productWatch.brand} {productWatch.name}

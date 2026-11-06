@@ -62,8 +62,8 @@ export const Payloads: Story = {
       <Specimen caption="Running shoe — best in-stock offer">
         <InlineProductMention product={productShoe01} />
       </Specimen>
-      <Specimen caption="Luxury watch — long price, custom label">
-        <InlineProductMention product={productWatch} ctaLabel="Enquire" />
+      <Specimen caption="Mechanical watch — long price, custom label">
+        <InlineProductMention product={productWatch} ctaLabel="Inquire" />
       </Specimen>
       <Specimen caption="Supplement — contain-fit thumbnail on its backdrop">
         <InlineProductMention product={productCreatine} ctaLabel="Shop" />

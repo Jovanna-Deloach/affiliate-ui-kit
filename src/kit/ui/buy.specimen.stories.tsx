@@ -53,7 +53,7 @@ export const Atelier: Story = {
           <BuyButton offer={atelier.long} productId="story-d" placement="story" emphasis="secondary" icon />
         </div>
       </State>
-      <State label="Buy pill: tables and catalogue cards">
+      <State label="Buy pill: tables and catalog cards">
         <div className="flex flex-wrap items-center gap-3">
           <BuyPill offer={atelier.hf} productId="story-e" placement="story" filled />
           <BuyPill offer={atelier.verra} productId="story-f" placement="story" />

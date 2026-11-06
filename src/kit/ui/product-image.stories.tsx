@@ -48,9 +48,9 @@ export const Landscape: Story = {
 };
 
 /**
- * A square thumbnail for a table row or a catalogue card, with less air so
+ * A square thumbnail for a table row or a catalog card, with less air so
  * the object stays legible small.
- * @summary A square thumbnail for tables and catalogue cards.
+ * @summary A square thumbnail for tables and catalog cards.
  */
 export const Thumbnail: Story = {
   args: {

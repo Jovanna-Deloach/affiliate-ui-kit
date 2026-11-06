@@ -7,7 +7,7 @@
  *
  *   rounded-x, p-x / px-x / py-x / gap-x / space-x, shadow-x, aspect-x,
  *   duration-x, ease-x, tracking-x, border-<n>, bg-zinc / bg-white "SaaS slop"
- *   colours, framer-motion / motion imports.
+ *   colors, framer-motion / motion imports.
  *
  * Allowed: token-bridged utilities (rounded-surface, p-card-pad, …),
  * arbitrary values that reference a token (`gap-[calc(var(--space-…)/2)]`),

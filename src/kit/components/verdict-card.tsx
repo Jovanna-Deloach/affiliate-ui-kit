@@ -57,7 +57,7 @@ const SOLD_OUT = <p className="m-0 t-small text-fg-muted">Sold out everywhere we
  *
  * **Use it for** the quick verdict, at most three cards (`QuickVerdictBento`
  * lays them out). **Not for** the full review (`ProductDeepDiveCard`), a
- * fourth pick (the comparison has it) or a catalogue of every piece
+ * fourth pick (the comparison has it) or a catalog of every piece
  * (`AlsoGreatRail`).
  *
  * @summary A pick above the fold: the feature card for the lead pick, compact for picks 2 and 3.

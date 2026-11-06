@@ -191,7 +191,7 @@ export interface RoundupGuide {
   picks: Pick[];
   /** Jump-link label from the verdict to each deep dive: "Read the full review". */
   jumpLabel: string;
-  /** Heading for the collector’s catalogue of every piece. */
+  /** Heading for the collector’s catalog of every piece. */
   railHeading?: string;
   /** The comparison section: a heading that says something, and an optional intro. */
   compare: { heading: string; intro?: string };

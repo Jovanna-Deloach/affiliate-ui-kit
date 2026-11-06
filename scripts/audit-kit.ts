@@ -7,7 +7,7 @@
  *      three voices — display serif, text sans, mono micro-caps — are
  *      utilities, so a page cannot invent a fourth
  *    • elevation only through the theme’s card shadows (no ad-hoc shadows)
- *    • colour only through theme roles (no raw hex, no legacy tokens)
+ *    • color only through theme roles (no raw hex, no legacy tokens)
  *    • spacing on the restricted 4px scale
  *    • arrows are icons, never glyphs in text; middle-dot separators are the
  *      <Sep /> part (decorative, aria-hidden), never typed into copy
@@ -77,7 +77,7 @@ const RULES: [RegExp, string][] = [
   [/(?<![\w-])(?:type-mono|type-eyebrow)(?![\w-])/, "legacy voice in the kit — use t-micro"],
   [/(?<![\w-])text-\[\d/, "arbitrary font size — use a t-* style"],
   [/(?<![\w-])text-(?:xs|sm|base|lg|xl|[2-9]xl)(?![\w-])/, "Tailwind font size — use a t-* style"],
-  [/#[0-9a-fA-F]{3,8}\b/, "raw colour — use a theme role"],
+  [/#[0-9a-fA-F]{3,8}\b/, "raw color — use a theme role"],
   [/(?<![\w-])(?:bg|text|border|ring)-(?:surface|recessed|canvas|inverse|ink|ink-secondary|ink-tertiary|hairline|strong)(?![\w-])/, "legacy token in the kit"],
   [/(?<![\w-])rounded-(?:container|inner|control|tag|sm|md|lg|xl|2xl|3xl)(?![\w-])/, "radius outside the theme roles (box / ctl / media / full)"],
   [/(?<![\w-])(?:@?[\w-]*:)?(?:items-end|self-end|place-items-end|place-self-end)(?![\w-])/, "bottom alignment — product grids are top-aligned (items-start)"],

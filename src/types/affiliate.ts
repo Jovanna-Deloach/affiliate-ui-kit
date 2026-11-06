@@ -17,7 +17,7 @@ export interface MerchantOffer {
   inStock: boolean;
   promoCode?: string;
   promoDescription?: string;
-  /** Short fulfilment note shown under the price, e.g. "Free 2-day shipping". */
+  /** Short fulfillment note shown under the price, e.g. "Free 2-day shipping". */
   shippingNote?: string;
   isPrimaryPartner?: boolean;
   isBestPrice?: boolean;
@@ -51,9 +51,9 @@ export interface ProductImage {
   width: number;
   height: number;
   /**
-   * Dominant background colour of the packshot (hex). When a frame letterboxes
-   * the image (`object-fit: contain`), the tile adopts this colour so the
-   * photo edge disappears — the SSENSE / Net-a-Porter studio-grey technique.
+   * Dominant background color of the packshot (hex). When a frame letterboxes
+   * the image (`object-fit: contain`), the tile adopts this color so the
+   * photo edge disappears — the SSENSE / Net-a-Porter studio-gray technique.
    * Omit for true-white packshots.
    */
   backdrop?: string;

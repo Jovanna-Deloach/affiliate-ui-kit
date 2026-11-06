@@ -26,7 +26,7 @@ export interface QuickVerdictBentoProps {
  *
  * **Use it for** the first section after the article header on a roundup,
  * a head-to-head or a single-product page. **Not for** more than three
- * picks (the comparison carries the rest) or a catalogue of every piece
+ * picks (the comparison carries the rest) or a catalog of every piece
  * (`AlsoGreatRail`).
  *
  * @summary The answer above the fold: the lead pick’s feature card beside up to two compact cards.

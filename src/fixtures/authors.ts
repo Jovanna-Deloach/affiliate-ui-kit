@@ -1,9 +1,9 @@
 import type { Author, Methodology } from "@/primitives/authority-byline";
 
-/** Luxury Editorial reviewer. */
+/** Editorial reviewer. */
 export const authorEditorial: Author = {
   name: "Celeste Marchetti",
-  role: "Watches & Jewellery Editor",
+  role: "Watches & Jewelry Editor",
   avatar: { src: "/fixtures/portrait-marchetti.jpg", alt: "Portrait of Celeste Marchetti" },
   credentials: ["14 yrs covering horology", "Former Christie's specialist"],
   bio: "Celeste has handled more than two thousand watches on the auction floor and writes the kit's long-form dossiers. She owns nothing she reviews.",
@@ -33,7 +33,7 @@ export const methodologyEditorial: Methodology = {
     { value: "Weekly", label: "Price checks" },
   ],
   summary:
-    "Each watch was worn for a minimum of 30 days across formal and everyday settings, timed daily against a reference clock, and inspected under 10× magnification for finishing. Retail prices are checked weekly; we hold no inventory and accept no loaners we are not free to criticise.",
+    "Each watch was worn for a minimum of 30 days across formal and everyday settings, timed daily against a reference clock, and inspected under 10× magnification for finishing. Retail prices are checked weekly; we hold no inventory and accept no loaners we are not free to criticize.",
 };
 
 export const methodologyClinical: Methodology = {

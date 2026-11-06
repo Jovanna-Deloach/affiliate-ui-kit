@@ -19,10 +19,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * A curated set of watches as peers: the catalogue first, then each piece
+ * A curated set of watches as peers: the catalog first, then each piece
  * in full. No verdict and no ranking table.
- * @summary A collector’s guide: a catalogue, then each piece in full (Atelier).
+ * @summary A collector’s guide: a catalog, then each piece in full (Atelier).
  */
-export const Catalogue: Story = {
+export const Catalog: Story = {
   parameters: { theme: "atelier" },
 };

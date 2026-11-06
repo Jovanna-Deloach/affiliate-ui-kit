@@ -16,7 +16,7 @@ const THEMES = [
   { theme: "assay", name: "Assay" },
 ] as const;
 
-/* ---- inline code: a chip beside every hex colour ------------------------- */
+/* ---- inline code: a chip beside every hex color ------------------------- */
 
 const HEX = /^#[0-9a-f]{6}$/i;
 
@@ -50,13 +50,13 @@ export function DocsCode(props: ComponentProps<typeof CodeOrSourceMdx>) {
 
 const PUBLICATIONS = {
   atelier: {
-    publication: "Caliber · luxury goods",
+    publication: "Caliber · watches",
     title: "The best everyday watches",
     body: "Five watches worn for thirty days and timed every morning against an atomic reference.",
     category: undefined,
   },
   assay: {
-    publication: "Proving Ground · lab-tested",
+    publication: "Proving Ground · supplements",
     title: "The best creatine, tested by a lab",
     body: "Twelve tubs bought at retail, blinded, and assayed twice for purity and heavy metals.",
     category: "supplements",

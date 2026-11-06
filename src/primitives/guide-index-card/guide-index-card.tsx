@@ -19,7 +19,7 @@ import type { GuideEntity } from "@/types/account";
  *   │ [24 TESTED · 5 WINNERS]                 │
  *   │          ┌───┐┌───┐┌───┐                │  three 96px miniatures,
  *   │          │ 1 ││ 2 ││ 3 │  (overlap −24, │  #1 highest and on top,
- *   │          └───┘└───┘└───┘   stepped down)│  neighbours tuck under
+ *   │          └───┘└───┘└───┘   stepped down)│  neighbors tuck under
  *   ├─────────────────────────────────────────┤
  *   │ The best daily trainers of 2026         │  type-title
  *   │ dek …                                   │
@@ -72,7 +72,7 @@ export function GuideIndexCard({ guide, footerAction, size = "default", classNam
                   className={cn(
                     "relative overflow-hidden rounded-inner border border-surface bg-surface shadow-elevated",
                     size === "hero" ? "size-[calc(var(--size-thumb-xl)*1.25)]" : "size-thumb-xl",
-                    // Stepped: #1 sits highest and on top; each neighbour tucks under and steps down.
+                    // Stepped: #1 sits highest and on top; each neighbor tucks under and steps down.
                     i === 1 && "-ml-grid translate-y-hairline",
                     i === 2 && "-ml-grid translate-y-cluster",
                   )}

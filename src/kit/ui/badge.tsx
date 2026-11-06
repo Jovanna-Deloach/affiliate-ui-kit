@@ -36,7 +36,7 @@ export const badgeStyles = cva("inline-flex shrink-0 items-center gap-1.5 whites
 export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, "tw"> {
   /** `outline` a proof beside a name (default) · `solid` an award · `frosted` a stamp on a photograph · `soft` a result or a status, in a `tone`. */
   variant?: "solid" | "outline" | "frosted" | "soft";
-  /** For `soft`: `neutral` (default), `pass`, `fail`, `warn`. Pair a tone with a word or an icon: colour is never the only signal. */
+  /** For `soft`: `neutral` (default), `pass`, `fail`, `warn`. Pair a tone with a word or an icon: color is never the only signal. */
   tone?: "neutral" | "pass" | "fail" | "warn";
   /** `sm` 10px, on photographs and in rows (default) · `md` 11px, beside a name. */
   size?: "sm" | "md";
@@ -70,12 +70,12 @@ export interface AwardProps {
 }
 
 /**
- * The award a pick holds, as a solid pill in the theme’s award colours
+ * The award a pick holds, as a solid pill in the theme’s award colors
  * (obsidian, with a brass border in Atelier). Picks are awards, never
  * ranks: “Our pick”, not “01 — Best overall”.
  *
  * **Use it for** the head of a verdict card and the corner of a review
- * photograph. **Not for** the award in a table row or a catalogue card,
+ * photograph. **Not for** the award in a table row or a catalog card,
  * where it is set as text (`Eyebrow`, `tone="category"`).
  *
  * @summary The award a pick holds (“Our pick”), as a solid pill. Never numbered.
@@ -127,7 +127,7 @@ export interface ResultMarkProps {
 
 /**
  * A lab or bench result as a soft pill with an icon (a tick, a cross, a
- * warning), so colour is never the only signal.
+ * warning), so color is never the only signal.
  *
  * **Use it for** a pass or fail in a comparison or a lab table. **Not for**
  * a measured value: print the figure and add a mark only when it fails.

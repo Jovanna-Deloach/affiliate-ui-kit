@@ -16,8 +16,9 @@
     "verify:stories": "node scripts/verify-stories.mjs",
     "test:stories": "vitest run --project=storybook",
     "audit:tokens": "node scripts/audit-structural-tokens.mjs",
-    "check": "bun run typecheck && bun run lint && bun run audit:tokens && bun run audit:kit && bun run docs:check",
+    "check": "bun run typecheck && bun run lint && bun run audit:tokens && bun run audit:kit && bun run audit:spelling && bun run docs:check",
     "audit:kit": "bun scripts/audit-kit.ts",
+    "audit:spelling": "bun scripts/audit-spelling.ts",
     "audit:manifest": "bun scripts/audit-manifest.ts",
     "docs:sync": "bun scripts/sync-guides.ts",
     "docs:check": "bun scripts/sync-guides.ts --check"

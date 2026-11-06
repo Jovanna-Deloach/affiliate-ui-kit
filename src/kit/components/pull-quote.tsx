@@ -15,7 +15,7 @@ export interface PullQuoteProps {
 }
 
 /**
- * A tester’s words, unboxed: a 2px rule in the action colour, the quote in
+ * A tester’s words, unboxed: a 2px rule in the action color, the quote in
  * the display serif italic with its opening mark hung into the margin, then
  * the tester (portrait or initials, name, role) and the proof they earned
  * the right to say it, as an outline badge.

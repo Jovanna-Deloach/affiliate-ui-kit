@@ -3,7 +3,7 @@
    --------------------------------------------------------------------------
    Structure is shared; art direction is the theme. Every value a component
    reads comes from a role below, set on `[data-theme]` (and, for wayfinding
-   colour only, `[data-category]`). A new site gets a new theme block, never a
+   color only, `[data-category]`). A new site gets a new theme block, never a
    new component variant.
 
    SURFACES: three layers, never more.
@@ -41,7 +41,7 @@
   --t-quote-size: 1.25rem;
   --t-quote-lh: 1.45;
 
-  /* wayfinding colour defaults to the brand accent */
+  /* wayfinding color defaults to the brand accent */
   --accent-category: var(--accent);
   --accent-category-ink: var(--accent);
   --accent-category-soft: var(--accent-soft);
@@ -197,12 +197,12 @@
   --section-gap: clamp(4rem, 2.75rem + 4vw, 6rem);
 }
 
-/* ---- categories: wayfinding colour only (one publication, many beats) ----
+/* ---- categories: wayfinding color only (one publication, many beats) ----
    A category changes nothing but its accent: the nav marker, telemetry bars
    and verification badges. Wordmark, surfaces, type and the buy action stay
    the publication's. `-ink` is the text-safe shade (4.5:1 on paper and
    well). Custom properties resolve where they are declared, so roles built
-   on the category colour are restated. */
+   on the category color are restated. */
 [data-theme="assay"] [data-category="supplements"],
 [data-theme="assay"][data-category="supplements"] {
   --accent-category: #1b4d3e; /* deep botanical emerald: lab verification */
@@ -479,7 +479,7 @@
   filter: drop-shadow(0 16px 24px rgb(0 0 0 / 0.12));
 }
 
-/* Page well: every band centres on the same 1200px column. */
+/* Page well: every band centers on the same 1200px column. */
 @utility kit-well {
   width: 100%;
   max-width: calc(var(--kit-well) + var(--kit-gutter) * 2);

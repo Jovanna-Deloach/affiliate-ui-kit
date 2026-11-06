@@ -39,7 +39,7 @@ function List({ id, label, items, tone }: { id: string; label: string; items: st
 
 /**
  * What we like and what to know: two lists under micro-caps headings, each
- * point with an icon in the pass or warning tone (colour is never the only
+ * point with an icon in the pass or warning tone (color is never the only
  * signal). No boxes and no rules. In a container under 36rem the lists
  * stack; an empty list is left out.
  *

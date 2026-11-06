@@ -12,7 +12,7 @@ export interface PriceProps {
   was?: number;
   /** The offer is sold out: the amount itself is struck through and muted. */
   soldOut?: boolean;
-  /** `lg` the offer card and the lead verdict card · `md` compact cards (default) · `sm` tables and catalogue cards · `xs` retailer rows. */
+  /** `lg` the offer card and the lead verdict card · `md` compact cards (default) · `sm` tables and catalog cards · `xs` retailer rows. */
   size?: "lg" | "md" | "sm" | "xs";
   /** A caption on its own line under the amount: “at Northlane”, “+$10 vs. best”, “$0.21 a serving”. */
   note?: ReactNode;
@@ -34,7 +34,7 @@ const WAS = { lg: "t-small", md: "t-small", sm: "t-caption", xs: "t-caption" } a
  * text voice. Every amount on a page is a `Price`.
  *
  * **Use it for** any amount: an offer card, a verdict card, a table cell, a
- * catalogue card, a caption. **Not for** a link to buy: `BuyButton`,
+ * catalog card, a caption. **Not for** a link to buy: `BuyButton`,
  * `BuyRow`, `BuyPill` and `BuyLink` are the links; `BuyRow` already sets its
  * own price.
  *
@@ -42,7 +42,7 @@ const WAS = { lg: "t-small", md: "t-small", sm: "t-caption", xs: "t-caption" } a
  * | --- | --- | --- |
  * | `lg` | 1.5rem, bold | the offer card, the lead verdict card |
  * | `md` | 1.17rem, 600 | compact verdict cards |
- * | `sm` | 15px, 600 | tables and catalogue cards |
+ * | `sm` | 15px, 600 | tables and catalog cards |
  * | `xs` | 14px | retailer rows |
  *
  * `was` strikes the list price before the amount; `soldOut` strikes the

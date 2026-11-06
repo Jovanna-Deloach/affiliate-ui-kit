@@ -5,11 +5,11 @@ import type {
 
 /**
  * Story fixtures. One payload, rendered inside every vertical — the whole
- * point of the kit is that the *same data* reads as a luxury dossier in one
+ * point of the kit is that the *same data* reads as a collector’s dossier in one
  * wrapper and as a lab scorecard in the other.
  *
  * Photography: real studio packshots (Unsplash — see public/fixtures/ATTRIBUTION.md).
- * `backdrop` is the sampled background colour of each shot so contain-fit
+ * `backdrop` is the sampled background color of each shot so contain-fit
  * frames can match their tile to it; `cutoutBlend` is only set on the
  * genuinely white packshot, where mix-blend-multiply is invisible.
  */
@@ -17,14 +17,14 @@ import type {
 const IMG = {
   aerolite: {
     src: "/fixtures/shoe-aerolite-01.jpg",
-    alt: "Meridian Aerolite 3 running shoe, floating three-quarter view on grey studio backdrop",
+    alt: "Meridian Aerolite 3 running shoe, floating three-quarter view on gray studio backdrop",
     width: 1600,
     height: 1280,
     backdrop: "#c9cac4",
   },
   aeroliteAlt: {
     src: "/fixtures/shoe-aerolite-02.jpg",
-    alt: "Meridian Aerolite 3 running shoe, medial side view on grey studio backdrop",
+    alt: "Meridian Aerolite 3 running shoe, medial side view on gray studio backdrop",
     width: 1600,
     height: 1280,
     backdrop: "#c9cac4",
@@ -44,7 +44,7 @@ const IMG = {
   },
   watch: {
     src: "/fixtures/watch-ardent-01.jpg",
-    alt: "Lindqvist Ardent 38 two-tone dive watch, dial detail on warm grey",
+    alt: "Lindqvist Ardent 38 two-tone dive watch, dial detail on warm gray",
     width: 1600,
     height: 1067,
     backdrop: "#e4e2dd",
@@ -294,7 +294,7 @@ export const directoryProducts: AffiliateProductEntity[] = DIRECTORY_NAMES.map(
   },
 );
 
-/** Luxury Editorial fixture. */
+/** Editorial fixture. */
 export const productWatch: AffiliateProductEntity = {
   id: "prod-ardent-38",
   slug: "ardent-38",
@@ -317,7 +317,7 @@ export const productWatch: AffiliateProductEntity = {
   specs: [
     { label: "Case", value: 38, unit: "mm" },
     { label: "Thickness", value: 8.9, unit: "mm", isHighlight: true },
-    { label: "Movement", value: "Manual, in-house cal. 11", tooltip: "Hand-wound calibre with a 72-hour power reserve." },
+    { label: "Movement", value: "Manual, in-house cal. 11", tooltip: "Hand-wound caliber with a 72-hour power reserve." },
     { label: "Water resistance", value: 50, unit: "m" },
     { label: "Crystal", value: "Domed sapphire" },
   ],

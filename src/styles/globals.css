@@ -223,7 +223,7 @@
       0 0 0 4px var(--focus-ring);
   }
 }
-/* The page well: every full-bleed band (masthead, ribbon, footer) centres
+/* The page well: every full-bleed band (masthead, ribbon, footer) centers
    its content on this measure so keylines align from header to footer. */
 @utility page-well {
   margin-inline: auto;
@@ -292,7 +292,7 @@
   letter-spacing: var(--tracking-metric);
 }
 
-/* Focus ring bound to the vertical's focus colour. */
+/* Focus ring bound to the vertical's focus color. */
 @utility focus-ring {
   outline: none;
   &:focus-visible {

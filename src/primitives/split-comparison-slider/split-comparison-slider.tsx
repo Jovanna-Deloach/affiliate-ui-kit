@@ -25,7 +25,7 @@ import type { ProductImage } from "@/types/affiliate";
  *   --shadow-elevated / --border-strong                     handle lift + ring
  *   --inset-overlay                                         label safe zone
  *
- * Physics (0xuser64bit/image-compare, sanitised): the control is ONE native
+ * Physics (0xuser64bit/image-compare, sanitized): the control is ONE native
  * `<input type="range">` laid over the stage — pointer, touch and keyboard
  * (← → Home End, aria-valuetext) for free, no pointer-capture code. The
  * divider and handle are decorative and follow `--split`.

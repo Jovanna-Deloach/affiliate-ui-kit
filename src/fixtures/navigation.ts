@@ -293,7 +293,7 @@ export const complianceCopy: ComplianceCopy = {
   disclosure:
     "When you buy through links on this site we may earn an affiliate commission at no extra cost to you. Commissions never influence which products we test, how we score them, or where they rank — every product is purchased at retail with our own money.",
   charter: [
-    "No sponsored placements, no paid rankings, no manufacturer loaners we are not free to criticise.",
+    "No sponsored placements, no paid rankings, no manufacturer loaners we are not free to criticize.",
     "Every score is reproducible: the protocol, the instruments and the raw numbers are published with the review.",
     "Corrections are logged in the open and dated on the page they amend.",
   ],

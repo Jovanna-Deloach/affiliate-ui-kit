@@ -36,7 +36,7 @@ export const Bordered: Story = {};
 
 /**
  * The table’s first row, our pick, takes the filled pill: the one place in
- * the table the action colour appears.
+ * the table the action color appears.
  * @summary The filled pill, for the top pick’s row only.
  */
 export const Filled: Story = {
@@ -55,9 +55,9 @@ export const Filled: Story = {
 };
 
 /**
- * In a catalogue card nothing else names the retailer, so the pill does:
+ * In a catalog card nothing else names the retailer, so the pill does:
  * “Buy at Brennan”.
- * @summary A pill that names its retailer, for catalogue cards.
+ * @summary A pill that names its retailer, for catalog cards.
  */
 export const NamesTheRetailer: Story = {
   args: {
@@ -70,7 +70,7 @@ export const NamesTheRetailer: Story = {
       inStock: true,
     },
     productId: "w-brennan-field-36",
-    placement: "catalogue",
+    placement: "catalog",
     children: "Buy at Brennan",
   },
 };

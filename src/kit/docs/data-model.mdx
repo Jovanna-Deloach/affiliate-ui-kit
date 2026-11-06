@@ -16,7 +16,7 @@ Copy is **plain text**. The templates run `typesetDeep` (from `@/kit/lib/typeset
 | `dek` | Under the title | One or two sentences: what was tested and the answer |
 | `pick.award` | Verdict cards, the photograph, table rows | The award, in sentence case: “Our pick”, “Budget pick”, “Upgrade pick”. Never a number |
 | `pick.verdict` | The feature verdict card, when the pick leads | **Why**, in two lines. Never a measurement |
-| `pick.bestFor` | Compact cards, the comparison’s “Best for”, catalogue cards | **Who** it is for, completing “Best for …”: “the office, the pool and a second time zone” |
+| `pick.bestFor` | Compact cards, the comparison’s “Best for”, catalog cards | **Who** it is for, completing “Best for …”: “the office, the pool and a second time zone” |
 | `pick.synthesis` | The deep dive’s subhead | **What we measured**, in one sentence: “+1.6 s/day over 30 days of wrist and nightstand timing” |
 | `pick.descriptor` | Over the product name | What it is: “Automatic GMT, 40 mm steel” |
 | `pick.likes`, `pick.caveats` | What we like, what to know | Short, specific, checkable points. Either may be empty |
@@ -225,7 +225,7 @@ export interface RoundupGuide {
   picks: Pick[];
   /** Jump-link label from the verdict to each deep dive: "Read the full review". */
   jumpLabel: string;
-  /** Heading for the collector’s catalogue of every piece. */
+  /** Heading for the collector’s catalog of every piece. */
   railHeading?: string;
   /** The comparison section: a heading that says something, and an optional intro. */
   compare: { heading: string; intro?: string };
@@ -245,7 +245,7 @@ export interface MerchantOffer {
   inStock: boolean;
   promoCode?: string;
   promoDescription?: string;
-  /** Short fulfilment note shown under the price, e.g. "Free 2-day shipping". */
+  /** Short fulfillment note shown under the price, e.g. "Free 2-day shipping". */
   shippingNote?: string;
   isPrimaryPartner?: boolean;
   isBestPrice?: boolean;
@@ -257,9 +257,9 @@ export interface ProductImage {
   width: number;
   height: number;
   /**
-   * Dominant background colour of the packshot (hex). When a frame letterboxes
-   * the image (`object-fit: contain`), the tile adopts this colour so the
-   * photo edge disappears — the SSENSE / Net-a-Porter studio-grey technique.
+   * Dominant background color of the packshot (hex). When a frame letterboxes
+   * the image (`object-fit: contain`), the tile adopts this color so the
+   * photo edge disappears — the SSENSE / Net-a-Porter studio-gray technique.
    * Omit for true-white packshots.
    */
   backdrop?: string;

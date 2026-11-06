@@ -1,17 +1,17 @@
 # Storybook for people and agents
 
-The Storybook is the kit’s interface. People browse it; AI agents read it through Storybook’s MCP server, and build pages from what it tells them. This document explains how it is organised for people, how it is wired for agents, what an agent receives, and how to keep that accurate. The conventions for writing stories are in the Storybook itself, under **Contributing / Writing stories**; the rules for agents are in [AGENTS.md](../AGENTS.md).
+The Storybook is the kit’s interface. People browse it; AI agents read it through Storybook’s MCP server, and build pages from what it tells them. This document explains how it is organized for people, how it is wired for agents, what an agent receives, and how to keep that accurate. The conventions for writing stories are in the Storybook itself, under **Contributing / Writing stories**; the rules for agents are in [AGENTS.md](../AGENTS.md).
 
 ## The Storybook UI
 
-The shell is modelled on the Wix Design System’s Storybook, with Grafana’s do and don’t guidance and Fluent’s “copy page” for AI.
+The shell is modeled on the Wix Design System’s Storybook, with Grafana’s do and don’t guidance and Fluent’s “copy page” for AI.
 
 **Sections.** The sidebar’s roots are its sections, in reading order:
 
 | Section | What is in it | Source |
 | --- | --- | --- |
 | Getting started | Start here, the Playground, AI agents | `src/kit/docs/start-here.mdx`, `src/storybook/` |
-| Foundations | Themes, Colour, Typography, Layout, Surfaces | `src/kit/docs/foundations/` |
+| Foundations | Themes, Color, Typography, Layout, Surfaces | `src/kit/docs/foundations/` |
 | Guidelines | Data model, Composing pages, Making pages distinct | `src/kit/docs/` |
 | Primitives, Components, Blocks, Templates | The kit, one entry per part | `src/kit/{ui,components,blocks,templates}` |
 | Specimen sheets | Every state of a part, in both themes, for review | `src/kit/**/*.specimen.stories.tsx` |
@@ -95,10 +95,10 @@ Specimen sheets and legacy stories still render in the sidebar and still run in 
 
 | Command | What it proves |
 | --- | --- |
-| `bun run check` | Types, lint, the token and kit audits, the Data model guide in sync |
+| `bun run check` | Types, lint, the token, kit and spelling (American English) audits, the Data model guide in sync |
 | `bun run test:stories` | Every story renders and passes its play function in Chromium |
 | `node scripts/verify-stories.mjs --build --widths 375,1440 --concurrency 4 --no-screens` | Every story at phone and desktop widths: console errors, layout shift, overflow, the kit checks |
-| `bun run build-storybook && bun run audit:manifest` | Every component in the manifest is a kit component with a summary, a “Use it for” and a “Not for”, a resolving import line, documented props and summarised stories; every guide comes from `src/kit/docs` and has a summary |
+| `bun run build-storybook && bun run audit:manifest` | Every component in the manifest is a kit component with a summary, a “Use it for” and a “Not for”, a resolving import line, documented props and summarized stories; every guide comes from `src/kit/docs` and has a summary |
 
 `bun run audit:manifest --url http://127.0.0.1:6006` audits a running Storybook instead of the build.
 
@@ -106,4 +106,4 @@ Specimen sheets and legacy stories still render in the sidebar and still run in 
 
 ## Sources
 
-Storybook’s documentation for [AI](https://storybook.js.org/docs/ai), the [MCP server](https://storybook.js.org/docs/ai/mcp/overview), its [API](https://storybook.js.org/docs/ai/mcp/api) and [sharing](https://storybook.js.org/docs/ai/mcp/sharing), [manifests](https://storybook.js.org/docs/ai/manifests), [best practices](https://storybook.js.org/docs/ai/best-practices), the [Vitest add-on](https://storybook.js.org/docs/writing-tests/integrations/vitest-addon) and [tags](https://storybook.js.org/docs/writing-stories/tags); Chromatic’s [MCP](https://www.chromatic.com/docs/mcp). Where the documentation is silent (the 90-character list line, the three stories with code, the import line, meta JSDoc precedence, the toolbar and layout options in `addons.setConfig`), the behaviour above was read from the Storybook 10.6.5 source. The UI follows three showcase Storybooks: the [Wix Design System](https://www.wix-pages.com/wix-design-system-employees/), [Grafana UI](https://developers.grafana.com/ui/latest/index.html) and [Fluent UI](https://storybooks.fluentui.dev/react/).
+Storybook’s documentation for [AI](https://storybook.js.org/docs/ai), the [MCP server](https://storybook.js.org/docs/ai/mcp/overview), its [API](https://storybook.js.org/docs/ai/mcp/api) and [sharing](https://storybook.js.org/docs/ai/mcp/sharing), [manifests](https://storybook.js.org/docs/ai/manifests), [best practices](https://storybook.js.org/docs/ai/best-practices), the [Vitest add-on](https://storybook.js.org/docs/writing-tests/integrations/vitest-addon) and [tags](https://storybook.js.org/docs/writing-stories/tags); Chromatic’s [MCP](https://www.chromatic.com/docs/mcp). Where the documentation is silent (the 90-character list line, the three stories with code, the import line, meta JSDoc precedence, the toolbar and layout options in `addons.setConfig`), the behavior above was read from the Storybook 10.6.5 source. The UI follows three showcase Storybooks: the [Wix Design System](https://www.wix-pages.com/wix-design-system-employees/), [Grafana UI](https://developers.grafana.com/ui/latest/index.html) and [Fluent UI](https://storybooks.fluentui.dev/react/).

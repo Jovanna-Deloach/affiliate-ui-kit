@@ -34,7 +34,7 @@ export const Discounted: Story = {
 };
 
 /**
- * A comparison-table or catalogue cell: the lowest price and the retailer
+ * A comparison-table or catalog cell: the lowest price and the retailer
  * that has it, on two lines, so the column stays narrow.
  * @summary A table price (sm) with the retailer as a caption.
  */

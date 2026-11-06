@@ -87,7 +87,7 @@ export const Keylines: Story = {
         [
           ["primary", "View deal"],
           ["outline", "View deal"],
-          ["outline", "Enquire"],
+          ["outline", "Inquire"],
           ["ghost", "Check stock"],
         ] as const
       ).map(([intent, label], i) => (

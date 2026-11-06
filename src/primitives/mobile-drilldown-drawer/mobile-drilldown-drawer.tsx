@@ -38,7 +38,7 @@ import type { NavLink, NavVertical, NavWinner, TrustStat } from "@/types/navigat
  *   --duration-reveal / --ease-standard       the stage slide
  *
  * Mobbin anatomy (Depop / Shopee category drill-down, Careem's counted
- * rows): back chevron + centred title, chevron-terminated rows, counts on
+ * rows): back chevron + centered title, chevron-terminated rows, counts on
  * the right keyline. The inactive stage is `inert`, so focus and the
  * accessibility tree never land off-screen; focus moves to the back control
  * on drill-in and returns to the row that opened it on back.

@@ -29,7 +29,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * The pick in view: the one filled button on screen, labelled with the
+ * The pick in view: the one filled button on screen, labeled with the
  * retailer it goes to. Every verdict hero and offer card ends with one.
  * @summary The filled button for the pick in view (“Buy at {merchant}”).
  */
@@ -67,7 +67,7 @@ export const FullWidthWithLabel: Story = {
 };
 
 /**
- * In the Assay theme the action colour is obsidian; the label and the rule
+ * In the Assay theme the action color is obsidian; the label and the rule
  * (one filled button per pick in view) do not change.
  * @summary The primary button in the Assay theme.
  */

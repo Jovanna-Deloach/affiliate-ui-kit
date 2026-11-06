@@ -27,9 +27,9 @@ export const OnASectionPage: Story = {
 };
 
 /**
- * One publication, many beats: on a running page only the marker’s colour
+ * One publication, many beats: on a running page only the marker’s color
  * changes, to the running section’s vermilion.
- * @summary The same masthead on another section: only the marker’s colour changes (Assay).
+ * @summary The same masthead on another section: only the marker’s color changes (Assay).
  */
 export const AnotherSection: Story = {
   parameters: { theme: "assay", category: "running" },

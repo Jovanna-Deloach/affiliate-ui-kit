@@ -24,7 +24,7 @@ type Stage = "white" | "canvas";
  * swap the tone, the system shape preset, the elevation preset and the stage
  * plane; the component code never changes.
  *
- *   luxury-editorial | clinical-performance → single wrapper
+ *   editorial | clinical-performance → single wrapper
  *   side-by-side                            → the SAME story rendered once per
  *                                             vertical, in adjacent columns
  */
@@ -42,7 +42,7 @@ const withVertical: Decorator = (Story, context) => {
       </div>
     );
   }
-  const vertical = (context.globals.vertical as VerticalGlobal) ?? "luxury-editorial";
+  const vertical = (context.globals.vertical as VerticalGlobal) ?? "editorial";
   const shape = (context.globals.shape as Shape) ?? "architectural";
   const elevation = (context.globals.elevation as Elevation) ?? "flat";
   const stage = (context.globals.stage as Stage) ?? "white";
@@ -103,8 +103,8 @@ const preview: Preview = {
         title: "Theme",
         icon: "mirror",
         items: [
-          { value: "atelier", title: "Atelier · luxury goods" },
-          { value: "assay", title: "Assay · lab-tested" },
+          { value: "atelier", title: "Atelier · museum catalog" },
+          { value: "assay", title: "Assay · lab report" },
         ],
         dynamicTitle: true,
       },
@@ -162,7 +162,7 @@ const preview: Preview = {
   },
   initialGlobals: {
     theme: "atelier",
-    vertical: "luxury-editorial",
+    vertical: "editorial",
     shape: "architectural",
     elevation: "flat",
     stage: "white",
@@ -191,7 +191,7 @@ const preview: Preview = {
           "Getting started",
           ["Start here", "Playground", "AI agents"],
           "Foundations",
-          ["Themes", "Colour", "Typography", "Layout", "Surfaces"],
+          ["Themes", "Color", "Typography", "Layout", "Surfaces"],
           "Guidelines",
           ["Data model", "Composing pages", "Making pages distinct"],
           "Primitives",

@@ -45,7 +45,7 @@ export interface RoundupPageProps {
  *
  * **Use it for** a guide that ranks three or more products tested on the
  * same measurements. **Not for** two products (`VersusPage`), one product
- * (`LabAssayPage`) or a catalogue of peers with no ranking
+ * (`LabAssayPage`) or a catalog of peers with no ranking
  * (`CollectorsGuidePage`). To make a different page, compose the blocks the
  * same way rather than wrapping them in new cards.
  *

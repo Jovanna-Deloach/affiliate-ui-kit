@@ -59,7 +59,7 @@ export const InProse: Story = {
   render: () => (
     <div className="flex max-w-prose flex-col gap-stack text-body leading-body text-ink-secondary">
       <p className="m-0">
-        The medial post is moulded rather than glued, and that single change is where the Aerolite 3 earns its score. The
+        The medial post is molded rather than glued, and that single change is where the Aerolite 3 earns its score. The
         2 started to peel at the seam around mile 300; this one shows nothing at 400.
       </p>
       <TesterCalloutQuote quote={marchetti.quote} tester={marchetti.tester} metric={marchetti.metric} />

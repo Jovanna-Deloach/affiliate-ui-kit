@@ -104,7 +104,7 @@ export const runningGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       measurements: biomech(38, 30, 71, 4, 8.4),
       body: [
         "The Aerolite 3 is the shoe our testers reached for on days they did not want to think about shoes. The knit upper locks the midfoot without pressure points, and the 8 mm drop suits heel and midfoot strikers alike.",
-        "Its supercritical foam feels soft at easy pace and firms up when you push. It wears well too: the outsole showed under a millimetre of wear at 300 miles.",
+        "Its supercritical foam feels soft at easy pace and firms up when you push. It wears well too: the outsole showed under a millimeter of wear at 300 miles.",
         "Sizing runs true to length. Two testers with wide feet found the toe box snug after an hour; if that is you, try the wide fit before going up half a size.",
       ],
       likes: ["Soft at easy pace, firm when pushed", "Under 1 mm of outsole wear at 300 miles", "Secure midfoot without pressure points"],

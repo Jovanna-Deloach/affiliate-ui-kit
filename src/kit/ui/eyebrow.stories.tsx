@@ -58,9 +58,9 @@ export const AsHeading: Story = {
 };
 
 /**
- * The award in a table row or a catalogue card, in the section’s accent:
- * the place a category colour appears in running text.
- * @summary An award as text in the category accent (tables, catalogue cards).
+ * The award in a table row or a catalog card, in the section’s accent:
+ * the place a category color appears in running text.
+ * @summary An award as text in the category accent (tables, catalog cards).
  */
 export const CategoryAward: Story = {
   parameters: { theme: "assay", category: "running" },

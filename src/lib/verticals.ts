@@ -6,8 +6,8 @@
  */
 export const VERTICALS = [
   {
-    id: "luxury-editorial",
-    label: "Luxury Editorial",
+    id: "editorial",
+    label: "Editorial",
     description: "Warm alabaster canvas · Playfair display",
   },
   {
@@ -19,4 +19,4 @@ export const VERTICALS = [
 
 export type Vertical = (typeof VERTICALS)[number]["id"];
 
-export const DEFAULT_VERTICAL: Vertical = "luxury-editorial";
+export const DEFAULT_VERTICAL: Vertical = "editorial";

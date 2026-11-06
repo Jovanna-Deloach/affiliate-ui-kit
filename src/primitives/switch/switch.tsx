@@ -10,8 +10,8 @@ import { cn } from "@/lib/cn";
  * ---------------------------------------------------------------------------
  * Radix Switch on the spine: a 36px track (`--size-switch`), a thumb that
  * is the track height minus the emphasis inset, ink when on, the meter
- * track colour inside a strong rule when off. Pass `label` for a visible label on the right (the switch
- * is still the labelled control); pass `aria-label` for an unlabelled one.
+ * track color inside a strong rule when off. Pass `label` for a visible label on the right (the switch
+ * is still the labeled control); pass `aria-label` for an unlabeled one.
  *
  *   --size-switch / --radius-pill            track (pill — it IS a toggle)
  *   --surface-inverse / --border-strong      on / off

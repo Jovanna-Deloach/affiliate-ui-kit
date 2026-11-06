@@ -91,7 +91,7 @@ export function AuthDialogModal({
       <span ref={anchorRef} hidden data-slot="dialog-anchor" />
       {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
       <Dialog.Portal>
-        {/* flex + m-auto centres the panel yet never clips its top when it is taller than the viewport */}
+        {/* flex + m-auto centers the panel yet never clips its top when it is taller than the viewport */}
         <Dialog.Overlay className="sheet-scrim fixed inset-0 z-50 flex overflow-y-auto p-card">
           <Dialog.Content
             ref={panelRef}

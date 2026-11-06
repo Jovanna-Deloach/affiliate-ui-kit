@@ -20,7 +20,7 @@
  *   bun run verify:stories -- --build       # build first
  *   bun run verify:stories -- --filter awardbadge   # part of a story id, title or file path
  *   bun run verify:stories -- --filter src/kit/     # every kit story
- *   bun run verify:stories -- --widths 375,1280 --verticals luxury-editorial
+ *   bun run verify:stories -- --widths 375,1280 --verticals editorial
  *   bun run verify:stories -- --interact    # hover sweep for hover-induced CLS
  *   bun run verify:stories -- --no-screens  # skip screenshots (CI speed)
  *   bun run verify:stories -- --concurrency 4
@@ -58,7 +58,7 @@ const ROOT = process.cwd();
 const STATIC_DIR = path.join(ROOT, "storybook-static");
 const OUT_DIR = path.join(ROOT, opt("out", ".verify"));
 const WIDTHS = opt("widths", "375,1280").split(",").map(Number);
-const VERTICALS = opt("verticals", "luxury-editorial,clinical-performance").split(",");
+const VERTICALS = opt("verticals", "editorial,clinical-performance").split(",");
 const FILTER = opt("filter", "").toLowerCase();
 const INTERACT = flag("interact");
 const SCREENS = !flag("no-screens");

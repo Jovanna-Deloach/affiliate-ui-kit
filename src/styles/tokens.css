@@ -179,7 +179,7 @@
    ========================================================================== */
 
 :root,
-[data-vertical="luxury-editorial"] {
+[data-vertical="editorial"] {
   /* Warm architectural palette · 3-plane luminance hierarchy */
   --surface-canvas: #f7f5f0;               /* Plane 0: page */
   --surface-primary: #ffffff;              /* Plane 1: elevated card */

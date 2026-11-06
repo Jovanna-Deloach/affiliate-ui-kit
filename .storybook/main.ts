@@ -38,7 +38,7 @@ const config: StorybookConfig = {
   // Guides (MDX) first, so "Getting started / Start here" opens the kit; then every stories file.
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(ts|tsx)"],
   addons: [
-    // GitHub-flavoured Markdown (tables) in the MDX guides.
+    // GitHub-flavored Markdown (tables) in the MDX guides.
     { name: "@storybook/addon-docs", options: { mdxPluginOptions: { mdxCompileOptions: { remarkPlugins: [remarkGfm] } } } },
     "@storybook/addon-a11y",
     // Story tests in Chromium (vitest.config.ts): the MCP server's test-run tool.

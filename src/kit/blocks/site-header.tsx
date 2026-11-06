@@ -7,7 +7,7 @@ import { Disclosure, DisclosureSummary } from "@/kit/ui";
 export interface SiteHeaderProps {
   /** The publication’s chrome: its name and home link, and the sections in `nav` (each with an optional `category`). */
   site: SiteChrome;
-  /** The page’s section: its nav item gets the 2px marker in the category colour and `aria-current="page"`. */
+  /** The page’s section: its nav item gets the 2px marker in the category color and `aria-current="page"`. */
   category?: Category;
   /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
@@ -15,7 +15,7 @@ export interface SiteHeaderProps {
 
 /**
  * The masthead: wordmark, sections, search, sign in. The page’s section
- * carries a 2px marker in the category colour, the only place the masthead
+ * carries a 2px marker in the category color, the only place the masthead
  * changes between a publication’s beats. On phones the sections move into a
  * native disclosure (no script) under the menu button.
  *

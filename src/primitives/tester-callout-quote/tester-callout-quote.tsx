@@ -19,7 +19,7 @@ import { StatusPill } from "@/primitives/status-pill";
  *   ▌
  *   ▌ ┌ 32px ┬ minmax(0,1fr) ───────────┬ max-content ──────┐
  *   ▌ │ photo│ Celeste Marchetti        │ [LOGGED 140 MILES]│
- *   ▌ │      │ Watches & Jewellery Ed.  │                   │
+ *   ▌ │      │ Watches & Jewelry Ed.  │                   │
  *   ▌ └──────┴──────────────────────────┴───────────────────┘
  *
  *   --surface-recessed / --radius-container / --inset-well   the well

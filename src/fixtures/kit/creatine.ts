@@ -114,7 +114,7 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       award: "Our pick",
       descriptor: "Creatine monohydrate, 500 g tub",
       bestFor: "most people who want plain, proven creatine",
-      verdict: "Plain, unflavoured monohydrate that does exactly what the label promises, at a fair price.",
+      verdict: "Plain, unflavored monohydrate that does exactly what the label promises, at a fair price.",
       synthesis: "100.4% of label claim across two blinded HPLC runs, at $0.21 a serving.",
       rating: { score: 9.6, tier: "Lab verified", standing: "100.4% of claim" },
       scores: [
@@ -127,12 +127,12 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       measurements: assay("2214", [100.2, 100.6], [0.018, 0.009], 5.02, [16, 42, 6, 1.8], "< 10 ppm", "11.9%", "caution"),
       body: [
         "Peak Supply’s monohydrate was the closest to its label of anything we tested. Lead, arsenic and cadmium all came in under a fifth of their limits, and the synthesis by-products that turn up in cheap creatine were below quantitation.",
-        "It is plain, unflavoured monohydrate, the form with the most research behind it, and it mixes into anything without changing the taste.",
+        "It is plain, unflavored monohydrate, the form with the most research behind it, and it mixes into anything without changing the taste.",
       ],
-      likes: ["Closest to its label of all eighteen", "Every contaminant under a fifth of its limit", "Unflavoured, mixes into anything"],
+      likes: ["Closest to its label of all eighteen", "Every contaminant under a fifth of its limit", "Unflavored, mixes into anything"],
       caveats: ["Not micronised: slightly gritty in cold water", "Scoop holds 3.5 g, not 5 g", "Moisture near its limit in one run"],
       facts: [
-        { label: "Form", value: "Monohydrate, unflavoured" },
+        { label: "Form", value: "Monohydrate, unflavored" },
         { label: "Net weight", value: "500 g" },
         { label: "Servings", value: "100 × 5 g" },
         { label: "Batch tested", value: "2214, assayed October 2026" },
@@ -194,7 +194,7 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       likes: ["Lowest cost per serving that passed", "Clean on every purity screen", "200 servings in one tub"],
       caveats: ["Lowest label accuracy of our picks", "Wide tub takes up shelf space"],
       facts: [
-        { label: "Form", value: "Monohydrate, unflavoured" },
+        { label: "Form", value: "Monohydrate, unflavored" },
         { label: "Net weight", value: "1 kg" },
         { label: "Servings", value: "200 × 5 g" },
         { label: "Batch tested", value: "N-0931, assayed October 2026" },

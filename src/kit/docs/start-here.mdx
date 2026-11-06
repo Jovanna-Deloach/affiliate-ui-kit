@@ -25,7 +25,7 @@ A block never redraws what a lower layer draws: a price is always `Price`, a bar
 
 ## How to build a page
 
-1. **Read the guides**: the Foundations pages (Themes, Colour, Typography, Layout, Surfaces), then the Guidelines: Data model (the contract a page is filled from), Composing pages (the order of sections and where each rule lives), Making pages distinct.
+1. **Read the guides**: the Foundations pages (Themes, Color, Typography, Layout, Surfaces), then the Guidelines: Data model (the contract a page is filled from), Composing pages (the order of sections and where each rule lives), Making pages distinct.
 2. **Read every component you use.** With the Storybook MCP tools: `docs-list` once for the IDs, then `docs-show` for each component. Use only documented props: a prop that is not documented does not exist. Copy the first stories’ code; it is the intended usage.
 3. **Fill the contract.** A page is a `RoundupGuide` (its content) and a `SiteChrome` (its publication). Copy is plain text; the templates typeset it.
 4. **Compose.** Start from the template for the archetype. To compose something else, put blocks together the way the templates do, in the page well, with the theme’s section gap. Do not wrap blocks in new cards.
@@ -40,11 +40,12 @@ A block never redraws what a lower layer draws: a price is always `Price`, a bar
 - **Every monetized link** is a `BuyButton`, `BuyRow`, `BuyPill` or `BuyLink`. They set `rel="sponsored nofollow noopener"`, add attribution and track the click. Never a plain `<a>` to a retailer.
 - **One button per product** in a buy box, and one buy box per product on a screen.
 - **Every product is photographed**: a background-free cut-out on the studio well, never cropped, one photograph per product, never a drawing or a chart in its place.
-- **Three type voices**, through the `t-*` styles only. No Tailwind font sizes, no raw colours, no shadows but the theme’s two, no bottom alignment.
+- **Three type voices**, through the `t-*` styles only. No Tailwind font sizes, no raw colors, no shadows but the theme’s two, no bottom alignment.
 - **Say it once**: no sentence over 40 characters appears twice on a page. The verdict says why, `bestFor` says who, `synthesis` says what was measured.
 - **Picks are awards, not ranks**: “Our pick”, “Budget pick”; never “01 — Best overall”. Numbers are for sequences, such as the method’s steps.
 - **Headings say something**: “How we tested 14 watches”, not “Methodology”.
 - **Plain words**: buttons say what happens (“Buy at Verra”, “View deal at Northlane”). Arrows are icons, never typed. Micro-caps are written in sentence case; CSS sets the capitals.
+- **American English**: color, gray, catalog, center, favorite, jewelry. `bun run check` fails on a British spelling.
 
 ## Not in this library
 

@@ -101,14 +101,14 @@ export function LabAssayPage({ site, guide: input, attribution }: ArchetypeProps
 }
 
 /**
- * A collector’s guide: a catalogue of every piece as peers, then each piece
- * in full, then the method. No verdict and no ranking table. The catalogue’s
+ * A collector’s guide: a catalog of every piece as peers, then each piece
+ * in full, then the method. No verdict and no ranking table. The catalog’s
  * heading is the guide’s `railHeading`.
  *
  * **Use it for** a curated set of products that are not ranked against each
  * other. **Not for** a ranking (`RoundupPage`).
  *
- * @summary The collector’s guide page: a catalogue of every piece, then each one in full, unranked.
+ * @summary The collector’s guide page: a catalog of every piece, then each one in full, unranked.
  * @import import { CollectorsGuidePage } from "@/kit/templates";
  */
 export function CollectorsGuidePage({ site, guide: input, attribution }: ArchetypeProps) {

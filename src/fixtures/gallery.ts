@@ -22,14 +22,14 @@ export interface LoupeFrame {
 
 const AEROLITE_01: ProductImage = {
   src: "/fixtures/shoe-aerolite-01.jpg",
-  alt: "Meridian Aerolite 3 running shoe, floating three-quarter view on grey studio backdrop",
+  alt: "Meridian Aerolite 3 running shoe, floating three-quarter view on gray studio backdrop",
   width: 1600,
   height: 1280,
   backdrop: "#c9cac4",
 };
 const AEROLITE_02: ProductImage = {
   src: "/fixtures/shoe-aerolite-02.jpg",
-  alt: "Meridian Aerolite 3 running shoe, medial side view on grey studio backdrop",
+  alt: "Meridian Aerolite 3 running shoe, medial side view on gray studio backdrop",
   width: 1600,
   height: 1280,
   backdrop: "#c9cac4",
@@ -46,7 +46,7 @@ export const aeroliteLoupeFrames: LoupeFrame[] = [
     id: "medial",
     image: AEROLITE_02,
     angle: "Medial side",
-    note: "Medial post is moulded, not glued — no visible seam after 300 miles, which is where the 2 started to peel.",
+    note: "Medial post is molded, not glued — no visible seam after 300 miles, which is where the 2 started to peel.",
   },
   {
     id: "midsole",

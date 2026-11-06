@@ -15,11 +15,11 @@ export interface PickRowProps {
 }
 
 /**
- * A pick as one catalogue entry: a thumbnail, the award in the category
+ * A pick as one catalog entry: a thumbnail, the award in the category
  * accent, the name in the display serif, who it is for, the lowest price
  * with a “Buy at {merchant}” pill, and a jump to the review.
  *
- * @summary One catalogue entry: thumbnail, award, name, best for, lowest price, jump to the review.
+ * @summary One catalog entry: thumbnail, award, name, best for, lowest price, jump to the review.
  * @import import { PickRow } from "@/kit/blocks";
  */
 export function PickRow({ pick, jumpLabel, attribution }: PickRowProps) {
@@ -38,7 +38,7 @@ export function PickRow({ pick, jumpLabel, attribution }: PickRowProps) {
         {offer && (
           <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
             <Price amount={offer.price} currency={offer.currency} size="sm" />
-            <BuyPill offer={offer} productId={pick.product.id} placement="catalogue" attribution={attribution}>
+            <BuyPill offer={offer} productId={pick.product.id} placement="catalog" attribution={attribution}>
               Buy at {offer.merchantName}
             </BuyPill>
           </div>
@@ -65,7 +65,7 @@ export interface AlsoGreatRailProps {
 }
 
 /**
- * Picks as a catalogue: every piece on the same card (`PickRow`), in a grid
+ * Picks as a catalog: every piece on the same card (`PickRow`), in a grid
  * that queries its own width (one column, two from 42rem, three from
  * 64rem), under a heading in the display serif.
  *
@@ -74,7 +74,7 @@ export interface AlsoGreatRailProps {
  * (`QuickVerdictBento` and `ComparisonMatrix` say which is best) or a single
  * pick.
  *
- * @summary A catalogue of every piece, one card each, in a self-sizing grid.
+ * @summary A catalog of every piece, one card each, in a self-sizing grid.
  * @import import { AlsoGreatRail } from "@/kit/blocks";
  */
 export function AlsoGreatRail({ picks, heading, jumpLabel = "Read the review", attribution, className }: AlsoGreatRailProps) {

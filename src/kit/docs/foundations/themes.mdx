@@ -6,7 +6,7 @@ import { ThemeCards } from "../../../storybook/docs/blocks";
 
 # Themes
 
-Everything a component reads is a **role**, set by the theme on `[data-theme]` and, for wayfinding colour only, by `[data-category]`. Components never carry their own colours, sizes or shadows, so the same page in another theme is another publication. The source of truth is `src/kit/theme/kit.css`.
+Everything a component reads is a **role**, set by the theme on `[data-theme]` and, for wayfinding color only, by `[data-category]`. Components never carry their own colors, sizes or shadows, so the same page in another theme is another publication. The source of truth is `src/kit/theme/kit.css`.
 
 <ThemeCards />
 
@@ -14,11 +14,11 @@ A theme is the whole art direction: faces, palette, radii, elevation, density. A
 
 | `data-theme` | Publication | Character | Faces (display · text · micro) | Shape |
 | --- | --- | --- | --- | --- |
-| `atelier` | Caliber, luxury goods (watches) | A museum catalogue, not a newspaper: objects get room, prose is set like a book | Newsreader (headlines 300, titles 400) · Plus Jakarta Sans · JetBrains Mono | 6px cards, 4px controls, generous density |
+| `atelier` | Caliber, a watch magazine | A museum catalog, not a newspaper: objects get room, prose is set like a book | Newsreader (headlines 300, titles 400) · Plus Jakarta Sans · JetBrains Mono | 6px cards, 4px controls, generous density |
 | `assay` | Proving Ground, lab-tested health and performance | A lab report you can read in ten seconds, printed on good paper | Playfair Display (headlines 400, titles 500) · Inter · JetBrains Mono | 8px cards, 6px controls, compact density |
 
 ## Categories
 
 A publication with several beats is one theme. Its sections differ only by `data-category` (`watches`, `supplements`, `running`), which sets the category accent: the masthead’s section marker, award text in tables, telemetry bars and verification stamps. Wordmark, surfaces, type and the buy action stay the publication’s. In Assay, `supplements` is botanical emerald and `running` is international vermilion; in Atelier the category accent is always brass.
 
-The roles each theme sets are on the next pages: Colour, Typography, Layout and Surfaces.
+The roles each theme sets are on the next pages: Color, Typography, Layout and Surfaces.
