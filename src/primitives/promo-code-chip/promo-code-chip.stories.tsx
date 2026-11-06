@@ -15,6 +15,8 @@ const offer = productShoe01.offers[0]!;
 
 const meta = {
   title: "Tier 1 · Monetization/PromoCodeChip",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: PromoCodeChip,
   parameters: { layout: "fullscreen" },
   args: {

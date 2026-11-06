@@ -14,6 +14,8 @@ const NAMES = { scorecard: "Scorecard — verdict zone over evidence zone", radi
 
 const meta = {
   title: "Tier 2 · Evaluation & E-E-A-T/ScoreMeter",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: ScoreMeter,
   parameters: { layout: "fullscreen" },
   args: {

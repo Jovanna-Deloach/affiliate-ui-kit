@@ -8,13 +8,16 @@ import { Button } from "./button";
 import { BuyButton, BuyLink, BuyPill, BuyRow } from "./buy";
 import { JumpLink } from "./jump-link";
 
+/**
+ * Every state on one sheet, in both themes, for people reviewing the
+ * system. Not in the agent manifest: agents read the use-case stories.
+ */
 const meta = {
-  title: "Kit/Primitives/Buttons and links",
-  component: BuyButton,
-  tags: ["autodocs"],
-  parameters: { layout: "fullscreen", kit: true },
+  title: "Kit/Specimen sheets/Primitives/Buttons and links",
+  tags: ["!manifest"],
+  parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,
-} satisfies Meta<typeof BuyButton>;
+} satisfies Meta;
 
 export default meta;
 /** Specimen pages render every state themselves, so stories take no args. */

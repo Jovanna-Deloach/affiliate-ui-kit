@@ -9,22 +9,36 @@ import { RetailerList } from "./retailer-list";
 /** The short inline disclosure. Kept under 40 characters so it can repeat beside every buy box. */
 export const INLINE_DISCLOSURE = "We may earn a commission.";
 
-/**
- * The buy box: the lowest in-stock offer as an offer card, every other
- * retailer as a row beneath it, then the inline disclosure. Lowest price
- * first, sold out last; a partner relationship never changes the order.
- * One button per product. When every retailer is sold out, a notice takes
- * the offer card’s place and the rows say where it was last available.
- */
 export interface BuyBlockProps {
+  /** The product, with every retailer’s offer in any order: the buy box ranks them. */
   product: KitProduct;
+  /** Where the buy box sits, for click tracking: `deep-dive`. The rows report `{placement}-row`. */
   placement: string;
+  /** The page that explains how the publication makes money; the inline disclosure links to it. */
   disclosureHref: string;
+  /** Campaign attribution added to every link. */
   attribution?: AffiliateAttribution;
+  /** An anchor for the box, unique on the page. */
   id?: string;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
+/**
+ * The buy box: the lowest in-stock offer as an `OfferCard`, every other
+ * retailer as a `RetailerList` row beneath it, then the inline disclosure
+ * (“We may earn a commission.”). Lowest price first, sold out last; a
+ * partner relationship never changes the order. One button per product.
+ * When every retailer is sold out, a notice takes the offer card’s place.
+ *
+ * **Use it for** where a reader decides to buy one product: a deep dive, a
+ * product page. **Not for** a verdict card or a table row (they carry one
+ * `BuyButton` or `BuyPill` to the lead offer) or a second buy box for the
+ * same product on one screen.
+ *
+ * @summary The buy box: lead offer card, other retailers, inline disclosure. Ranks the offers.
+ * @import import { BuyBlock } from "@/kit/components";
+ */
 export function BuyBlock({ product, placement, disclosureHref, attribution, id, className }: BuyBlockProps) {
   const ranked = rankOffers(product.offers);
   const lead = ranked[0]?.inStock ? ranked[0] : undefined;

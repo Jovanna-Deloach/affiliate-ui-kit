@@ -1,0 +1,51 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Kit/Guides/Start here" summary="Read first: what the kit is for, its four layers, how to build a page from it, and the rules every page keeps." />
+
+# Start here
+
+This Storybook is a component library for affiliate review pages: roundups (“The best everyday watches”), head-to-heads, single-product lab reviews and collector’s guides, for independent product-testing publications. It is written for people and for AI agents. Every component says when to use it and what to use instead, has one story per use case, and documents its props.
+
+The bar is an editorial publication with a design desk, not a template: real photography of every product, three type voices, warm surfaces, and a box only where a box does a job. Readers distrust affiliate pages, so a page earns trust through restraint and evidence. It gives the answer in the first viewport, proves it below, lets the reader buy without hunting, and discloses the commission before the first buy link.
+
+**Uniqueness comes from themes and composition; quality comes from constraints.** A theme decides the look, the archetype decides the composition, and the checks refuse pages that break the rules below. Components do not offer a menu of looks.
+
+## The four layers
+
+Each layer is built only from the layers beneath it, and the sidebar follows the same order.
+
+| Layer | Import from | What it is |
+| --- | --- | --- |
+| Primitives | `@/kit/ui` | The smallest parts. `Price`, `Meter`, `Eyebrow`, `Breadcrumb`, `Badge`, `Award`, `BestPrice`, `ResultMark`, `Button`, the buy links (`BuyButton`, `BuyRow`, `BuyPill`, `BuyLink`), `JumpLink`, `Disclosure`, `ProductImage`, `Avatar`, `Monogram`, `Sep`. They take plain props and read only theme roles. |
+| Components | `@/kit/components` | The pieces of a review, built on the product contract (`Pick`, `KitProduct`, offers). `OfferCard`, `RetailerList`, `BuyBlock`, `VerdictCard`, `Scorecard`, `Telemetry`, `AssayBadge`, `ProsCons`, `PullQuote`, `SpecSheet`, `PickMedia`. |
+| Blocks | `@/kit/blocks` | The sections of a page. `SiteHeader`, `EditorialArticleHeader`, `TestingTelemetryBadge`, `QuickVerdictBento`, `ComparisonMatrix`, `DisqualifiedSubTable`, `AlsoGreatRail`, `ProductDeepDiveCard`, `MethodologyAccordion`, `SiteFooter`. |
+| Templates | `@/kit/templates` | Whole pages. `RoundupPage`, `VersusPage`, `LabAssayPage`, `CollectorsGuidePage`. Each takes a `SiteChrome` and a `RoundupGuide`. |
+
+A block never redraws what a lower layer draws: a price is always `Price`, a bar is always `Meter`, a show-and-hide is always `Disclosure`, a micro-caps label is always `Eyebrow`, and every link to a retailer is a buy link.
+
+## How to build a page
+
+1. **Read the guides**: Foundations (themes, colour roles, type, spacing, surfaces), Data model (the contract a page is filled from), Composing pages (the order of sections and where each rule lives), Making pages distinct.
+2. **Read every component you use.** With the Storybook MCP tools: `docs-list` once for the IDs, then `docs-show` for each component. Use only documented props: a prop that is not documented does not exist. Copy the first stories’ code; it is the intended usage.
+3. **Fill the contract.** A page is a `RoundupGuide` (its content) and a `SiteChrome` (its publication). Copy is plain text; the templates typeset it.
+4. **Compose.** Start from the template for the archetype. To compose something else, put blocks together the way the templates do, in the page well, with the theme’s section gap. Do not wrap blocks in new cards.
+5. **Render inside a theme**: `data-theme="atelier"` or `data-theme="assay"` on an ancestor (the `<html>` or `<body>` element in the app). The templates set `data-category` from the guide.
+6. **Check it.** Write a story for the page (Writing stories) with the kit checks as its `play` function, run the story checks at 375px and 1440px, and run `bun run check`.
+
+## Rules every page keeps
+
+- **One filled action per viewport**: the buy button of the pick in view, and the comparison’s pill for our pick. Everything else is outlined, a row or a text link.
+- **Lowest price first**, sold out last; a partner retailer never moves up. Pass a product with all of its offers; the buy box ranks them.
+- **Disclosure twice, in two lengths**: the notice in the article header’s byline, before the first buy link, and “We may earn a commission.” under every buy box. The footer carries the full statement in different words.
+- **Every monetized link** is a `BuyButton`, `BuyRow`, `BuyPill` or `BuyLink`. They set `rel="sponsored nofollow noopener"`, add attribution and track the click. Never a plain `<a>` to a retailer.
+- **One button per product** in a buy box, and one buy box per product on a screen.
+- **Every product is photographed**: a background-free cut-out on the studio well, never cropped, one photograph per product, never a drawing or a chart in its place.
+- **Three type voices**, through the `t-*` styles only. No Tailwind font sizes, no raw colours, no shadows but the theme’s two, no bottom alignment.
+- **Say it once**: no sentence over 40 characters appears twice on a page. The verdict says why, `bestFor` says who, `synthesis` says what was measured.
+- **Picks are awards, not ranks**: “Our pick”, “Budget pick”; never “01 — Best overall”. Numbers are for sequences, such as the method’s steps.
+- **Headings say something**: “How we tested 14 watches”, not “Methodology”.
+- **Plain words**: buttons say what happens (“Buy at Verra”, “View deal at Northlane”). Arrows are icons, never typed. Micro-caps are written in sentence case; CSS sets the capitals.
+
+## Not in this library
+
+The older component set in `src/primitives` (the “Tier 0–15” stories) is kept for reference and is hidden from AI agents. Build kit pages from the kit only. The kit does not yet have a sticky buy bar, a table of contents, a photo gallery, tabs, a tooltip, a drawer or form controls: if a page needs one, say so rather than hand-building it.

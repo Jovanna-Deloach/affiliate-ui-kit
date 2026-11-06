@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import type { ReactNode } from "react";
 
 import { assertKitPage } from "@/kit/testing/page-checks";
-import { Specimen, State } from "@/kit/testing/specimen";
 
-import { Eyebrow } from "./eyebrow";
 import { Price } from "./price";
 
 const meta = {
@@ -17,95 +14,68 @@ const meta = {
 } satisfies Meta<typeof Price>;
 
 export default meta;
-/** Specimen pages render every state themselves, so stories take no args. */
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
-const DESCRIPTION = "Every price in the kit: tabular figures in the text voice, at four sizes, with an optional list price, a note and a sold-out state.";
+/**
+ * A price at the size of a compact verdict card. Reach for the default when
+ * a price sits in running UI and nothing around it sets a size.
+ * @summary The default price line (md).
+ */
+export const Basic: Story = {};
 
-function Sized({ size, use, children }: { size: string; use: string; children: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-2">
-      <Eyebrow size="sm" items={[size, use]} />
-      {children}
-    </div>
-  );
-}
-
-export const Atelier: Story = {
-  parameters: { theme: "atelier" },
-  render: () => (
-    <Specimen kind="Primitive" title="Price" description={DESCRIPTION}>
-      <State label="Sizes">
-        <div className="flex flex-wrap items-start gap-x-10 gap-y-6">
-          <Sized size="lg" use="offer card">
-            <Price amount={3950} size="lg" />
-          </Sized>
-          <Sized size="md" use="compact card">
-            <Price amount={4850} size="md" />
-          </Sized>
-          <Sized size="sm" use="table">
-            <Price amount={1650} size="sm" />
-          </Sized>
-          <Sized size="xs" use="retailer row">
-            <Price amount={890} size="xs" />
-          </Sized>
-        </div>
-      </State>
-      <State label="List price struck through">
-        <div className="flex flex-wrap items-start gap-x-10 gap-y-6">
-          <Price amount={3950} was={4400} size="lg" />
-          <Price amount={420} was={495} size="md" />
-          <Price amount={1695} was={1695} size="md" note="Same list price: not struck" />
-        </div>
-      </State>
-      <State label="With a note">
-        <div className="flex flex-wrap items-start gap-x-10 gap-y-6">
-          <Price amount={1650} size="sm" note="at Verra" />
-          <Price amount={3990} size="xs" note="+$40 vs. best" />
-        </div>
-      </State>
-      <State label="Right-aligned, as in a table column">
-        <div className="max-w-xs border-y border-line py-3 text-right">
-          <Price amount={12450} size="sm" note="at Haus & Field" />
-        </div>
-      </State>
-      <State label="Sold out">
-        <div className="flex items-center gap-3 text-fg-muted">
-          <Price amount={4100} size="xs" soldOut />
-          <Eyebrow as="span" size="sm">
-            Sold out
-          </Eyebrow>
-        </div>
-      </State>
-    </Specimen>
-  ),
+/**
+ * The lead offer of a buy box or the lead verdict card, with its list price
+ * struck through first. Showing both prices tells the reader the saving
+ * without a percentage badge.
+ * @summary A lead price (lg) with the higher list price struck through.
+ */
+export const Discounted: Story = {
+  args: { amount: 3950, was: 4400, size: "lg" },
 };
 
-export const Assay: Story = {
-  parameters: { theme: "assay" },
-  render: () => (
-    <Specimen kind="Primitive" title="Price" description={DESCRIPTION} category="supplements">
-      <State label="Sizes">
-        <div className="flex flex-wrap items-start gap-x-10 gap-y-6">
-          <Price amount={21} size="lg" />
-          <Price amount={29} size="md" />
-          <Price amount={32} size="sm" />
-          <Price amount={27} size="xs" />
-        </div>
-      </State>
-      <State label="List price struck through">
-        <Price amount={189} was={220} size="lg" />
-      </State>
-      <State label="Per-serving note">
-        <Price amount={21} size="lg" note="$0.21 a serving" />
-      </State>
-      <State label="Cents and other currencies">
-        <div className="flex flex-wrap items-start gap-x-10 gap-y-6">
-          <Price amount={24.99} size="md" />
-          <Price amount={189} currency="EUR" size="md" />
-          <Price amount={149} currency="GBP" size="md" />
-        </div>
-      </State>
-    </Specimen>
-  ),
+/**
+ * A comparison-table or catalogue cell: the lowest price and the retailer
+ * that has it, on two lines, so the column stays narrow.
+ * @summary A table price (sm) with the retailer as a caption.
+ */
+export const WithRetailer: Story = {
+  args: { amount: 1650, size: "sm", note: "at Verra" },
+};
+
+/**
+ * The last column of a table is right-aligned: the caption lines up under
+ * the amount’s right edge. Alignment is inherited, so the same component
+ * serves left-aligned cards.
+ * @summary A right-aligned price for a table’s last column.
+ */
+export const RightAligned: Story = {
+  args: { amount: 12450, size: "sm", note: "at Haus & Field", className: "text-right" },
+};
+
+/**
+ * Supplements are compared per serving, not per tub: give the figure that
+ * makes products comparable as the caption, under the price paid.
+ * @summary A tub price with its per-serving figure (Assay, supplements).
+ */
+export const PerServing: Story = {
+  parameters: { theme: "assay", category: "supplements" },
+  args: { amount: 21, size: "lg", note: "$0.21 a serving" },
+};
+
+/**
+ * A retailer that has run out keeps its row and its price, struck through
+ * and muted, so the reader sees what it cost; it is never a link.
+ * @summary A sold-out amount, struck and muted (retailer rows).
+ */
+export const SoldOut: Story = {
+  args: { amount: 4100, size: "xs", soldOut: true },
+};
+
+/**
+ * Prices format in the offer’s own currency (ISO 4217), with its symbol and
+ * grouping.
+ * @summary A price in another currency.
+ */
+export const OtherCurrency: Story = {
+  args: { amount: 189, currency: "EUR" },
 };

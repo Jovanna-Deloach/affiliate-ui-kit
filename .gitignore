@@ -13,6 +13,9 @@ storybook-static
 *storybook.log
 .verify
 
+# vitest (story tests): screenshots of failed tests
+__screenshots__
+
 # misc
 .DS_Store
 *.pem

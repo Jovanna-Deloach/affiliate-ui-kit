@@ -16,6 +16,8 @@ const HOVER_NAMES = { none: "No hover", "subtle-zoom": "Subtle zoom", "secondary
 
 const meta = {
   title: "Tier 3 · Surface & Media/ProductMediaFrame",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: ProductMediaFrame,
   parameters: { layout: "fullscreen" },
   args: { media: productShoe01.media, treatment: "cover", hover: "secondary-angle-swap", showCaption: true, priority: true },

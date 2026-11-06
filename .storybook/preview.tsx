@@ -1,9 +1,11 @@
+import { Controls, Description, DocsContext, Primary, Stories, Subtitle, Title } from "@storybook/addon-docs/blocks";
 import type { Decorator, Preview } from "@storybook/nextjs-vite";
-import React from "react";
+import React, { useContext } from "react";
 
 import "./fonts";
 import "../src/styles/globals.css";
 
+import { KitFrame, type KitStoryParameters } from "../src/kit/testing/stories";
 import { VERTICALS, type Vertical } from "../src/lib/verticals";
 import { VerticalCompare } from "../src/stories/vertical-compare";
 
@@ -22,13 +24,16 @@ type Stage = "white" | "canvas";
  *                                             vertical, in adjacent columns
  */
 const withVertical: Decorator = (Story, context) => {
-  // Kit stories (src/kit, docs/DESIGN.md) render full-bleed inside a theme,
-  // with no workshop padding: a page template is a page.
+  // Kit stories (src/kit, docs/STORYBOOK.md) render full-bleed inside a theme,
+  // framed by parameters (theme, category, frame), never by wrapper markup in
+  // the story: a page template is a page, and a story's code is only the part.
   if (context.parameters.kit) {
-    const theme = (context.parameters.theme as string | undefined) ?? (context.globals.theme as string) ?? "atelier";
+    const { theme, category, frame } = context.parameters as Partial<KitStoryParameters>;
     return (
-      <div data-theme={theme} className="min-h-dvh">
-        <Story />
+      <div data-theme={theme ?? (context.globals.theme as string) ?? "atelier"} className={context.viewMode === "docs" ? "flow-root" : "flow-root min-h-dvh"}>
+        <KitFrame frame={frame} category={category}>
+          <Story />
+        </KitFrame>
       </div>
     );
   }
@@ -56,6 +61,30 @@ const withVertical: Decorator = (Story, context) => {
     </div>
   );
 };
+
+/**
+ * The autodocs page, as Storybook’s default (title, description, primary
+ * story, props, every story), except that a story’s description stops at its
+ * first JSDoc tag. Kit stories end their JSDoc with `@summary` for the agent
+ * manifest (docs/STORYBOOK.md); people read only the prose above it.
+ */
+function DocsPage() {
+  const context = useContext(DocsContext);
+  for (const story of context.componentStories()) {
+    const description = (story.parameters.docs as { description?: { story?: unknown } } | undefined)?.description;
+    if (typeof description?.story === "string") description.story = description.story.split(/\n\s*@\w/)[0]!.trim();
+  }
+  return (
+    <>
+      <Title />
+      <Subtitle />
+      <Description />
+      <Primary />
+      <Controls />
+      <Stories />
+    </>
+  );
+}
 
 /**
  * Stories render only after the three faces are resolved, so the workshop
@@ -157,9 +186,17 @@ const preview: Preview = {
   },
   parameters: {
     layout: "fullscreen",
+    docs: { page: DocsPage },
     options: {
-      // The kit first, smallest pieces first: primitives → components → blocks → templates.
-      storySort: { order: ["Kit", ["Primitives", "Components", "Blocks", "Templates"], "*"] },
+      // The kit first: its guides, then the smallest pieces first (primitives →
+      // components → blocks → templates), then the specimen sheets for review.
+      storySort: {
+        order: [
+          "Kit",
+          ["Guides", ["Start here", "Foundations", "Data model", "Composing pages", "Making pages distinct", "Writing stories"], "Primitives", "Components", "Blocks", "Templates", "Specimen sheets", ["Primitives", "Components"]],
+          "*",
+        ],
+      },
     },
     controls: {
       matchers: {

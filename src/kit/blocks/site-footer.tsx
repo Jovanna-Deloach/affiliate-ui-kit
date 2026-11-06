@@ -1,8 +1,26 @@
 import { cn } from "@/lib/cn";
 import type { SiteChrome } from "@/kit/types";
 
-/** Wordmark and promise, three link columns, the full disclosure. */
-export function SiteFooter({ site, className }: { site: SiteChrome; className?: string }) {
+export interface SiteFooterProps {
+  /** The publication’s chrome: name, tagline, the footer’s link columns, the full `disclosure` statement and its link, the copyright line. */
+  site: SiteChrome;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
+  className?: string;
+}
+
+/**
+ * The foot of every page: the wordmark and its promise, the link columns,
+ * then the full disclosure statement in plain words, with a link to how the
+ * publication makes money, and the copyright line.
+ *
+ * **Use it for** the end of every page, once. It carries the long form of
+ * the disclosure; the article header carries the short notice, in different
+ * words. **Not for** a section’s summary or a newsletter sign-up.
+ *
+ * @summary The publication’s footer: link columns and the full disclosure statement.
+ * @import import { SiteFooter } from "@/kit/blocks";
+ */
+export function SiteFooter({ site, className }: SiteFooterProps) {
   return (
     <footer className={cn("mt-chapter border-t border-line bg-ground", className)}>
       <div className="kit-well grid gap-12 py-16 md:grid-cols-12">

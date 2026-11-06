@@ -1,28 +1,17 @@
 import { cn } from "@/lib/cn";
 
-/**
- * A 6px meter: how much of something, at a glance. Decorative by design —
- * the figure it stands for is always printed beside it — so it is hidden
- * from screen readers.
- *
- *   continuous  a pill-ended fill on the track; any value above zero shows
- *               at least a sliver, so “16 of 100 ppb” never reads as empty
- *   mark        a 2px tick for a reference value (the test average)
- *   segments    the track split into n segments, the part-filled one
- *               clipped, never shrunk (the composite score’s ten)
- *
- * Tones: `meter` (ink, scores), `telemetry` (the category accent), `warn`,
- * `fail`, `muted` (below the reference).
- */
 export interface MeterProps {
+  /** The amount, on the same scale as `max`. */
   value: number;
-  /** The value that fills the track. */
+  /** The value that fills the track. Default 1. */
   max?: number;
-  /** A reference value drawn as a tick, on the same scale as `value`. */
+  /** A reference value drawn as a 2px tick (the test average), on the same scale as `value`. */
   mark?: number;
+  /** `meter` ink, for scores (default) · `telemetry` the category accent · `warn` · `fail` · `muted` below the reference. */
   tone?: "meter" | "telemetry" | "warn" | "fail" | "muted";
-  /** Split the track into this many equal segments. */
+  /** Split the track into this many equal segments; the part-filled one is clipped, never shrunk (the composite score’s ten). */
   segments?: number;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
@@ -36,6 +25,21 @@ const FILL = {
 
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 
+/**
+ * A 6px bar: how much of something, at a glance. Continuous by default (a
+ * pill-ended fill; any value above zero shows at least a sliver, so “16 of
+ * 1,000 ppb” never reads as empty), with an optional reference tick, or
+ * split into segments. Decorative by design: the figure it stands for is
+ * always printed beside it, so it is hidden from screen readers.
+ *
+ * **Use it for** a sub-score, a share of a limit, a result against the test
+ * average, the composite score’s ten segments. **Not for** a chart in place
+ * of a figure, progress through a task, or anything without its number
+ * printed beside it.
+ *
+ * @summary A 6px bar beside a printed figure: sub-scores, share of a limit, against an average.
+ * @import import { Meter } from "@/kit/ui";
+ */
 export function Meter({ value, max = 1, mark, tone = "meter", segments, className }: MeterProps) {
   const share = max > 0 ? clamp(value / max) : 0;
   if (segments && segments > 1) {

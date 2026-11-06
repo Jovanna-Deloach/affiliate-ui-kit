@@ -1,93 +1,64 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { creatineGuide } from "@/fixtures/kit/creatine";
 import { runningGuide } from "@/fixtures/kit/running";
 import { watchesGuide } from "@/fixtures/kit/watches";
 import { assertKitPage } from "@/kit/testing/page-checks";
-import { Specimen, State } from "@/kit/testing/specimen";
-import type { Pick } from "@/kit/types";
 import { Award } from "@/kit/ui";
 
 import { PickMedia } from "./pick-media";
-import { AssayBadge } from "./telemetry";
 
 const meta = {
-  title: "Kit/Components/Studio frame",
+  title: "Kit/Components/Pick media",
   component: PickMedia,
+  subcomponents: { Award },
   tags: ["autodocs"],
-  parameters: { layout: "fullscreen", kit: true },
+  parameters: { layout: "fullscreen", kit: true, frame: "narrow" },
   play: assertKitPage,
+  args: { pick: watchesGuide.picks[0]!, detail: "full", sizes: "24rem" },
 } satisfies Meta<typeof PickMedia>;
 
 export default meta;
-/** Specimen pages render every state themselves, so stories take no args. */
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
-const DESCRIPTION = "A pick’s photograph at three detail levels: the review frame (4 : 4.2) with its award and, for supplements, the lab’s badge; a card well; a thumbnail.";
+/**
+ * The review frame: the largest view of a pick, at the head of its deep
+ * dive.
+ * @summary A pick’s review frame (4 : 4.2).
+ */
+export const ReviewFrame: Story = {};
 
-/** The review frame: award pinned top-left, the lab badge bottom-left for supplements. */
-function Frame({ pick }: { pick: Pick }) {
-  const m = pick.measurements;
-  return (
-    <figure className="@container m-0">
-      <PickMedia pick={pick} detail="full" sizes="(min-width: 768px) 30vw, 90vw">
-        <Award className="absolute top-4 left-4">{pick.award}</Award>
-        {m.kind === "assay" && <AssayBadge m={m} className="absolute bottom-4 left-4" />}
-      </PickMedia>
-    </figure>
-  );
-}
-
-export const Atelier: Story = {
-  parameters: { theme: "atelier" },
-  render: () => {
-    const [meridian, ardent, sato, okada, brennan] = watchesGuide.picks;
-    return (
-      <Specimen kind="Component" title="Studio frame" description={DESCRIPTION} columns={3}>
-        <State label="Review frame">
-          <Frame pick={meridian!} />
-        </State>
-        <State label="Review frame, a dress watch">
-          <Frame pick={ardent!} />
-        </State>
-        <State label="Card well (fills its box)">
-          <div className="relative h-72 overflow-hidden rounded-media">
-            <div className="absolute inset-0">
-              <PickMedia pick={sato!} detail="card" sizes="24rem" />
-            </div>
-          </div>
-        </State>
-        <State label="Thumbnails">
-          <div className="grid grid-cols-4 gap-3">
-            {[meridian!, okada!, brennan!].map((p) => (
-              <PickMedia key={p.product.id} pick={p} detail="thumb" sizes="5rem" />
-            ))}
-          </div>
-        </State>
-      </Specimen>
-    );
-  },
+/**
+ * The review frame carries the pick’s award in its top-left corner, as an
+ * overlay positioned by the caller.
+ * @summary The review frame with the pick’s award as an overlay.
+ */
+export const WithAward: Story = {
+  args: { children: <Award className="absolute top-4 left-4">Our pick</Award> },
 };
 
-export const Assay: Story = {
-  name: "Assay: the lab badge",
-  parameters: { theme: "assay" },
-  render: () => {
-    const [peak, ironhouse] = creatineGuide.picks;
-    return (
-      <Specimen kind="Component" title="Studio frame" description={DESCRIPTION} columns={3} category="supplements">
-        <State label="Review frame with the lab badge">
-          <Frame pick={peak!} />
-        </State>
-        <State label="Narrow frame: accreditation left to screen readers" className="max-w-64">
-          <Frame pick={ironhouse!} />
-        </State>
-        <State label="Running: a wide object">
-          <div data-category="running">
-            <Frame pick={runningGuide.picks[0]!} />
-          </div>
-        </State>
-      </Specimen>
-    );
-  },
+/**
+ * In a verdict card the photograph fills the card’s well, so the card sets
+ * the size and the photograph never sets the card’s height.
+ * @summary The photograph filling a card’s well (a positioned parent with a size).
+ */
+export const CardWell: Story = {
+  args: { detail: "card" },
+  decorators: [
+    (Story) => (
+      <div className="relative h-64 overflow-hidden rounded-media">
+        <div className="absolute inset-0">
+          <Story />
+        </div>
+      </div>
+    ),
+  ],
+};
+
+/**
+ * A square thumbnail for a table row or a catalogue entry.
+ * @summary A square thumbnail of a pick.
+ */
+export const Thumbnail: Story = {
+  parameters: { theme: "assay", category: "running" },
+  args: { pick: runningGuide.picks[0]!, detail: "thumb", sizes: "5rem", className: "max-w-20" },
 };

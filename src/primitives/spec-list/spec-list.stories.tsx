@@ -18,6 +18,8 @@ const NAMES = {
 
 const meta = {
   title: "Tier 4 · Comparison & Discovery/SpecList",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: SpecList,
   parameters: { layout: "fullscreen" },
   args: { specs: productShoe01.specs, presentation: "keyline", density: "comfortable", highlightFirst: false },

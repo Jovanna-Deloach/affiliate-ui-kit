@@ -142,9 +142,14 @@ export async function collectPageProblems(root: HTMLElement, { runAxe = true } =
   return problems;
 }
 
-/** CSF3 play function for kit pages and blocks. */
+/**
+ * CSF3 play function for kit pages and blocks. A failure names every problem
+ * in its message, so the Storybook MCP `test-run` tool, Vitest and the
+ * interactions panel all say what to fix, not only that a check failed.
+ */
 export async function assertKitPage({ canvasElement }: { canvasElement: HTMLElement }) {
   const problems = await collectPageProblems(canvasElement);
   if (problems.length) console.error(`[kit-check] ${window.innerWidth}px\n${problems.join("\n")}`);
-  await expect(problems).toEqual([]);
+  const report = `Kit checks at ${window.innerWidth}px found ${problems.length} problem${problems.length === 1 ? "" : "s"}:\n${problems.map((p) => `• ${p}`).join("\n")}\n`;
+  await expect(problems, report).toEqual([]);
 }

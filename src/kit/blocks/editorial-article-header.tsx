@@ -7,20 +7,30 @@ import { Avatar, Breadcrumb, Eyebrow } from "@/kit/ui";
 
 import { TestingTelemetryBadge } from "./testing-telemetry-badge";
 
-/**
- * The article header. A mono micro-caps eyebrow (the breadcrumb, “WATCHES ·
- * BUYING GUIDES”); below it the display-serif title, the dek, the byline
- * with its verification stamp and the disclosure notice on seven columns,
- * the testing summary card on five. The notice sits in the byline region,
- * so it is read before the first buy link on the page.
- */
 export interface EditorialArticleHeaderProps {
+  /** The guide’s header fields: `crumbs`, `title` (says something), `dek`, `author` (covers the page’s category), `testedWith`, `updatedAt`, and `telemetry` for the testing card. */
   guide: Pick<RoundupGuide, "crumbs" | "title" | "dek" | "author" | "testedWith" | "updatedAt" | "telemetry">;
+  /** The disclosure notice in the byline, read before the first buy link: the site’s `disclosureNotice` and `disclosureHref`. */
   notice: { text: string; href: string };
+  /** The method section’s anchor, for the testing card’s link. Default `#methodology`. */
   methodHref?: string;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
+/**
+ * The article header: the breadcrumb eyebrow; the title in the display
+ * serif, the dek, the byline with its verification stamp and the disclosure
+ * notice on seven columns; the testing summary card on five. The notice sits
+ * in the byline, so it is read before the first buy link on the page.
+ *
+ * **Use it for** the top of every review page, under the masthead.
+ * **Not for** a section heading inside the page (the blocks carry their
+ * own) or a page without a byline.
+ *
+ * @summary The review’s header: breadcrumb, title, dek, byline, disclosure notice, testing card.
+ * @import import { EditorialArticleHeader } from "@/kit/blocks";
+ */
 export function EditorialArticleHeader({ guide, notice, methodHref = "#methodology", className }: EditorialArticleHeaderProps) {
   const { author } = guide;
   return (

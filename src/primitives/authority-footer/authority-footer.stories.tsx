@@ -7,6 +7,8 @@ import { AuthorityFooter } from "./authority-footer";
 
 const meta = {
   title: "Tier 11 · Navigation & Site Chrome/AuthorityFooter",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: AuthorityFooter,
   parameters: { layout: "fullscreen" },
   args: {

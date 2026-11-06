@@ -6,35 +6,20 @@ import type { AffiliateAttribution } from "@/types/affiliate";
 
 import { PickMedia, pickName, reviewId } from "./pick-media";
 
-/**
- * A pick, answered above the fold. Two variants, one per job:
- *
- *   feature  the lead pick: a warmer, lifted card (`kit-card-feature`); the
- *            photograph beside the award, the name in the display serif, the
- *            verdict (why, in two lines), the price at 1.5rem with its list
- *            price and “Best price”, and the page’s one filled button.
- *            `wide` (a single-pick page): a 5 : 7 split with a 4 : 3 well,
- *            so a full-width card never leaves the photograph small.
- *   compact  picks 2 and 3: who it is for (“Best for …”), the price and an
- *            outlined button. Beside the feature card the well spans the
- *            card’s height; on a phone the price and button take the full
- *            width beneath. `stacked`: the photograph on top (one compact
- *            card beside the feature card).
- *
- * Every card has a full hairline border. The photograph fills its studio
- * well (laid in absolutely, contain-fit), so it never sets the card’s
- * height. Sold out everywhere: the price line says so and the button goes.
- */
 export interface VerdictCardProps {
+  /** The pick: its award, name, photograph, `verdict` (feature) or `bestFor` (compact), and its offers. */
   pick: Pick;
-  /** The link to the full review: “Read the full review”. */
+  /** The jump to the pick’s deep dive: “Read the full review”. */
   jumpLabel: string;
+  /** `feature` the lead pick, with the page’s one filled button (default) · `compact` picks 2 and 3, outlined. */
   variant?: "feature" | "compact";
-  /** feature: the card spans a single-pick page. */
+  /** For `feature` on a single-pick page: a 5 : 7 split with a 4 : 3 well, so a full-width card never leaves the photograph small. */
   wide?: boolean;
-  /** compact: the photograph on top. */
+  /** For `compact`: the photograph on top, when one compact card stands beside the feature card. */
   stacked?: boolean;
+  /** Campaign attribution added to the buy link. */
   attribution?: AffiliateAttribution;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
@@ -61,6 +46,23 @@ function Name({ pick, className }: { pick: Pick; className: string }) {
 
 const SOLD_OUT = <p className="m-0 t-small text-fg-muted">Sold out everywhere we track</p>;
 
+/**
+ * A pick, answered above the fold. `feature` is the lead pick: a warmer,
+ * lifted card with the photograph beside the award, the name in the display
+ * serif, the verdict (why, in two lines), the price with its list price and
+ * “Best price”, and the page’s one filled button. `compact` is picks 2 and 3:
+ * who it is for (“Best for …”), the price and an outlined button. The
+ * photograph fills its studio well, so it never sets the card’s height. Sold
+ * out everywhere: the price line says so and the button goes.
+ *
+ * **Use it for** the quick verdict, at most three cards (`QuickVerdictBento`
+ * lays them out). **Not for** the full review (`ProductDeepDiveCard`), a
+ * fourth pick (the comparison has it) or a catalogue of every piece
+ * (`AlsoGreatRail`).
+ *
+ * @summary A pick above the fold: the feature card for the lead pick, compact for picks 2 and 3.
+ * @import import { VerdictCard } from "@/kit/components";
+ */
 export function VerdictCard({ pick, jumpLabel, variant = "feature", wide = false, stacked = false, attribution, className }: VerdictCardProps) {
   const offer = leadOffer(pick.product.offers);
   const competing = !!offer && pick.product.offers.some((o) => o.inStock && o.id !== offer.id);

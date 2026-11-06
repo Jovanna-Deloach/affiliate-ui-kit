@@ -7,6 +7,8 @@ import { NumberStepper } from "./number-stepper";
 
 const meta = {
   title: "Tier 0 · Shared Controls/NumberStepper",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: NumberStepper,
   parameters: { layout: "fullscreen" },
   args: { label: "Target price", defaultValue: 170, step: 5, min: 0, prefix: "$", width: "figure" },

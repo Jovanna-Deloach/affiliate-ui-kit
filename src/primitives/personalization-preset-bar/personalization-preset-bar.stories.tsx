@@ -8,6 +8,8 @@ import { PersonalizationPresetBar } from "./personalization-preset-bar";
 
 const meta = {
   title: "Tier 15 · Account & Personalization/PersonalizationPresetBar",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: PersonalizationPresetBar,
   parameters: { layout: "fullscreen" },
   args: { profile: profileKeto, defaultHighlight: true, editHref: "#account/profile" },

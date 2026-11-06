@@ -5,12 +5,24 @@ import type { Pick } from "@/kit/types";
 import { BuyPill, Eyebrow, JumpLink, Price } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
 
+export interface PickRowProps {
+  /** The pick: photograph, award, name, `bestFor` and its lowest in-stock offer. */
+  pick: Pick;
+  /** The jump to the pick’s deep dive: “Read the review”. */
+  jumpLabel: string;
+  /** Campaign attribution added to the buy link. */
+  attribution?: AffiliateAttribution;
+}
+
 /**
- * A pick as one catalogue entry: the photograph on a small studio well, the
- * award in micro-caps, the name in the display serif, who it is for, the
- * lowest price with a “Buy” pill to that retailer, and a jump to the review.
+ * A pick as one catalogue entry: a thumbnail, the award in the category
+ * accent, the name in the display serif, who it is for, the lowest price
+ * with a “Buy at {merchant}” pill, and a jump to the review.
+ *
+ * @summary One catalogue entry: thumbnail, award, name, best for, lowest price, jump to the review.
+ * @import import { PickRow } from "@/kit/blocks";
  */
-export function PickRow({ pick, jumpLabel, attribution }: { pick: Pick; jumpLabel: string; attribution?: AffiliateAttribution }) {
+export function PickRow({ pick, jumpLabel, attribution }: PickRowProps) {
   const offer = leadOffer(pick.product.offers);
   return (
     <div data-product-id={pick.product.id} className="grid grid-cols-[5rem_minmax(0,1fr)] items-start gap-4">
@@ -39,18 +51,32 @@ export function PickRow({ pick, jumpLabel, attribution }: { pick: Pick; jumpLabe
   );
 }
 
-/**
- * Picks as a catalogue of cards (the collector’s guide index): every piece
- * on the same card, in a grid that queries its own width.
- */
 export interface AlsoGreatRailProps {
+  /** Every piece in the guide, in the order to show them. */
   picks: Pick[];
+  /** The section’s heading, saying something: “Twelve watches worth owning”. */
   heading: string;
+  /** Each entry’s jump to its deep dive. Default “Read the review”. */
   jumpLabel?: string;
+  /** Campaign attribution added to every buy link. */
   attribution?: AffiliateAttribution;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
+/**
+ * Picks as a catalogue: every piece on the same card (`PickRow`), in a grid
+ * that queries its own width (one column, two from 42rem, three from
+ * 64rem), under a heading in the display serif.
+ *
+ * **Use it for** the index of a collector’s guide, where every piece is a
+ * peer, or picks beyond the verdict on a long guide. **Not for** a ranking
+ * (`QuickVerdictBento` and `ComparisonMatrix` say which is best) or a single
+ * pick.
+ *
+ * @summary A catalogue of every piece, one card each, in a self-sizing grid.
+ * @import import { AlsoGreatRail } from "@/kit/blocks";
+ */
 export function AlsoGreatRail({ picks, heading, jumpLabel = "Read the review", attribution, className }: AlsoGreatRailProps) {
   return (
     <section data-slot="also-great" aria-labelledby="also-great-heading" className={cn("@container", className)}>

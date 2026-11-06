@@ -7,6 +7,8 @@ import { AccountMenuPopover } from "./account-menu-popover";
 
 const meta = {
   title: "Tier 15 · Account & Personalization/AccountMenuPopover",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: AccountMenuPopover,
   parameters: { layout: "fullscreen" },
   args: { member, items: accountMenuItems, signOutAction: "#auth/sign-out", defaultOpen: false, align: "end" },

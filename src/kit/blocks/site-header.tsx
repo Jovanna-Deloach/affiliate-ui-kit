@@ -4,13 +4,28 @@ import { cn } from "@/lib/cn";
 import type { Category, SiteChrome } from "@/kit/types";
 import { Disclosure, DisclosureSummary } from "@/kit/ui";
 
+export interface SiteHeaderProps {
+  /** The publication’s chrome: its name and home link, and the sections in `nav` (each with an optional `category`). */
+  site: SiteChrome;
+  /** The page’s section: its nav item gets the 2px marker in the category colour and `aria-current="page"`. */
+  category?: Category;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
+  className?: string;
+}
+
 /**
- * The masthead. Wordmark, sections, search, sign in. The section the page
- * belongs to carries a 2px marker in the category colour, the only place
- * the masthead changes between a publication’s beats. On phones the
- * sections move into a native disclosure (no script) under the menu button.
+ * The masthead: wordmark, sections, search, sign in. The page’s section
+ * carries a 2px marker in the category colour, the only place the masthead
+ * changes between a publication’s beats. On phones the sections move into a
+ * native disclosure (no script) under the menu button.
+ *
+ * **Use it for** the top of every page, once. **Not for** in-page navigation
+ * (jump links) or a breadcrumb (`Breadcrumb`, in the article header).
+ *
+ * @summary The publication’s masthead: wordmark, sections with the current one marked, menu on phones.
+ * @import import { SiteHeader } from "@/kit/blocks";
  */
-export function SiteHeader({ site, category, className }: { site: SiteChrome; category?: Category; className?: string }) {
+export function SiteHeader({ site, category, className }: SiteHeaderProps) {
   return (
     <header className={cn("relative border-b border-line bg-ground", className)}>
       <div className="kit-well flex h-16 items-center gap-10">

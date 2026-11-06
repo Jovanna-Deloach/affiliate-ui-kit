@@ -27,12 +27,32 @@ import type { AffiliateAttribution } from "@/types/affiliate";
  * specifications.
  */
 export interface ProductDeepDiveCardProps {
+  /** The pick, in full: `descriptor`, `synthesis` (what we measured), `body`, `likes`, `caveats`, `quote`, `rating`, `scores`, `measurements`, `facts`, and the product with its offers and photograph. */
   pick: Pick;
+  /** The page that explains how the publication makes money, for the buy box’s inline disclosure. */
   disclosureHref: string;
+  /** Campaign attribution added to every buy link. */
   attribution?: AffiliateAttribution;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
+/**
+ * One pick reviewed in full, as one card with the same geometry for every
+ * pick: on five columns, the photograph with its award (and the lab’s badge
+ * for supplements) above the scorecard and telemetry, sticky; on seven, the
+ * descriptor, the name, what we measured in one sentence, the buy box, the
+ * narrative, what we like and what to know, and a tester’s quote; across the
+ * foot, the specifications drawer. Its id is `review-{slug}`, the target of
+ * every jump link. In a narrow container it becomes one reading order.
+ *
+ * **Use it for** each pick’s full review, in order, after the verdict and
+ * the comparison. **Not for** the quick verdict (`VerdictCard`) or a pick
+ * the page does not recommend (`DisqualifiedSubTable`).
+ *
+ * @summary One pick’s full review: photograph, score, buy box, narrative, pros and cons, quote, specs.
+ * @import import { ProductDeepDiveCard } from "@/kit/blocks";
+ */
 export function ProductDeepDiveCard({ pick, disclosureHref, attribution, className }: ProductDeepDiveCardProps) {
   const { product, measurements: m } = pick;
   const id = reviewId(pick);
@@ -43,7 +63,7 @@ export function ProductDeepDiveCard({ pick, disclosureHref, attribution, classNa
           <figure data-slot="media" className="@container order-1 m-0 @4xl:order-none">
             <PickMedia pick={pick} detail="full" sizes="(min-width: 1024px) 36vw, 100vw" className="@xl:aspect-[3/2]">
               <Award className="absolute top-4 left-4">{pick.award}</Award>
-              {m.kind === "assay" && <AssayBadge m={m} className="absolute bottom-4 left-4" />}
+              {m.kind === "assay" && <AssayBadge measurements={m} className="absolute bottom-4 left-4" />}
             </PickMedia>
           </figure>
           <Scorecard rating={pick.rating} scores={pick.scores} id={`${id}-score`} className="order-3 @4xl:order-none @4xl:border-t-0 @4xl:pt-0">

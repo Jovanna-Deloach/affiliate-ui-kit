@@ -2,20 +2,32 @@ import { cn } from "@/lib/cn";
 import type { RoundupGuide } from "@/kit/types";
 import { Eyebrow, JumpLink } from "@/kit/ui";
 
-/**
- * The testing summary card in the article header: what was tested, how
- * much, against what reference. A micro-caps label, the figures in the
- * display serif (hero figures), the reference sentence, and a link to the
- * full method further down the page.
- */
 export interface TestingTelemetryBadgeProps {
+  /** The figures (`stats`: a value set large and the label that completes it, three is the norm) and the `reference` sentence. */
   telemetry: RoundupGuide["telemetry"];
+  /** The card’s label. Default “How we tested”. */
   heading?: string;
+  /** The method section’s anchor. Default `#methodology`. */
   methodHref?: string;
+  /** The jump’s label. Default “Read the full method”. */
   methodLabel?: string;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
+/**
+ * The testing summary card: what was tested, how much, against what
+ * reference. A micro-caps label, the figures in the display serif, the
+ * reference sentence, and a jump to the full method further down the page.
+ *
+ * **Use it for** the article header (`EditorialArticleHeader` includes it)
+ * or the top of a lab page. **Not for** a product’s own results
+ * (`Scorecard`) or the method itself (`MethodologyAccordion`); its figures
+ * are not repeated there.
+ *
+ * @summary The testing summary card: how much was tested, against what, with a jump to the method.
+ * @import import { TestingTelemetryBadge } from "@/kit/blocks";
+ */
 export function TestingTelemetryBadge({ telemetry, heading = "How we tested", methodHref = "#methodology", methodLabel = "Read the full method", className }: TestingTelemetryBadgeProps) {
   return (
     <aside data-slot="testing-summary" aria-labelledby="testing-summary-heading" className={cn("@container kit-card p-6", className)}>

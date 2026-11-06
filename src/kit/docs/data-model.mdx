@@ -1,0 +1,294 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Kit/Guides/Data model" summary="The contract a page is filled from (RoundupGuide, SiteChrome, Pick, KitProduct, MerchantOffer…), with the rules for writing each field." />
+
+# Data model
+
+A page is two objects: a **`RoundupGuide`**, its content, and a **`SiteChrome`**, the publication it appears in. Every template takes both, so a guide can move between archetypes unchanged. Components and blocks take slices of the same contract: a `Pick`, a `KitProduct`, a list of `MerchantOffer`s. Fill the contract; do not invent markup to carry content the contract has no field for.
+
+Copy is **plain text**. The templates run `typesetDeep` (from `@/kit/lib/typeset`) over the guide, which ties numbers to units with no-break spaces, sets true quotes and apostrophes, en dashes in ranges, a true minus, × and …. Write `38 mm`, `"quoted"`, `95-110%`; the page shows them typeset. When you render blocks outside a template, typeset the guide yourself first.
+
+## Writing the content
+
+| Field | Where it appears | What it says |
+| --- | --- | --- |
+| `title` | The H1 | Says something: “The best everyday watches under $5,000”, not “Watches” |
+| `dek` | Under the title | One or two sentences: what was tested and the answer |
+| `pick.award` | Verdict cards, the photograph, table rows | The award, in sentence case: “Our pick”, “Budget pick”, “Upgrade pick”. Never a number |
+| `pick.verdict` | The feature verdict card, when the pick leads | **Why**, in two lines. Never a measurement |
+| `pick.bestFor` | Compact cards, the comparison’s “Best for”, catalogue cards | **Who** it is for, completing “Best for …”: “the office, the pool and a second time zone” |
+| `pick.synthesis` | The deep dive’s subhead | **What we measured**, in one sentence: “+1.6 s/day over 30 days of wrist and nightstand timing” |
+| `pick.descriptor` | Over the product name | What it is: “Automatic GMT, 40 mm steel” |
+| `pick.likes`, `pick.caveats` | What we like, what to know | Short, specific, checkable points. Either may be empty |
+| `pick.quote` | The pull-quote | A named tester’s words and the `proof` they earned them: “64 days on the wrist” |
+| `pick.rating.standing` | The scorecard | An honest standing, “1st of 14 tested”, never an invented percentile |
+| `compare.heading`, `methodology.heading` | Section headings | Say something: “The lab results”, “How we tested 14 watches” |
+| `notRecommended` | Under the comparison | What was tested and would not be bought, each with its `reason` in one line. Never linked |
+
+`verdict`, `bestFor` and `synthesis` must not restate each other, and no sentence over 40 characters may appear twice on a page. Every `Person` carries `beats`: the byline author and every quoted tester must cover the page’s `category`. Every `KitProduct` has an `image`: a background-free cut-out (transparent WebP or PNG) of that product alone; two products never share a photograph. `measurements.kind` must match the category: `timing` for watches, `assay` for supplements, `biomech` for running shoes.
+
+Pass every retailer’s offer, in any order: the kit ranks them (in stock by price, lowest first, sold out last) with `rankOffers` and leads with `leadOffer`, both from `@/kit/lib/offers`. `isPrimaryPartner` never changes the order.
+
+## The contract
+
+{/* contract:start (generated from src/kit/types.ts and src/types/affiliate.ts by `bun run docs:sync`; do not edit by hand) */}
+```ts
+// src/kit/types.ts: import from "@/kit/types"
+/**
+ * Page-level contracts for the kit. A template renders a page from one of
+ * these; agents generate pages by filling them, not by inventing markup.
+ * Copy is plain text: the kit typesets it (src/kit/lib/typeset.ts).
+ */
+
+/** A section of the publication. Drives the nav marker and --accent-category. */
+export type Category = "watches" | "supplements" | "running";
+
+export interface Person {
+  name: string;
+  role?: string;
+  avatar?: { src: string; alt: string };
+  href?: string;
+  /**
+   * The categories this person is qualified to byline or be quoted in.
+   * The audit fails a page whose author or tester lacks the page's category.
+   */
+  beats: Category[];
+}
+
+export interface Crumb {
+  label: string;
+  href: string;
+}
+
+export interface SiteChrome {
+  publication: { name: string; href: string; tagline?: string };
+  nav: { label: string; href: string; category?: Category }[];
+  footer: { heading: string; links: { label: string; href: string }[] }[];
+  /** Footer statement: who pays for what, in plain words. */
+  disclosure: string;
+  /** Article-header notice, shown in the byline before any buy link on the page. Different words from `disclosure`. */
+  disclosureNotice: string;
+  disclosureHref: string;
+  copyright: string;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Products                                                               */
+/* ---------------------------------------------------------------------- */
+
+export interface KitProduct {
+  id: string;
+  slug: string;
+  brand: string;
+  name: string;
+  offers: MerchantOffer[];
+  /** When prices were last checked (ISO). */
+  lastVerifiedAt?: string;
+  /**
+   * Studio photography: a background-free cut-out (transparent WebP or PNG),
+   * set on the theme’s studio well with a soft contact shadow. Required: a
+   * product is never stood in for by a drawing or a chart.
+   */
+  image: ProductImage;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Evidence                                                               */
+/* ---------------------------------------------------------------------- */
+
+/** A comparison column: what every pick is measured on. */
+export interface Metric {
+  key: string;
+  label: string;
+  /** Short explanation shown under the table. */
+  note?: string;
+  /** Shown as a pill on the condensed phone row (the first three are used when none is marked). */
+  compact?: boolean;
+}
+
+export interface MetricValue {
+  value: string;
+  status?: "pass" | "fail" | "caution";
+}
+
+/** The composite score: the focal point of a review. */
+export interface Rating {
+  /** Out of 10, one decimal. */
+  score: number;
+  /** “Exceptional”, “Lab verified”. */
+  tier: string;
+  /** Where it stands, in plain words: “1st of 14 tested”, “100.4% of claim”. */
+  standing: string;
+}
+
+/**
+ * What the lab or bench measured, set as telemetry rows in the review's
+ * scorecard (and, for supplements, the assay badge on the photograph).
+ * Photography shows the object; these show the numbers.
+ */
+export type Measurements =
+  | {
+      /** Watches: rate in six positions against chronometer tolerance. */
+      kind: "timing";
+      positions: { label: string; rate: number }[];
+      /** Tolerance band in s/day, e.g. [-4, 6]. */
+      tolerance: [number, number];
+      reference: string;
+    }
+  | {
+      /** Supplements: the certificate of analysis. */
+      kind: "assay";
+      batch: string;
+      assayedAt: string;
+      /** Each HPLC run as a share of the label claim (100.2 = 100.2%). */
+      runs: number[];
+      /** Minor peaks as a share of the main peak, in elution order. */
+      impurities: number[];
+      claim: { label: string; measured: number; low: number; high: number; unit: string };
+      metals: { label: string; ppb: number; limitPpb: number }[];
+      checks: { label: string; value: string; limit: string; status: "pass" | "caution" | "fail" }[];
+    }
+  | {
+      /** Running shoes: cushioning geometry and energy return against the test average. */
+      kind: "biomech";
+      heelMm: number;
+      forefootMm: number;
+      energyReturn: number;
+      energyAverage: number;
+      /** Rebound lost after 300 miles, percent (smaller is better). */
+      reboundLoss: number;
+      reboundAverage: number;
+      weightOz: number;
+      weightAverage: number;
+    };
+
+export interface Pick {
+  product: KitProduct;
+  /** The award, sentence case: “Our pick”, “Budget pick”. Never numbered. */
+  award: string;
+  /** What it is, for the card header: “Automatic GMT, 40 mm steel”. */
+  descriptor: string;
+  /** Who it is for, completing “Best for …”. Shown in compact verdict cards and rails. */
+  bestFor: string;
+  /** The hero verdict (two lines) when this pick leads the page. Never a measurement. */
+  verdict: string;
+  /**
+   * The deep-dive subhead: the measured result in one sentence
+   * (“+1.6 s/day over 30 days of wrist and nightstand timing”).
+   */
+  synthesis: string;
+  rating: Rating;
+  /** Sub-scores under the composite (five is the norm). */
+  scores: SubScoreItem[];
+  measurements: Measurements;
+  body: string[];
+  likes: string[];
+  caveats: string[];
+  /** Specifications, label and value. */
+  facts: { label: string; value: string }[];
+  metrics: Record<string, MetricValue>;
+  /** A tester’s words, and the proof they earned the right to say them (“160 miles logged”). */
+  quote: { text: string; person: Person; proof: string };
+}
+
+export interface NotRecommended {
+  name: string;
+  reason: string;
+  metrics: Record<string, MetricValue>;
+}
+
+export interface TestingStat {
+  /** "14" — a figure, set large. */
+  value: string;
+  /** "watches bought at retail" — completes the figure. */
+  label: string;
+}
+
+export interface MethodStep {
+  title: string;
+  body: string;
+}
+
+export interface RoundupGuide {
+  id: string;
+  category: Category;
+  crumbs: Crumb[];
+  title: string;
+  dek: string;
+  author: Person;
+  /** Completes "Tested with …": "two other reviewers". */
+  testedWith: string;
+  updatedAt: string;
+  /** The header's testing summary card. */
+  telemetry: { stats: TestingStat[]; reference: string };
+  metrics: Metric[];
+  picks: Pick[];
+  /** Jump-link label from the verdict to each deep dive: "Read the full review". */
+  jumpLabel: string;
+  /** Heading for the collector’s catalogue of every piece. */
+  railHeading?: string;
+  /** The comparison section: a heading that says something, and an optional intro. */
+  compare: { heading: string; intro?: string };
+  notRecommended?: NotRecommended[];
+  methodology: { heading: string; summary: string; steps: MethodStep[] };
+}
+
+// src/types/affiliate.ts: import from "@/types/affiliate"
+export interface MerchantOffer {
+  id: string;
+  merchantName: string;
+  merchantLogoUrl?: string;
+  price: number;
+  originalPrice?: number;
+  currency?: string;
+  affiliateUrl: string;
+  inStock: boolean;
+  promoCode?: string;
+  promoDescription?: string;
+  /** Short fulfilment note shown under the price, e.g. "Free 2-day shipping". */
+  shippingNote?: string;
+  isPrimaryPartner?: boolean;
+  isBestPrice?: boolean;
+}
+
+export interface ProductImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  /**
+   * Dominant background colour of the packshot (hex). When a frame letterboxes
+   * the image (`object-fit: contain`), the tile adopts this colour so the
+   * photo edge disappears — the SSENSE / Net-a-Porter studio-grey technique.
+   * Omit for true-white packshots.
+   */
+  backdrop?: string;
+}
+
+export interface SubScoreItem {
+  label: string;
+  score: number; // e.g. 9.4
+  maxScore?: number; // default 10
+  weight?: number;
+}
+
+/**
+ * Tracking context injected into every monetized outbound link.
+ * `subId` maps to the network's sub-tracking param (SubId / sid / u1 / clickref).
+ */
+export interface AffiliateAttribution {
+  /** Campaign source, e.g. "kit-editorial" */
+  source?: string;
+  /** Campaign medium, e.g. "affiliate" */
+  medium?: string;
+  /** Campaign name, usually the article slug */
+  campaign?: string;
+  /** Placement/content slot, e.g. "scorecard-cta" */
+  content?: string;
+  /** Network sub-tracking id (product id, position, variant…) */
+  subId?: string;
+  /** Query parameter name the network expects for subId (default "subId") */
+  subIdParam?: string;
+}
+```
+{/* contract:end */}

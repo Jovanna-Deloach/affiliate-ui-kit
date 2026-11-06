@@ -3,34 +3,20 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
 
-/**
- * A price, the one way the kit sets money: tabular, lining figures in the
- * text voice, at four sizes.
- *
- *   lg  1.5rem bold     the offer card, the lead verdict card
- *   md  18.75px, 600    compact verdict cards
- *   sm  15px, 600       tables and catalogue cards
- *   xs  14px            retailer rows
- *
- * `was` sets the list price struck through before the amount (only when it
- * is higher); `soldOut` strikes the amount itself. `note` is a caption on
- * its own line: the retailer, how far above the best price, a per-serving
- * figure. Alignment follows the surrounding text (`text-right` on the
- * parent or on `className`), so one component serves left-aligned cards and
- * right-aligned table columns. Screen readers hear “Was $26, now $21”.
- */
 export interface PriceProps {
   /** The amount, in major units (21 = $21). */
   amount: number;
-  /** ISO 4217 code. */
+  /** ISO 4217 code. Default `USD`. */
   currency?: string;
-  /** The list price before a discount; shown struck through, and only when higher than `amount`. */
+  /** The list price before a discount: shown struck through before the amount, and only when higher than `amount`. */
   was?: number;
-  /** The offer is sold out: the amount is struck through and muted. */
+  /** The offer is sold out: the amount itself is struck through and muted. */
   soldOut?: boolean;
+  /** `lg` the offer card and the lead verdict card · `md` compact cards (default) · `sm` tables and catalogue cards · `xs` retailer rows. */
   size?: "lg" | "md" | "sm" | "xs";
-  /** A caption under the amount: “at Northlane”, “+$10 vs. best”, “$0.21 a serving”. */
+  /** A caption on its own line under the amount: “at Northlane”, “+$10 vs. best”, “$0.21 a serving”. */
   note?: ReactNode;
+  /** Alignment follows the parent’s text alignment; pass `text-right` here for a right-aligned column. */
   className?: string;
 }
 
@@ -43,6 +29,29 @@ const AMOUNT = {
 
 const WAS = { lg: "t-small", md: "t-small", sm: "t-caption", xs: "t-caption" } as const;
 
+/**
+ * Money, set the one way the kit sets it: tabular, lining figures in the
+ * text voice. Every amount on a page is a `Price`.
+ *
+ * **Use it for** any amount: an offer card, a verdict card, a table cell, a
+ * catalogue card, a caption. **Not for** a link to buy: `BuyButton`,
+ * `BuyRow`, `BuyPill` and `BuyLink` are the links; `BuyRow` already sets its
+ * own price.
+ *
+ * | size | set in | where |
+ * | --- | --- | --- |
+ * | `lg` | 1.5rem, bold | the offer card, the lead verdict card |
+ * | `md` | 1.17rem, 600 | compact verdict cards |
+ * | `sm` | 15px, 600 | tables and catalogue cards |
+ * | `xs` | 14px | retailer rows |
+ *
+ * `was` strikes the list price before the amount; `soldOut` strikes the
+ * amount itself; `note` adds a caption line. Screen readers hear “Was $26,
+ * now $21”.
+ *
+ * @summary Every amount of money: four sizes, a struck list price, a caption line, sold out.
+ * @import import { Price } from "@/kit/ui";
+ */
 export function Price({ amount, currency = "USD", was, soldOut = false, size = "md", note, className }: PriceProps) {
   const listPrice = !soldOut && was !== undefined && was > amount ? was : undefined;
   const figure = formatPrice(amount, currency);

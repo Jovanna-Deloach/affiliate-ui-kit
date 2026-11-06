@@ -4,20 +4,31 @@ import { Eyebrow } from "@/kit/ui";
 
 import { MatrixColgroup, MetricCell, MetricPills, matrixCell, matrixEnd, matrixHead, matrixRow } from "./comparison-matrix";
 
-/**
- * Products we tested and would not buy, on the comparison’s own columns
- * (the colgroup is shared, so values line up under the picks), under a
- * toned band inside the comparison card. Nothing here is linked to a
- * retailer. `standalone` frames it as its own card.
- */
 export interface DisqualifiedSubTableProps {
+  /** Each product: its `name`, the `reason` in one line, and its `metrics` on the comparison’s keys. */
   items: NotRecommended[];
+  /** The comparison’s columns, so values line up under the picks. */
   metrics: Metric[];
+  /** The band’s label. Default “Tested and not recommended”. */
   heading?: string;
+  /** Frame it as its own card instead of a band inside the comparison. */
   standalone?: boolean;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
+/**
+ * Products we tested and would not buy, on the comparison’s own columns,
+ * under a toned band inside the comparison card. Each says why in one line.
+ * Nothing here links to a retailer.
+ *
+ * **Use it for** the honest end of a comparison: as the child of
+ * `ComparisonMatrix`, or `standalone` on a page without one. **Not for**
+ * picks (they belong in the matrix) or products that were not tested.
+ *
+ * @summary Products tested and not recommended, on the comparison’s columns, never linked.
+ * @import import { DisqualifiedSubTable } from "@/kit/blocks";
+ */
 export function DisqualifiedSubTable({ items, metrics, heading = "Tested and not recommended", standalone = false, className }: DisqualifiedSubTableProps) {
   if (items.length === 0) return null;
   return (

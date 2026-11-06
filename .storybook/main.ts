@@ -1,6 +1,7 @@
 import { createRequire } from "node:module";
 
 import type { StorybookConfig } from "@storybook/nextjs-vite";
+import remarkGfm from "remark-gfm";
 import { mergeConfig } from "vite";
 
 const require = createRequire(import.meta.url);
@@ -34,8 +35,27 @@ if (missing.length > 0) {
 }
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.stories.@(ts|tsx)"],
-  addons: ["@storybook/addon-docs", "@storybook/addon-a11y"],
+  // Guides (MDX) first, so "Start here" opens the kit; then every stories file.
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(ts|tsx)"],
+  addons: [
+    // GitHub-flavoured Markdown (tables) in the MDX guides.
+    { name: "@storybook/addon-docs", options: { mdxPluginOptions: { mdxCompileOptions: { remarkPlugins: [remarkGfm] } } } },
+    "@storybook/addon-a11y",
+    // Story tests in Chromium (vitest.config.ts): the MCP server's test-run tool.
+    "@storybook/addon-vitest",
+    // MCP server for AI agents at http://localhost:6006/mcp (docs/STORYBOOK.md).
+    "@storybook/addon-mcp",
+  ],
+  features: {
+    // The components and docs manifests the MCP docs tools read. Curate them
+    // with the `!manifest` tag: agents should see the kit, not the legacy library.
+    componentsManifest: true,
+    // Manifest props from the TypeScript language service. Unlike
+    // react-docgen-typescript, it keeps a component's JSDoc tags, so `@summary`
+    // (the one line agents see in the component list) and `@import` (the
+    // import line printed above every snippet) reach the manifest.
+    experimentalReactComponentMeta: true,
+  },
   framework: {
     name: "@storybook/nextjs-vite",
     options: {},

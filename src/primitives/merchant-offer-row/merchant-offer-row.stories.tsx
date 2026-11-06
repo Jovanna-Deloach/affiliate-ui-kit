@@ -18,6 +18,8 @@ const [bestOffer, partnerOffer, outOfStockOffer, plainOffer] = offers as [
 
 const meta = {
   title: "Tier 1 · Monetization/MerchantOfferRow",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: MerchantOfferRow,
   parameters: { layout: "fullscreen" },
   args: {

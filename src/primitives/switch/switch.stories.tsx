@@ -7,6 +7,8 @@ import { Switch } from "./switch";
 
 const meta = {
   title: "Tier 0 · Shared Controls/Switch",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: Switch,
   parameters: { layout: "fullscreen" },
   args: { label: "Highlight matches", defaultChecked: true, size: "md" },

@@ -4,44 +4,53 @@ import { assayGuide, versusGuide } from "@/fixtures/kit/archetypes";
 import { runningGuide } from "@/fixtures/kit/running";
 import { watchesGuide } from "@/fixtures/kit/watches";
 import { assertKitPage } from "@/kit/testing/page-checks";
-import { inNarrowColumn, inWell } from "@/kit/testing/stories";
 
 import { QuickVerdictBento } from "./quick-verdict-bento";
 
 const meta = {
   title: "Kit/Blocks/Quick verdict bento",
   component: QuickVerdictBento,
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },
   play: assertKitPage,
+  args: { picks: watchesGuide.picks, jumpLabel: watchesGuide.jumpLabel },
 } satisfies Meta<typeof QuickVerdictBento>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const FivePicks: Story = {
-  name: "Five picks (three cards), Atelier",
-  parameters: { theme: "atelier" },
-  decorators: [inWell()],
-  args: { picks: watchesGuide.picks, jumpLabel: watchesGuide.jumpLabel },
-};
+/**
+ * A roundup’s answer: the lead pick’s feature card beside two compact
+ * cards. Pass every pick; the bento shows three and the comparison carries
+ * the rest.
+ * @summary Three picks: the feature card beside two compact cards.
+ */
+export const ThreePicks: Story = {};
 
+/**
+ * A head-to-head: the two picks side by side, the compact card standing as
+ * tall as the feature card with its photograph on top.
+ * @summary Two picks, head to head.
+ */
 export const TwoPicks: Story = {
-  name: "Two picks (head to head)",
-  parameters: { theme: "atelier" },
-  decorators: [inWell()],
-  args: { picks: versusGuide.picks, jumpLabel: versusGuide.jumpLabel },
+  args: { picks: versusGuide.picks, jumpLabel: versusGuide.jumpLabel, heading: "The verdict" },
 };
 
+/**
+ * A single-product page: the feature card spans the width with a 4 : 3
+ * well.
+ * @summary One pick: the feature card spans the width (Assay).
+ */
 export const OnePick: Story = {
-  name: "One pick (lab assay), Assay",
-  parameters: { theme: "assay" },
-  decorators: [inWell("supplements")],
-  args: { picks: assayGuide.picks, jumpLabel: assayGuide.jumpLabel },
+  parameters: { theme: "assay", category: "supplements" },
+  args: { picks: assayGuide.picks, jumpLabel: assayGuide.jumpLabel, heading: "The verdict" },
 };
 
+/**
+ * In a narrow container the cards stack in order, the lead pick first.
+ * @summary The bento in a phone-width container.
+ */
 export const NarrowContainer: Story = {
-  name: "Running, narrow container",
-  parameters: { theme: "assay" },
-  decorators: [inNarrowColumn("running")],
+  parameters: { theme: "assay", category: "running", frame: "narrow" },
   args: { picks: runningGuide.picks, jumpLabel: runningGuide.jumpLabel },
 };

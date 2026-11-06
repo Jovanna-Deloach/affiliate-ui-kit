@@ -49,6 +49,8 @@ function AssayRow({ assay, defaultOpen = false }: { assay: LabAssay; defaultOpen
 
 const meta = {
   title: "Tier 4 · Comparison & Discovery/ProgressiveCollapse",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: ProgressiveCollapse,
   parameters: { layout: "fullscreen" },
   args: {

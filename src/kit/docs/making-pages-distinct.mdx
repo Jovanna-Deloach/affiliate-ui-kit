@@ -1,0 +1,38 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Kit/Guides/Making pages distinct" summary="How two pages built from the kit come out different without breaking its rules: the levers that exist (theme, category, archetype, sections, content), and what never to do." />
+
+# Making pages distinct
+
+A watch magazine and a supplement lab must not look like one template recoloured, and no two guides on one site should read as the same page with new nouns. The kit gets there with a small number of strong levers, applied together. It does not get there with per-page styling: every page meets the same quality floor because the look lives in the theme, not in the page.
+
+## The levers, strongest first
+
+1. **The theme is the publication.** `atelier` and `assay` differ in every role: faces, scale, palette, radii, elevation and density, not only colour. A new publication gets a new theme: a new `[data-theme]` block in `src/kit/theme/kit.css` that sets every role in Foundations, with its own display face, its own type scale and its own surfaces. Never a new component variant.
+2. **The category is the section.** Within one publication, `data-category` changes the wayfinding accent (the section marker, award text in tables, telemetry, stamps) and nothing else.
+3. **The archetype is the argument.** A ranking (`RoundupPage`), a decision between two (`VersusPage`), one product in depth (`LabAssayPage`) or a catalogue of peers (`CollectorsGuidePage`) are different pages, not one page with a different count.
+4. **The sections are the evidence.** What a page proves decides what it shows: a comparison only when picks share measurements; what failed (`DisqualifiedSubTable`) when the testing excluded products; a catalogue rail when the picks after the verdict are worth a second look; the method always.
+5. **The measurements are the product category.** `Telemetry` sets a watch’s timing, a supplement’s heavy metals or a shoe’s bench results under the score; the assay stamp appears only on lab-tested products.
+6. **The content is the page.** Headings that say something specific, a verdict, a “best for” and a synthesis that each say something different, real measurements, a named tester’s quote with its proof, and a photograph of every product. Two pages with the same blocks read differently when their words do.
+
+## Variants that exist
+
+Use these, and only these, to vary a part: they are documented on each component’s page.
+
+- `VerdictCard`: `feature` or `compact`; `wide` for a single-pick page; `stacked` beside a feature card. `QuickVerdictBento` picks them from the number of picks.
+- `SpecSheet`: `drawer` (a card footer) or `sheet` (always open).
+- `Badge`: `outline`, `solid`, `frosted`, `soft` in a tone. `Award`, `BestPrice` and `ResultMark` are badges with their wording decided.
+- `Price`: four sizes, a struck list price, a caption, sold out.
+- `Meter`: continuous, with a reference tick, or in segments, in five tones.
+- `Eyebrow`: three tones, two sizes, as a heading, in parts, with an icon.
+- `ProductImage` and `PickMedia`: the ratio and padding for each place.
+
+## Never
+
+- Recolour, resize or restyle a component with `className`: it places a part (margin, grid position, width), it does not change its look.
+- Add a colour, a font size, a shadow or a radius that is not a role.
+- Box everything: containers nest twice at most, and inside a deep dive the only box is the offer card.
+- Rank with numbers (“01 — Best overall”), or give the filled action to more than one thing in view.
+- Use stock lifestyle photography, a drawing or a chart in place of a product, or the same photograph for two products.
+- Write generic headings (“Our top picks”, “Comparison”, “Methodology”), copy typed in capitals, emoji, or a sentence that appears twice.
+- Hand-build a part the kit does not have yet (a sticky buy bar, a table of contents, a gallery, tabs, a tooltip, a drawer, form controls). Say the page needs it instead.

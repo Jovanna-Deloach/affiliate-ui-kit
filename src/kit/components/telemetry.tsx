@@ -5,24 +5,17 @@ import { cn } from "@/lib/cn";
 import type { Measurements } from "@/kit/types";
 import { badgeStyles, Eyebrow, Meter, Sep } from "@/kit/ui";
 
-/**
+/*
  * What the bench or the lab measured, as compact telemetry inside the
  * scorecard. Never a chart in place of the product: the photograph shows
- * the object, these rows show the numbers. One block per category:
- *
- *   timing   ChronometerStrip — the six positions as ticks on one line,
- *            over the tolerance band in the category accent, with a scale
- *   assay    MetalRows — heavy metals as a share of each limit (ppb)
- *   biomech  BenchRows — energy return, loss at 300 miles and weight
- *            against the test average (the tick on each meter)
- *
- * `Telemetry` picks the block for a pick’s measurements; `AssayBadge` is
- * the lab’s verdict, set on the photograph.
+ * the object, these rows show the numbers. One block per category; `Telemetry`
+ * picks it from a pick’s measurements. `AssayBadge` is the lab’s verdict,
+ * set on the photograph.
  */
 
-type Timing = Extract<Measurements, { kind: "timing" }>;
-type Assay = Extract<Measurements, { kind: "assay" }>;
-type Biomech = Extract<Measurements, { kind: "biomech" }>;
+export type Timing = Extract<Measurements, { kind: "timing" }>;
+export type Assay = Extract<Measurements, { kind: "assay" }>;
+export type Biomech = Extract<Measurements, { kind: "biomech" }>;
 const NB = " ";
 const signed = (v: number, digits = 1) => `${v > 0 ? "+" : v < 0 ? "−" : "±"}${Math.abs(v).toFixed(digits)}`;
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
@@ -39,8 +32,20 @@ function Block({ label, detail, aside, children }: { label: string; detail?: str
   );
 }
 
-/** Watches: rate in six positions on one line, over the chronometer tolerance band. */
-export function ChronometerStrip({ m }: { m: Timing }) {
+export interface ChronometerStripProps {
+  /** Timing measurements (`kind: "timing"`): the rate in each position and the tolerance band. */
+  measurements: Timing;
+}
+
+/**
+ * Watches: the rate in six positions as ticks on one line, over the
+ * chronometer tolerance band in the category accent, with a scale and the
+ * mean. A position outside the band is set in the warning tone and counted.
+ *
+ * @summary Watch timing: six positions over the chronometer band, with the mean.
+ * @import import { ChronometerStrip } from "@/kit/components";
+ */
+export function ChronometerStrip({ measurements: m }: ChronometerStripProps) {
   const lo = -6;
   const hi = 12;
   const at = (v: number) => `${((Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo)) * 100}%`;
@@ -104,8 +109,20 @@ function Row({ label, value, max, mark, tone, figure }: { label: string; value: 
 
 const rows = "m-0 mt-3 grid grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2.5";
 
-/** Supplements: heavy metals as a share of each limit (lower is better): warning from half the limit, fail above it. */
-export function MetalRows({ m }: { m: Assay }) {
+export interface MetalRowsProps {
+  /** Assay measurements (`kind: "assay"`): each metal in ppb against its limit. */
+  measurements: Assay;
+}
+
+/**
+ * Supplements: heavy metals as a share of each limit, lower is better. The
+ * bar turns to the warning tone from half the limit and to fail above it;
+ * the figure beside it prints the ppb and the limit.
+ *
+ * @summary Heavy metals in ppb, each as a share of its limit.
+ * @import import { MetalRows } from "@/kit/components";
+ */
+export function MetalRows({ measurements: m }: MetalRowsProps) {
   return (
     <Block label="Heavy metals" detail="ppb" aside={<p className="m-0 t-caption text-fg-muted">Bar: share of the limit</p>}>
       <dl className={rows}>
@@ -134,8 +151,20 @@ export function MetalRows({ m }: { m: Assay }) {
   );
 }
 
-/** Running shoes: bench results against the test average (the tick on each meter); muted when worse than average. */
-export function BenchRows({ m }: { m: Biomech }) {
+export interface BenchRowsProps {
+  /** Bench measurements (`kind: "biomech"`): energy return, rebound loss, weight and stack, with the test averages. */
+  measurements: Biomech;
+}
+
+/**
+ * Running shoes: energy return, loss at 300 miles and weight against the
+ * test average (the tick on each meter), muted when worse than average, then
+ * the stack and drop.
+ *
+ * @summary Running-shoe bench results against the test average.
+ * @import import { BenchRows } from "@/kit/components";
+ */
+export function BenchRows({ measurements: m }: BenchRowsProps) {
   const drop = m.heelMm - m.forefootMm;
   return (
     <Block label="Bench tests" detail="vs. test average">
@@ -179,20 +208,51 @@ export function BenchRows({ m }: { m: Biomech }) {
   );
 }
 
-/** The telemetry block for a pick’s measurements. */
-export function Telemetry({ measurements }: { measurements: Measurements }) {
-  if (measurements.kind === "timing") return <ChronometerStrip m={measurements} />;
-  if (measurements.kind === "assay") return <MetalRows m={measurements} />;
-  return <BenchRows m={measurements} />;
+export interface TelemetryProps {
+  /** A pick’s measurements; `kind` (`timing`, `assay`, `biomech`) picks the block. */
+  measurements: Measurements;
 }
 
 /**
- * The lab’s verdict, set on the photograph: a frosted badge,
- * “ISO 17025 · 100.4% label claim · Pass”. Place it inside a frame that is
- * a size container: below 24rem the accreditation is left to screen
- * readers, so the stamp stays on one line.
+ * What the bench or the lab measured, as compact rows inside a `Scorecard`:
+ * the right block for the measurements’ kind. Watches get the chronometer
+ * strip, supplements the heavy-metal rows, running shoes the bench rows.
+ *
+ * **Use it for** the numbers under a review’s score, as the scorecard’s
+ * children. **Not for** a chart in place of the product’s photograph, or a
+ * comparison across products (`ComparisonMatrix`).
+ *
+ * @summary The category’s measurements under a score: timing, heavy metals or bench results.
+ * @import import { Telemetry } from "@/kit/components";
  */
-export function AssayBadge({ m, className }: { m: Assay; className?: string }) {
+export function Telemetry({ measurements }: TelemetryProps) {
+  if (measurements.kind === "timing") return <ChronometerStrip measurements={measurements} />;
+  if (measurements.kind === "assay") return <MetalRows measurements={measurements} />;
+  return <BenchRows measurements={measurements} />;
+}
+
+export interface AssayBadgeProps {
+  /** Assay measurements (`kind: "assay"`): the runs give the label claim; checks, metals and claim give the verdict. */
+  measurements: Assay;
+  /** Position it on the photograph: `absolute bottom-4 left-4`. */
+  className?: string;
+}
+
+/**
+ * The lab’s verdict on the photograph: a frosted stamp, “ISO 17025 · 100.4%
+ * label claim · Pass”. It passes only when no check fails, every metal is
+ * within its limit and the claim is between 95% and 110%. Inside a frame
+ * under 24rem wide the accreditation is left to screen readers, so the stamp
+ * stays on one line.
+ *
+ * **Use it for** a lab-tested supplement’s review photograph, as an overlay
+ * of `PickMedia`. **Not for** products without an assay or for a result in a
+ * table (`ResultMark`).
+ *
+ * @summary The lab’s pass or fail stamp on a supplement’s photograph.
+ * @import import { AssayBadge } from "@/kit/components";
+ */
+export function AssayBadge({ measurements: m, className }: AssayBadgeProps) {
   const claim = mean(m.runs);
   const pass = m.checks.every((c) => c.status !== "fail") && m.metals.every((x) => x.ppb <= x.limitPpb) && claim >= 95 && claim <= 110;
   return (

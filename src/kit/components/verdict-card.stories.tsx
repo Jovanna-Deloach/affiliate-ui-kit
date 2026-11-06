@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
+import { soldOutPick } from "@/fixtures/kit/cases";
 import { creatineGuide } from "@/fixtures/kit/creatine";
-import { runningGuide } from "@/fixtures/kit/running";
 import { watchesGuide } from "@/fixtures/kit/watches";
 import { assertKitPage } from "@/kit/testing/page-checks";
-import { Specimen, State } from "@/kit/testing/specimen";
-import type { Pick } from "@/kit/types";
 
 import { VerdictCard } from "./verdict-card";
 
@@ -13,74 +11,65 @@ const meta = {
   title: "Kit/Components/Verdict card",
   component: VerdictCard,
   tags: ["autodocs"],
-  parameters: { layout: "fullscreen", kit: true },
+  parameters: { layout: "fullscreen", kit: true, frame: "column" },
   play: assertKitPage,
+  args: { pick: watchesGuide.picks[0]!, jumpLabel: "Read the full review" },
 } satisfies Meta<typeof VerdictCard>;
 
 export default meta;
-/** Specimen pages render every state themselves, so stories take no args. */
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
-const DESCRIPTION = "A pick answered above the fold. Feature: the lead pick, on a lifted surface with the page’s one filled button. Compact: who it is for, outlined.";
+/**
+ * The lead pick above the fold: why it wins, in two lines, its price and
+ * the page’s one filled button, beside its photograph.
+ * @summary The feature card for the page’s lead pick, with the one filled button.
+ */
+export const Feature: Story = {};
 
-const soldOut = (pick: Pick): Pick => ({ ...pick, product: { ...pick.product, offers: pick.product.offers.map((o) => ({ ...o, inStock: false })) } });
-
-export const Atelier: Story = {
-  parameters: { theme: "atelier" },
-  render: () => {
-    const [meridian, ardent, sato, okada, brennan] = watchesGuide.picks;
-    const jump = watchesGuide.jumpLabel;
-    return (
-      <Specimen kind="Component" title="Verdict card" description={DESCRIPTION}>
-        <State label="Feature, beside two compact cards" wide>
-          <div className="@container">
-            <VerdictCard pick={meridian!} jumpLabel={jump} className="@4xl:max-w-[44rem]" />
-          </div>
-        </State>
-        <State label="Compact">
-          <VerdictCard variant="compact" pick={ardent!} jumpLabel={jump} />
-        </State>
-        <State label="Compact, photograph on top">
-          <VerdictCard variant="compact" pick={sato!} jumpLabel={jump} stacked />
-        </State>
-        <State label="Feature, wide (a single-pick page)" wide>
-          <VerdictCard pick={okada!} jumpLabel={jump} wide />
-        </State>
-        <State label="Sold out everywhere">
-          <VerdictCard variant="compact" pick={soldOut(brennan!)} jumpLabel={jump} />
-        </State>
-        <State label="Compact on a phone" className="max-w-sm">
-          <VerdictCard variant="compact" pick={okada!} jumpLabel={jump} />
-        </State>
-      </Specimen>
-    );
-  },
+/**
+ * Picks two and three: who each is for, its price and an outlined button,
+ * so the lead pick keeps the only filled action.
+ * @summary A compact card for picks 2 and 3: who it is for, price, outlined button.
+ */
+export const Compact: Story = {
+  args: { pick: watchesGuide.picks[1]!, variant: "compact" },
 };
 
-export const Assay: Story = {
-  parameters: { theme: "assay" },
-  render: () => {
-    const [aerolite, tempo, cumulus] = runningGuide.picks;
-    const jump = runningGuide.jumpLabel;
-    return (
-      <Specimen kind="Component" title="Verdict card" description={DESCRIPTION} category="running">
-        <State label="Feature, discounted (list price struck)" wide>
-          <div className="@container">
-            <VerdictCard pick={aerolite!} jumpLabel={jump} className="@4xl:max-w-[44rem]" />
-          </div>
-        </State>
-        <State label="Compact">
-          <VerdictCard variant="compact" pick={tempo!} jumpLabel={jump} />
-        </State>
-        <State label="Compact, discounted">
-          <VerdictCard variant="compact" pick={cumulus!} jumpLabel={jump} />
-        </State>
-        <State label="Supplements, feature, wide" wide>
-          <div data-category="supplements">
-            <VerdictCard pick={creatineGuide.picks[0]!} jumpLabel={creatineGuide.jumpLabel} wide />
-          </div>
-        </State>
-      </Specimen>
-    );
-  },
+/**
+ * A single-pick page: the feature card spans the width with a 4 : 3 well,
+ * so the photograph is not left small in a wide card.
+ * @summary The feature card spanning a single-pick page.
+ */
+export const Wide: Story = {
+  parameters: { theme: "assay", category: "supplements", frame: "well" },
+  args: { pick: creatineGuide.picks[0]!, wide: true },
+};
+
+/**
+ * One compact card beside the feature card stands as tall as it, with the
+ * photograph on top.
+ * @summary A compact card with its photograph on top, beside a feature card.
+ */
+export const Stacked: Story = {
+  parameters: { frame: "narrow" },
+  args: { pick: watchesGuide.picks[3]!, variant: "compact", stacked: true },
+};
+
+/**
+ * On a phone the compact card keeps its photograph beside the name and
+ * gives the price and the button the full width beneath.
+ * @summary A compact card in a phone-width container.
+ */
+export const CompactOnAPhone: Story = {
+  parameters: { frame: "narrow" },
+  args: { pick: watchesGuide.picks[4]!, variant: "compact" },
+};
+
+/**
+ * A pick that every retailer has sold out: the price line says so and the
+ * button goes; the jump to the review stays.
+ * @summary A pick sold out everywhere: no price, no button.
+ */
+export const SoldOut: Story = {
+  args: { pick: soldOutPick, variant: "compact" },
 };

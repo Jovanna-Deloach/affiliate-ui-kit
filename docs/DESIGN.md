@@ -3,7 +3,10 @@
 This document is the source of truth for how pages built from this kit look
 and why. It is written for people **and** for agents: an agent generating a
 page should read it before composing anything, and copy a composition from
-`src/kit/templates`, not assemble parts by hand.
+`src/kit/templates`, not assemble parts by hand. Agents read the same rules,
+condensed, through Storybook’s MCP server: the guides under **Kit / Guides**
+and each component’s documentation ([`AGENTS.md`](../AGENTS.md),
+[`docs/STORYBOOK.md`](STORYBOOK.md)).
 
 ## The brief
 
@@ -41,10 +44,12 @@ order (Kit / Primitives → Components → Blocks → Templates).
 
 A block never re-draws something a component or primitive already draws: a
 price is always `Price`, a bar is always `Meter`, a show/hide is always
-`Disclosure`, a micro-caps label is always `Eyebrow`. Every primitive and
-component has its own Storybook page with every state — discounted, sold
-out, one retailer, a failed result, long names, missing data — in both
-themes and in a narrow column, plus a generated Docs page with its props.
+`Disclosure`, a micro-caps label is always `Eyebrow`. Every part has a
+Storybook page with one story per use case, each saying why you would use
+it, and a Docs page with its props; that is what agents read. Every
+primitive and component also has a specimen sheet (**Kit / Specimen
+sheets**) with every state — discounted, sold out, one retailer, a failed
+result, long names, missing data — in both themes and in a narrow column.
 
 ## Foundation (shared by every theme)
 
@@ -426,6 +431,9 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | `bun run audit:kit` (in `bun run check`) | **source:** type only through the voice utilities, elevation only through the theme shadows, colour only through roles, spacing on the scale, icons not arrow glyphs, `<Sep />` not typed dots, no bottom alignment; **contracts:** provenance, a photograph for every pick, awards in words, sub-scores, a proof for every quote, measurements that match the category, a verdict that does not restate the synthesis; **rendered pages:** every archetype server-rendered and checked for repeated text, typesetting, copy typed in capitals, numbered eyebrows, merchant order, disclosure placement, deep-dive structure and story order, an award, a photograph and a composite score in every deep dive, self-reference and shared photographs; then a self-test that feeds each rule a page that breaks it |
 | Story `play()` (`src/kit/testing/page-checks.ts`) | on every kit story — each primitive and component page as well as the blocks and templates — in the browser, at every width: deep-dive columns start within 4px, no gap over 150px, the sticky rail at most 150px longer than the story, primary/secondary/row CTAs ≥ 44px, tabular numerals computed on every numeric cell, merchant order, one photograph per product, no repeated text, and axe-core WCAG 2.0/2.1/2.2 A + AA with zero violations |
 | `node scripts/verify-stories.mjs --build --widths 375,1440` | runs every story at both widths and fails on play() errors, console errors, failed requests, layout shift and horizontal overflow |
+| `bun run test:stories` (Vitest, `@storybook/addon-vitest`) | runs every story’s play() in Chromium; the Storybook MCP server runs the same tests for agents (`test-run`), and a failure lists every problem |
+| `bun run docs:check` (in `bun run check`) | the Data model guide matches `src/kit/types.ts` |
+| `bun run build-storybook && bun run audit:manifest` | what agents read is complete: only kit components, each with a summary, a “Not for”, a resolving import line, documented props and summarised stories; only kit guides, each with a summary |
 
 ## What exists today
 
@@ -433,7 +441,8 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | --- | --- |
 | Theme | `src/kit/theme/kit.css` — foundation, the three voices, Atelier, Assay, categories, Tailwind bridge, surface and studio utilities |
 | Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst` |
-| Story kit | `src/kit/testing` — `Specimen` and `State` (the layout of every primitive and component page), the page checks |
+| Story kit | `src/kit/testing` — the story frame (`theme`, `category` and `frame` parameters), `Specimen` and `State` for the specimen sheets, the page checks; `src/fixtures/kit/cases.ts` for edge cases |
+| Guides | `src/kit/docs` — Start here, Foundations, Data model (generated contract), Composing pages, Making pages distinct, Writing stories |
 | Primitives | `src/kit/ui` — Price, Meter, Disclosure, Eyebrow, Breadcrumb, Badge, Award, BestPrice, ResultMark, Button, BuyButton / BuyPill / BuyRow / BuyLink, JumpLink, ProductImage, Avatar, Monogram, Sep |
 | Components | `src/kit/components` — BuyBlock, OfferCard, RetailerList, VerdictCard, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, ProsCons, PullQuote, SpecSheet, PickMedia |
 | Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalogue) |

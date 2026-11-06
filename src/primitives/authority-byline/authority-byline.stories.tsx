@@ -19,6 +19,8 @@ const NAMES = { "inline-header": "Inline header", "dossier-box": "Dossier box", 
 
 const meta = {
   title: "Tier 2 · Evaluation & E-E-A-T/AuthorityByline",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: AuthorityByline,
   parameters: { layout: "fullscreen" },
   args: {

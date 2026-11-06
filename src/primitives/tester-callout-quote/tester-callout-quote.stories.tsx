@@ -11,6 +11,8 @@ const [marchetti, whitfield] = testerQuotes as [(typeof testerQuotes)[number], (
 
 const meta = {
   title: "Tier 6 · Editorial & Visual Proof/TesterCalloutQuote",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: TesterCalloutQuote,
   parameters: { layout: "fullscreen" },
   args: { quote: marchetti.quote, tester: marchetti.tester, metric: marchetti.metric, tone: "recessed", size: "md" },

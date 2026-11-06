@@ -13,6 +13,8 @@ const TONE_COPY = { positive: "In stock", caution: "Low stock", negative: "Out o
 
 const meta = {
   title: "Tier 2 · Evaluation & E-E-A-T/StatusPill",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: StatusPill,
   parameters: { layout: "fullscreen" },
   args: { children: "Best price", kind: "status", tone: "positive", size: "md" },

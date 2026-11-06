@@ -13,6 +13,8 @@ const attribution = { source: "kit", medium: "affiliate", campaign: "site-nav" }
 
 const meta = {
   title: "Tier 11 · Navigation & Site Chrome/MegaMenuEditorialPanel",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: MegaMenuEditorialPanel,
   parameters: { layout: "fullscreen" },
   args: { vertical: navRunning, attribution, placement: "mega-menu" },

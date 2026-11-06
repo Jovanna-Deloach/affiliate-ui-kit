@@ -28,11 +28,30 @@ import type { AffiliateAttribution } from "@/types/affiliate";
  * headings (docs/DESIGN.md).
  */
 export interface RoundupPageProps {
+  /** The publication: masthead, footer, and the two disclosures (the byline notice and the footer statement). */
   site: SiteChrome;
+  /** The whole page’s content: the `RoundupGuide` contract. Plain text; the template typesets it. */
   guide: RoundupGuide;
+  /** Campaign attribution added to every buy link: `{ source, medium: "affiliate", campaign: guide.id }`. */
   attribution?: AffiliateAttribution;
 }
 
+/**
+ * A roundup, “The best X”: the kit’s reference composition. Masthead; the
+ * article header with the disclosure notice and the testing card; the quick
+ * verdict (up to three picks); the comparison with what failed; one deep
+ * dive per pick, in order; the method; the footer. The template sets the
+ * page’s `data-category` and typesets the copy.
+ *
+ * **Use it for** a guide that ranks three or more products tested on the
+ * same measurements. **Not for** two products (`VersusPage`), one product
+ * (`LabAssayPage`) or a catalogue of peers with no ranking
+ * (`CollectorsGuidePage`). To make a different page, compose the blocks the
+ * same way rather than wrapping them in new cards.
+ *
+ * @summary The roundup page (“The best X”): verdict, comparison, a deep dive per pick, method.
+ * @import import { RoundupPage } from "@/kit/templates";
+ */
 export function RoundupPage({ site, guide: input, attribution }: RoundupPageProps) {
   const guide = typesetDeep(input);
   return (

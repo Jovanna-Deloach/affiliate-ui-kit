@@ -30,6 +30,8 @@ function OffersBody() {
 
 const meta = {
   title: "Tier 5 · Conversion & Tools/ResponsiveSheet",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: ResponsiveSheet,
   parameters: { layout: "fullscreen" },
   args: {

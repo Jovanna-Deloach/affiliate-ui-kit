@@ -2,20 +2,28 @@ import { cn } from "@/lib/cn";
 import type { RoundupGuide } from "@/kit/types";
 import { Disclosure, DisclosureIcon, DisclosureSummary, Eyebrow } from "@/kit/ui";
 
-/**
- * How the testing was done, as an elevated card on the ground. Heading and
- * summary on the left; the protocol as native disclosures on the right
- * (no script; collapsed steps stay in the document for search engines).
- * The figures live in the header’s testing card, so they are not repeated
- * here. Step numbers are editorial index numerals in the mono voice: the
- * protocol is a sequence.
- */
 export interface MethodologyAccordionProps {
+  /** The method: a `heading` that says something, a `summary`, and the `steps` in order (title and body). */
   methodology: RoundupGuide["methodology"];
+  /** The section’s anchor, the target of the testing card’s jump. Default `methodology`. */
   id?: string;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
+/**
+ * How the testing was done, as a card: the heading and summary on the left,
+ * the protocol as numbered native disclosures on the right, the first one
+ * open (no script; closed steps stay in the page for search engines). The
+ * figures live in the header’s testing card, so they are not repeated here.
+ *
+ * **Use it for** the method section near the end of every review page.
+ * **Not for** the testing summary (`TestingTelemetryBadge`) or a list of
+ * questions and answers about products.
+ *
+ * @summary How the testing was done: heading, summary and numbered steps that open on demand.
+ * @import import { MethodologyAccordion } from "@/kit/blocks";
+ */
 export function MethodologyAccordion({ methodology, id = "methodology", className }: MethodologyAccordionProps) {
   return (
     <section id={id} data-slot="methodology" aria-labelledby={`${id}-heading`} className={cn("kit-well scroll-mt-8", className)}>

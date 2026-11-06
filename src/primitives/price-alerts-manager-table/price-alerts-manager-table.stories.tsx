@@ -7,6 +7,8 @@ import { PriceAlertsManagerTable } from "./price-alerts-manager-table";
 
 const meta = {
   title: "Tier 15 · Account & Personalization/PriceAlertsManagerTable",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: PriceAlertsManagerTable,
   parameters: { layout: "fullscreen" },
   args: { defaultAlerts: priceAlerts, step: 5 },

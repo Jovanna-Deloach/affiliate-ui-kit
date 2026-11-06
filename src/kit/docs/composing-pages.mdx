@@ -1,0 +1,99 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Kit/Guides/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, and where each commerce rule lives." />
+
+# Composing pages
+
+A page is a sequence of **blocks** in the page well, separated by the theme’s section gap. The templates in `@/kit/templates` are the reference compositions: start from the one that fits, and when a page needs a different order, compose the blocks the same way. Blocks are sized by container queries, so each one fits the column it is put in.
+
+## The archetypes
+
+Every archetype takes the same `SiteChrome` and `RoundupGuide`, so content moves between them unchanged.
+
+| Template | Use it for | Sections, in order |
+| --- | --- | --- |
+| `RoundupPage` | “The best X”: three or more products ranked on the same measurements | Masthead · article header · quick verdict (up to three picks) · comparison, with what failed · a deep dive per pick · method · footer |
+| `VersusPage` | “X vs. Y”: a decision between two products | Masthead · article header · two verdict cards side by side · a two-row comparison · both deep dives · method · footer |
+| `LabAssayPage` | One product tested in depth, such as a lab assay | Masthead · article header · one verdict card across the width · the full review · method · footer |
+| `CollectorsGuidePage` | A curated set of peers, not ranked | Masthead · article header · a catalogue of every piece · each piece in full · method · footer |
+
+The answer comes first (the quick verdict), the proof follows (comparison, deep dives), and the method closes. The verdict and the deep dive never repeat each other: the verdict card says why or who, the deep dive what was measured.
+
+## The page skeleton
+
+This is the roundup template, written out. Blocks marked “own well” render their own page well; wrap the others in `kit-well`.
+
+```tsx
+import {
+  ComparisonMatrix,
+  DisqualifiedSubTable,
+  EditorialArticleHeader, // own well
+  MethodologyAccordion, // own well
+  ProductDeepDiveCard,
+  QuickVerdictBento,
+  SiteFooter, // own well
+  SiteHeader, // own well
+} from "@/kit/blocks";
+import { typesetDeep } from "@/kit/lib/typeset";
+import type { RoundupGuide, SiteChrome } from "@/kit/types";
+
+export function Page({ site, guide: input }: { site: SiteChrome; guide: RoundupGuide }) {
+  const guide = typesetDeep(input);
+  const attribution = { source: "caliber", medium: "affiliate", campaign: guide.id };
+  return (
+    // data-theme sits on an ancestor (in the app, on <html>); data-category comes from the guide.
+    <div data-category={guide.category} className="min-h-dvh bg-ground text-fg">
+      <SiteHeader site={site} category={guide.category} />
+      <main>
+        <EditorialArticleHeader guide={guide} notice={{ text: site.disclosureNotice, href: site.disclosureHref }} />
+        <div className="kit-well mt-12 md:mt-16">
+          <QuickVerdictBento picks={guide.picks} jumpLabel={guide.jumpLabel} attribution={attribution} />
+        </div>
+        <div className="kit-well mt-chapter">
+          <ComparisonMatrix heading={guide.compare.heading} intro={guide.compare.intro} metrics={guide.metrics} picks={guide.picks} attribution={attribution}>
+            {guide.notRecommended && <DisqualifiedSubTable items={guide.notRecommended} metrics={guide.metrics} />}
+          </ComparisonMatrix>
+        </div>
+        <div className="kit-well mt-chapter flex flex-col gap-10">
+          {guide.picks.map((pick) => (
+            <ProductDeepDiveCard key={pick.product.id} pick={pick} disclosureHref={site.disclosureHref} attribution={attribution} />
+          ))}
+        </div>
+        <MethodologyAccordion methodology={guide.methodology} className="mt-chapter" />
+      </main>
+      <SiteFooter site={site} />
+    </div>
+  );
+}
+```
+
+**Spacing between sections**: the first band after the article header takes `mt-12 md:mt-16`; every later section takes `mt-chapter`; stacked deep dives take `gap-10`. Inside blocks, spacing is the blocks’ own: do not add margins inside them.
+
+**Do not** wrap a block in another card, put a label above a heading, add a background band behind a section, or put two blocks side by side that are designed to span the well (the article header, the verdict, the comparison, a deep dive, the method).
+
+## Where each rule lives
+
+| Rule | Where it is kept |
+| --- | --- |
+| The disclosure notice comes before the first buy link | `EditorialArticleHeader` sets the notice in the byline; keep the header first in `<main>` |
+| “We may earn a commission.” under every buy box | `BuyBlock` adds it; never render an `OfferCard` without the buy box around it on a page |
+| The full disclosure statement | `SiteFooter`, from `site.disclosure` |
+| Lowest price first, sold out last | `BuyBlock`, `VerdictCard`, `ComparisonMatrix` and `PickRow` rank offers themselves; pass all of them |
+| One filled button in view | The feature `VerdictCard` and the comparison’s first row carry it; every other card is outlined. Keep the lead pick first in `picks` |
+| One buy box per product | Each `ProductDeepDiveCard` has one; do not add another for the same product |
+| Jump links reach their review | A deep dive’s id is `review-{slug}` (`reviewId(pick)` from `@/kit/components`); verdict cards and catalogue entries link to it |
+| The method is linked from the testing card | `MethodologyAccordion`’s id defaults to `methodology`, the testing card’s default target |
+
+## Composing beyond the templates
+
+Blocks are container-driven, so the same blocks recompose into new archetypes: a long guide can follow its verdict with `AlsoGreatRail` for the remaining picks; a page with no ranking can drop the comparison; a lab page can show `DisqualifiedSubTable` with `standalone` when there is no comparison. Keep the order answer, proof, method; keep the header first and the footer last.
+
+Helpers for custom compositions:
+
+- `typesetDeep(guide)` from `@/kit/lib/typeset`: typeset every string in a guide (idempotent).
+- `rankOffers(offers)` and `leadOffer(offers)` from `@/kit/lib/offers`: the kit’s merchant order, and the offer a product leads with.
+- `pickName(pick)` and `reviewId(pick)` from `@/kit/components`: “Brand Model”, and the deep dive’s id.
+
+## In the app
+
+Kit components are React Server Components; the buy links are the only client leaves (they track clicks). In a Next.js page, set the theme on `<html data-theme="…">`, load the theme’s three faces with `next/font`, and render the template or your composition from a Server Component.

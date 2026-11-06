@@ -14,6 +14,8 @@ const SORTS = [
 
 const meta = {
   title: "Tier 0 · Shared Controls/Select",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: Select,
   parameters: { layout: "fullscreen" },
   args: { options: SORTS, defaultValue: "score", label: "Sort products", prefix: "Sort", size: "md", width: "auto" },

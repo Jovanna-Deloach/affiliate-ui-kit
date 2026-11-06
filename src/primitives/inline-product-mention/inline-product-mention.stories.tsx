@@ -9,6 +9,8 @@ import { InlineProductMention } from "./inline-product-mention";
 
 const meta = {
   title: "Tier 6 · Editorial & Visual Proof/InlineProductMention",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: InlineProductMention,
   parameters: { layout: "fullscreen" },
   args: { product: productShoe01, variant: "block", ctaLabel: "View", placement: "story" },

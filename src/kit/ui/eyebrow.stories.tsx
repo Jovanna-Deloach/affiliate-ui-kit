@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { BadgeCheck, FlaskConical } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 
 import { assertKitPage } from "@/kit/testing/page-checks";
-import { Specimen, State } from "@/kit/testing/specimen";
 
-import { Breadcrumb, Eyebrow } from "./eyebrow";
+import { Eyebrow } from "./eyebrow";
 
 const meta = {
-  title: "Kit/Primitives/Eyebrow and breadcrumb",
+  title: "Kit/Primitives/Eyebrow",
   component: Eyebrow,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },
@@ -15,84 +14,55 @@ const meta = {
 } satisfies Meta<typeof Eyebrow>;
 
 export default meta;
-/** Specimen pages render every state themselves, so stories take no args. */
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
-const DESCRIPTION = "The micro-caps voice as a component: labels, descriptors, stamps and data headings, written in sentence case with the capitals set by CSS.";
-
-export const Atelier: Story = {
-  parameters: { theme: "atelier" },
-  render: () => (
-    <Specimen kind="Primitive" title="Eyebrow and breadcrumb" description={DESCRIPTION}>
-      <State label="Breadcrumb">
-        <Breadcrumb
-          items={[
-            { label: "Watches", href: "#watches" },
-            { label: "Buying guides", href: "#guides" },
-          ]}
-        />
-      </State>
-      <State label="Descriptor">
-        <Eyebrow>Automatic GMT, 40 mm steel</Eyebrow>
-      </State>
-      <State label="Verification stamp">
-        <Eyebrow tone="default" icon={<BadgeCheck size={14} strokeWidth={2} className="text-pass" />}>
-          Updated <time dateTime="2026-10-28">October 28, 2026</time>
-        </Eyebrow>
-      </State>
-      <State label="Parts joined by a dot">
-        <Eyebrow items={["Chronometer", "6 positions"]} />
-      </State>
-      <State label="Tones">
-        <div className="flex flex-col gap-2">
-          <Eyebrow>Muted, the default</Eyebrow>
-          <Eyebrow tone="default">Ink</Eyebrow>
-          <Eyebrow tone="category">Category accent</Eyebrow>
-        </div>
-      </State>
-      <State label="Sizes">
-        <div className="flex flex-col gap-2">
-          <Eyebrow>Medium, 11 px</Eyebrow>
-          <Eyebrow size="sm">Small, 10 px</Eyebrow>
-        </div>
-      </State>
-    </Specimen>
-  ),
+/**
+ * What a product is, over its name: the descriptor that opens a deep dive.
+ * Written in sentence case; the capitals are CSS.
+ * @summary A descriptor over a product name, in muted micro-caps.
+ */
+export const Descriptor: Story = {
+  args: { children: "Automatic GMT, 40 mm steel" },
 };
 
-export const Assay: Story = {
-  name: "Assay, running",
-  parameters: { theme: "assay" },
-  render: () => (
-    <Specimen kind="Primitive" title="Eyebrow and breadcrumb" description={DESCRIPTION} category="running">
-      <State label="Breadcrumb">
-        <Breadcrumb
-          items={[
-            { label: "Running", href: "#running" },
-            { label: "Shoe reviews", href: "#shoes" },
-            { label: "Daily trainers", href: "#daily" },
-          ]}
-        />
-      </State>
-      <State label="Stamp with a category icon">
-        <Eyebrow tone="default" icon={<FlaskConical size={14} strokeWidth={2} className="text-accent-category-ink" />}>
-          Bench tested <time dateTime="2026-10-30">October 30, 2026</time>
-        </Eyebrow>
-      </State>
-      <State label="Category tone">
-        <Eyebrow tone="category">Best for fast days</Eyebrow>
-      </State>
-      <State label="Long breadcrumb in a narrow column">
-        <div className="max-w-56">
-          <Breadcrumb
-            items={[
-              { label: "Running", href: "#running-2" },
-              { label: "Shoe reviews", href: "#shoes-2" },
-              { label: "Recovery and long runs", href: "#recovery" },
-            ]}
-          />
-        </div>
-      </State>
-    </Specimen>
-  ),
+/**
+ * A data heading with its unit, the parts joined by the decorative dot:
+ * screen readers hear one phrase, “Heavy metals ppb”.
+ * @summary A label in parts (“Heavy metals · ppb”), joined by the decorative dot.
+ */
+export const InParts: Story = {
+  args: { items: ["Heavy metals", "ppb"] },
+};
+
+/**
+ * A verification stamp: a leading icon and a date, in ink. It vouches for
+ * the page, so it sits in the byline.
+ * @summary A verification stamp with a leading icon.
+ */
+export const Stamp: Story = {
+  args: {
+    as: "span",
+    tone: "default",
+    icon: <BadgeCheck size={14} strokeWidth={2} className="text-pass" />,
+    children: "Updated October 28, 2026",
+  },
+};
+
+/**
+ * A section label that is a real heading for assistive technology (`as`),
+ * set in micro-caps because the section is a list, not an argument.
+ * @summary A micro-caps section heading (as h3), for lists such as pros and cons.
+ */
+export const AsHeading: Story = {
+  args: { as: "h3", children: "What we like" },
+};
+
+/**
+ * The award in a table row or a catalogue card, in the section’s accent:
+ * the place a category colour appears in running text.
+ * @summary An award as text in the category accent (tables, catalogue cards).
+ */
+export const CategoryAward: Story = {
+  parameters: { theme: "assay", category: "running" },
+  args: { as: "span", size: "sm", tone: "category", children: "Our pick" },
 };

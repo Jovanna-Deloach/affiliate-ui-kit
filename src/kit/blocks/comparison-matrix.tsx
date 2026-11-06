@@ -8,14 +8,9 @@ import type { Metric, MetricValue, Pick } from "@/kit/types";
 import { BuyPill, Eyebrow, Price, ResultMark } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
 
-/**
- * Every pick on the same columns, as a decision tool: an elevated card with
- * micro-caps column heads on a rule, our pick on a warm tint, who each pick
- * is for, and in the last column the lowest in-stock price, the retailer
- * and a “Buy” pill (filled for our pick only). The disqualified table
- * composes inside the same card on shared columns. In a narrow container
- * each contender condenses to a header, three key measurements as pills and
- * a price line, so the phone page does not repeat the deep dives.
+/*
+ * The comparison table’s shared geometry: column widths, the colgroup, cells
+ * and row classes, so the disqualified table lines up under the picks.
  */
 
 export function matrixWidths(metricCount: number): number[] {
@@ -87,16 +82,38 @@ export const matrixEnd = "py-4 pr-6 pl-4 text-right align-middle @max-3xl:p-0 @m
 export const matrixTh = "px-4 pt-4 pb-3 align-bottom t-micro text-fg-muted";
 
 export interface ComparisonMatrixProps {
+  /** The section’s heading, saying something: “How the six compare”, not “Comparison”. */
   heading: string;
+  /** An optional sentence under the heading. */
   intro?: string;
+  /** The columns every pick is measured on; a `note` prints under the table, `compact` picks the phone pills. */
   metrics: Metric[];
+  /** The picks in order, our pick first (it gets the tint and the filled pill). Each pick’s `metrics` holds a value per column key. */
   picks: Pick[];
+  /** Campaign attribution added to every buy link. */
   attribution?: AffiliateAttribution;
-  /** Rendered inside the card under the picks, e.g. a DisqualifiedSubTable. */
+  /** Rendered inside the card under the picks: a `DisqualifiedSubTable`, on the same columns. */
   children?: ReactNode;
+  /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
+/**
+ * Every pick on the same columns, as a decision tool: micro-caps column
+ * heads, our pick on a warm tint, who each pick is for, and in the last
+ * column the lowest in-stock price, its retailer and a “Buy” pill (filled
+ * for our pick only). In a narrow container each pick condenses to its name,
+ * three key measurements as pills and a price line, so the phone page does
+ * not repeat the deep dives.
+ *
+ * **Use it for** two or more picks measured on the same things. **Not for**
+ * specifications of one product (`SpecSheet`), products we would not buy
+ * (`DisqualifiedSubTable`, as its child) or a catalogue without measurements
+ * (`AlsoGreatRail`).
+ *
+ * @summary Every pick on the same columns, with each one’s lowest price and a Buy pill.
+ * @import import { ComparisonMatrix } from "@/kit/blocks";
+ */
 export function ComparisonMatrix({ heading, intro, metrics, picks, attribution, children, className }: ComparisonMatrixProps) {
   const notes = metrics.filter((m) => m.note);
   return (

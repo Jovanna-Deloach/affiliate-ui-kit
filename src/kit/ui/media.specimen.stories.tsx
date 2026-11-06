@@ -9,13 +9,16 @@ import { Specimen, State } from "@/kit/testing/specimen";
 import { Avatar } from "./avatar";
 import { ProductImage } from "./product-image";
 
+/**
+ * Every state on one sheet, in both themes, for people reviewing the
+ * system. Not in the agent manifest: agents read the use-case stories.
+ */
 const meta = {
-  title: "Kit/Primitives/Product image and avatar",
-  component: ProductImage,
-  tags: ["autodocs"],
-  parameters: { layout: "fullscreen", kit: true },
+  title: "Kit/Specimen sheets/Primitives/Product image and avatar",
+  tags: ["!manifest"],
+  parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,
-} satisfies Meta<typeof ProductImage>;
+} satisfies Meta;
 
 export default meta;
 /** Specimen pages render every state themselves, so stories take no args. */

@@ -1,96 +1,63 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { creatineGuide } from "@/fixtures/kit/creatine";
-import { runningGuide } from "@/fixtures/kit/running";
 import { watchesGuide } from "@/fixtures/kit/watches";
+// Parts used inside args come from the layer’s entry point: the import agents copy.
+import { Telemetry } from "@/kit/components";
 import { assertKitPage } from "@/kit/testing/page-checks";
-import { OnCard, Specimen, State } from "@/kit/testing/specimen";
-import type { Measurements, Pick } from "@/kit/types";
 
 import { Scorecard } from "./scorecard";
-import { Telemetry } from "./telemetry";
 
 const meta = {
-  title: "Kit/Components/Scorecard and telemetry",
+  title: "Kit/Components/Scorecard",
   component: Scorecard,
+  subcomponents: { Telemetry },
   tags: ["autodocs"],
-  parameters: { layout: "fullscreen", kit: true },
+  parameters: { layout: "fullscreen", kit: true, frame: "narrow" },
   play: assertKitPage,
+  args: {
+    rating: { score: 9.1, tier: "Exceptional", standing: "1st of 14 tested" },
+    scores: [
+      { label: "Timekeeping", score: 9.4 },
+      { label: "Finishing", score: 9.0 },
+      { label: "Comfort", score: 9.2 },
+      { label: "Legibility", score: 8.8 },
+      { label: "Value", score: 8.9 },
+    ],
+    id: "meridian-score",
+  },
 } satisfies Meta<typeof Scorecard>;
 
 export default meta;
-/** Specimen pages render every state themselves, so stories take no args. */
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
-const DESCRIPTION = "The composite score in the display serif, ten segments and five sub-scores, then what the bench or the lab measured for the category.";
+/**
+ * The verdict in numbers: the composite out of ten with its tier and an
+ * honest standing, then five sub-scores, each a printed figure with a bar.
+ * @summary The composite score with five sub-scores.
+ */
+export const ScoreAndSubScores: Story = {};
 
-function Card({ pick, id }: { pick: Pick; id: string }) {
-  return (
-    <OnCard>
-      <Scorecard rating={pick.rating} scores={pick.scores} id={id} className="border-t-0 pt-0">
-        <Telemetry measurements={pick.measurements} />
-      </Scorecard>
-    </OnCard>
-  );
-}
+/**
+ * In a review, the category’s measurements follow the sub-scores: for a
+ * watch, the six timing positions against the chronometer band.
+ * @summary The scorecard with the category’s telemetry under the sub-scores.
+ */
+export const WithTelemetry: Story = {
+  args: { children: <Telemetry measurements={watchesGuide.picks[0]!.measurements} /> },
+};
 
-/** The same product with a different lead result (ppb, against a 100 ppb limit) and rating. */
-function withLead(pick: Pick, ppb: number, rating: Pick["rating"]): Pick {
-  const m = pick.measurements as Extract<Measurements, { kind: "assay" }>;
-  return { ...pick, rating, measurements: { ...m, metals: m.metals.map((x) => (x.label === "Lead" ? { ...x, ppb } : x)) } };
-}
-
-export const Atelier: Story = {
-  name: "Atelier, watches: chronometer strip",
-  parameters: { theme: "atelier" },
-  render: () => {
-    const [meridian, , sato] = watchesGuide.picks;
-    return (
-      <Specimen kind="Component" title="Scorecard and telemetry" description={DESCRIPTION} columns={3}>
-        <State label="All six positions inside tolerance">
-          <Card pick={meridian!} id="sc-meridian" />
-        </State>
-        <State label="Every position outside tolerance">
-          <Card pick={sato!} id="sc-sato" />
-        </State>
-        <State label="With its hairline, under a photograph">
-          <Scorecard rating={watchesGuide.picks[3]!.rating} scores={watchesGuide.picks[3]!.scores} id="sc-okada">
-            <Telemetry measurements={watchesGuide.picks[3]!.measurements} />
-          </Scorecard>
-        </State>
-      </Specimen>
-    );
+/**
+ * A supplement’s scorecard ends with its heavy metals, each as a share of
+ * its limit.
+ * @summary A supplement’s scorecard with its heavy-metal rows (Assay).
+ */
+export const LabResults: Story = {
+  parameters: { theme: "assay", category: "supplements" },
+  args: {
+    rating: creatineGuide.picks[0]!.rating,
+    scores: creatineGuide.picks[0]!.scores,
+    id: "peak-score",
+    children: <Telemetry measurements={creatineGuide.picks[0]!.measurements} />,
   },
-};
-
-export const Supplements: Story = {
-  name: "Assay, supplements: heavy metals",
-  parameters: { theme: "assay" },
-  render: () => (
-    <Specimen kind="Component" title="Scorecard and telemetry" description={DESCRIPTION} columns={3} category="supplements">
-      <State label="Every metal well under its limit">
-        <Card pick={creatineGuide.picks[0]!} id="sc-peak" />
-      </State>
-      <State label="Near the limit: lead at 62%">
-        <Card pick={withLead(creatineGuide.picks[2]!, 62, { score: 7.2, tier: "Near limit", standing: "Lead at 62% of the limit" })} id="sc-near" />
-      </State>
-      <State label="Failed: lead over its limit">
-        <Card pick={withLead(creatineGuide.picks[3]!, 140, { score: 4.1, tier: "Failed", standing: "Lead at 140% of the limit" })} id="sc-failed" />
-      </State>
-    </Specimen>
-  ),
-};
-
-export const Running: Story = {
-  name: "Assay, running: bench tests",
-  parameters: { theme: "assay" },
-  render: () => (
-    <Specimen kind="Component" title="Scorecard and telemetry" description={DESCRIPTION} columns={3} category="running">
-      {runningGuide.picks.map((pick) => (
-        <State key={pick.product.id} label={`${pick.rating.tier}, ${pick.rating.standing}`}>
-          <Card pick={pick} id={`sc-${pick.product.slug}`} />
-        </State>
-      ))}
-    </Specimen>
-  ),
 };

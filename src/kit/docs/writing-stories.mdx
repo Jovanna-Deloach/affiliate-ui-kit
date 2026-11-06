@@ -1,0 +1,71 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Kit/Guides/Writing stories" summary="How kit stories are written so agents can read them: one use case per story with a summary, args not wrappers, framing by parameters, the page checks as play, specimen sheets kept out of the manifest." />
+
+# Writing stories
+
+Stories here do two jobs: they show people each part in use, and they are the documentation AI agents read. An agent sees a component’s description, the **code of its first three stories**, a one-line summary of the rest, and its props. Write stories for that reader.
+
+## A component’s stories file
+
+```tsx
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
+import { assertKitPage } from "@/kit/testing/page-checks";
+
+import { Price } from "./price";
+
+const meta = {
+  title: "Kit/Primitives/Price", // Kit/{Primitives|Components|Blocks|Templates}/{Name}
+  component: Price,
+  tags: ["autodocs"],
+  parameters: { layout: "fullscreen", kit: true }, // theme, category and frame go here too
+  play: assertKitPage, // the kit checks: alignment, voids, 44px targets, numerals, merchant order, axe
+  args: { amount: 189 },
+} satisfies Meta<typeof Price>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/**
+ * Why you would use this, not what it shows: the lead offer of a buy box,
+ * with its list price struck through so the saving reads without a badge.
+ * @summary A lead price (lg) with the higher list price struck through.
+ */
+export const Discounted: Story = {
+  args: { amount: 3950, was: 4400, size: "lg" },
+};
+```
+
+## Rules
+
+1. **One use case per story**, named for the scenario (`Discounted`, `SoldOutEverywhere`), never a sheet of variants. The first three stories are the ones agents see as code: put the most common use first.
+2. **Every story has a JSDoc comment** that says why you would use it, and an `@summary` of at most about 90 characters. Without a summary, agents see the first 90 characters of the description.
+3. **Data goes in `args`.** The code agents copy is generated from the args (or from a `render` function, printed as written). Use literal values for small data, and the proof fixtures in `@/fixtures/kit` (`watchesGuide`, `creatineGuide`, `runningGuide`, `cases`) for the contract.
+4. **Frame with parameters, not markup**: `kit: true`, then `theme` (`atelier` or `assay`), `category` (`watches`, `supplements`, `running`) and `frame` (`well` by default; `column` 42rem; `card` on paper; `narrow` 24rem; `narrow-card`; `none` for blocks that bring their own well, templates and specimen sheets).
+5. **No wrapper components in a stories file.** Every component in the file’s JSX ends up in the import line agents copy. A compound part declares its parts as `subcomponents` (`Disclosure` with `DisclosureSummary`, `DisclosureIcon`); a decorator that needs other kit parts lives in `src/kit/testing/stories.tsx`.
+6. **Every story runs the kit checks** (`play: assertKitPage`), at 375px and 1440px, with `node scripts/verify-stories.mjs --build --widths 375,1440 --filter <story id>`.
+7. **Specimen sheets** (every state of a part on one page, in both themes, for people) live in `*.specimen.stories.tsx` under `Kit/Specimen sheets/…` with `tags: ["!manifest"]`, so agents never see them.
+
+## A component’s documentation
+
+The JSDoc above the component’s function is its page, for agents and in the props table:
+
+```tsx
+/**
+ * What it is and what it does on the page, in a sentence or two.
+ *
+ * **Use it for** the places it belongs. **Not for** the places it does not,
+ * naming what to use instead (`OtherComponent`).
+ *
+ * @summary One line for the component list (at most about 90 characters).
+ * @import import { Price } from "@/kit/ui";
+ */
+export function Price(props: PriceProps) {}
+```
+
+Give every prop a JSDoc line that says what it means, its units and its default. The `@import` line is the import agents copy: it must name the layer’s entry point (`@/kit/ui`, `@/kit/components`, `@/kit/blocks`, `@/kit/templates`).
+
+## A page’s story
+
+To check a page you composed, give it a stories file of its own with `frame: "none"`, the guide and site in `args`, and `play: assertKitPage`, then run the story checks and `bun run check`.

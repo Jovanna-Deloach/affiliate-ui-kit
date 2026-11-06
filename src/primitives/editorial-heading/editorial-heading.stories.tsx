@@ -30,6 +30,8 @@ function SummaryAside() {
 
 const meta = {
   title: "Tier 3 · Surface & Media/EditorialHeading",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: EditorialHeading,
   parameters: { layout: "fullscreen" },
   args: {

@@ -8,11 +8,25 @@ vertical only shifts chromatic temperature and the display voice.
 
 ```
 bun install
-bun run storybook      # http://localhost:6006 — switch tones from the toolbar
+bun run storybook      # http://localhost:6006 (and the MCP server for AI agents at /mcp)
 bun run dev            # Next.js app (kit index)
-bun run check          # typecheck + lint + structural-token audit
+bun run check          # typecheck + lint + token and kit audits + guides in sync
+bun run test:stories   # every story's play checks in Chromium (Vitest)
 bun run verify:stories # headless Storybook verification (see below)
 ```
+
+## For AI agents
+
+The Storybook is written to be read by agents as well as people. With
+`bun run storybook` running, its MCP server at `http://localhost:6006/mcp`
+lists every kit component with a one-line summary, shows each one's
+description, story code and props, serves the guides (**Kit / Guides**:
+Start here, Foundations, Data model, Composing pages, Making pages distinct,
+Writing stories) and runs the kit checks on any story (`test-run`).
+`.mcp.json` registers it for Claude Code. Agents follow
+[`AGENTS.md`](AGENTS.md); [`docs/STORYBOOK.md`](docs/STORYBOOK.md) explains
+how it is wired and how to keep what agents read accurate
+(`bun run audit:manifest`).
 
 ## Start here: the kit (page-first reset)
 
@@ -25,9 +39,9 @@ composed from **templates** (`src/kit/templates`), not assembled from parts.
   watches) and *Proving Ground* (Assay theme), one publication with two
   sections — supplements and running — told apart only by
   `--accent-category`.
-- **Kit / Templates / Archetypes**: the same eight macro-primitives
-  (**Kit / Blocks**) recomposed as a head-to-head, a single-product lab assay
-  and a collector’s guide.
+- **Kit / Templates / Versus page**, **Lab assay page** and **Collector’s
+  guide page**: the same blocks (**Kit / Blocks**) recomposed as a
+  head-to-head, a single-product lab assay and a collector’s guide.
 - Three type voices in every theme: a display serif for titles, hero
   figures and pull-quotes; a text sans for reading copy (17px / 1.68),
   buttons and prices; mono micro-caps for eyebrows, awards, stamps, table
@@ -38,16 +52,17 @@ composed from **templates** (`src/kit/templates`), not assembled from parts.
   with its category telemetry — beside the story and a merchant buy box;
   the specifications fold into a `<details>` footer.
 - Every product is shown in studio photography (cut-outs on a radial studio
-  well, **Kit / Components / Studio frame**); numbers sit beside the
+  well, **Kit / Components / Pick media**); numbers sit beside the
   photograph, never in its place.
 - The library has four layers, in the sidebar in this order:
   **Kit / Primitives** (`src/kit/ui`: Price, Meter, Disclosure, Eyebrow,
   Badge, buttons and buy links, ProductImage, Avatar), **Kit / Components**
   (`src/kit/components`: OfferCard, RetailerList, BuyBlock, VerdictCard,
   Scorecard and Telemetry, ProsCons, PullQuote, SpecSheet, PickMedia),
-  **Kit / Blocks** and **Kit / Templates**. Every primitive and component
-  page shows each state in both themes and in a narrow column, with a Docs
-  page for its props.
+  **Kit / Blocks** and **Kit / Templates**. Every part has one story per
+  use case and a Docs page for its props; every primitive and component
+  also has a specimen sheet (**Kit / Specimen sheets**) with each state in
+  both themes and in a narrow column.
 - `bun run check` includes the kit audit (source, contracts, server-rendered
   pages, self-test); every kit story runs browser checks in `play()`
   (alignment, voids, column balance, 44px targets, numerals, merchant

@@ -27,6 +27,8 @@ const terms = (
 
 const meta = {
   title: "Tier 15 · Account & Personalization/AuthDialogModal",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: AuthDialogModal,
   parameters: { layout: "fullscreen" },
   args: {

@@ -5,25 +5,32 @@ import type { Rating } from "@/kit/types";
 import { Eyebrow, Meter } from "@/kit/ui";
 import type { SubScoreItem } from "@/types/affiliate";
 
-/**
- * The composite score and its evidence, as one unboxed block: a hairline
- * above (dropped where a photograph sits directly over it), “Overall score”
- * in micro-caps, the score in the display serif (2.5rem) over “/ 10”, the
- * tier and an honest standing (“1st of 14 tested”, never an invented
- * percentile), a 10-segment meter, the sub-scores on 6px meters, then the
- * category’s telemetry (children).
- */
 export interface ScorecardProps {
+  /** The composite: `score` out of 10, its `tier` (“Exceptional”) and an honest `standing` (“1st of 14 tested”). */
   rating: Rating;
   /** Sub-scores, out of `maxScore` (10 when absent). Five is the norm. */
   scores: SubScoreItem[];
-  /** Used for the block’s own id and its label; must be unique on the page. */
+  /** The block’s id and the base of its label’s id; must be unique on the page. */
   id: string;
-  /** Telemetry for the category (`<Telemetry />`), set under the sub-scores. */
+  /** The category’s measurements, set under the sub-scores: `<Telemetry measurements={pick.measurements} />`. */
   children?: ReactNode;
+  /** Pass `border-t-0 pt-0` where a photograph sits directly above it. */
   className?: string;
 }
 
+/**
+ * The composite score and its evidence as one unboxed block: “Overall
+ * score” in micro-caps, the score in the display serif over “/ 10”, the tier
+ * and an honest standing (never an invented percentile), a 10-segment
+ * meter, the sub-scores on 6px meters, then the category’s telemetry.
+ *
+ * **Use it for** the verdict in numbers, beside or under the product’s
+ * photograph. **Not for** a score in a table (print the figure) or a rating
+ * from readers. One per product per page.
+ *
+ * @summary The composite score out of 10 with its sub-scores and the category’s telemetry.
+ * @import import { Scorecard } from "@/kit/components";
+ */
 export function Scorecard({ rating, scores, id, children, className }: ScorecardProps) {
   return (
     <section data-slot="scorecard" id={id} aria-labelledby={`${id}-label`} className={cn("scroll-mt-8 border-t border-line-strong pt-5", className)}>

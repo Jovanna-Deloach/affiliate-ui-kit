@@ -14,9 +14,13 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "verify:stories": "node scripts/verify-stories.mjs",
+    "test:stories": "vitest run --project=storybook",
     "audit:tokens": "node scripts/audit-structural-tokens.mjs",
-    "check": "bun run typecheck && bun run lint && bun run audit:tokens && bun run audit:kit",
-    "audit:kit": "bun scripts/audit-kit.ts"
+    "check": "bun run typecheck && bun run lint && bun run audit:tokens && bun run audit:kit && bun run docs:check",
+    "audit:kit": "bun scripts/audit-kit.ts",
+    "audit:manifest": "bun scripts/audit-manifest.ts",
+    "docs:sync": "bun scripts/sync-guides.ts",
+    "docs:check": "bun scripts/sync-guides.ts --check"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -50,19 +54,25 @@
   "devDependencies": {
     "@storybook/addon-a11y": "^10.6.5",
     "@storybook/addon-docs": "^10.6.5",
+    "@storybook/addon-mcp": "10.6.5",
+    "@storybook/addon-vitest": "10.6.5",
     "@storybook/nextjs-vite": "^10.6.5",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/bun": "^1.4.4",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@vitest/browser-playwright": "4.1.12",
     "axe-core": "4.14.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.4.3",
     "eslint-plugin-storybook": "^10.6.5",
+    "playwright": "1.63.0",
+    "remark-gfm": "^4.0.1",
     "storybook": "^10.6.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
-    "vite": "^7.3.0"
+    "vite": "^7.3.0",
+    "vitest": "4.1.12"
   }
 }

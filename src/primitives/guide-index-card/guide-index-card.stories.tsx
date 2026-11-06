@@ -8,6 +8,8 @@ import { GuideIndexCard } from "./guide-index-card";
 
 const meta = {
   title: "Tier 12 · Category Hubs/GuideIndexCard",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: GuideIndexCard,
   parameters: { layout: "fullscreen" },
   args: { guide: guideDailyTrainers, size: "default" },

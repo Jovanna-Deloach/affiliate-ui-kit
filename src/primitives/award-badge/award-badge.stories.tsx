@@ -14,6 +14,8 @@ const SURFACE_NAMES = { inverse: "Inverse — the accolade", glass: "Glass — o
 
 const meta = {
   title: "Tier 2 · Evaluation & E-E-A-T/AwardBadge",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: AwardBadge,
   parameters: { layout: "fullscreen" },
   args: { children: "Best Overall", surface: "inverse", tier: "winner", size: "md" },

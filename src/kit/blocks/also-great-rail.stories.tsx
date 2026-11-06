@@ -4,36 +4,42 @@ import { collectorsGuide } from "@/fixtures/kit/archetypes";
 import { creatineGuide } from "@/fixtures/kit/creatine";
 import { watchesGuide } from "@/fixtures/kit/watches";
 import { assertKitPage } from "@/kit/testing/page-checks";
-import { inNarrowColumn, inWell } from "@/kit/testing/stories";
 
-import { AlsoGreatRail } from "./also-great-rail";
+import { AlsoGreatRail, PickRow } from "./also-great-rail";
 
 const meta = {
   title: "Kit/Blocks/Also great rail",
   component: AlsoGreatRail,
+  subcomponents: { PickRow },
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },
   play: assertKitPage,
+  args: { picks: collectorsGuide.picks, heading: collectorsGuide.railHeading ?? "In this guide", jumpLabel: collectorsGuide.jumpLabel },
 } satisfies Meta<typeof AlsoGreatRail>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Atelier: Story = {
-  parameters: { theme: "atelier" },
-  decorators: [inWell()],
-  args: { picks: watchesGuide.picks.slice(3), heading: watchesGuide.railHeading ?? "Also great" },
+/**
+ * A collector’s guide opens with its catalogue: every piece a peer, on the
+ * same card, three across on a wide screen.
+ * @summary A catalogue of every piece in a collector’s guide.
+ */
+export const Catalogue: Story = {};
+
+/**
+ * A long guide can follow its verdict with the remaining picks as a rail.
+ * @summary The picks after the verdict, as a rail.
+ */
+export const AfterTheVerdict: Story = {
+  args: { picks: watchesGuide.picks.slice(3), heading: watchesGuide.railHeading ?? "Also great", jumpLabel: watchesGuide.jumpLabel },
 };
 
-export const Catalogue: Story = {
-  name: "Catalogue of five (collector’s guide)",
-  parameters: { theme: "atelier" },
-  decorators: [inWell()],
-  args: { picks: collectorsGuide.picks, heading: collectorsGuide.railHeading ?? "In this guide", jumpLabel: collectorsGuide.jumpLabel },
-};
-
+/**
+ * In a narrow container the catalogue is one column of cards.
+ * @summary The catalogue in a phone-width container (Assay).
+ */
 export const NarrowContainer: Story = {
-  name: "Assay, narrow container",
-  parameters: { theme: "assay" },
-  decorators: [inNarrowColumn("supplements")],
-  args: { picks: creatineGuide.picks.slice(3), heading: creatineGuide.railHeading ?? "Also great" },
+  parameters: { theme: "assay", category: "supplements", frame: "narrow" },
+  args: { picks: creatineGuide.picks.slice(2), heading: creatineGuide.railHeading ?? "Also great", jumpLabel: creatineGuide.jumpLabel },
 };

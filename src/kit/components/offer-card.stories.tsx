@@ -1,9 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { offer } from "@/fixtures/kit/build";
-import { watchesGuide } from "@/fixtures/kit/watches";
 import { assertKitPage } from "@/kit/testing/page-checks";
-import { Specimen, State } from "@/kit/testing/specimen";
 
 import { OfferCard } from "./offer-card";
 
@@ -11,56 +8,92 @@ const meta = {
   title: "Kit/Components/Offer card",
   component: OfferCard,
   tags: ["autodocs"],
-  parameters: { layout: "fullscreen", kit: true },
+  parameters: { layout: "fullscreen", kit: true, frame: "card" },
   play: assertKitPage,
+  args: {
+    offer: {
+      id: "meridian-hf",
+      merchantName: "Haus & Field",
+      price: 3950,
+      currency: "USD",
+      affiliateUrl: "https://example-merchant.test/haus-field/meridian-hf",
+      inStock: true,
+      shippingNote: "Free 2-day shipping",
+    },
+    productId: "w-halden-meridian-40",
+    verifiedAt: "2026-10-28T10:00:00Z",
+    best: true,
+    placement: "deep-dive",
+  },
 } satisfies Meta<typeof OfferCard>;
 
 export default meta;
-/** Specimen pages render every state themselves, so stories take no args. */
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
-const w = watchesGuide.picks.map((p) => p.product);
+/**
+ * The top of a buy box: the lowest in-stock price, the retailer’s terms and
+ * when the price was checked, “Best price” because another retailer has it
+ * for more, and the one button.
+ * @summary The lead offer, with “Best price” and the date the price was checked.
+ */
+export const LeadOffer: Story = {};
 
-export const Atelier: Story = {
-  parameters: { theme: "atelier" },
-  render: () => (
-    <Specimen kind="Component" title="Offer card" description="The lead offer: merchant and terms on the left; price, list price and Best price on the right; one full-width 44px button.">
-      <State label="With a competitor (Best price)">
-        <OfferCard offer={w[0]!.offers[0]!} productId="oc-1" verifiedAt="2026-10-28T08:00:00Z" best placement="story" />
-      </State>
-      <State label="Discounted">
-        <OfferCard offer={offer("oc-verra", "Verra", 1650, { originalPrice: 1895, shippingNote: "Free shipping over $500" })} productId="oc-2" verifiedAt="2026-10-28T08:00:00Z" best placement="story" />
-      </State>
-      <State label="No shipping note or date">
-        <OfferCard offer={offer("oc-plain", "Watchstore", 420)} productId="oc-3" placement="story" />
-      </State>
-      <State label="Long merchant name, custom label">
-        <OfferCard
-          offer={offer("oc-long", "Bergström & Lindqvist Horlogerie", 4850, { shippingNote: "Insured delivery in 3 days" })}
-          productId="oc-4"
-          verifiedAt="2026-10-28T08:00:00Z"
-          placement="story"
-          ctaLabel="Buy at Bergström & Lindqvist"
-        />
-      </State>
-      <State label="In a narrow column" className="max-w-sm">
-        <OfferCard offer={offer("oc-narrow", "Haus & Field", 4850, { shippingNote: "Free 2-day shipping" })} productId="oc-5" verifiedAt="2026-10-28T08:00:00Z" best placement="story" />
-      </State>
-    </Specimen>
-  ),
+/**
+ * A lead offer below its list price: the list price is struck through
+ * before the amount, so the saving reads without a percentage.
+ * @summary A discounted lead offer (Assay, running).
+ */
+export const Discounted: Story = {
+  parameters: { theme: "assay", category: "running" },
+  args: {
+    offer: {
+      id: "aerolite-nl",
+      merchantName: "Northlane",
+      price: 189,
+      originalPrice: 220,
+      currency: "USD",
+      affiliateUrl: "https://example-merchant.test/northlane/aerolite-nl",
+      inStock: true,
+      shippingNote: "Free returns",
+    },
+    productId: "r-meridian-aerolite-3",
+  },
 };
 
-export const Assay: Story = {
-  name: "Assay, supplements",
-  parameters: { theme: "assay" },
-  render: () => (
-    <Specimen kind="Component" title="Offer card" description="The same card in the lab theme: obsidian action, emerald accents for the section." category="supplements">
-      <State label="Discounted, with a competitor">
-        <OfferCard offer={offer("oc-peak", "Peak Supply", 21, { originalPrice: 26, shippingNote: "Free shipping over $35" })} productId="oc-6" verifiedAt="2026-10-29T08:00:00Z" best placement="story" />
-      </State>
-      <State label="One retailer">
-        <OfferCard offer={offer("oc-nl", "Northlane", 32, { shippingNote: "Free 2-day shipping" })} productId="oc-7" verifiedAt="2026-10-29T08:00:00Z" placement="story" />
-      </State>
-    </Specimen>
-  ),
+/**
+ * The only retailer with stock: nothing to be best against, so no mark.
+ * “Best price” is a claim, and the kit only makes true ones.
+ * @summary A sole in-stock retailer: no “Best price”.
+ */
+export const OnlyRetailer: Story = {
+  args: {
+    offer: {
+      id: "field-bren",
+      merchantName: "Brennan",
+      price: 890,
+      currency: "USD",
+      affiliateUrl: "https://example-merchant.test/brennan/field-bren",
+      inStock: true,
+      shippingNote: "Free shipping and returns",
+    },
+    productId: "w-brennan-field-36",
+    best: false,
+  },
+};
+
+/**
+ * In a narrow card the terms stack under the merchant and the price drops
+ * beneath them; the button keeps the full width.
+ * @summary The offer card in a narrow container.
+ */
+export const NarrowCard: Story = {
+  parameters: { frame: "narrow-card" },
+};
+
+/**
+ * The button label can name the next step more precisely than “View deal”.
+ * @summary An offer card with its own button label.
+ */
+export const CustomLabel: Story = {
+  args: { ctaLabel: "Check today’s price at Haus & Field" },
 };

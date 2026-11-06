@@ -11,6 +11,8 @@ const cmp = aeroliteWearComparison;
 
 const meta = {
   title: "Tier 6 · Editorial & Visual Proof/SplitComparisonSlider",
+  // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
+  tags: ["legacy", "!manifest"],
   component: SplitComparisonSlider,
   parameters: { layout: "fullscreen" },
   args: {
