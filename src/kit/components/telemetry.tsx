@@ -3,18 +3,21 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 import type { Measurements } from "@/kit/types";
-
-import { Sep } from "./marks";
+import { badgeStyles, Eyebrow, Meter, Sep } from "@/kit/ui";
 
 /**
- * What the bench or the lab measured, as compact telemetry rows inside the
- * review’s scorecard. Never a chart in place of the product: the photograph
- * shows the object, these rows show the numbers. One block per category:
+ * What the bench or the lab measured, as compact telemetry inside the
+ * scorecard. Never a chart in place of the product: the photograph shows
+ * the object, these rows show the numbers. One block per category:
  *
- *   timing  — a single-line chronometer strip: six positions on the scale,
- *             the tolerance band in the category accent
- *   assay   — heavy metals as a share of each limit, in parts per billion
- *   biomech — energy return, rebound lost and weight against the test average
+ *   timing   ChronometerStrip — the six positions as ticks on one line,
+ *            over the tolerance band in the category accent, with a scale
+ *   assay    MetalRows — heavy metals as a share of each limit (ppb)
+ *   biomech  BenchRows — energy return, loss at 300 miles and weight
+ *            against the test average (the tick on each meter)
+ *
+ * `Telemetry` picks the block for a pick’s measurements; `AssayBadge` is
+ * the lab’s verdict, set on the photograph.
  */
 
 type Timing = Extract<Measurements, { kind: "timing" }>;
@@ -28,15 +31,7 @@ function Block({ label, detail, aside, children }: { label: string; detail?: str
   return (
     <div data-slot="telemetry" className="mt-5 border-t border-line pt-4">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <p className="m-0 flex items-center t-micro text-fg-muted">
-          {label}
-          {detail && (
-            <>
-              <Sep />
-              {detail}
-            </>
-          )}
-        </p>
+        <Eyebrow items={detail ? [label, detail] : [label]} />
         {aside}
       </div>
       {children}
@@ -49,8 +44,9 @@ export function ChronometerStrip({ m }: { m: Timing }) {
   const lo = -6;
   const hi = 12;
   const at = (v: number) => `${((Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo)) * 100}%`;
+  const outside = (rate: number) => rate < m.tolerance[0] || rate > m.tolerance[1];
   const avg = mean(m.positions.map((p) => p.rate));
-  const out = m.positions.filter((p) => p.rate < m.tolerance[0] || p.rate > m.tolerance[1]).length;
+  const out = m.positions.filter((p) => outside(p.rate)).length;
   return (
     <Block
       label="Chronometer"
@@ -72,7 +68,7 @@ export function ChronometerStrip({ m }: { m: Timing }) {
         {m.positions.map((p) => (
           <span
             key={p.label}
-            className={cn("absolute top-1/2 h-3 w-0.5 -translate-x-1/2 -translate-y-1/2 rounded-full", p.rate < m.tolerance[0] || p.rate > m.tolerance[1] ? "bg-warn" : "bg-meter")}
+            className={cn("absolute top-1/2 h-3 w-0.5 -translate-x-1/2 -translate-y-1/2 rounded-full", outside(p.rate) ? "bg-warn" : "bg-meter")}
             style={{ left: at(p.rate) }}
           />
         ))}
@@ -92,17 +88,15 @@ export function ChronometerStrip({ m }: { m: Timing }) {
   );
 }
 
-function Row({ label, share, tone = "telemetry", marker, value }: { label: string; share: number; tone?: "telemetry" | "warn" | "fail" | "muted"; marker?: number; value: ReactNode }) {
-  const fill = { telemetry: "bg-telemetry", warn: "bg-warn", fail: "bg-fail", muted: "bg-fg-muted" }[tone];
+function Row({ label, value, max, mark, tone, figure }: { label: string; value: number; max: number; mark?: number; tone: "telemetry" | "warn" | "fail" | "muted"; figure: ReactNode }) {
   return (
     <div className="contents">
       <dt className="t-small text-fg-muted">{label}</dt>
-      <dd aria-hidden="true" className="relative m-0 h-1.5 overflow-hidden rounded-full bg-well">
-        <span className={cn("absolute inset-y-0 left-0", fill)} style={{ width: `${Math.max(2, Math.min(100, share))}%` }} />
-        {marker !== undefined && <span className="absolute inset-y-0 w-0.5 bg-fg" style={{ left: `${Math.max(0, Math.min(99, marker))}%` }} />}
+      <dd className="m-0">
+        <Meter value={value} max={max} mark={mark} tone={tone} />
       </dd>
       <dd data-numeric className="m-0 text-right whitespace-nowrap t-small">
-        {value}
+        {figure}
       </dd>
     </div>
   );
@@ -110,22 +104,23 @@ function Row({ label, share, tone = "telemetry", marker, value }: { label: strin
 
 const rows = "m-0 mt-3 grid grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2.5";
 
-/** Supplements: heavy metals as a share of each limit (lower is better). */
+/** Supplements: heavy metals as a share of each limit (lower is better): warning from half the limit, fail above it. */
 export function MetalRows({ m }: { m: Assay }) {
   return (
     <Block label="Heavy metals" detail="ppb" aside={<p className="m-0 t-caption text-fg-muted">Bar: share of the limit</p>}>
       <dl className={rows}>
         {m.metals.map((metal) => {
-          const share = (metal.ppb / metal.limitPpb) * 100;
+          const share = metal.ppb / metal.limitPpb;
           return (
             <Row
               key={metal.label}
               label={metal.label}
-              share={share}
-              tone={share > 100 ? "fail" : share >= 50 ? "warn" : "telemetry"}
-              value={
+              value={metal.ppb}
+              max={metal.limitPpb}
+              tone={share > 1 ? "fail" : share >= 0.5 ? "warn" : "telemetry"}
+              figure={
                 <>
-                  <span className="t-figure text-fg">{metal.ppb.toLocaleString("en-US")}</span>
+                  <span className={cn("t-figure", share > 1 ? "text-fail" : "text-fg")}>{metal.ppb.toLocaleString("en-US")}</span>
                   <span className="text-fg-muted">
                     {NB}/ {metal.limitPpb.toLocaleString("en-US")}
                   </span>
@@ -139,26 +134,28 @@ export function MetalRows({ m }: { m: Assay }) {
   );
 }
 
-/** Running shoes: bench results against the test average (the tick on each bar). */
+/** Running shoes: bench results against the test average (the tick on each meter); muted when worse than average. */
 export function BenchRows({ m }: { m: Biomech }) {
   const drop = m.heelMm - m.forefootMm;
   return (
     <Block label="Bench tests" detail="vs. test average">
       <dl className={rows}>
-        <Row label="Energy return" share={m.energyReturn} marker={m.energyAverage} tone={m.energyReturn >= m.energyAverage ? "telemetry" : "muted"} value={<span className="t-figure text-fg">{m.energyReturn}%</span>} />
+        <Row label="Energy return" value={m.energyReturn} max={100} mark={m.energyAverage} tone={m.energyReturn >= m.energyAverage ? "telemetry" : "muted"} figure={<span className="t-figure text-fg">{m.energyReturn}%</span>} />
         <Row
           label={`Loss at 300${NB}mi`}
-          share={(m.reboundLoss / 35) * 100}
-          marker={(m.reboundAverage / 35) * 100}
+          value={m.reboundLoss}
+          max={35}
+          mark={m.reboundAverage}
           tone={m.reboundLoss <= m.reboundAverage ? "telemetry" : "muted"}
-          value={<span className="t-figure text-fg">−{m.reboundLoss}%</span>}
+          figure={<span className="t-figure text-fg">−{m.reboundLoss}%</span>}
         />
         <Row
           label="Weight"
-          share={(m.weightOz / 13) * 100}
-          marker={(m.weightAverage / 13) * 100}
+          value={m.weightOz}
+          max={13}
+          mark={m.weightAverage}
           tone={m.weightOz <= m.weightAverage ? "telemetry" : "muted"}
-          value={
+          figure={
             <span className="t-figure text-fg">
               {m.weightOz.toFixed(1)}
               {NB}oz
@@ -190,16 +187,16 @@ export function Telemetry({ measurements }: { measurements: Measurements }) {
 }
 
 /**
- * The lab’s verdict, set on the photograph: frosted, in micro-caps.
+ * The lab’s verdict, set on the photograph: a frosted badge,
  * “ISO 17025 · 100.4% label claim · Pass”. Place it inside a frame that is
- * a size container: below 24rem the accreditation is left to screen readers
- * so the stamp stays on one line.
+ * a size container: below 24rem the accreditation is left to screen
+ * readers, so the stamp stays on one line.
  */
 export function AssayBadge({ m, className }: { m: Assay; className?: string }) {
   const claim = mean(m.runs);
   const pass = m.checks.every((c) => c.status !== "fail") && m.metals.every((x) => x.ppb <= x.limitPpb) && claim >= 95 && claim <= 110;
   return (
-    <p className={cn("m-0 inline-flex items-center whitespace-nowrap rounded-ctl border border-line bg-paper/85 px-2.5 py-1.5 t-micro-sm text-fg backdrop-blur-sm", className)}>
+    <p data-slot="assay-badge" className={cn("m-0", badgeStyles({ variant: "frosted", size: "sm" }), "gap-0", className)}>
       <ShieldCheck size={13} strokeWidth={2} aria-hidden="true" className="mr-1.5 shrink-0 text-accent-category-ink" />
       <span className="sr-only @sm:not-sr-only">
         ISO 17025

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/cn";
 import type { Metric, NotRecommended } from "@/kit/types";
+import { Eyebrow } from "@/kit/ui";
 
 import { MatrixColgroup, MetricCell, MetricPills, matrixCell, matrixEnd, matrixHead, matrixRow } from "./comparison-matrix";
 
@@ -21,9 +22,9 @@ export function DisqualifiedSubTable({ items, metrics, heading = "Tested and not
   if (items.length === 0) return null;
   return (
     <div data-slot="disqualified" className={cn(standalone ? "@container kit-card overflow-hidden" : "border-t border-line-strong", className)}>
-      <h3 id="disqualified-heading" className="m-0 bg-well px-4 py-3 t-micro text-fg-muted @3xl:px-6">
+      <Eyebrow as="h3" id="disqualified-heading" className="bg-well px-4 py-3 @3xl:px-6">
         {heading}
-      </h3>
+      </Eyebrow>
       <table aria-labelledby="disqualified-heading" className="w-full border-collapse text-left @max-3xl:block @3xl:table-fixed">
         <MatrixColgroup metrics={metrics} />
         <thead className="sr-only">

@@ -214,7 +214,7 @@ function textNodes(el: El, out: string[] = []): string[] {
   return out;
 }
 const BLOCKS = new Set(["p", "li", "h1", "h2", "h3", "h4", "h5", "h6", "dd", "dt", "td", "th", "blockquote", "figcaption", "summary", "caption"]);
-const STORY_ORDER = ["descriptor", "title", "synthesis", "buy-block", "narrative", "points", "pull-quote"];
+const STORY_ORDER = ["descriptor", "title", "synthesis", "buy-block", "narrative", "pros-cons", "pull-quote"];
 
 interface Page {
   name: string;

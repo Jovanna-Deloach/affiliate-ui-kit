@@ -2,6 +2,7 @@ import { Menu, Search } from "lucide-react";
 
 import { cn } from "@/lib/cn";
 import type { Category, SiteChrome } from "@/kit/types";
+import { Disclosure, DisclosureSummary } from "@/kit/ui";
 
 /**
  * The masthead. Wordmark, sections, search, sign in. The section the page
@@ -44,11 +45,11 @@ export function SiteHeader({ site, category, className }: { site: SiteChrome; ca
           <a href="#sign-in" className="kit-focus hidden min-h-11 items-center rounded-ctl px-3 t-ui text-fg sm:inline-flex">
             Sign in
           </a>
-          <details className="group lg:hidden">
-            <summary className="kit-focus grid size-11 cursor-pointer list-none place-items-center rounded-ctl text-fg [&::-webkit-details-marker]:hidden">
+          <Disclosure className="lg:hidden">
+            <DisclosureSummary className="grid size-11 place-items-center justify-center rounded-ctl text-fg">
               <Menu size={22} strokeWidth={1.75} aria-hidden="true" />
               <span className="sr-only">Menu</span>
-            </summary>
+            </DisclosureSummary>
             <nav aria-label="Sections (menu)" className="absolute inset-x-0 top-full z-40 border-b border-line bg-ground">
               <ul className="kit-well m-0 flex list-none flex-col py-2">
                 {site.nav.map((item) => {
@@ -67,7 +68,7 @@ export function SiteHeader({ site, category, className }: { site: SiteChrome; ca
                 })}
               </ul>
             </nav>
-          </details>
+          </Disclosure>
         </div>
       </div>
     </header>

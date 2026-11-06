@@ -38,8 +38,16 @@ composed from **templates** (`src/kit/templates`), not assembled from parts.
   with its category telemetry — beside the story and a merchant buy box;
   the specifications fold into a `<details>` footer.
 - Every product is shown in studio photography (cut-outs on a radial studio
-  well, **Kit / Parts / Studio frame and scorecard**); numbers sit beside
-  the photograph, never in its place.
+  well, **Kit / Components / Studio frame**); numbers sit beside the
+  photograph, never in its place.
+- The library has four layers, in the sidebar in this order:
+  **Kit / Primitives** (`src/kit/ui`: Price, Meter, Disclosure, Eyebrow,
+  Badge, buttons and buy links, ProductImage, Avatar), **Kit / Components**
+  (`src/kit/components`: OfferCard, RetailerList, BuyBlock, VerdictCard,
+  Scorecard and Telemetry, ProsCons, PullQuote, SpecSheet, PickMedia),
+  **Kit / Blocks** and **Kit / Templates**. Every primitive and component
+  page shows each state in both themes and in a narrow column, with a Docs
+  page for its props.
 - `bun run check` includes the kit audit (source, contracts, server-rendered
   pages, self-test); every kit story runs browser checks in `play()`
   (alignment, voids, column balance, 44px targets, numerals, merchant

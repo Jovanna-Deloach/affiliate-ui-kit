@@ -1,11 +1,9 @@
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
+import { PickMedia, pickName, reviewId } from "@/kit/components";
 import { leadOffer } from "@/kit/lib/offers";
 import type { Pick } from "@/kit/types";
-import { BuyPill, JumpLink } from "@/kit/ui";
+import { BuyPill, Eyebrow, JumpLink, Price } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
-
-import { PickMedia, pickName, reviewId } from "./pick-media";
 
 /**
  * A pick as one catalogue entry: the photograph on a small studio well, the
@@ -18,16 +16,16 @@ export function PickRow({ pick, jumpLabel, attribution }: { pick: Pick; jumpLabe
     <div data-product-id={pick.product.id} className="grid grid-cols-[5rem_minmax(0,1fr)] items-start gap-4">
       <PickMedia pick={pick} detail="thumb" sizes="5rem" />
       <div className="flex min-w-0 flex-col">
-        <span className="t-micro-sm text-accent-category-ink">{pick.award}</span>
+        <Eyebrow as="span" size="sm" tone="category">
+          {pick.award}
+        </Eyebrow>
         <a href={`#${reviewId(pick)}`} data-name className="kit-focus mt-1.5 self-start rounded-ctl t-name text-fg hover:underline">
           {pickName(pick)}
         </a>
         <p className="m-0 mt-1 t-small text-fg-muted">Best for {pick.bestFor}.</p>
         {offer && (
           <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <span data-numeric className="t-ui font-semibold text-fg">
-              {formatPrice(offer.price, offer.currency ?? "USD")}
-            </span>
+            <Price amount={offer.price} currency={offer.currency} size="sm" />
             <BuyPill offer={offer} productId={pick.product.id} placement="catalogue" attribution={attribution}>
               Buy at {offer.merchantName}
             </BuyPill>

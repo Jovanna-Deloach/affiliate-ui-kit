@@ -8,6 +8,7 @@ import type { AffiliateAttribution, MerchantOffer } from "@/types/affiliate";
 
 import { buttonStyles } from "./button";
 import { Monogram } from "./marks";
+import { Price } from "./price";
 
 /**
  * Every monetized link in the kit. Built on AffiliateAction, so rel,
@@ -74,9 +75,7 @@ export function BuyRow({ offer, productId, placement, attribution, best, classNa
         <Monogram name={offer.merchantName} className="opacity-60" />
         <span className="truncate t-small">{offer.merchantName}</span>
         <span className="flex items-center gap-3">
-          <s data-numeric className="t-small t-figure">
-            {formatPrice(offer.price, currency)}
-          </s>
+          <Price amount={offer.price} currency={currency} soldOut size="xs" />
           <span className="t-micro-sm">Sold out</span>
         </span>
       </div>
@@ -95,16 +94,13 @@ export function BuyRow({ offer, productId, placement, attribution, best, classNa
       <Monogram name={offer.merchantName} />
       <span className="truncate t-small font-medium">{offer.merchantName}</span>
       <span className="flex items-center gap-3">
-        <span className="flex flex-col text-right">
-          <span data-numeric className="t-small t-figure">
-            {formatPrice(offer.price, currency)}
-          </span>
-          {delta > 0 && (
-            <span data-numeric className="t-caption text-fg-muted">
-              +{formatPrice(delta, currency)} vs. best
-            </span>
-          )}
-        </span>
+        <Price
+          amount={offer.price}
+          currency={currency}
+          size="xs"
+          note={delta > 0 ? <span data-numeric>+{formatPrice(delta, currency)} vs. best</span> : undefined}
+          className="text-right"
+        />
         <span className="inline-flex h-7 items-center justify-center gap-1 rounded-ctl border border-line-strong bg-paper px-2.5 t-micro-sm text-fg transition-colors duration-(--dur) ease-(--ease) group-hover:border-fg">
           <span className="sr-only @sm:not-sr-only">View</span>
           <ArrowUpRight size={12} strokeWidth={2} aria-hidden="true" />

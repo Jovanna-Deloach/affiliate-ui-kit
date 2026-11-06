@@ -157,6 +157,10 @@ const preview: Preview = {
   },
   parameters: {
     layout: "fullscreen",
+    options: {
+      // The kit first, smallest pieces first: primitives → components → blocks → templates.
+      storySort: { order: ["Kit", ["Primitives", "Components", "Blocks", "Templates"], "*"] },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

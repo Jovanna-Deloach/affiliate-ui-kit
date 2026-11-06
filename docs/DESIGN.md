@@ -26,6 +26,26 @@ constraints.** Components do not offer a menu of looks; a theme decides the
 look, the archetype decides the composition, and `bun run check` refuses
 pages that break the rules below.
 
+## The library: four layers
+
+Every visual decision lives in exactly one place, and each layer is built
+only from the layers beneath it. The Storybook sidebar follows the same
+order (Kit / Primitives → Components → Blocks → Templates).
+
+| Layer | Folder | What it is | Knows about |
+| --- | --- | --- | --- |
+| **Primitives** | `src/kit/ui` | the smallest pieces: Price, Meter, Disclosure, Eyebrow and Breadcrumb, Badge (Award, BestPrice, ResultMark), Button and the buy links, ProductImage, Avatar, Monogram, Sep | plain props and theme roles only |
+| **Components** | `src/kit/components` | primitives composed into the pieces of a review: OfferCard, RetailerList, BuyBlock, VerdictCard, Scorecard and Telemetry, ProsCons, PullQuote, SpecSheet, PickMedia | the product contract (`Pick`, `KitProduct`, offers) |
+| **Blocks** | `src/kit/blocks` | the sections of a page: article header, verdict bento, comparison, deep dive, catalogue, method, masthead, footer | a guide’s sections |
+| **Templates** | `src/kit/templates` | whole pages: the roundup and its archetypes | the whole `RoundupGuide` |
+
+A block never re-draws something a component or primitive already draws: a
+price is always `Price`, a bar is always `Meter`, a show/hide is always
+`Disclosure`, a micro-caps label is always `Eyebrow`. Every primitive and
+component has its own Storybook page with every state — discounted, sold
+out, one retailer, a failed result, long names, missing data — in both
+themes and in a narrow column, plus a generated Docs page with its props.
+
 ## Foundation (shared by every theme)
 
 | | |
@@ -179,18 +199,18 @@ page of them reads as one system:
 
 ```
 ┌ 5 columns, sticky ──────────┬ 7 columns ─────────────────────────────────┐
-│ studio frame, 4 : 4.2       │ AUTOMATIC GMT, 40 MM STEEL  (descriptor)   │
-│ [OUR PICK] pinned top-left  │ Product name (H2, display serif)           │
-│ lab badge, bottom-left      │ synthesis: the measured result             │
-│ (supplements)               │ buy box: offer card + retailer rows        │
+│ PickMedia, 4 : 4.2          │ Eyebrow: AUTOMATIC GMT, 40 MM STEEL        │
+│ Award pinned top-left       │ Product name (H2, display serif)           │
+│ AssayBadge, bottom-left     │ synthesis: the measured result             │
+│ (supplements)               │ BuyBlock: OfferCard + RetailerList         │
 │                             │ narrative, ≤ 65ch                          │
-│ OVERALL SCORE               │ WHAT WE LIKE          WHAT TO KNOW         │
+│ Scorecard                   │ ProsCons                                   │
 │ 9.2 / 10     tier, standing │ ✓ …                   – …                  │
-│ ▬▬▬▬▬▬▬▬▬▬  ten segments    │ ┃ “pull-quote, display serif italic”       │
-│ five sub-scores, 6px tracks │ ┃ avatar  name, role  [64 DAYS ON THE …]   │
-│ telemetry (by category)     │                                            │
+│ Meter, ten segments         │ PullQuote                                  │
+│ five sub-scores on Meters   │ ┃ “display serif italic”, tester, proof    │
+│ Telemetry (by category)     │                                            │
 ├ footer ─────────────────────┴────────────────────────────────────────────┤
-│ FULL SPECIFICATIONS · 5 DETAILS                                       [+] │
+│ SpecSheet drawer: FULL SPECIFICATIONS · 5 DETAILS                     [+] │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -224,18 +244,19 @@ category’s telemetry on a hairline:
 | Supplements | `MetalRows` | lead, arsenic, cadmium and mercury in ppb against each limit (“16 / 100”); the bar is the share of the limit, in the warning tone from 50% and the fail tone above 100% |
 | Running | `BenchRows` | energy return, loss at 300 miles and weight against the test average (the tick on each bar), then stack and drop |
 
-**Points.** What we like and what to know in two columns under micro-caps
-headings, with check and dash icons in the pass and warning tones. No
-boxes, no rules.
+**Pros and cons** (`ProsCons`). What we like and what to know in two
+columns under micro-caps headings, with check and dash icons in the pass
+and warning tones. No boxes, no rules. They stack under 36rem.
 
-**Pull-quote.** A 2px rule in the action colour, 20px of air, the tester’s
+**Pull-quote** (`PullQuote`). A 2px rule in the action colour, 20px of air, the tester’s
 words in the display serif italic (1.25rem) with a hanging opening mark,
 then their portrait or monogram, name and role, and a proof badge in
 micro-caps (“64 days on the wrist”, “Ran both HPLC assays”).
 
-**Specifications.** A native `<details>` footer across the card, closed by
-default and in the DOM for search engines: “Full specifications · 5
-details” in micro-caps with a plus/minus toggle, a two-column sheet inside.
+**Specifications** (`SpecSheet`). A `Disclosure` footer across the card,
+closed by default and in the DOM for search engines: “Full specifications
+· 5 details” in micro-caps with a framed plus/minus, a two-column sheet
+inside. The `sheet` variant sets the list on its own, always open.
 
 ### Provenance
 
@@ -347,10 +368,35 @@ The fixture photographs are cut-outs from Unsplash and Pexels
 their makers’ marks — standing in for fictional ones; a publication
 replaces them with its own packshots.
 
-## Macro-primitives and archetypes
+## Primitives, components, blocks and archetypes
 
-Eight container-driven blocks, each documented in Storybook
-(`Kit/Blocks/*`) in both themes and in a narrow container:
+**Primitives** (`src/kit/ui`, Storybook Kit / Primitives):
+
+| Primitive | Job |
+| --- | --- |
+| `Price` | every price: four sizes (lg 1.5rem bold, md, sm, xs), the list price struck before the amount, a sold-out state, a note line (“at Verra”, “+$10 vs. best”, “$0.21 a serving”); alignment follows the surrounding text |
+| `Meter` | a 6px meter beside a printed figure: continuous (with a reference tick) or segmented; tones meter, telemetry, warn, fail, muted; any value above zero shows a sliver |
+| `Disclosure`, `DisclosureSummary`, `DisclosureIcon` | show and hide with a native `<details>`: no script, 44px summary, plus/minus (framed for card footers); a shared `name` makes an accordion |
+| `Eyebrow`, `Breadcrumb` | the micro-caps voice: labels, descriptors, stamps (with an icon), parts joined by `<Sep />`; the article’s breadcrumb |
+| `Badge` (`Award`, `BestPrice`, `ResultMark`) | pills in micro-caps: solid (awards), outline (proofs), frosted (on photographs), soft in a tone (results) |
+| `Button`, `BuyButton`, `BuyPill`, `BuyRow`, `BuyLink`, `JumpLink` | actions and every monetized link (built on AffiliateAction) |
+| `ProductImage`, `Avatar`, `Monogram`, `Sep` | studio photography on the radial well; portraits or initials; merchant initials; the decorative dot |
+
+**Components** (`src/kit/components`, Storybook Kit / Components):
+
+| Component | Job |
+| --- | --- |
+| `BuyBlock` | the buy box: `OfferCard` for the lowest in-stock offer, `RetailerList` for the rest, the inline disclosure; a notice when sold out everywhere |
+| `OfferCard` | the lead offer: monogram, merchant and terms; price, list price and Best price; one full-width 44px button |
+| `RetailerList` | every other retailer as a 44px row: price, “+$x vs. best”, a View pill (its arrow only under 24rem); sold out muted and unlinked |
+| `VerdictCard` | a pick above the fold: `feature` (lifted surface, verdict, the one filled button; `wide` for a single-pick page) or `compact` (best for, outlined button; `stacked` puts the photograph on top) |
+| `Scorecard`, `Telemetry`, `AssayBadge` | the composite score and sub-scores; the category’s measurements; the lab’s badge on the photograph |
+| `ProsCons`, `PullQuote`, `SpecSheet` | the review’s points, the tester’s words, the specifications |
+| `PickMedia` | a pick’s photograph at three detail levels: full, card, thumb |
+
+**Blocks** (`src/kit/blocks`): eight container-driven sections, each
+documented in Storybook (`Kit/Blocks/*`) in both themes and in a narrow
+container:
 
 | Block | Job |
 | --- | --- |
@@ -378,7 +424,7 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | Gate | What it proves |
 | --- | --- |
 | `bun run audit:kit` (in `bun run check`) | **source:** type only through the voice utilities, elevation only through the theme shadows, colour only through roles, spacing on the scale, icons not arrow glyphs, `<Sep />` not typed dots, no bottom alignment; **contracts:** provenance, a photograph for every pick, awards in words, sub-scores, a proof for every quote, measurements that match the category, a verdict that does not restate the synthesis; **rendered pages:** every archetype server-rendered and checked for repeated text, typesetting, copy typed in capitals, numbered eyebrows, merchant order, disclosure placement, deep-dive structure and story order, an award, a photograph and a composite score in every deep dive, self-reference and shared photographs; then a self-test that feeds each rule a page that breaks it |
-| Story `play()` (`src/kit/testing/page-checks.ts`) | in the browser, at every width: deep-dive columns start within 4px, no gap over 150px, the sticky rail at most 150px longer than the story, primary/secondary/row CTAs ≥ 44px, tabular numerals computed on every numeric cell, merchant order, one photograph per product, no repeated text, and axe-core WCAG 2.0/2.1/2.2 A + AA with zero violations |
+| Story `play()` (`src/kit/testing/page-checks.ts`) | on every kit story — each primitive and component page as well as the blocks and templates — in the browser, at every width: deep-dive columns start within 4px, no gap over 150px, the sticky rail at most 150px longer than the story, primary/secondary/row CTAs ≥ 44px, tabular numerals computed on every numeric cell, merchant order, one photograph per product, no repeated text, and axe-core WCAG 2.0/2.1/2.2 A + AA with zero violations |
 | `node scripts/verify-stories.mjs --build --widths 375,1440` | runs every story at both widths and fails on play() errors, console errors, failed requests, layout shift and horizontal overflow |
 
 ## What exists today
@@ -386,9 +432,11 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | Layer | Contents |
 | --- | --- |
 | Theme | `src/kit/theme/kit.css` — foundation, the three voices, Atelier, Assay, categories, Tailwind bridge, surface and studio utilities |
-| Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer` |
-| Parts | `src/kit/ui` — Button, BuyButton / BuyRow / BuyPill / BuyLink, JumpLink, ProductImage, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, Award, ResultMark, BestPrice, Monogram, Sep |
-| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter, the eight macro-primitives, BuyBlock, PickMedia, PickRow |
+| Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst` |
+| Story kit | `src/kit/testing` — `Specimen` and `State` (the layout of every primitive and component page), the page checks |
+| Primitives | `src/kit/ui` — Price, Meter, Disclosure, Eyebrow, Breadcrumb, Badge, Award, BestPrice, ResultMark, Button, BuyButton / BuyPill / BuyRow / BuyLink, JumpLink, ProductImage, Avatar, Monogram, Sep |
+| Components | `src/kit/components` — BuyBlock, OfferCard, RetailerList, VerdictCard, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, ProsCons, PullQuote, SpecSheet, PickMedia |
+| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalogue) |
 | Templates | `src/kit/templates` — RoundupPage, VersusPage, LabAssayPage, CollectorsGuidePage |
 
 The older `src/primitives` library is frozen; its running guide now lives in

@@ -1,7 +1,6 @@
-import { Plus } from "lucide-react";
-
 import { cn } from "@/lib/cn";
 import type { RoundupGuide } from "@/kit/types";
+import { Disclosure, DisclosureIcon, DisclosureSummary, Eyebrow } from "@/kit/ui";
 
 /**
  * How the testing was done, as an elevated card on the ground. Heading and
@@ -31,18 +30,18 @@ export function MethodologyAccordion({ methodology, id = "methodology", classNam
           <ol className="m-0 list-none p-0 @4xl:col-span-7 @4xl:col-start-6">
             {methodology.steps.map((step, i) => (
               <li key={step.title} className="border-b border-line first:border-t">
-                <details className="kit-details" open={i === 0}>
-                  <summary className="kit-focus flex min-h-14 items-center justify-between gap-6 rounded-ctl py-3 t-ui text-fg">
+                <Disclosure open={i === 0}>
+                  <DisclosureSummary className="min-h-14 gap-6 rounded-ctl py-3 t-ui text-fg">
                     <span className="grid grid-cols-[2rem_minmax(0,1fr)] items-baseline gap-2">
-                      <span data-numeric className="t-micro text-fg-muted">
+                      <Eyebrow as="span" data-numeric>
                         {String(i + 1).padStart(2, "0")}
-                      </span>
+                      </Eyebrow>
                       <span className="font-semibold">{step.title}</span>
                     </span>
-                    <Plus data-slot="toggle-icon" size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-muted" />
-                  </summary>
+                    <DisclosureIcon />
+                  </DisclosureSummary>
                   <p className="m-0 max-w-measure pb-5 pl-10 t-body text-fg-body">{step.body}</p>
-                </details>
+                </Disclosure>
               </li>
             ))}
           </ol>

@@ -2,10 +2,22 @@ import Image from "next/image";
 
 import { cn } from "@/lib/cn";
 import { initials } from "@/lib/format";
-import type { Person } from "@/kit/types";
 
-/** A person’s portrait, or their initials on a paper disc (legible on paper, well and ground) when there is no photograph. */
-export function Avatar({ person, size = "md", className }: { person: Person; size?: "sm" | "md"; className?: string }) {
+/**
+ * A person’s portrait, or their initials on a paper disc (legible on paper,
+ * well and ground) when there is no photograph. Decorative: the name is
+ * always written beside it.
+ *
+ *   sm  36px  quotes and bylines inside cards
+ *   md  44px  the article byline
+ */
+export interface AvatarProps {
+  person: { name: string; avatar?: { src: string; alt: string } };
+  size?: "sm" | "md";
+  className?: string;
+}
+
+export function Avatar({ person, size = "md", className }: AvatarProps) {
   const box = size === "sm" ? "size-9" : "size-11";
   if (person.avatar)
     return (
@@ -19,6 +31,3 @@ export function Avatar({ person, size = "md", className }: { person: Person; siz
     </span>
   );
 }
-
-/** “Wore it for 64 days” → “wore it for 64 days”, for use after a name and a comma. */
-export const lowerFirst = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);

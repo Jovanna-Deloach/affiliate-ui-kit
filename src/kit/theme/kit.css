@@ -509,24 +509,6 @@
   }
 }
 
-/* Native <details> accordions: hide the default marker; the summary owns
-   its own plus/minus. Content stays in the DOM for search engines. */
-@utility kit-details {
-  & > summary {
-    list-style: none;
-    cursor: pointer;
-  }
-  & > summary::-webkit-details-marker {
-    display: none;
-  }
-  & [data-slot="toggle-icon"] {
-    transition: rotate var(--dur) var(--ease);
-  }
-  &[open] [data-slot="toggle-icon"] {
-    rotate: 45deg;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   [data-theme] {
     --dur: 1ms;

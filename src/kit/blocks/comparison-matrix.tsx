@@ -1,13 +1,12 @@
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
+import { PickMedia, pickName, reviewId } from "@/kit/components";
 import { leadOffer } from "@/kit/lib/offers";
+import { upperFirst } from "@/kit/lib/text";
 import type { Metric, MetricValue, Pick } from "@/kit/types";
-import { BuyPill, ResultMark } from "@/kit/ui";
+import { BuyPill, Eyebrow, Price, ResultMark } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
-
-import { PickMedia, pickName, reviewId } from "./pick-media";
 
 /**
  * Every pick on the same columns, as a decision tool: an elevated card with
@@ -74,9 +73,6 @@ export function MetricPills({ metrics, values }: { metrics: Metric[]; values: Re
   );
 }
 
-/** “the office, the pool…” → “The office, the pool…”, for a cell of its own. */
-export const upperFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
 /**
  * Row classes shared with the disqualified table. In a narrow container a
  * row is a small card: the header (thumbnail, award, name) on the full
@@ -140,7 +136,9 @@ export function ComparisonMatrix({ heading, intro, metrics, picks, attribution, 
                     <a href={`#${reviewId(pick)}`} className="kit-focus group grid grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-ctl">
                       <PickMedia pick={pick} detail="thumb" sizes="3.5rem" />
                       <span className="flex min-w-0 flex-col gap-1">
-                        <span className="t-micro-sm text-accent-category-ink">{pick.award}</span>
+                        <Eyebrow as="span" size="sm" tone="category">
+                          {pick.award}
+                        </Eyebrow>
                         <span data-name className="t-name-sm text-fg decoration-1 underline-offset-4 group-hover:underline">
                           {pickName(pick)}
                         </span>
@@ -157,12 +155,7 @@ export function ComparisonMatrix({ heading, intro, metrics, picks, attribution, 
                   <td className={matrixEnd}>
                     {offer ? (
                       <span className="flex items-center justify-end gap-3 @max-3xl:justify-between">
-                        <span className="flex flex-col text-right @max-3xl:text-left">
-                          <span data-numeric className="t-ui font-semibold text-fg">
-                            {formatPrice(offer.price, offer.currency ?? "USD")}
-                          </span>
-                          <span className="whitespace-nowrap t-caption text-fg-muted">at {offer.merchantName}</span>
-                        </span>
+                        <Price amount={offer.price} currency={offer.currency} size="sm" note={<span className="whitespace-nowrap">at {offer.merchantName}</span>} />
                         <BuyPill offer={offer} productId={pick.product.id} placement="comparison" attribution={attribution} filled={lead} />
                       </span>
                     ) : (
