@@ -13,3 +13,6 @@ export * from "./comparison-matrix";
 export * from "./disqualified-sub-table";
 export * from "./product-deep-dive-card";
 export * from "./methodology-accordion";
+export * from "./reviews-section";
+export * from "./write-review";
+export * from "./trust-principles";

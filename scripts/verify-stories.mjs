@@ -9,7 +9,10 @@
  *   • console errors / uncaught page errors
  *   • failed network requests (missing fixtures, fonts, broken imports)
  *   • Cumulative Layout Shift after mount (PerformanceObserver), measured
- *     after `document.fonts.ready` and every <img> has decoded
+ *     after `document.fonts.ready` and every <img> has decoded. As in the
+ *     CLS metric, a shift within 500 ms of a discrete input is expected; that
+ *     includes the clicks and keys a story's play function dispatches (they
+ *     are untrusted, so the browser's own `hadRecentInput` misses them)
  *   • horizontal document overflow (the #1 375 px regression)
  *   • a full-page screenshot per story × vertical × width → .verify/screens/
  *
@@ -173,10 +176,16 @@ async function runJob({ story, vertical, width }) {
   await page.addInitScript(() => {
     window.__cls = 0;
     window.__clsEntries = [];
+    // Discrete inputs, trusted or dispatched by a play function: a shift
+    // within 500 ms after one is the page answering it, not an unexpected shift.
+    const inputs = [];
+    for (const type of ["pointerdown", "mousedown", "keydown", "click"])
+      window.addEventListener(type, () => inputs.push(performance.now()), { capture: true });
+    const afterInput = (t) => inputs.some((at) => at <= t && t - at < 500);
     try {
       new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (!entry.hadRecentInput) {
+          if (!entry.hadRecentInput && !afterInput(entry.startTime)) {
             window.__cls += entry.value;
             window.__clsEntries.push({
               value: Number(entry.value.toFixed(4)),

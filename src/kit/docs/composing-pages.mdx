@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, and where each commerce rule lives." />
+<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, where reviews go, and where each commerce rule lives." />
 
 # Composing pages
 
@@ -83,6 +83,14 @@ export function Page({ site, guide: input }: { site: SiteChrome; guide: RoundupG
 | One buy box per product | Each `ProductDeepDiveCard` has one; do not add another for the same product |
 | Jump links reach their review | A deep dive’s id is `review-{slug}` (`reviewId(pick)` from `@/kit/components`); verdict cards and catalog entries link to it |
 | The method is linked from the testing card | `MethodologyAccordion`’s id defaults to `methodology`, the testing card’s default target |
+| Every review stays up, whatever its rating | `ReviewsSection` shows every review, newest first, and says so under the list; only the reader filters it |
+| A link to a review reaches it | A review’s id is `review-{id}` (its `Review.id`); `ReviewsSection` clears the filters that hide it and lengthens the list to show it |
+
+## Reviews on a page
+
+A product’s reviews go after the proof and before the method: `ReviewsSection` in a `kit-well` with `mt-chapter`, and `TrustPrinciples` under it when the page explains how reviews are handled. For reader reviews, pass `writeAction` (an outlined `Button` that opens a `Dialog` holding `WriteReview`) and the brand’s `TrustSignals` as `aside`. When the site’s testers write every review, leave both out: the section drops the filters that do not apply. A roundup does not list reviews of every pick; it links each pick to its own page.
+
+Mark up reviews as structured data (schema.org `Product` with `Review` and `AggregateRating`) only on a single product’s page, and only for the reviews shown on it.
 
 ## Composing beyond the templates
 

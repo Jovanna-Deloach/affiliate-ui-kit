@@ -233,6 +233,123 @@ export interface RoundupGuide {
   methodology: { heading: string; summary: string; steps: MethodStep[] };
 }
 
+/* ---------------------------------------------------------------------- */
+/* Reviews                                                                */
+/* ---------------------------------------------------------------------- */
+
+/**
+ * How a review reached the site, shown on it so readers can weigh it:
+ * `verified` matched to a purchase · `invited` asked for by the brand or the
+ * site · `unprompted` written on the reader's own · `incentivized` written
+ * after a free product or payment · `tester` written by one of the site's
+ * testers. A review can carry more than one (`verified` and `invited`).
+ */
+export type ReviewLabel = "verified" | "invited" | "unprompted" | "incentivized" | "tester";
+
+/** Who wrote a review: a reader, or one of the site's testers. */
+export interface Reviewer {
+  name: string;
+  /** Where they live, as a two-letter country code (“US”). */
+  country?: string;
+  /** How many reviews they have written on the site. */
+  reviewCount?: number;
+  /** For a tester: their role (“Lab director”). */
+  role?: string;
+  avatar?: { src: string; alt: string };
+}
+
+/** The brand's public answer to a review. */
+export interface ReviewReply {
+  /** Who answered: the brand's name. */
+  author: string;
+  body: string;
+  /** When it was posted (ISO). */
+  postedAt: string;
+}
+
+export interface Review {
+  id: string;
+  /** Whole stars, 1 to 5. */
+  rating: 1 | 2 | 3 | 4 | 5;
+  title: string;
+  body: string;
+  author: Reviewer;
+  /** When it was posted (ISO). */
+  postedAt: string;
+  /** When the reviewer used the product (ISO date), if they said. */
+  experiencedAt?: string;
+  labels: ReviewLabel[];
+  /** Changed by its author after it was posted. */
+  edited?: boolean;
+  /** How many readers marked it useful. */
+  useful?: number;
+  reply?: ReviewReply;
+  /** The ids of the `ReviewTopic`s it mentions. */
+  topics?: string[];
+  /** Its language, as a code (“en”). */
+  language?: string;
+}
+
+/** A product's (or a brand's) reviews in numbers. */
+export interface RatingSummary {
+  /** The average, 1 to 5, one decimal. */
+  average: number;
+  /** All reviews. */
+  count: number;
+  /** Reviews posted in the last 12 months. */
+  recentCount?: number;
+  /** How many reviews gave each rating, from 1 star to 5 stars. */
+  distribution: [number, number, number, number, number];
+}
+
+/** Something reviewers mention, counted across the reviews. */
+export interface ReviewTopic {
+  id: string;
+  /** A word or two, sentence case (“Mixes well”). */
+  label: string;
+  /** How many reviews mention it. */
+  mentions: number;
+}
+
+/** A generated summary of the reviews, always shown as one. */
+export interface AiSummary {
+  /** A short paragraph: what most reviewers say, and where they disagree. */
+  body: string;
+  /** How many reviews it read. */
+  basedOn: number;
+  /** The oldest review it read (ISO). */
+  since: string;
+  /** The ids of two or three reviews it draws on, shown under it. */
+  sources: string[];
+}
+
+/** How a brand handles its reviews, as the site has observed it. */
+export interface TrustSignals {
+  /** Whether the brand asks its customers for reviews (`rarely`: not in the last 12 months). */
+  asksForReviews: "always" | "sometimes" | "rarely";
+  /** The share of negative reviews (1 or 2 stars) it has replied to, 0 to 1. */
+  replyRate?: number;
+  /** How long it usually takes to reply (“48 hours”). */
+  replyTime?: string;
+  /** Since when the brand has managed its page (ISO). */
+  claimedSince?: string;
+}
+
+/** What a reader has asked the review list for. */
+export interface ReviewQuery {
+  /** Ratings to show; empty shows all. */
+  stars: number[];
+  verifiedOnly: boolean;
+  withReplies: boolean;
+  /** Posted within: `all`, the last 30 days, 3, 6 or 12 months. */
+  posted: "all" | "30d" | "3m" | "6m" | "12m";
+  /** A topic id; reviews that mention it. */
+  topic?: string;
+  /** Words to find in the title or body. */
+  search: string;
+  sort: "recent" | "relevant" | "highest" | "lowest";
+}
+
 // src/types/affiliate.ts: import from "@/types/affiliate"
 export interface MerchantOffer {
   id: string;
