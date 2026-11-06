@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 /**
  * The masthead of a watch magazine on a watches page: the section carries
- * the brass marker. Below 1024px the sections fold into the menu button.
+ * the blued-steel marker. Below 1024px the sections fold into the menu button.
  * @summary The masthead with the page’s section marked (Atelier).
  */
 export const OnASectionPage: Story = {

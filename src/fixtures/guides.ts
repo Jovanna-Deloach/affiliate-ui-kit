@@ -63,7 +63,7 @@ export const guideCreatine: GuideEntity = {
   title: "Best creatine monohydrate, assayed in duplicate",
   dek: "Eighteen powders through HPLC and ICP-MS; four pass every USP limit.",
   href: "#guide-creatine",
-  products: [productCreatine, { ...productCreatine, id: "prod-ironhouse-creapure", name: "Creapure Micronised 300 g", brand: "Ironhouse" }, { ...productCreatine, id: "prod-northlane-creatine-1kg", name: "Creatine Monohydrate 1 kg", brand: "Northlane Basics" }],
+  products: [productCreatine, { ...productCreatine, id: "prod-ironhouse-creapure", name: "Creapure Micronized 300 g", brand: "Ironhouse" }, { ...productCreatine, id: "prod-northlane-creatine-1kg", name: "Creatine Monohydrate 1 kg", brand: "Northlane Basics" }],
   tested: 18,
   winners: 4,
   updatedAt: "2026-10-21T10:00:00Z",

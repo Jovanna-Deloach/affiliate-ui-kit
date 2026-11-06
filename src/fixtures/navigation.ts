@@ -26,7 +26,7 @@ const derive = (
 const creatineRunnerUp = derive(productCreatine, {
   id: "prod-ironhouse-creapure",
   slug: "ironhouse-creapure",
-  name: "Creapure Micronised 300 g",
+  name: "Creapure Micronized 300 g",
   brand: "Ironhouse",
   eyebrow: "Best Solubility",
   overallScore: 9.3,

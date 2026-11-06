@@ -14,9 +14,9 @@ required — credited here anyway). Downloaded at `w=1600&q=82`.
 | `shoe-aerolite-02-worn.jpg` | Demo "after 400 miles" derivative of `shoe-aerolite-02.jpg` (desaturated, darkened, vignetted) for the comparison slider | same as above |
 | `shoe-tempo-01.jpg` | Gray running shoe, floating on white | [LxVxPA1LOVM](https://unsplash.com/photos/LxVxPA1LOVM) |
 | `shoe-cumulus-01.jpg` | Volt training shoe on green | [kP6knT7tjn4](https://unsplash.com/photos/kP6knT7tjn4) |
-| `watch-ardent-01.jpg` | Two-tone dive watch on white | [O703kpzIsQI](https://unsplash.com/photos/O703kpzIsQI) |
-| `supplement-creatine-01.jpg` | Clear capsule jar with blank label, cream background | [yYZthq7bucQ](https://unsplash.com/photos/yYZthq7bucQ) |
-| `supplement-creatine-02.jpg` | White supplement bottle, blank label | [EUlDhZSyMpg](https://unsplash.com/photos/EUlDhZSyMpg) |
+| `watch-ardent-01.jpg` | Two-tone dive watch on white cloth (white-balanced) | [O703kpzIsQI](https://unsplash.com/photos/O703kpzIsQI) |
+| `supplement-creatine-01.jpg` | Clear capsule jar with blank label: the `kit/supp-fieldwork.webp` cut-out on white | [yYZthq7bucQ](https://unsplash.com/photos/yYZthq7bucQ) |
+| `supplement-creatine-02.jpg` | White supplement bottle, blank label: the `kit/supp-ironhouse.webp` cut-out on white | [EUlDhZSyMpg](https://unsplash.com/photos/EUlDhZSyMpg) |
 | `portrait-marchetti.jpg` | Editorial author portrait (warm studio) | [b8d87734a5a2](https://unsplash.com/photos/1573496359142-b8d87734a5a2) |
 | `portrait-raman.jpg` | Lab director portrait (white studio) | [1l6UeCc9P9o](https://unsplash.com/photos/1l6UeCc9P9o) |
 
@@ -26,8 +26,8 @@ Merchants are fictional; they render as monogram tiles (no wordmarks).
 
 Every product on a kit page is shown in studio photography. These are
 cut-outs made for the kit (background removed with rembg’s
-`isnet-general-use` model, edges and holes cleaned by hand, exported as
-transparent WebP) from photographs on Unsplash
+`isnet-general-use` model, edges and holes cleaned by hand, beige and cream
+packaging and capsules turned white, exported as transparent WebP) from photographs on Unsplash
 ([Unsplash License](https://unsplash.com/license)) and Pexels
 ([Pexels License](https://www.pexels.com/license/)); neither license
 requires attribution, credited here anyway.
@@ -48,9 +48,9 @@ supplies its own packshots and must not be published as-is.
 | `kit/watch-okada.webp` | Black diver on a steel bracelet (Okada Tide 40 Diver); table reflection trimmed | Unsplash [GaHmbqNh5q8](https://unsplash.com/photos/GaHmbqNh5q8), Patrick Langwallner |
 | `kit/watch-brennan.webp` | Field watch on a navy canvas strap (Brennan Field 36) | Pexels [28261820](https://www.pexels.com/photo/28261820/) |
 | `kit/supp-peak.webp` | Black-lidded tub (Peak Supply Creatine Monohydrate) | Unsplash [photo-1704650311298-4d6915d34c64](https://images.unsplash.com/photo-1704650311298-4d6915d34c64) |
-| `kit/supp-ironhouse.webp` | White supplement bottle (Ironhouse Creapure Micronised); the same photograph as `supplement-creatine-02.jpg` | Unsplash [EUlDhZSyMpg](https://unsplash.com/photos/EUlDhZSyMpg) |
+| `kit/supp-ironhouse.webp` | White supplement bottle (Ironhouse Creapure Micronized) | Unsplash [EUlDhZSyMpg](https://unsplash.com/photos/EUlDhZSyMpg) |
 | `kit/supp-northlane.webp` | White 1 kg tub (Northlane Basics); scoop removed, corner repaired | Unsplash [photo-1664787020149-ebb836adcf3c](https://images.unsplash.com/photo-1664787020149-ebb836adcf3c) |
-| `kit/supp-fieldwork.webp` | Clear capsule jar (Fieldwork Creatine Capsules), from `supplement-creatine-01.jpg` | Unsplash [yYZthq7bucQ](https://unsplash.com/photos/yYZthq7bucQ) |
+| `kit/supp-fieldwork.webp` | Clear capsule jar (Fieldwork Creatine Capsules) | Unsplash [yYZthq7bucQ](https://unsplash.com/photos/yYZthq7bucQ) |
 
 ## Kit graphics
 

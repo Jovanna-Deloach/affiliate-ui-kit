@@ -32,7 +32,7 @@ export const BudgetPick: Story = {
 };
 
 /**
- * In the Assay theme the award is obsidian on white, with no brass border.
+ * In the Assay theme the award is obsidian on white, with no blued-steel border.
  * @summary The award in the Assay theme.
  */
 export const Assay: Story = {

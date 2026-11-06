@@ -36,9 +36,9 @@ const Pill = styled.span<{ tone: "new" | "beta" | "deprecated" }>(({ tone }) => 
   letterSpacing: "0.04em",
   lineHeight: "16px",
   textTransform: "uppercase",
-  color: tone === "deprecated" ? "#6a6157" : "#5e1914",
-  background: tone === "deprecated" ? "#efebe4" : "#f2e8e4",
-  "[data-selected='true'] &": { color: "#faf8f4", background: "rgb(250 248 244 / 0.18)" },
+  color: tone === "deprecated" ? "#577083" : "#0b5cd5",
+  background: tone === "deprecated" ? "#e9eff5" : "#e7f0ff",
+  "[data-selected='true'] &": { color: "#ffffff", background: "rgb(255 255 255 / 0.2)" },
 }));
 
 addons.setConfig({

@@ -100,7 +100,7 @@ export interface ComparisonMatrixProps {
 
 /**
  * Every pick on the same columns, as a decision tool: micro-caps column
- * heads, our pick on a warm tint, who each pick is for, and in the last
+ * heads, our pick on the category tint, who each pick is for, and in the last
  * column the lowest in-stock price, its retailer and a “Buy” pill (filled
  * for our pick only). In a narrow container each pick condenses to its name,
  * three key measurements as pills and a price line, so the phone page does

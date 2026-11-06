@@ -67,9 +67,8 @@ const config: StorybookConfig = {
   staticDirs: [
     "../public",
     // The manager's faces (manager-head.html): Inter for the interface,
-    // Newsreader for the brand, JetBrains Mono for code.
+    // JetBrains Mono for code.
     { from: "../node_modules/@fontsource-variable/inter/files", to: "/sb-fonts/inter" },
-    { from: "../node_modules/@fontsource-variable/newsreader/files", to: "/sb-fonts/newsreader" },
     { from: "../node_modules/@fontsource-variable/jetbrains-mono/files", to: "/sb-fonts/jetbrains-mono" },
   ],
   viteFinal: (viteConfig) =>

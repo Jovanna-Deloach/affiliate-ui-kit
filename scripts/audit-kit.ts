@@ -13,6 +13,9 @@
  *      <Sep /> part (decorative, aria-hidden), never typed into copy
  *    • no bottom alignment (items-end, self-end, place-*-end): product grids
  *      are top-aligned so columns share one baseline
+ *    • no beige: every color in the themes and the Storybook shell is white,
+ *      a cool gray or a real hue; never a warm off-white (beige, cream,
+ *      sand, peach, parchment)
  *
  * 2. CONTRACTS (the fixture guides an agent copies)
  *    • author and every quoted tester carry the page’s category in `beats`
@@ -107,6 +110,34 @@ for (const file of files) {
     const where = `${path.relative(ROOT, file)}:${i + 1}`;
     for (const [re, why] of RULES) if (re.test(code)) fail(where, `${why}\n      ${line.slice(0, 150)}`);
     for (const m of code.matchAll(SPACING_RE)) if (!SPACING.has(m[1]!)) fail(where, `spacing step ${m[0]} is off the scale`);
+  });
+}
+
+/* ======================================================================== */
+/* 1b. No beige: whites and cool grays, never a warm off-white              */
+/* ======================================================================== */
+
+/** A light color with an orange-to-yellow cast: beige, cream, sand, peach, parchment, warm gray. */
+function isWarmLight(hex: string): boolean {
+  let h = hex.slice(1);
+  if (h.length === 3 || h.length === 4) h = [...h.slice(0, 3)].map((c) => c + c).join("");
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)) as [number, number, number];
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const chroma = max - min;
+  if (chroma < 4 || (max + min) / 2 / 255 < 0.72) return false;
+  const sector = max === r ? ((g - b) / chroma + 6) % 6 : max === g ? (b - r) / chroma + 2 : (r - g) / chroma + 4;
+  const hue = sector * 60;
+  return hue >= 10 && hue <= 75;
+}
+
+const NO_BEIGE = ["src/kit/theme/kit.css", ".storybook/theme.ts", ".storybook/manager-head.html", ".storybook/preview-head.html"];
+console.log(`▶ no beige: the kit's themes and the Storybook shell`);
+for (const file of NO_BEIGE) {
+  (await readFile(path.join(ROOT, file), "utf8")).split("\n").forEach((line, i) => {
+    for (const [hex] of line.matchAll(/#[0-9a-fA-F]{3,8}\b/g)) {
+      if (isWarmLight(hex)) fail(`${file}:${i + 1}`, `${hex} is a warm off-white (beige, cream, peach): use white or a cool gray`);
+    }
   });
 }
 
@@ -367,6 +398,9 @@ for (const [input, want] of [
 ] as const) {
   const got = typeset(input);
   if (got !== want || typeset(got) !== got) fail("self-test", `typeset(${JSON.stringify(input)}) gave ${JSON.stringify(got)}`);
+}
+for (const [hex, warm] of [["#f4efe6", true], ["#fbf8f1", true], ["#e4d5b4", true], ["#fef3c7", true], ["#fbeae5", true], ["#f5f7fa", false], ["#ffffff", false], ["#e6f2ea", false], ["#111418", false]] as const) {
+  if (isWarmLight(hex) !== warm) fail("self-test", `the no-beige rule read ${hex} as ${warm ? "cool" : "warm"}`);
 }
 const misattributed: RoundupGuide = { ...runningGuide, author: watchesGuide.author };
 if (misattributed.author.beats.includes(misattributed.category)) fail("self-test", "the provenance rule did not fire for a watches editor on a running test");

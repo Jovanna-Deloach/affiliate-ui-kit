@@ -26,10 +26,10 @@ const peak = product({
 });
 const ironhouse = product({
   id: "c-ironhouse-creapure",
-  slug: "ironhouse-creapure-micronised",
+  slug: "ironhouse-creapure-micronized",
   brand: "Ironhouse",
-  name: "Creapure Micronised",
-  image: photo("supp-ironhouse.webp", "Ironhouse Creapure Micronised, a white 300 g bottle", 660, 1200),
+  name: "Creapure Micronized",
+  image: photo("supp-ironhouse.webp", "Ironhouse Creapure Micronized, a white 300 g bottle", 660, 1200),
   offers: [offer("iron-nl", "Northlane", 29, { isPrimaryPartner: true, shippingNote: "Free 2-day shipping" }), offer("iron-own", "Ironhouse", 32, { shippingNote: "Ships in 3 days" })],
   lastVerifiedAt: "2026-10-29T08:00:00Z",
 });
@@ -130,7 +130,7 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         "It is plain, unflavored monohydrate, the form with the most research behind it, and it mixes into anything without changing the taste.",
       ],
       likes: ["Closest to its label of all eighteen", "Every contaminant under a fifth of its limit", "Unflavored, mixes into anything"],
-      caveats: ["Not micronised: slightly gritty in cold water", "Scoop holds 3.5 g, not 5 g", "Moisture near its limit in one run"],
+      caveats: ["Not micronized: slightly gritty in cold water", "Scoop holds 3.5 g, not 5 g", "Moisture near its limit in one run"],
       facts: [
         { label: "Form", value: "Monohydrate, unflavored" },
         { label: "Net weight", value: "500 g" },
@@ -142,8 +142,8 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     },
     {
       product: ironhouse,
-      award: "Best micronised",
-      descriptor: "Micronised creatine, 300 g bottle",
+      award: "Best micronized",
+      descriptor: "Micronized creatine, 300 g bottle",
       bestFor: "mixing into cold drinks without grit",
       verdict: "The creatine to buy if grit in a cold shake is why you stopped taking it.",
       synthesis: "Fully dissolved at 20 °C in our saturation test, and 99.1% of its claim in both runs.",
@@ -157,13 +157,13 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       ],
       measurements: assay("IH-77", [98.9, 99.3], [0.012, 0.006], 4.96, [22, 60, 8, 2.1], "< 10 ppm", "10.8%"),
       body: [
-        "If grit in a cold shake bothers you, Ironhouse is the answer. Micronising shrinks the particles so they dissolve completely, and it costs a little more per serving to get there.",
+        "If grit in a cold shake bothers you, Ironhouse is the answer. Micronizing shrinks the particles so they dissolve completely, and it costs a little more per serving to get there.",
         "Every contaminant we screened for was well inside its limit, and the scoop holds a true 5 g, so a dose is one level scoop.",
       ],
       likes: ["No grit, even in cold water", "True 5 g scoop", "Creapure raw material"],
       caveats: ["$0.48 per serving, more than double our pick", "Pouch gets harder to scoop from as it empties"],
       facts: [
-        { label: "Form", value: "Micronised monohydrate" },
+        { label: "Form", value: "Micronized monohydrate" },
         { label: "Net weight", value: "300 g" },
         { label: "Servings", value: "60 × 5 g" },
         { label: "Raw material", value: "Creapure" },

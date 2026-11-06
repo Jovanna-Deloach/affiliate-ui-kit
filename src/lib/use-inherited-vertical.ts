@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState, type RefObject } from "react";
 import type { Vertical } from "@/lib/verticals";
 
 /**
- * Portalled surfaces (sheets, popovers, docks) render outside the DOM subtree
+ * Portaled surfaces (sheets, popovers, docks) render outside the DOM subtree
  * that carries `[data-vertical]`, so they would fall back to the `:root`
  * profile. This hook reads the nearest vertical of an in-place anchor so the
  * surface can stamp the same `data-vertical` on itself and inherit the exact

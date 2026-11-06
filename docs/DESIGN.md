@@ -21,8 +21,9 @@ The kit must produce **unique** sites — a watch magazine and a supplement
 lab must not look like the same template recolored — while every page
 built from it meets the same quality floor. The bar is an editorial
 publication with a design desk, not a dashboard: real photography of every
-product, a typographic system with three distinct voices, warm surfaces,
-and boxes only where a box does a job.
+product, a typographic system with three distinct voices, cool white
+surfaces, and boxes only where a box does a job. No beige, cream or
+parchment: warm off-whites read as dated.
 
 **Uniqueness comes from themes and composition. Quality comes from
 constraints.** Components do not offer a menu of looks; a theme decides the
@@ -59,7 +60,7 @@ result, long names, missing data — in both themes and in a narrow column.
 | Measure | Reading text at most `65ch` (`max-w-measure`), set with `text-wrap: pretty`. Headlines are balanced (`text-wrap: balance`); the H1 is capped at the theme’s title measure (`max-w-measure-title`, 22ch) |
 | Spacing | Tailwind’s 4px scale, restricted to 0.5 1 1.5 2 2.5 3 3.5 4 5 6 8 10 12 16 20 24 32. Page sections use `mt-chapter`, the theme’s section gap |
 | Alignment | Columns that sit side by side start on one line (`items-start`). Bottom alignment (`items-end`, `self-end`, `place-*-end`) is banned in the kit; right-align with `text-right` or an auto margin |
-| Surfaces | Three layers, never more. **Ground**: the page canvas, warm and toned (`bg-ground`, never `#FFFFFF`). **Paper**: cards with a 1px `line` border and the theme’s ambient elevation (`kit-card`, `--shadow-card`); the page’s lead pick sits on a warmer surface lifted a step further (`kit-card-feature`, `--shadow-feature`). **Well**: a recess inside a card (`kit-recess`, the buy box’s offer card). Photographs sit on the **studio well** (`kit-studio`), a radial sweep. Elevation comes only from the two theme shadows: the audit fails any other `shadow-*` |
+| Surfaces | Three layers, never more. **Ground**: the page canvas, a cool step below white so cards read on it (`bg-ground`). **Paper**: cards with a 1px `line` border and the theme’s ambient elevation (`kit-card`, `--shadow-card`); the page’s lead pick sits on the same white, lifted a step further (`kit-card-feature`, `--shadow-feature`). **Well**: a recess inside a card (`kit-recess`, the buy box’s offer card). Photographs sit on the **studio well** (`kit-studio`), a radial sweep. Elevation comes only from the two theme shadows: the audit fails any other `shadow-*` |
 
 ## Typography: three voices
 
@@ -171,7 +172,7 @@ The answer, above the fold, as an asymmetric bento on the ground:
 
 ```
 ┌ 7 columns ──────────────────────────┐ ┌ 5 columns ─────────────────────┐
-│ our pick: warmer surface, lifted     │ │ studio │ [UPGRADE PICK]         │
+│ our pick: white, lifted further      │ │ studio │ [UPGRADE PICK]         │
 │ studio well │ [OUR PICK]             │ │ well   │ name, best for         │
 │             │ display name           │ │        │ price  [BUY AT X ↗]    │
 │             │ two-line verdict …     │ ├────────────────────────────────┤
@@ -229,7 +230,7 @@ page of them reads as one system:
 
 **Studio frame.** 4 : 4.2 (3 : 2 when a narrow container stacks a wide
 frame), the media radius (6px), `radial-gradient(circle at 50% 45%,
-#FAF8F4, #E8E4DA)`. The cut-out is contain-fit inside a 9% inset with
+#FFFFFF, #E7ECF2)`. The cut-out is contain-fit inside a 9% inset with
 `drop-shadow(0 16px 24px rgb(0 0 0 / 0.12))`. The award is a solid pill
 pinned top-left (`Award`: the award color, 10px tracked mono). Supplements
 add the lab’s verdict in the bottom-left corner, frosted (`AssayBadge`):
@@ -245,7 +246,7 @@ category’s telemetry on a hairline:
 
 | Category | Telemetry | Shows |
 | --- | --- | --- |
-| Watches | `ChronometerStrip` | one line: the six positions as ticks over the tolerance band (brass in Atelier), the mean rate (“Mean +1.6 s/day”), the tolerance, and how many positions fall outside (warning tone) |
+| Watches | `ChronometerStrip` | one line: the six positions as ticks over the tolerance band (blued steel in Atelier), the mean rate (“Mean +1.6 s/day”), the tolerance, and how many positions fall outside (warning tone) |
 | Supplements | `MetalRows` | lead, arsenic, cadmium and mercury in ppb against each limit (“16 / 100”); the bar is the share of the limit, in the warning tone from 50% and the fail tone above 100% |
 | Running | `BenchRows` | energy return, loss at 300 miles and weight against the test average (the tick on each bar), then stack and drop |
 
@@ -319,13 +320,13 @@ book; the interface stays out of the way.
 
 | Role | Value |
 | --- | --- |
-| Canvas | Horological parchment `#F4F0E8` |
-| Card | `#FAF8F4`, 1px `#E2DDD3`, `0 1px 2px rgb(24 22 20 / 4%), 0 10px 28px −10px rgb(24 22 20 / 8%)` |
-| Card, our pick | `#FDFCF9`, a deeper shadow |
-| Well | `#EBE6DC` (strong line `#CEC6B8`) |
-| Text | espresso `#181614`; reading copy `#2D2924`; secondary `#6A6157` |
-| Primary action | deep oxblood `#5E1914`, text `#FAF8F4` |
-| Accent | brushed brass `#8C6D46`: tolerance band, award borders, the nav marker (text-safe `#6E5434`) |
+| Canvas | gallery white `#F5F7FA` |
+| Card | `#FFFFFF`, 1px `#E0E6ED`, `0 1px 2px rgb(16 24 40 / 4%), 0 10px 28px −10px rgb(16 24 40 / 8%)` |
+| Card, our pick | `#FFFFFF`, a deeper shadow |
+| Well | `#EDF1F6` (strong line `#C8D1DC`) |
+| Text | ink `#121820`; reading copy `#2B333E`; secondary `#576273` |
+| Primary action | deep oxblood `#5E1914`, text `#FFFFFF` |
+| Accent | blued steel `#2D5DA1`, as on a watch’s hands: tolerance band, award borders, the nav marker (text-safe `#24508F`) |
 
 - **Type:** Newsreader with optical sizes (headlines 300, titles 400,
   quotes italic), Plus Jakarta Sans, JetBrains Mono.
@@ -337,12 +338,12 @@ book; the interface stays out of the way.
 
 | Role | Value |
 | --- | --- |
-| Canvas | warm alabaster stone `#F5F3EE` |
-| Card | `#FFFFFF`, 1px `#E5E2DC`, `0 1px 3px rgba(20,20,18,0.03), 0 8px 24px -4px rgba(20,20,18,0.04)` |
-| Card, our pick | `#FFFDF9`, a deeper shadow |
-| Well | `#EFECE6` (strong line `#D3CEC5`) |
-| Text | obsidian `#141413`; reading copy `#2A2926`; secondary warm graphite `#57554F` |
-| Primary action | obsidian `#141413`, white tracked capitals |
+| Canvas | cool lab white `#F3F5F8` |
+| Card | `#FFFFFF`, 1px `#E1E5EA`, `0 1px 3px rgb(16 24 40 / 3%), 0 8px 24px -4px rgb(16 24 40 / 5%)` |
+| Card, our pick | `#FFFFFF`, a deeper shadow |
+| Well | `#ECEFF3` (strong line `#CCD3DB`) |
+| Text | obsidian `#111418`; reading copy `#2A2F37`; secondary graphite `#545C68` |
+| Primary action | obsidian `#111418`, white tracked capitals |
 | Category: supplements | botanical emerald `#1B4D3E`: lab badges, metal bars |
 | Category: running | international vermilion `#C84B31`: athletic telemetry (text-safe `#A63B25`) |
 | Pass / Fail / Near limit | `#0E7543` / `#C2362B` / `#9A5B00` |
@@ -409,7 +410,7 @@ container:
 | `TestingTelemetryBadge` | what was tested, how much (display-serif figures), against what reference; links to the method |
 | `QuickVerdictBento` | the bento above: our pick on 7 columns, at most two compact cards on 5 matching its height |
 | `AlsoGreatRail` | picks as catalog cards (`PickRow`: studio thumbnail, award, name, best for, price, Buy pill, jump link): the collector’s index |
-| `ComparisonMatrix` | a decision tool in a card: micro-caps column heads on a rule (Product, Best for, the metrics, Best price), our pick on a warm tint, a Buy pill per row. In a narrow container each contender is a small card: header, three key measurements as pills, a price line |
+| `ComparisonMatrix` | a decision tool in a card: micro-caps column heads on a rule (Product, Best for, the metrics, Best price), our pick on the category tint, a Buy pill per row. In a narrow container each contender is a small card: header, three key measurements as pills, a price line |
 | `DisqualifiedSubTable` | what failed, on the comparison’s own columns (shared colgroup), never linked |
 | `ProductDeepDiveCard` | one pick in full, the geometry above |
 | `MethodologyAccordion` | the protocol as native disclosures |

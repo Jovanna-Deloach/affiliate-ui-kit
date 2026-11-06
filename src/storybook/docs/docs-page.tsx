@@ -116,10 +116,13 @@ export function toMarkdown(component: ManifestComponent): string {
 
 /* ---- layout --------------------------------------------------------------- */
 
+/** The page's header band: pale blue-gray, as on the Wix Design System's pages. */
 const Header = styled.header(({ theme }) => ({
-  paddingBottom: 28,
-  marginBottom: 32,
-  borderBottom: `1px solid ${theme.appBorderColor}`,
+  padding: "32px 36px 28px",
+  marginBottom: 36,
+  border: `1px solid ${theme.appBorderColor}`,
+  borderRadius: 12,
+  background: theme.background.app,
 }));
 
 const Eyebrow = styled.p(({ theme }) => ({
@@ -157,7 +160,7 @@ const ImportLine = styled.div(({ theme }) => ({
   maxWidth: "100%",
   border: `1px solid ${theme.appBorderColor}`,
   borderRadius: 6,
-  background: theme.background.app,
+  background: theme.background.content,
   "& code": {
     padding: "0 4px 0 12px",
     overflowX: "auto",

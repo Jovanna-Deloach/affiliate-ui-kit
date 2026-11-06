@@ -168,7 +168,7 @@
   --status-positive-soft: rgba(5, 150, 105, 0.08);
   --status-caution: #f59e0b;               /* amber-500 dot */
   --status-caution-ink: #b45309;           /* amber-700 text */
-  --status-caution-soft: rgba(245, 158, 11, 0.12);
+  --status-caution-soft: #ffffff;
   --status-negative: #e11d48;              /* rose-600 dot */
   --status-negative-ink: #be123c;          /* rose-700 text */
   --status-negative-soft: rgba(225, 29, 72, 0.08);
@@ -180,24 +180,24 @@
 
 :root,
 [data-vertical="editorial"] {
-  /* Warm architectural palette · 3-plane luminance hierarchy */
-  --surface-canvas: #f7f5f0;               /* Plane 0: page */
+  /* Neutral architectural palette · 3-plane luminance hierarchy */
+  --surface-canvas: #f6f6f7;               /* Plane 0: page */
   --surface-primary: #ffffff;              /* Plane 1: elevated card */
-  --surface-recessed: #f1efea;             /* Plane 2: data well / header band */
-  --surface-inverse: #141413;              /* Plane 3: primary CTA / hero badge */
+  --surface-recessed: #efeff1;             /* Plane 2: data well / header band */
+  --surface-inverse: #141416;              /* Plane 3: primary CTA / hero badge */
 
-  --ink-primary: #141413;
-  --ink-secondary: #57534e;
-  --ink-tertiary: #8c867e;
-  --ink-inverse: #f7f5f0;
+  --ink-primary: #141416;
+  --ink-secondary: #55575c;
+  --ink-tertiary: #8b8e94;
+  --ink-inverse: #ffffff;
 
-  --border-hairline: rgba(20, 20, 19, 0.09);
-  --border-strong: rgba(20, 20, 19, 0.18);
+  --border-hairline: rgba(20, 20, 22, 0.09);
+  --border-strong: rgba(20, 20, 22, 0.18);
 
-  --meter-fill: rgba(20, 20, 19, 0.8);
-  --meter-track: rgba(20, 20, 19, 0.08);
-  --scrim: rgba(20, 20, 19, 0.45);
-  --focus-ring: #141413;
+  --meter-fill: rgba(20, 20, 22, 0.8);
+  --meter-track: rgba(20, 20, 22, 0.08);
+  --scrim: rgba(20, 20, 22, 0.45);
+  --focus-ring: #141416;
 
   /* Display voice: high-contrast editorial serif */
   --font-display: var(--font-playfair-display, "Playfair Display Variable"),

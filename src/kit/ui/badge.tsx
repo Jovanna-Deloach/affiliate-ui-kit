@@ -28,7 +28,7 @@ export const badgeStyles = cva("inline-flex shrink-0 items-center gap-1.5 whites
     { variant: "soft", tone: "neutral", class: "bg-well text-fg" },
     { variant: "soft", tone: "pass", class: "bg-pass-soft text-pass" },
     { variant: "soft", tone: "fail", class: "bg-fail-soft text-fail" },
-    { variant: "soft", tone: "warn", class: "bg-warn-soft text-warn" },
+    { variant: "soft", tone: "warn", class: "bg-warn-soft text-warn ring-1 ring-warn ring-inset" },
   ],
   defaultVariants: { variant: "outline", tone: "neutral", size: "sm" },
 });
@@ -71,7 +71,7 @@ export interface AwardProps {
 
 /**
  * The award a pick holds, as a solid pill in the theme’s award colors
- * (obsidian, with a brass border in Atelier). Picks are awards, never
+ * (ink, with a blued-steel border in Atelier). Picks are awards, never
  * ranks: “Our pick”, not “01 — Best overall”.
  *
  * **Use it for** the head of a verdict card and the corner of a review

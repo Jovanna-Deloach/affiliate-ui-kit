@@ -44,24 +44,24 @@ const IMG = {
   },
   watch: {
     src: "/fixtures/watch-ardent-01.jpg",
-    alt: "Lindqvist Ardent 38 two-tone dive watch, dial detail on warm gray",
+    alt: "Lindqvist Ardent 38 two-tone dive watch, dial detail on white cloth",
     width: 1600,
     height: 1067,
-    backdrop: "#e4e2dd",
+    backdrop: "#f3f4f5",
   },
   creatine: {
     src: "/fixtures/supplement-creatine-01.jpg",
-    alt: "Peak Supply creatine capsule jar with blank label on cream backdrop",
+    alt: "Peak Supply creatine capsule jar with blank label on white",
     width: 1600,
     height: 1600,
-    backdrop: "#e4d5b4",
+    backdrop: "#ffffff",
   },
   creatineAlt: {
     src: "/fixtures/supplement-creatine-02.jpg",
-    alt: "Peak Supply white supplement bottle with blank label on beige backdrop",
+    alt: "Peak Supply white supplement bottle on white",
     width: 1600,
     height: 1600,
-    backdrop: "#d1c3af",
+    backdrop: "#ffffff",
   },
 } as const;
 
@@ -351,7 +351,7 @@ export const productCreatine: AffiliateProductEntity = {
   verdictSummary:
     "Third-party assay found 99.6% of label claim with no detectable heavy metals. The best-priced creatine that also passed every purity screen we ran.",
   pros: ["99.6% of label claim", "Below detection on heavy metals", "Lowest cost per 5 g dose"],
-  cons: ["Grittier mouthfeel than micronised rivals"],
+  cons: ["Grittier mouthfeel than micronized rivals"],
   specs: [
     { label: "Creatine per serving", value: 5, unit: "g", isHighlight: true },
     { label: "Label accuracy", value: 99.6, unit: "%", isHighlight: true, tooltip: "HPLC assay, ISO 17025 lab, batch 2214." },

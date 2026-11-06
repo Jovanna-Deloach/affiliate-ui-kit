@@ -7,7 +7,7 @@
    new component variant.
 
    SURFACES: three layers, never more.
-     ground — the page canvas: warm, toned, never pure white
+     ground — the page canvas: a cool step below white, so cards read on it
      paper  — cards: 1px hairline, ambient elevation (--shadow-card)
      well   — recesses inside a card; media sits on a radial studio well
 
@@ -61,41 +61,41 @@
   }
 }
 
-/* ---- Atelier: horological parchment, espresso, oxblood, brass ------------ */
+/* ---- Atelier: gallery white, ink, oxblood, blued steel ------------------- */
 [data-theme="atelier"] {
-  --ground: #f4f0e8; /* horological parchment */
-  --paper: #faf8f4;
-  --paper-feature: #fdfcf9;
-  --well: #ebe6dc;
-  --fg: #181614; /* espresso */
-  --fg-body: #2d2924;
-  --fg-muted: #6a6157;
-  --line: #e2ddd3;
-  --line-strong: #cec6b8;
+  --ground: #f5f7fa; /* gallery white: a cool step below the cards */
+  --paper: #ffffff;
+  --paper-feature: #ffffff;
+  --well: #edf1f6;
+  --fg: #121820; /* ink */
+  --fg-body: #2b333e;
+  --fg-muted: #576273;
+  --line: #e0e6ed;
+  --line-strong: #c8d1dc;
   --accent: #5e1914; /* deep oxblood: the buy action */
   --accent-hover: #47120e;
-  --on-accent: #faf8f4;
-  --accent-soft: #f2e8e4;
+  --on-accent: #ffffff;
+  --accent-soft: #f6e9e8;
   --pass: #2f6b45;
-  --pass-soft: #e7efe7;
+  --pass-soft: #e6f2ea;
   --fail: #9b2c2c;
-  --fail-soft: #f6e7e4;
+  --fail-soft: #f9e8e7;
   --caution: #8a5a12;
-  --caution-soft: #f3eadb;
-  /* brushed champagne brass: tolerance bands, award borders, the nav marker */
-  --accent-category: #8c6d46;
-  --accent-category-ink: #6e5434;
-  --accent-category-soft: #efe7da;
-  --award-bg: #181614;
-  --award-fg: #faf8f4;
-  --award-line: #8c6d46;
-  --meter: #181614;
-  --telemetry: #8c6d46;
+  --caution-soft: #ffffff;
+  /* blued steel, as on a watch's hands and screws: tolerance bands, award borders, the nav marker */
+  --accent-category: #2d5da1;
+  --accent-category-ink: #24508f;
+  --accent-category-soft: #e9f0fa;
+  --award-bg: #121820;
+  --award-fg: #ffffff;
+  --award-line: #2d5da1;
+  --meter: #121820;
+  --telemetry: #2d5da1;
 
-  --studio-from: #faf8f4;
-  --studio-to: #e8e4da;
-  --shadow-card: 0 1px 2px rgb(24 22 20 / 0.04), 0 10px 28px -10px rgb(24 22 20 / 0.08);
-  --shadow-feature: 0 2px 4px rgb(24 22 20 / 0.05), 0 24px 48px -18px rgb(24 22 20 / 0.18);
+  --studio-from: #ffffff;
+  --studio-to: #e7ecf2;
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 10px 28px -10px rgb(16 24 40 / 0.08);
+  --shadow-feature: 0 2px 4px rgb(16 24 40 / 0.05), 0 24px 48px -18px rgb(16 24 40 / 0.16);
 
   --font-display: var(--font-newsreader, "Newsreader Variable"), "Newsreader", Georgia, serif;
   --font-text: var(--font-plus-jakarta-sans, "Plus Jakarta Sans Variable"), "Plus Jakarta Sans", system-ui, sans-serif;
@@ -131,37 +131,37 @@
   --section-gap: clamp(5rem, 3rem + 6vw, 8rem);
 }
 
-/* ---- Assay: warm editorial stone and obsidian ---------------------------- */
+/* ---- Assay: cool lab white and obsidian ----------------------------------- */
 [data-theme="assay"] {
-  --ground: #f5f3ee; /* warm alabaster stone */
+  --ground: #f3f5f8; /* cool lab white */
   --paper: #ffffff;
-  --paper-feature: #fffdf9;
-  --well: #efece6;
-  --fg: #141413; /* obsidian ink */
-  --fg-body: #2a2926;
-  --fg-muted: #57554f; /* warm graphite */
-  --line: #e5e2dc;
-  --line-strong: #d3cec5;
-  --accent: #141413; /* obsidian: the buy action, links, focus */
-  --accent-hover: #2e2d2a;
+  --paper-feature: #ffffff;
+  --well: #eceff3;
+  --fg: #111418; /* obsidian ink */
+  --fg-body: #2a2f37;
+  --fg-muted: #545c68; /* graphite */
+  --line: #e1e5ea;
+  --line-strong: #ccd3db;
+  --accent: #111418; /* obsidian: the buy action, links, focus */
+  --accent-hover: #2a2f37;
   --on-accent: #ffffff;
-  --accent-soft: #edeae4;
+  --accent-soft: #eceff3;
   --pass: #0e7543;
   --pass-soft: #e5f4eb;
   --fail: #c2362b;
   --fail-soft: #fcebe9;
   --caution: #9a5b00;
-  --caution-soft: #fff2de;
-  --award-bg: #141413;
+  --caution-soft: #ffffff;
+  --award-bg: #111418;
   --award-fg: #ffffff;
-  --award-line: #141413;
-  --meter: #141413;
+  --award-line: #111418;
+  --meter: #111418;
   --telemetry: var(--accent-category);
 
-  --studio-from: #faf8f4;
-  --studio-to: #e8e4da;
-  --shadow-card: 0 1px 3px rgb(20 20 18 / 0.03), 0 8px 24px -4px rgb(20 20 18 / 0.04);
-  --shadow-feature: 0 2px 6px rgb(20 20 18 / 0.05), 0 24px 48px -16px rgb(20 20 18 / 0.16);
+  --studio-from: #ffffff;
+  --studio-to: #e8ecf1;
+  --shadow-card: 0 1px 3px rgb(16 24 40 / 0.03), 0 8px 24px -4px rgb(16 24 40 / 0.05);
+  --shadow-feature: 0 2px 6px rgb(16 24 40 / 0.05), 0 24px 48px -16px rgb(16 24 40 / 0.16);
 
   --font-display: var(--font-playfair-display, "Playfair Display Variable"), "Playfair Display", Georgia, serif;
   --font-text: var(--font-inter, "Inter Variable"), "Inter", system-ui, sans-serif;
@@ -207,14 +207,14 @@
 [data-theme="assay"][data-category="supplements"] {
   --accent-category: #1b4d3e; /* deep botanical emerald: lab verification */
   --accent-category-ink: #1b4d3e;
-  --accent-category-soft: #e6eeea;
+  --accent-category-soft: #e6efeb;
   --telemetry: var(--accent-category);
 }
 [data-theme="assay"] [data-category="running"],
 [data-theme="assay"][data-category="running"] {
   --accent-category: #c84b31; /* international vermilion: athletic telemetry */
   --accent-category-ink: #a63b25;
-  --accent-category-soft: #f9eae4;
+  --accent-category-soft: #ffffff;
   --telemetry: var(--accent-category);
 }
 
@@ -453,7 +453,7 @@
   border-radius: var(--radius-box);
   box-shadow: var(--shadow-card);
 }
-/* The page's lead pick: a warmer surface, lifted a step further. */
+/* The page's lead pick: the same white paper, lifted a step further. */
 @utility kit-card-feature {
   background-color: var(--paper-feature);
   border: 1px solid var(--line);

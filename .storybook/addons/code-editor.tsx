@@ -10,20 +10,20 @@ import { useEditable } from "use-editable";
  * so nothing here pulls a React 19 runtime into the manager (React 18).
  */
 
-const ink = "#181614";
+const ink = "#162d3d";
 
-/** The kit's palette as syntax colors: oxblood components, brass props, green strings. */
+/** Light syntax colors on white, as in the Wix Playground: blue components, amber props, green strings. */
 export const kitCodeTheme: PrismTheme = {
   plain: { color: ink, backgroundColor: "transparent" },
   styles: [
-    { types: ["comment", "prolog", "doctype", "cdata"], style: { color: "#8a8178", fontStyle: "italic" } },
-    { types: ["punctuation", "operator"], style: { color: "#6a6157" } },
-    { types: ["tag", "class-name", "maybe-class-name"], style: { color: "#5e1914" } },
-    { types: ["attr-name", "property"], style: { color: "#8c6d46" } },
-    { types: ["string", "attr-value", "char", "template-string"], style: { color: "#2f6b45" } },
-    { types: ["number", "boolean", "constant"], style: { color: "#9a5b00" } },
-    { types: ["keyword", "selector"], style: { color: "#1b4d3e" } },
-    { types: ["function"], style: { color: "#47120e" } },
+    { types: ["comment", "prolog", "doctype", "cdata"], style: { color: "#66798c", fontStyle: "italic" } },
+    { types: ["punctuation", "operator"], style: { color: "#5f7488" } },
+    { types: ["tag", "class-name", "maybe-class-name"], style: { color: "#0b5cd5" } },
+    { types: ["attr-name", "property"], style: { color: "#b35400" } },
+    { types: ["string", "attr-value", "char", "template-string"], style: { color: "#1a7f37" } },
+    { types: ["number", "boolean", "constant"], style: { color: "#0e7490" } },
+    { types: ["keyword", "selector"], style: { color: "#8250df" } },
+    { types: ["function"], style: { color: "#0b5cd5" } },
   ],
 };
 

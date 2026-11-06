@@ -48,7 +48,7 @@ export const Tones: Story = {
         <TesterCalloutQuote quote={whitfield.quote} tester={whitfield.tester} metric={whitfield.metric} size="lg" />
       </Specimen>
       <Specimen caption="Monogram fallback, no metric">
-        <TesterCalloutQuote quote="Grittier mouthfeel than micronised rivals, but it dissolved fully at 20 °C in every run." tester={{ name: "Jonah Whitfield", role: "Contributing tester" }} />
+        <TesterCalloutQuote quote="Grittier mouthfeel than micronized rivals, but it dissolved fully at 20 °C in every run." tester={{ name: "Jonah Whitfield", role: "Contributing tester" }} />
       </Specimen>
     </div>
   ),
@@ -76,7 +76,7 @@ export const SideBySideVerticals: Story = {
       <div className="flex flex-col gap-stack">
         <TesterCalloutQuote quote={marchetti.quote} tester={marchetti.tester} metric={marchetti.metric} />
         <TesterCalloutQuote
-          quote="Label accuracy was 99.6% across both runs — the tightest spread we have measured for a non-micronised powder."
+          quote="Label accuracy was 99.6% across both runs — the tightest spread we have measured for a non-micronized powder."
           tester={authorClinical}
           metric="Batch 2214 · dual-run HPLC"
         />

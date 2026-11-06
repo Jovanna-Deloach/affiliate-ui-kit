@@ -8,7 +8,7 @@ A watch magazine and a supplement lab must not look like one template recolored,
 
 ## The levers, strongest first
 
-1. **The theme is the publication.** `atelier` and `assay` differ in every role: faces, scale, palette, radii, elevation and density, not only color. A new publication gets a new theme: a new `[data-theme]` block in `src/kit/theme/kit.css` that sets every role in Foundations, with its own display face, its own type scale and its own surfaces. Never a new component variant.
+1. **The theme is the publication.** `atelier` and `assay` differ in every role: faces, scale, palette, radii, elevation and density, not only color. A new publication gets a new theme: a new `[data-theme]` block in `src/kit/theme/kit.css` that sets every role in Foundations, with its own display face, its own type scale and its own surfaces. The surfaces stay cool whites and grays, never beige, cream or parchment: `bun run check` fails on a warm one. Never a new component variant.
 2. **The category is the section.** Within one publication, `data-category` changes the wayfinding accent (the section marker, award text in tables, telemetry, stamps) and nothing else.
 3. **The archetype is the argument.** A ranking (`RoundupPage`), a decision between two (`VersusPage`), one product in depth (`LabAssayPage`) or a catalog of peers (`CollectorsGuidePage`) are different pages, not one page with a different count.
 4. **The sections are the evidence.** What a page proves decides what it shows: a comparison only when picks share measurements; what failed (`DisqualifiedSubTable`) when the testing excluded products; a catalog rail when the picks after the verdict are worth a second look; the method always.

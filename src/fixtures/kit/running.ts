@@ -179,7 +179,7 @@ export const runningGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Weight", value: "10.6 oz (300 g)" },
         { label: "Stack", value: "42 mm heel, 36 mm forefoot" },
         { label: "Drop", value: "6 mm" },
-        { label: "Midsole", value: "EVA with a rubberised top layer" },
+        { label: "Midsole", value: "EVA with a rubberized top layer" },
         { label: "Plate", value: "None" },
       ],
       metrics: { weight: { value: "10.6 oz" }, stack: { value: "42 / 36 mm" }, drop: { value: "6 mm" }, energy: { value: "64%" }, wear: { value: "-3%" } },

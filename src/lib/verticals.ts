@@ -8,7 +8,7 @@ export const VERTICALS = [
   {
     id: "editorial",
     label: "Editorial",
-    description: "Warm alabaster canvas · Playfair display",
+    description: "Neutral white canvas · Playfair display",
   },
   {
     id: "clinical-performance",

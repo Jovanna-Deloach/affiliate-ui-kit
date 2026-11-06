@@ -35,5 +35,5 @@ function assayOf(pick: Pick | undefined): Assay {
 /** The certificate of analysis for Peak Supply Creatine Monohydrate (passes). */
 export const peakAssay = assayOf(creatineGuide.picks[0]);
 
-/** The certificate of analysis for Ironhouse Creapure Micronised. */
+/** The certificate of analysis for Ironhouse Creapure Micronized. */
 export const ironhouseAssay = assayOf(creatineGuide.picks[1]);

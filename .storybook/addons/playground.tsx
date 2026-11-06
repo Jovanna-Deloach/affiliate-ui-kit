@@ -99,7 +99,7 @@ const Status = styled.div<{ tone: "ok" | "error" | "waiting" }>(({ theme, tone }
     width: 6,
     height: 6,
     borderRadius: "50%",
-    background: tone === "error" ? "#c2362b" : tone === "ok" ? "#2f6b45" : "#c9c2b6",
+    background: tone === "error" ? "#c2362b" : tone === "ok" ? "#1a7f37" : "#c3cfdb",
   },
 }));
 
@@ -110,7 +110,7 @@ const Notice = styled.div(({ theme }) => ({
   padding: "8px 16px",
   fontSize: 13,
   color: theme.color.defaultText,
-  background: "#fbf5e8",
+  background: "#e7f0ff",
   borderBottom: `1px solid ${theme.appBorderColor}`,
 }));
 
@@ -295,9 +295,33 @@ function PlaygroundPanel() {
 }
 
 /**
+ * Marks a panel the Playground opened. Storybook keeps the panel's state
+ * across reloads, so without the mark a reload on another story would find the
+ * panel the Playground left open.
+ */
+const OPENED_KEY = "kit-playground-opened-panel";
+const openedMark = {
+  get: () => {
+    try {
+      return window.localStorage.getItem(OPENED_KEY) === "1";
+    } catch {
+      return false;
+    }
+  },
+  set: (on: boolean) => {
+    try {
+      if (on) window.localStorage.setItem(OPENED_KEY, "1");
+      else window.localStorage.removeItem(OPENED_KEY);
+    } catch {
+      // Storage can be unavailable; the panel then stays as Storybook left it.
+    }
+  },
+};
+
+/**
  * Registers the panel (only on stories with `parameters.playground`), and
- * opens it when the Playground is selected; leaving the Playground puts the
- * panel back as it was.
+ * opens it when the Playground is selected; leaving the Playground, or
+ * reloading on another story, puts the panel back as it was.
  */
 export function registerPlayground() {
   addons.register("kit/playground", (api) => {
@@ -311,12 +335,16 @@ export function registerPlayground() {
     let restore: boolean | undefined;
     api.on(CURRENT_STORY_WAS_SET, ({ storyId }: { storyId?: string }) => {
       if (storyId === PLAYGROUND.storyId) {
-        if (restore === undefined) restore = api.getIsPanelShown();
+        if (restore === undefined) {
+          restore = openedMark.get() ? false : api.getIsPanelShown();
+          if (!restore) openedMark.set(true);
+        }
         api.setSelectedPanel(PLAYGROUND.panelId);
         api.togglePanel(true);
-      } else if (restore !== undefined) {
-        api.togglePanel(restore);
+      } else if (restore !== undefined || openedMark.get()) {
+        api.togglePanel(restore ?? false);
         restore = undefined;
+        openedMark.set(false);
       }
     });
   });

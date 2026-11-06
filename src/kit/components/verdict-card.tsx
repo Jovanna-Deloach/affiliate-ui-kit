@@ -47,7 +47,7 @@ function Name({ pick, className }: { pick: Pick; className: string }) {
 const SOLD_OUT = <p className="m-0 t-small text-fg-muted">Sold out everywhere we track</p>;
 
 /**
- * A pick, answered above the fold. `feature` is the lead pick: a warmer,
+ * A pick, answered above the fold. `feature` is the lead pick: a
  * lifted card with the photograph beside the award, the name in the display
  * serif, the verdict (why, in two lines), the price with its list price and
  * “Best price”, and the page’s one filled button. `compact` is picks 2 and 3:
