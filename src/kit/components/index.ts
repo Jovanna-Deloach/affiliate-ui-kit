@@ -2,7 +2,7 @@
  * COMPONENTS — primitives composed into the pieces of a review: they take
  * the kit’s product contract (`Pick`, `KitProduct`, offers) and are reused
  * across the blocks in `src/kit/blocks`. Each has its own Storybook page
- * (Kit / Components) with every state, in both themes.
+ * (Components) and a specimen sheet with every state, in both themes.
  */
 export * from "./buy-block";
 export * from "./offer-card";

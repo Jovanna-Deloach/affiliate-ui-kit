@@ -1,0 +1,37 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import { TypeScale } from "../../../storybook/docs/blocks";
+
+<Meta title="Foundations/Typography" summary="The three type voices and every t-* style: which to use for titles, reading copy, figures, prices and labels." />
+
+# Typography
+
+Three voices, in every theme. Set type only with these utilities. No Tailwind font sizes (`text-sm`, `text-[15px]`), no fourth face.
+
+| Voice | Utility | Use |
+| --- | --- | --- |
+| Display serif | `t-display` | The page title (H1), capped at `max-w-measure-title` (22ch) |
+| | `t-headline` | Section headings (H2) |
+| | `t-title` | Product titles: the deep dive, the feature verdict card |
+| | `t-name` | Product names in compact cards and catalogue entries (1.25rem) |
+| | `t-name-sm` | Product names in table rows (1.0625rem) |
+| | `t-quote` | Pull-quotes, italic; wrap the opening mark in `kit-hang` |
+| | `t-score`, `t-stat` | Hero figures: the composite score (2.5rem), the testing card’s counts (2.25rem) |
+| Text sans | `t-lead` | The dek, a verdict, the synthesis line |
+| | `t-body` | Reading copy: 17px on 1.68, at most `max-w-measure` (65ch) wide |
+| | `t-ui` | Names, labels and controls (15px) |
+| | `t-small` | Secondary text (14px) |
+| | `t-caption` | Captions and notes (12px) |
+| | `t-button` | Button faces: 11px tracked capitals |
+| | `t-price` | The buy box’s price: 1.5rem bold |
+| | `t-figure`, `t-figure-table`, `t-figure-xl` | Figures: tabular, lining numerals |
+| Mono micro-caps | `t-micro` | Eyebrows, data headings, column heads, stamps: 11px, +0.08em, 600 |
+| | `t-micro-sm` | Pills on photographs, awards in rows: 10px |
+
+Hierarchy: the display serif is for what reads as a title or a hero figure; the text sans is for reading and acting; micro-caps label and never speak (one short phrase, never a sentence, written in sentence case). Mark every figure that should align in a column with `data-numeric`; the checks fail one that is not in tabular numerals.
+
+## Every style in both themes
+
+The display sizes are fluid: the figures under each sample are measured at the width of this page.
+
+<TypeScale />

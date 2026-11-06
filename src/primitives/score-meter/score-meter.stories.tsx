@@ -13,7 +13,7 @@ const VISUALS = ["scorecard", "radial", "inline-bar", "compact"] as const;
 const NAMES = { scorecard: "Scorecard — verdict zone over evidence zone", radial: "Radial", "inline-bar": "Inline bar", compact: "Compact" } as const;
 
 const meta = {
-  title: "Tier 2 · Evaluation & E-E-A-T/ScoreMeter",
+  title: "Legacy/Tier 2 · Evaluation & E-E-A-T/ScoreMeter",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: ScoreMeter,

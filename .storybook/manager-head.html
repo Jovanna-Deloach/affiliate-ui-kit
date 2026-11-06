@@ -1,0 +1,104 @@
+<!--
+  The workshop shell's type and the sidebar's details (docs/STORYBOOK.md).
+  Colours and fonts come from .storybook/theme.ts; this file loads the faces
+  (served from node_modules by staticDirs in main.ts) and tunes what the
+  theme cannot reach: the brand, section headers, icons, the selected page.
+-->
+<style>
+  @font-face {
+    font-family: "Inter Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url("./sb-fonts/inter/inter-latin-wght-normal.woff2") format("woff2-variations");
+  }
+  @font-face {
+    font-family: "Newsreader Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 200 800;
+    src: url("./sb-fonts/newsreader/newsreader-latin-opsz-normal.woff2") format("woff2-variations");
+  }
+  @font-face {
+    font-family: "Newsreader Variable";
+    font-style: italic;
+    font-display: swap;
+    font-weight: 200 800;
+    src: url("./sb-fonts/newsreader/newsreader-latin-opsz-italic.woff2") format("woff2-variations");
+  }
+  @font-face {
+    font-family: "JetBrains Mono Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 800;
+    src: url("./sb-fonts/jetbrains-mono/jetbrains-mono-latin-wght-normal.woff2") format("woff2-variations");
+  }
+
+  /* ---- brand: mark, name in the kit's display serif, version ---------- */
+  .kit-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #181614;
+  }
+  .kit-brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: #181614;
+    color: #faf8f4;
+    font: italic 400 20px/1 "Newsreader Variable", Georgia, serif;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+  }
+  .kit-brand-name {
+    font: 500 18px/1 "Newsreader Variable", Georgia, serif;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .kit-brand-version {
+    padding: 3px 6px;
+    border: 1px solid #e6e1d8;
+    border-radius: 4px;
+    color: #6a6157;
+    font: 500 11px/1 "Inter Variable", system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- sidebar --------------------------------------------------------- */
+  /* Names carry the meaning: no component, story and document icons. Without
+     the icon beside it, the expand chevron centres on the name. */
+  #storybook-explorer-tree .sidebar-item svg[type] {
+    display: none;
+  }
+  #storybook-explorer-tree .sidebar-item > button > div:first-child {
+    align-self: center;
+    margin-top: 0;
+  }
+  /* Section headers: small grey capitals, as in a printed index. */
+  #storybook-explorer-tree .sidebar-subheading [data-action="collapse-root"] {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #8a8178;
+  }
+  #storybook-explorer-tree .sidebar-item {
+    font-size: 14px;
+  }
+  #storybook-explorer-tree .sidebar-item[data-selected="true"] {
+    border-radius: 6px;
+  }
+  /* Stories are written in code (Contributing / Writing stories), not from
+     the sidebar; Storybook's onboarding checklist and release dot are about
+     Storybook, not the kit. */
+  button[aria-label="Create a new story"],
+  div:has(> div > #storybook-checklist-widget) {
+    display: none !important;
+  }
+  .sidebar-header button[aria-label="Settings"]::before,
+  .sidebar-header button[aria-label="Settings"]::after {
+    display: none !important;
+  }
+</style>

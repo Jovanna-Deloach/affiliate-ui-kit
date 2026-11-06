@@ -11,7 +11,7 @@ import { Meter } from "./meter";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Primitives/Meter",
+  title: "Specimen sheets/Primitives/Meter",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

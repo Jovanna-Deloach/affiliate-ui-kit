@@ -9,7 +9,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { EditorialArticleHeader } from "./editorial-article-header";
 
 const meta = {
-  title: "Kit/Blocks/Editorial article header",
+  title: "Blocks/Editorial article header",
   component: EditorialArticleHeader,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },

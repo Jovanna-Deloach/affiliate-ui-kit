@@ -14,7 +14,7 @@ import { RetailerList } from "./retailer-list";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Components/Retailer list",
+  title: "Specimen sheets/Components/Retailer list",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

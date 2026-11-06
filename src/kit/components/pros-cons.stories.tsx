@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { ProsCons } from "./pros-cons";
 
 const meta = {
-  title: "Kit/Components/Pros and cons",
+  title: "Components/Pros and cons",
   component: ProsCons,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "card" },

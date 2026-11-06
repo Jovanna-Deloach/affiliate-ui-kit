@@ -7,7 +7,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { MethodologyAccordion } from "./methodology-accordion";
 
 const meta = {
-  title: "Kit/Blocks/Methodology accordion",
+  title: "Blocks/Methodology accordion",
   component: MethodologyAccordion,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },

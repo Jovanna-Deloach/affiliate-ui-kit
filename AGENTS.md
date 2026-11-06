@@ -5,15 +5,15 @@ This repository is a component library for affiliate review pages (the **kit**, 
 ## Before you build or change any UI
 
 1. **Start Storybook**: `bun run storybook` (http://localhost:6006). Its MCP server is at `http://localhost:6006/mcp`; `.mcp.json` registers it for Claude Code. For another agent: `npx mcp-add --type http --url "http://localhost:6006/mcp" --scope project`.
-2. **Call `docs-list` once.** Read the guides first, in order: Kit/Guides/Start here, Foundations, Data model, Composing pages, Making pages distinct. Then call `docs-show` for every component you use.
+2. **Call `docs-list` once.** Read the guides first, in order: Getting started/Start here; the Foundations pages (Themes, Colour, Typography, Layout, Surfaces); the Guidelines (Data model, Composing pages, Making pages distinct). Then call `docs-show` for every component you use.
 3. **Never hallucinate component properties.** A prop that is not in the docs does not exist. Check every prop with `docs-show` (and `docs-show-story` for a variant it does not show), not by reading source. If the page needs a part the kit does not document, say so instead of hand-building it.
 4. **Copy the imports the docs show**: `@/kit/ui`, `@/kit/components`, `@/kit/blocks`, `@/kit/templates`, `@/kit/types`, `@/kit/lib/offers`, `@/kit/lib/typeset`.
-5. **Before writing or changing stories**, call `get-storybook-story-instructions`, then follow Kit/Guides/Writing stories where the two differ (framing by parameters, the kit checks as `play`, specimen sheets out of the manifest).
+5. **Before writing or changing stories**, call `get-storybook-story-instructions`, then follow Contributing/Writing stories where the two differ (titles by layer, framing by parameters, the kit checks as `play`, specimen sheets out of the manifest).
 
 ## Rules
 
 - **Bun only**: `bun install`, `bun run …`, `bunx …`.
-- **The kit only.** The older library in `src/primitives` (the “Tier 0–15” stories) is kept for reference and hidden from agents; do not build kit pages from it.
+- **The kit only.** The older library in `src/primitives` (the Storybook’s Legacy section, the “Tier 0–15” stories) is kept for reference and hidden from agents; do not build kit pages from it.
 - **React 19 and the Next.js App Router**: Server Components by default; `"use client"` only on interactive leaves.
 - **Styling**: Tailwind v4 with the kit’s roles and `t-*` type styles; CVA, `clsx` and `tailwind-merge` (`cn` from `@/lib/cn`); Radix and vaul for behaviour. No raw colours, no Tailwind font sizes, no ad-hoc shadows, no bottom alignment, no runtime JavaScript animation.
 - **Every monetized link** is a `BuyButton`, `BuyRow`, `BuyPill` or `BuyLink` (built on `AffiliateAction`: `rel="sponsored nofollow noopener"`, attribution, click tracking). Never a plain `<a>` to a retailer.
@@ -23,7 +23,7 @@ This repository is a component library for affiliate review pages (the **kit**, 
 ## Check your work
 
 - `bun run check`: types, lint, the token and kit audits, and the Data model guide in sync with `src/kit/types.ts`.
-- `node scripts/verify-stories.mjs --build --widths 375,1440 --concurrency 4 --no-screens --filter kit-`: every kit story’s page checks (column alignment, voids, 44px targets, tabular numerals, merchant order, one photograph per product, repeated text, axe-core WCAG 2.2 AA) at phone and desktop widths.
+- `node scripts/verify-stories.mjs --build --widths 375,1440 --concurrency 4 --no-screens --filter src/kit/`: every kit story’s page checks (column alignment, voids, 44px targets, tabular numerals, merchant order, one photograph per product, repeated text, axe-core WCAG 2.2 AA) at phone and desktop widths.
 - `bun run build-storybook && bun run audit:manifest`: what agents read through the MCP server is complete.
 - After a visual change, call `stories-preview` for the stories you touched and include the links in your reply.
 

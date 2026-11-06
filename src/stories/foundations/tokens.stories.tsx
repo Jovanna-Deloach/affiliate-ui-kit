@@ -125,7 +125,7 @@ function TokenSheet() {
 }
 
 const meta = {
-  title: "Foundations/Tokens",
+  title: "Legacy/Foundations/Tokens",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   parameters: { layout: "fullscreen" },

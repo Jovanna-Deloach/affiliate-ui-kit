@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { BestPrice } from "./badge";
 
 const meta = {
-  title: "Kit/Primitives/Best price",
+  title: "Primitives/Best price",
   component: BestPrice,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

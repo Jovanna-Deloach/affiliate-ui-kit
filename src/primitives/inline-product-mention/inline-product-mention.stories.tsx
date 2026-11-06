@@ -8,7 +8,7 @@ import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 import { InlineProductMention } from "./inline-product-mention";
 
 const meta = {
-  title: "Tier 6 · Editorial & Visual Proof/InlineProductMention",
+  title: "Legacy/Tier 6 · Editorial & Visual Proof/InlineProductMention",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: InlineProductMention,

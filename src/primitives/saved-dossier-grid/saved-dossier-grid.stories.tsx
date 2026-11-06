@@ -8,7 +8,7 @@ import { SavedDossierGrid } from "./saved-dossier-grid";
 const attribution = { source: "kit", medium: "affiliate", campaign: "member-dossier" };
 
 const meta = {
-  title: "Tier 15 · Account & Personalization/SavedDossierGrid",
+  title: "Legacy/Tier 15 · Account & Personalization/SavedDossierGrid",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: SavedDossierGrid,

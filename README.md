@@ -15,14 +15,26 @@ bun run test:stories   # every story's play checks in Chromium (Vitest)
 bun run verify:stories # headless Storybook verification (see below)
 ```
 
+## The Storybook
+
+Sections in reading order, as in a design-system site: **Getting started**
+(Start here, the Playground, AI agents), **Foundations**, **Guidelines**, the
+kit from **Primitives** to **Templates**, **Specimen sheets**,
+**Contributing**, and the **Legacy** library collapsed at the bottom. Every
+component page leads with its import line, what to use it for and what not,
+then its examples and props, with **Copy for AI**. The **Playground** renders
+kit code as you type, in either theme and at any viewport width.
+[`docs/STORYBOOK.md`](docs/STORYBOOK.md) explains the shell.
+
 ## For AI agents
 
 The Storybook is written to be read by agents as well as people. With
 `bun run storybook` running, its MCP server at `http://localhost:6006/mcp`
 lists every kit component with a one-line summary, shows each one's
-description, story code and props, serves the guides (**Kit / Guides**:
-Start here, Foundations, Data model, Composing pages, Making pages distinct,
-Writing stories) and runs the kit checks on any story (`test-run`).
+description, story code and props, serves the guides (**Getting started /
+Start here**, the **Foundations** pages, the **Guidelines** and
+**Contributing / Writing stories**) and runs the kit checks on any story
+(`test-run`).
 `.mcp.json` registers it for Claude Code. Agents follow
 [`AGENTS.md`](AGENTS.md); [`docs/STORYBOOK.md`](docs/STORYBOOK.md) explains
 how it is wired and how to keep what agents read accurate
@@ -35,12 +47,12 @@ before building anything: uniqueness comes from **themes** (`data-theme`),
 quality from **constraints** enforced by `bun run audit:kit`, and pages are
 composed from **templates** (`src/kit/templates`), not assembled from parts.
 
-- Storybook → **Kit / Templates / Roundup page**: *Caliber* (Atelier theme,
+- Storybook → **Templates / Roundup page**: *Caliber* (Atelier theme,
   watches) and *Proving Ground* (Assay theme), one publication with two
   sections — supplements and running — told apart only by
   `--accent-category`.
-- **Kit / Templates / Versus page**, **Lab assay page** and **Collector’s
-  guide page**: the same blocks (**Kit / Blocks**) recomposed as a
+- **Templates / Versus page**, **Lab assay page** and **Collector’s
+  guide page**: the same blocks (**Blocks**) recomposed as a
   head-to-head, a single-product lab assay and a collector’s guide.
 - Three type voices in every theme: a display serif for titles, hero
   figures and pull-quotes; a text sans for reading copy (17px / 1.68),
@@ -52,16 +64,16 @@ composed from **templates** (`src/kit/templates`), not assembled from parts.
   with its category telemetry — beside the story and a merchant buy box;
   the specifications fold into a `<details>` footer.
 - Every product is shown in studio photography (cut-outs on a radial studio
-  well, **Kit / Components / Pick media**); numbers sit beside the
+  well, **Components / Pick media**); numbers sit beside the
   photograph, never in its place.
 - The library has four layers, in the sidebar in this order:
-  **Kit / Primitives** (`src/kit/ui`: Price, Meter, Disclosure, Eyebrow,
-  Badge, buttons and buy links, ProductImage, Avatar), **Kit / Components**
+  **Primitives** (`src/kit/ui`: Price, Meter, Disclosure, Eyebrow,
+  Badge, buttons and buy links, ProductImage, Avatar), **Components**
   (`src/kit/components`: OfferCard, RetailerList, BuyBlock, VerdictCard,
   Scorecard and Telemetry, ProsCons, PullQuote, SpecSheet, PickMedia),
-  **Kit / Blocks** and **Kit / Templates**. Every part has one story per
+  **Blocks** and **Templates**. Every part has one story per
   use case and a Docs page for its props; every primitive and component
-  also has a specimen sheet (**Kit / Specimen sheets**) with each state in
+  also has a specimen sheet (**Specimen sheets**) with each state in
   both themes and in a narrow column.
 - `bun run check` includes the kit audit (source, contracts, server-rendered
   pages, self-test); every kit story runs browser checks in `play()`
@@ -110,8 +122,9 @@ whole kit at once, so a page always shares one geometry and one elevation
 language: `data-shape="architectural | soft | pill"` (6/4/3 → 10/8/6 →
 capsule controls and tags; media frames and wells stay rectangular) and
 `data-elevation="flat | soft | tactile"` (`--shadow-surface` on resting cards,
-`--shadow-elevated` on floating ones). Both are toolbar globals in Storybook
-and rendered as a matrix under Foundations → Presets. Prices, scores and measured values are always Inter 600,
+`--shadow-elevated` on floating ones). Both are toolbar switches on the legacy
+library's stories and rendered as a matrix under Legacy → Foundations →
+Presets. Prices, scores and measured values are always Inter 600,
 tabular, −0.02em (`type-metric`); monospace is reserved for short uppercase
 metadata (`type-mono`).
 

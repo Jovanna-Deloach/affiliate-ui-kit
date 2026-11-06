@@ -15,7 +15,7 @@ const TREATMENT_NAMES = { cover: "Cover — edge to edge", contain: "Contain —
 const HOVER_NAMES = { none: "No hover", "subtle-zoom": "Subtle zoom", "secondary-angle-swap": "Secondary angle swap" } as const;
 
 const meta = {
-  title: "Tier 3 · Surface & Media/ProductMediaFrame",
+  title: "Legacy/Tier 3 · Surface & Media/ProductMediaFrame",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: ProductMediaFrame,

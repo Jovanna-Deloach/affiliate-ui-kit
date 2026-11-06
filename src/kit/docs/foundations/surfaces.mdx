@@ -1,0 +1,28 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import { Surfaces } from "../../../storybook/docs/blocks";
+
+<Meta title="Foundations/Surfaces" summary="Ground, paper and well; the card, recess and studio utilities; radii and elevation; focus, links, touch targets and motion." />
+
+# Surfaces
+
+Three layers, never more: **ground** (the page), **paper** (cards), **well** (a recess inside a card). Containers nest twice at most.
+
+| Utility | What it is |
+| --- | --- |
+| `kit-card` | Paper with a 1px `line` border, the theme’s radius and its ambient shadow |
+| `kit-card-feature` | A warmer paper lifted a step further: the lead pick’s verdict card only |
+| `kit-recess` | A well inside a card, with a strong hairline: the buy box’s offer card |
+| `kit-studio` | The radial studio well behind every product photograph |
+| `kit-object` | The soft contact shadow under a cut-out product |
+
+Radii are roles too: `rounded-box` (cards), `rounded-ctl` (controls and pills), `rounded-media` (photographs), `rounded-full`. Elevation comes only from `kit-card` and `kit-card-feature`; no other shadow.
+
+<Surfaces />
+
+## Interaction and motion
+
+- `kit-focus` gives every interactive element the same focus ring: 2px in the action colour, 2px off the edge.
+- `kit-link` is the inline link: a thin, low underline that darkens on hover.
+- Buttons and retailer rows are at least 44px tall.
+- Motion is colour only: 180ms on the theme’s easing, cut to 1ms when the reader prefers reduced motion. No scripted animation.

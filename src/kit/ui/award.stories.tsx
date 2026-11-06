@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Award } from "./badge";
 
 const meta = {
-  title: "Kit/Primitives/Award",
+  title: "Primitives/Award",
   component: Award,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

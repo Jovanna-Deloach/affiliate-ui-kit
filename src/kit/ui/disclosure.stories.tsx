@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Disclosure, DisclosureIcon, DisclosureSummary } from "./disclosure";
 
 const meta = {
-  title: "Kit/Primitives/Disclosure",
+  title: "Primitives/Disclosure",
   component: Disclosure,
   subcomponents: { DisclosureSummary, DisclosureIcon },
   tags: ["autodocs"],

@@ -35,7 +35,7 @@ if (missing.length > 0) {
 }
 
 const config: StorybookConfig = {
-  // Guides (MDX) first, so "Start here" opens the kit; then every stories file.
+  // Guides (MDX) first, so "Getting started / Start here" opens the kit; then every stories file.
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(ts|tsx)"],
   addons: [
     // GitHub-flavoured Markdown (tables) in the MDX guides.
@@ -60,7 +60,18 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs-vite",
     options: {},
   },
-  staticDirs: ["../public"],
+  core: {
+    // The shell is the kit's (manager.tsx): no Storybook release pop-ups in it.
+    disableWhatsNewNotifications: true,
+  },
+  staticDirs: [
+    "../public",
+    // The manager's faces (manager-head.html): Inter for the interface,
+    // Newsreader for the brand, JetBrains Mono for code.
+    { from: "../node_modules/@fontsource-variable/inter/files", to: "/sb-fonts/inter" },
+    { from: "../node_modules/@fontsource-variable/newsreader/files", to: "/sb-fonts/newsreader" },
+    { from: "../node_modules/@fontsource-variable/jetbrains-mono/files", to: "/sb-fonts/jetbrains-mono" },
+  ],
   viteFinal: (viteConfig) =>
     mergeConfig(viteConfig, {
       build: {

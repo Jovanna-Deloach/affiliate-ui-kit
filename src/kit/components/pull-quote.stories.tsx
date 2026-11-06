@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { PullQuote } from "./pull-quote";
 
 const meta = {
-  title: "Kit/Components/Pull-quote",
+  title: "Components/Pull-quote",
   component: PullQuote,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "card" },

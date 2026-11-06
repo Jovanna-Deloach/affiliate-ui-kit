@@ -8,7 +8,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { AlsoGreatRail, PickRow } from "./also-great-rail";
 
 const meta = {
-  title: "Kit/Blocks/Also great rail",
+  title: "Blocks/Also great rail",
   component: AlsoGreatRail,
   subcomponents: { PickRow },
   tags: ["autodocs"],

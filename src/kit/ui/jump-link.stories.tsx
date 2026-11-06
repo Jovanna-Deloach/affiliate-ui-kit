@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { JumpLink } from "./jump-link";
 
 const meta = {
-  title: "Kit/Primitives/Jump link",
+  title: "Primitives/Jump link",
   component: JumpLink,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

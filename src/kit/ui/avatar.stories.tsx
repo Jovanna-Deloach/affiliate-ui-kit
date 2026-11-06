@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Avatar } from "./avatar";
 
 const meta = {
-  title: "Kit/Primitives/Avatar",
+  title: "Primitives/Avatar",
   component: Avatar,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

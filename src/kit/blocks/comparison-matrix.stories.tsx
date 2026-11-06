@@ -10,7 +10,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { ComparisonMatrix } from "./comparison-matrix";
 
 const meta = {
-  title: "Kit/Blocks/Comparison matrix",
+  title: "Blocks/Comparison matrix",
   component: ComparisonMatrix,
   subcomponents: { DisqualifiedSubTable },
   tags: ["autodocs"],

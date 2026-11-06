@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Monogram } from "./marks";
 
 const meta = {
-  title: "Kit/Primitives/Monogram",
+  title: "Primitives/Monogram",
   component: Monogram,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

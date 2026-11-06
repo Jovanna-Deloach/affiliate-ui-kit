@@ -17,7 +17,7 @@ const NAMES = {
 } as const;
 
 const meta = {
-  title: "Tier 4 · Comparison & Discovery/SpecList",
+  title: "Legacy/Tier 4 · Comparison & Discovery/SpecList",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: SpecList,

@@ -8,7 +8,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { VerdictCard } from "./verdict-card";
 
 const meta = {
-  title: "Kit/Components/Verdict card",
+  title: "Components/Verdict card",
   component: VerdictCard,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "column" },

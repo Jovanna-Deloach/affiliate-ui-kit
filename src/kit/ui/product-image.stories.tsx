@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { ProductImage } from "./product-image";
 
 const meta = {
-  title: "Kit/Primitives/Product image",
+  title: "Primitives/Product image",
   component: ProductImage,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "narrow" },

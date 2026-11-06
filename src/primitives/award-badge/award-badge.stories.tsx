@@ -13,7 +13,7 @@ import { AWARD_BADGE_SURFACES, AwardBadge } from "./award-badge";
 const SURFACE_NAMES = { inverse: "Inverse — the accolade", glass: "Glass — over photography", outline: "Outline — secondary callout" } as const;
 
 const meta = {
-  title: "Tier 2 · Evaluation & E-E-A-T/AwardBadge",
+  title: "Legacy/Tier 2 · Evaluation & E-E-A-T/AwardBadge",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: AwardBadge,

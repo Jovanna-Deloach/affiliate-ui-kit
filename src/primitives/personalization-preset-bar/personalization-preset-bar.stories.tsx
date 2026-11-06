@@ -7,7 +7,7 @@ import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 import { PersonalizationPresetBar } from "./personalization-preset-bar";
 
 const meta = {
-  title: "Tier 15 · Account & Personalization/PersonalizationPresetBar",
+  title: "Legacy/Tier 15 · Account & Personalization/PersonalizationPresetBar",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: PersonalizationPresetBar,

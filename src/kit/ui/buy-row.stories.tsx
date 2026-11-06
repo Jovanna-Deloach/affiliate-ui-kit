@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { BuyRow } from "./buy";
 
 const meta = {
-  title: "Kit/Primitives/Buy row",
+  title: "Primitives/Buy row",
   component: BuyRow,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "card" },

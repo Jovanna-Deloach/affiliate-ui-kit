@@ -7,7 +7,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { LabAssayPage } from "./archetypes";
 
 const meta = {
-  title: "Kit/Templates/Lab assay page",
+  title: "Templates/Lab assay page",
   component: LabAssayPage,
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

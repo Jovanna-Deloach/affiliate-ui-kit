@@ -1,0 +1,54 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Colour" summary="Every colour role (ground, paper, fg, accent, the category accent, pass and fail…) with its job and its value in each theme." />
+
+# Colour
+
+Use the role, never the value. Every role is a Tailwind colour (`bg-`, `text-`, `border-`), set by the theme; the category roles also change with `data-category`. Colour is never the only signal: a pass, a fail or a warning always has a word or an icon too.
+
+## Surfaces and lines
+
+| Role | Job | Atelier | Assay |
+| --- | --- | --- | --- |
+| `ground` | The page canvas: warm and toned, never pure white | `#f4f0e8` | `#f5f3ee` |
+| `paper` | Cards | `#faf8f4` | `#ffffff` |
+| `paper-feature` | The lead pick’s card only | `#fdfcf9` | `#fffdf9` |
+| `well` | A recess inside a card | `#ebe6dc` | `#efece6` |
+| `line` | Hairlines: cards, tables, rows | `#e2ddd3` | `#e5e2dc` |
+| `line-strong` | Outlines and strong rules | `#cec6b8` | `#d3cec5` |
+
+## Ink
+
+| Role | Job | Atelier | Assay |
+| --- | --- | --- | --- |
+| `fg` | Ink: headings, names, figures | `#181614` | `#141413` |
+| `fg-body` | Reading copy | `#2d2924` | `#2a2926` |
+| `fg-muted` | Secondary text, captions, labels | `#6a6157` | `#57554f` |
+
+## The action
+
+| Role | Job | Atelier | Assay |
+| --- | --- | --- | --- |
+| `accent` | The buy action, links, the focus ring | oxblood `#5e1914` | obsidian `#141413` |
+| `accent-hover` | The action on hover | `#47120e` | `#2e2d2a` |
+| `on-accent` | Text on the action | `#faf8f4` | `#ffffff` |
+| `accent-soft` | A soft tint of the action | `#f2e8e4` | `#edeae4` |
+
+## The category accent
+
+| Role | Job | Atelier | Assay |
+| --- | --- | --- | --- |
+| `accent-category` | The section’s wayfinding colour | brass `#8c6d46` | emerald `#1b4d3e` (supplements), vermilion `#c84b31` (running), obsidian with no category |
+| `accent-category-ink` | The text-safe shade of it (4.5 : 1 on paper and well) | `#6e5434` | `#1b4d3e`, `#a63b25` |
+| `accent-category-soft` | A category tint: our pick’s row in the comparison | `#efe7da` | `#e6eeea`, `#f9eae4` |
+| `telemetry` | Measurement bars and tolerance bands | brass `#8c6d46` | the category accent |
+
+## Awards, results and scores
+
+| Role | Job | Atelier | Assay |
+| --- | --- | --- | --- |
+| `award`, `on-award`, `award-line` | The award pill: fill, text, border | `#181614`, `#faf8f4`, brass `#8c6d46` | `#141413`, `#ffffff`, `#141413` |
+| `pass`, `pass-soft` | A result that passed | `#2f6b45`, `#e7efe7` | `#0e7543`, `#e5f4eb` |
+| `fail`, `fail-soft` | A result that failed | `#9b2c2c`, `#f6e7e4` | `#c2362b`, `#fcebe9` |
+| `warn`, `warn-soft` | A result near its limit | `#8a5a12`, `#f3eadb` | `#9a5b00`, `#fff2de` |
+| `meter` | Score bars | `#181614` | `#141413` |

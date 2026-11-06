@@ -8,13 +8,13 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 
 import { RoundupPage } from "./roundup-page";
 
-/**
- * The roundup archetype on two publications. Every story runs the kit page
- * checks (play): column alignment, voids, touch targets, numerals, merchant
- * order, one photograph per product, repeated text and axe-core WCAG 2.2 AA.
- */
+// The roundup archetype on two publications. Every story runs the kit page
+// checks (play): column alignment, voids, touch targets, numerals, merchant
+// order, one photograph per product, repeated text and axe-core WCAG 2.2 AA.
+// (A line comment, not JSDoc: JSDoc on `meta` would replace RoundupPage’s
+// own description in what agents read.)
 const meta = {
-  title: "Kit/Templates/Roundup page",
+  title: "Templates/Roundup page",
   component: RoundupPage,
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

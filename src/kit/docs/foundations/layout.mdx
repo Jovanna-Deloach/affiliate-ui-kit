@@ -1,0 +1,18 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import { SpacingScale } from "../../../storybook/docs/blocks";
+
+<Meta title="Foundations/Layout" summary="The page well, the section gap, reading measure, the spacing steps, alignment and container queries." />
+
+# Layout
+
+- **The page well**: `kit-well` is the 1200px (75rem) column with its gutters (1rem, 1.5rem from 768px). Every band of a page sits in it, so every band shares one left edge.
+- **Sections** are separated by `mt-chapter`, the theme’s section gap (Atelier 80–128px, Assay 64–96px, fluid). The first band after the article header uses `mt-12 md:mt-16`; deep dives stack with `gap-10`.
+- **Measure**: reading text at most `max-w-measure` (65ch), set with `text-wrap: pretty`; headings are balanced.
+- **Spacing** for padding, margin and gap uses only these steps of the 4px scale: 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32.
+- **Alignment**: columns that sit side by side start on one line (`items-start`). Bottom alignment (`items-end`, `self-end`, `place-*-end`) is not used; right-align with `text-right` or an auto margin.
+- **Container queries**: blocks and components lay out by their own width, not the viewport (`@container`, then `@sm` 24rem, `@md` 28rem, `@xl` 36rem, `@2xl` 42rem, `@3xl` 48rem, `@4xl` 56rem, `@5xl` 64rem), so a block looks right in whatever column it is placed. A phone is a layout, not a squeeze: when width runs out a part drops a word it can spare, never a name or a price.
+
+## The spacing steps
+
+<SpacingScale />

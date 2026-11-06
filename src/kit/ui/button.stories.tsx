@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Button } from "./button";
 
 const meta = {
-  title: "Kit/Primitives/Button",
+  title: "Primitives/Button",
   component: Button,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

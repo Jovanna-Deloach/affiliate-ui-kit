@@ -8,7 +8,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { ProductDeepDiveCard } from "./product-deep-dive-card";
 
 const meta = {
-  title: "Kit/Blocks/Product deep dive card",
+  title: "Blocks/Product deep dive card",
   component: ProductDeepDiveCard,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

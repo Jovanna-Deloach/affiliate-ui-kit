@@ -7,13 +7,14 @@
  *   bun run audit:manifest --url http://127.0.0.1:6006   read a running Storybook
  *
  * Every component in the manifest must:
- *   • be a kit component (the legacy library is tagged !manifest)
+ *   • be a kit component, from src/kit (the legacy library, the specimen
+ *     sheets and the Playground are tagged !manifest)
  *   • have an @summary, and a description that says when not to use it
  *   • import from a kit entry point (@/kit/ui, components, blocks, templates),
  *     with no package-name or relative import in the line agents copy
  *   • document every prop, and have no docgen error
  *   • have at least one story; every story has an @summary, a snippet and no warning
- * Every docs entry must be a kit guide with a summary.
+ * Every docs entry must be a kit guide (src/kit/docs) with a summary.
  */
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -46,6 +47,7 @@ interface Component {
 interface Doc {
   id: string;
   name: string;
+  path: string;
   title?: string;
   summary?: string;
   content?: string;
@@ -84,12 +86,13 @@ const props = (c: { reactComponentMeta?: { props?: Record<string, Prop> }; react
 
 for (const c of Object.values(components)) {
   const where = c.id;
-  if (!c.id.startsWith("kit-")) fail(where, "not a kit component: tag its stories file `!manifest`");
+  if (!c.path.startsWith("./src/kit/")) fail(where, "not a kit component: tag its stories file `!manifest`");
   if (c.error) fail(where, `${c.error.name}: ${c.error.message.split("\n")[0]}`);
   if (!c.summary) fail(where, "no @summary on the component");
   else if (c.summary.length > 120) fail(where, `@summary is ${c.summary.length} characters (keep it to one line)`);
   if (!c.description) fail(where, "no description");
-  else if (!/\*\*Not for\*\*/.test(c.description) && !c.id.startsWith("kit-templates-")) fail(where, "the description does not say what it is not for");
+  else if (!/\*\*Use it for\*\*/.test(c.description)) fail(where, "the description does not say what it is for (JSDoc on the stories file’s meta replaces the component’s)");
+  else if (!/\*\*Not for\*\*/.test(c.description)) fail(where, "the description does not say what it is not for");
   const lines = (c.import ?? "").split("\n").filter(Boolean);
   if (lines.length === 0) fail(where, "no import line");
   for (const line of lines) if (!ENTRY.test(line)) fail(where, `import agents would copy: ${line}`);
@@ -113,7 +116,7 @@ for (const c of Object.values(components)) {
 
 for (const d of Object.values(docs)) {
   if (d.error) fail(d.id, `${d.error.name}: ${d.error.message.split("\n")[0]}`);
-  if (!d.id.startsWith("kit-guides-")) fail(d.id, "a docs entry outside Kit/Guides is in the manifest");
+  if (!d.path.startsWith("./src/kit/docs/")) fail(d.id, "a docs page outside the kit guides (src/kit/docs) is in the manifest: tag its <Meta> `!manifest`");
   if (!d.summary) fail(d.id, "no summary on <Meta>");
 }
 

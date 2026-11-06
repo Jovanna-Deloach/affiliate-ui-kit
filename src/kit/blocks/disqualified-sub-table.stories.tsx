@@ -7,7 +7,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { DisqualifiedSubTable } from "./disqualified-sub-table";
 
 const meta = {
-  title: "Kit/Blocks/Disqualified sub-table",
+  title: "Blocks/Disqualified sub-table",
   component: DisqualifiedSubTable,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements" },

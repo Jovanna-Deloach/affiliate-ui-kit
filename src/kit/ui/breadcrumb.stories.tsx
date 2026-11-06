@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Breadcrumb } from "./eyebrow";
 
 const meta = {
-  title: "Kit/Primitives/Breadcrumb",
+  title: "Primitives/Breadcrumb",
   component: Breadcrumb,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

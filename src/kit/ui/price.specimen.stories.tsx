@@ -12,7 +12,7 @@ import { Price } from "./price";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Primitives/Price",
+  title: "Specimen sheets/Primitives/Price",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

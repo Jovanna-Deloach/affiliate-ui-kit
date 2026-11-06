@@ -16,7 +16,7 @@ import { AssayBadge } from "./telemetry";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Components/Pick media",
+  title: "Specimen sheets/Components/Pick media",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

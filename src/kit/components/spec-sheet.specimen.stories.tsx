@@ -14,7 +14,7 @@ import { SpecSheet } from "./spec-sheet";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Components/Spec sheet",
+  title: "Specimen sheets/Components/Spec sheet",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

@@ -7,7 +7,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { TestingTelemetryBadge } from "./testing-telemetry-badge";
 
 const meta = {
-  title: "Kit/Blocks/Testing telemetry badge",
+  title: "Blocks/Testing telemetry badge",
   component: TestingTelemetryBadge,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "narrow" },

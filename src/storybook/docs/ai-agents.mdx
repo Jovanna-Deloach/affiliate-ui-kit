@@ -1,0 +1,35 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting started/AI agents" tags={["!manifest"]} />
+
+# AI agents
+
+This Storybook is also an MCP server. An agent connected to it lists the kit, reads each part’s documentation, story code and props, reads the guides, runs the kit checks on any story, and builds pages from what it read. This page is for the people who connect it; agents read the guides instead.
+
+## Connect an agent
+
+Start Storybook with `bun run storybook`. The server is at `http://localhost:6006/mcp`; open that address in a browser to see which toolsets are on.
+
+| Agent | How |
+| --- | --- |
+| Claude Code, in this repository | Already connected: `.mcp.json` registers the server. Start a new session. |
+| Any other agent | `npx mcp-add --type http --url "http://localhost:6006/mcp" --scope project`, then start a new session. |
+
+The rules an agent follows while it builds are in `AGENTS.md` at the root of the repository: read the guides first, use only documented props, every retailer link is a buy link, check the page before handing it over.
+
+## What an agent can do
+
+| Tool | What it does |
+| --- | --- |
+| `docs-list` | One line per part and per guide: its name, its ID and a summary |
+| `docs-show` | A part’s description (with what to use instead), the code of its first three stories, a line for each other story, and its props; or a guide, in full |
+| `docs-show-story` | The code of any one story |
+| `get-storybook-story-instructions` | How to write a story here |
+| `stories-preview` | Links to the stories it changed, to show you |
+| `test-run` | The kit checks and the accessibility checks on any story, with what failed |
+
+## What it reads, and what it does not
+
+Agents read the kit and its guides: Getting started / Start here, the Foundations pages, the Guidelines and Contributing / Writing stories. Hidden from them: this page, the Playground, the specimen sheets and the legacy library.
+
+Every component page also has **Copy for AI**: it copies the component as an agent reads it (description, import line, story code and props) as Markdown, for an assistant that is not connected to the server.

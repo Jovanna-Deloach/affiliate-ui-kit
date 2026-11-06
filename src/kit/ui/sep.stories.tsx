@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Sep } from "./marks";
 
 const meta = {
-  title: "Kit/Primitives/Sep",
+  title: "Primitives/Sep",
   component: Sep,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

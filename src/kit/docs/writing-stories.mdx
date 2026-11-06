@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-<Meta title="Kit/Guides/Writing stories" summary="How kit stories are written so agents can read them: one use case per story with a summary, args not wrappers, framing by parameters, the page checks as play, specimen sheets kept out of the manifest." />
+<Meta title="Contributing/Writing stories" summary="How kit stories are written so agents can read them: one use case per story with a summary, args not wrappers, framing by parameters, the page checks as play, specimen sheets kept out of the manifest." />
 
 # Writing stories
 
@@ -16,7 +16,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Price } from "./price";
 
 const meta = {
-  title: "Kit/Primitives/Price", // Kit/{Primitives|Components|Blocks|Templates}/{Name}
+  title: "Primitives/Price", // {Primitives|Components|Blocks|Templates}/{Name}: the sidebar section
   component: Price,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true }, // theme, category and frame go here too
@@ -45,7 +45,8 @@ export const Discounted: Story = {
 4. **Frame with parameters, not markup**: `kit: true`, then `theme` (`atelier` or `assay`), `category` (`watches`, `supplements`, `running`) and `frame` (`well` by default; `column` 42rem; `card` on paper; `narrow` 24rem; `narrow-card`; `none` for blocks that bring their own well, templates and specimen sheets).
 5. **No wrapper components in a stories file.** Every component in the file’s JSX ends up in the import line agents copy. A compound part declares its parts as `subcomponents` (`Disclosure` with `DisclosureSummary`, `DisclosureIcon`); a decorator that needs other kit parts lives in `src/kit/testing/stories.tsx`.
 6. **Every story runs the kit checks** (`play: assertKitPage`), at 375px and 1440px, with `node scripts/verify-stories.mjs --build --widths 375,1440 --filter <story id>`.
-7. **Specimen sheets** (every state of a part on one page, in both themes, for people) live in `*.specimen.stories.tsx` under `Kit/Specimen sheets/…` with `tags: ["!manifest"]`, so agents never see them.
+7. **Specimen sheets** (every state of a part on one page, in both themes, for people) live in `*.specimen.stories.tsx` under `Specimen sheets/…` with `tags: ["!manifest"]`, so agents never see them.
+8. **Status tags** put a pill beside a part’s name in the sidebar: `new` (added in this version), `beta` (its props may still change) or `deprecated` (say what replaces it in the description). Tag the meta, and only while it is true.
 
 ## A component’s documentation
 

@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { OfferCard } from "./offer-card";
 
 const meta = {
-  title: "Kit/Components/Offer card",
+  title: "Components/Offer card",
   component: OfferCard,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "card" },

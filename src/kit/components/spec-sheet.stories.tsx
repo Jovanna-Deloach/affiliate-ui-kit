@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { SpecSheet } from "./spec-sheet";
 
 const meta = {
-  title: "Kit/Components/Spec sheet",
+  title: "Components/Spec sheet",
   component: SpecSheet,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "card" },

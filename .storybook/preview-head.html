@@ -12,3 +12,9 @@
     background-color: var(--surface-primary);
   }
 </style>
+<style>
+  /* Docs pages (src/storybook/docs): a contents list with nothing to list is not shown. */
+  .sbdocs-toc--custom:not(:has(.toc-list-item)) {
+    visibility: hidden;
+  }
+</style>

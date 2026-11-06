@@ -34,7 +34,7 @@ const best = productShoe01.offers[0]!;
 const retailerCount = productShoe01.offers.length;
 
 const meta = {
-  title: "Tier 3 · Surface & Media/SurfaceCard",
+  title: "Legacy/Tier 3 · Surface & Media/SurfaceCard",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: SurfaceCard,

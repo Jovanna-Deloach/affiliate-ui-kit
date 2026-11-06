@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { BuyLink } from "./buy";
 
 const meta = {
-  title: "Kit/Primitives/Buy link",
+  title: "Primitives/Buy link",
   component: BuyLink,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

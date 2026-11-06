@@ -11,7 +11,7 @@ import { Eyebrow } from "./eyebrow";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Primitives/Disclosure",
+  title: "Specimen sheets/Primitives/Disclosure",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

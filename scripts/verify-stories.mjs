@@ -13,10 +13,13 @@
  *   • horizontal document overflow (the #1 375 px regression)
  *   • a full-page screenshot per story × vertical × width → .verify/screens/
  *
+ * Stories tagged `!test` (the Playground) are skipped, as in the story tests.
+ *
  * Usage:
  *   bun run verify:stories                  # verify existing storybook-static
  *   bun run verify:stories -- --build       # build first
- *   bun run verify:stories -- --filter awardbadge
+ *   bun run verify:stories -- --filter awardbadge   # part of a story id, title or file path
+ *   bun run verify:stories -- --filter src/kit/     # every kit story
  *   bun run verify:stories -- --widths 375,1280 --verticals luxury-editorial
  *   bun run verify:stories -- --interact    # hover sweep for hover-induced CLS
  *   bun run verify:stories -- --no-screens  # skip screenshots (CI speed)
@@ -119,8 +122,11 @@ const index = JSON.parse(await readFile(path.join(STATIC_DIR, "index.json"), "ut
 const stories = Object.values(index.entries).filter(
   (e) =>
     e.type === "story" &&
-    (!FILTER || e.id.includes(FILTER) || e.title.toLowerCase().includes(FILTER)),
+    (e.tags ?? ["test"]).includes("test") &&
+    (!FILTER || e.id.includes(FILTER) || e.title.toLowerCase().includes(FILTER) || e.importPath.toLowerCase().includes(FILTER)),
 );
+// The kit (src/kit) themes itself with data-theme; the legacy library reads the vertical global.
+const isKit = (story) => story.importPath.startsWith("./src/kit/");
 
 if (SCREENS) await mkdir(path.join(OUT_DIR, "screens"), { recursive: true });
 else await mkdir(OUT_DIR, { recursive: true });
@@ -132,7 +138,7 @@ const browser = await chromium.launch();
 const jobs = [];
 for (const story of stories) {
   // Kit stories carry their own theme (data-theme), so the vertical global is irrelevant too.
-  const verticalsForStory = /side-?by-?side|multi-?vertical|compare|token-driven/i.test(story.id) || story.id.startsWith("kit-")
+  const verticalsForStory = /side-?by-?side|multi-?vertical|compare|token-driven/i.test(story.id) || isKit(story)
     ? [VERTICALS[0]]
     : VERTICALS;
   for (const vertical of verticalsForStory) {

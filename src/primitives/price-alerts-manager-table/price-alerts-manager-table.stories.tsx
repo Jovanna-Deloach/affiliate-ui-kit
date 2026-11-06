@@ -6,7 +6,7 @@ import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 import { PriceAlertsManagerTable } from "./price-alerts-manager-table";
 
 const meta = {
-  title: "Tier 15 · Account & Personalization/PriceAlertsManagerTable",
+  title: "Legacy/Tier 15 · Account & Personalization/PriceAlertsManagerTable",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: PriceAlertsManagerTable,

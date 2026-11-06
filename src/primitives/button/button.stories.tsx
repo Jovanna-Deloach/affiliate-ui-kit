@@ -11,7 +11,7 @@ const INTENTS = ["primary", "outline", "ghost", "price", "inline"] as const;
 const SIZES = ["sm", "md", "lg"] as const;
 
 const meta = {
-  title: "Tier 0 · Shared Controls/Button",
+  title: "Legacy/Tier 0 · Shared Controls/Button",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: Button,

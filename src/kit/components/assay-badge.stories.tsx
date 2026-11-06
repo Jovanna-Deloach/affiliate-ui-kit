@@ -8,7 +8,7 @@ import { onPhotograph } from "@/kit/testing/stories";
 import { AssayBadge } from "./telemetry";
 
 const meta = {
-  title: "Kit/Components/Assay badge",
+  title: "Components/Assay badge",
   component: AssayBadge,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },

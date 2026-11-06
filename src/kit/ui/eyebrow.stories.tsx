@@ -6,7 +6,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Eyebrow } from "./eyebrow";
 
 const meta = {
-  title: "Kit/Primitives/Eyebrow",
+  title: "Primitives/Eyebrow",
   component: Eyebrow,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

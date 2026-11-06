@@ -6,7 +6,7 @@ import { publication } from "@/fixtures/navigation";
 import { AccountMenuPopover } from "./account-menu-popover";
 
 const meta = {
-  title: "Tier 15 · Account & Personalization/AccountMenuPopover",
+  title: "Legacy/Tier 15 · Account & Personalization/AccountMenuPopover",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: AccountMenuPopover,

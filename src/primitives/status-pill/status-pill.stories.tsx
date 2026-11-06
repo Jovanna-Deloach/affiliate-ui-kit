@@ -12,7 +12,7 @@ const TONES = ["positive", "caution", "negative", "neutral"] as const;
 const TONE_COPY = { positive: "In stock", caution: "Low stock", negative: "Out of stock", neutral: "Our partner" } as const;
 
 const meta = {
-  title: "Tier 2 · Evaluation & E-E-A-T/StatusPill",
+  title: "Legacy/Tier 2 · Evaluation & E-E-A-T/StatusPill",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: StatusPill,

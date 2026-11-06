@@ -7,7 +7,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { VersusPage } from "./archetypes";
 
 const meta = {
-  title: "Kit/Templates/Versus page",
+  title: "Templates/Versus page",
   component: VersusPage,
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

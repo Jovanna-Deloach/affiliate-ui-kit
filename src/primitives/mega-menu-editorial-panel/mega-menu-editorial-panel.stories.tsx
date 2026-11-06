@@ -12,7 +12,7 @@ import { MegaMenuEditorialPanel } from "./mega-menu-editorial-panel";
 const attribution = { source: "kit", medium: "affiliate", campaign: "site-nav" };
 
 const meta = {
-  title: "Tier 11 · Navigation & Site Chrome/MegaMenuEditorialPanel",
+  title: "Legacy/Tier 11 · Navigation & Site Chrome/MegaMenuEditorialPanel",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: MegaMenuEditorialPanel,

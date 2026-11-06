@@ -8,7 +8,7 @@ import { VerticalCompare, ViewportFrames } from "@/stories/vertical-compare";
 import { MediaLoupeCarousel } from "./media-loupe-carousel";
 
 const meta = {
-  title: "Tier 6 · Editorial & Visual Proof/MediaLoupeCarousel",
+  title: "Legacy/Tier 6 · Editorial & Visual Proof/MediaLoupeCarousel",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: MediaLoupeCarousel,

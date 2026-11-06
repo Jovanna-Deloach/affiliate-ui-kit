@@ -8,7 +8,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { QuickVerdictBento } from "./quick-verdict-bento";
 
 const meta = {
-  title: "Kit/Blocks/Quick verdict bento",
+  title: "Blocks/Quick verdict bento",
   component: QuickVerdictBento,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

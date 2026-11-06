@@ -8,7 +8,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { BenchRows, ChronometerStrip, MetalRows, Telemetry } from "./telemetry";
 
 const meta = {
-  title: "Kit/Components/Telemetry",
+  title: "Components/Telemetry",
   component: Telemetry,
   subcomponents: { ChronometerStrip, MetalRows, BenchRows },
   tags: ["autodocs"],

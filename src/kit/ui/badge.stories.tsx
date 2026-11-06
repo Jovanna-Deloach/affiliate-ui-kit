@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Badge } from "./badge";
 
 const meta = {
-  title: "Kit/Primitives/Badge",
+  title: "Primitives/Badge",
   component: Badge,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true },

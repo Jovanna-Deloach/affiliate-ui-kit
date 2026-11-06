@@ -8,7 +8,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { BuyBlock } from "./buy-block";
 
 const meta = {
-  title: "Kit/Components/Buy box",
+  title: "Components/Buy box",
   component: BuyBlock,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "card" },

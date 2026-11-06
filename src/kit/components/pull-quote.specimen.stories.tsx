@@ -13,7 +13,7 @@ import { PullQuote } from "./pull-quote";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Components/Pull-quote",
+  title: "Specimen sheets/Components/Pull-quote",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

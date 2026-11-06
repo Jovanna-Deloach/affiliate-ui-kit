@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-<Meta title="Kit/Guides/Start here" summary="Read first: what the kit is for, its four layers, how to build a page from it, and the rules every page keeps." />
+<Meta title="Getting started/Start here" summary="Read first: what the kit is for, its four layers, how to build a page from it, and the rules every page keeps." />
 
 # Start here
 
@@ -25,12 +25,12 @@ A block never redraws what a lower layer draws: a price is always `Price`, a bar
 
 ## How to build a page
 
-1. **Read the guides**: Foundations (themes, colour roles, type, spacing, surfaces), Data model (the contract a page is filled from), Composing pages (the order of sections and where each rule lives), Making pages distinct.
+1. **Read the guides**: the Foundations pages (Themes, Colour, Typography, Layout, Surfaces), then the Guidelines: Data model (the contract a page is filled from), Composing pages (the order of sections and where each rule lives), Making pages distinct.
 2. **Read every component you use.** With the Storybook MCP tools: `docs-list` once for the IDs, then `docs-show` for each component. Use only documented props: a prop that is not documented does not exist. Copy the first stories’ code; it is the intended usage.
 3. **Fill the contract.** A page is a `RoundupGuide` (its content) and a `SiteChrome` (its publication). Copy is plain text; the templates typeset it.
 4. **Compose.** Start from the template for the archetype. To compose something else, put blocks together the way the templates do, in the page well, with the theme’s section gap. Do not wrap blocks in new cards.
 5. **Render inside a theme**: `data-theme="atelier"` or `data-theme="assay"` on an ancestor (the `<html>` or `<body>` element in the app). The templates set `data-category` from the guide.
-6. **Check it.** Write a story for the page (Writing stories) with the kit checks as its `play` function, run the story checks at 375px and 1440px, and run `bun run check`.
+6. **Check it.** Write a story for the page (Contributing / Writing stories) with the kit checks as its `play` function, run the story checks at 375px and 1440px, and run `bun run check`.
 
 ## Rules every page keeps
 

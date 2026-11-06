@@ -9,7 +9,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { Scorecard } from "./scorecard";
 
 const meta = {
-  title: "Kit/Components/Scorecard",
+  title: "Components/Scorecard",
   component: Scorecard,
   subcomponents: { Telemetry },
   tags: ["autodocs"],

@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { RetailerList } from "./retailer-list";
 
 const meta = {
-  title: "Kit/Components/Retailer list",
+  title: "Components/Retailer list",
   component: RetailerList,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "card" },

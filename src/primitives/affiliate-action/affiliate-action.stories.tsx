@@ -22,7 +22,7 @@ const attribution = {
 };
 
 const meta = {
-  title: "Tier 1 · Monetization/AffiliateAction",
+  title: "Legacy/Tier 1 · Monetization/AffiliateAction",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: AffiliateAction,

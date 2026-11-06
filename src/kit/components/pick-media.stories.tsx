@@ -8,7 +8,7 @@ import { Award } from "@/kit/ui";
 import { PickMedia } from "./pick-media";
 
 const meta = {
-  title: "Kit/Components/Pick media",
+  title: "Components/Pick media",
   component: PickMedia,
   subcomponents: { Award },
   tags: ["autodocs"],

@@ -11,7 +11,7 @@ const rise = savedProducts[2]!.priceHistory!;
 const flat = savedProducts[3]!.priceHistory!;
 
 const meta = {
-  title: "Tier 0 · Shared Controls/Sparkline",
+  title: "Legacy/Tier 0 · Shared Controls/Sparkline",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: Sparkline,

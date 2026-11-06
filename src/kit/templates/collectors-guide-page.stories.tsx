@@ -7,8 +7,8 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { CollectorsGuidePage } from "./archetypes";
 
 const meta = {
-  title: "Kit/Templates/Collector’s guide page",
-  id: "kit-templates-collectors-guide-page",
+  title: "Templates/Collector’s guide page",
+  id: "templates-collectors-guide-page",
   component: CollectorsGuidePage,
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

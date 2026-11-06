@@ -5,7 +5,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { ResultMark } from "./badge";
 
 const meta = {
-  title: "Kit/Primitives/Result mark",
+  title: "Primitives/Result mark",
   component: ResultMark,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements" },

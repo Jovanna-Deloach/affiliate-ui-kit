@@ -13,7 +13,7 @@ import { JumpLink } from "./jump-link";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Primitives/Buttons and links",
+  title: "Specimen sheets/Primitives/Buttons and links",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

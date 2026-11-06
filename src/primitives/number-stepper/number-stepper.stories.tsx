@@ -6,7 +6,7 @@ import { VerticalCompare } from "@/stories/vertical-compare";
 import { NumberStepper } from "./number-stepper";
 
 const meta = {
-  title: "Tier 0 · Shared Controls/NumberStepper",
+  title: "Legacy/Tier 0 · Shared Controls/NumberStepper",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: NumberStepper,

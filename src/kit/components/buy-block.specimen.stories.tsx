@@ -19,7 +19,7 @@ import { BuyBlock } from "./buy-block";
  * system. Not in the agent manifest: agents read the use-case stories.
  */
 const meta = {
-  title: "Kit/Specimen sheets/Components/Buy box",
+  title: "Specimen sheets/Components/Buy box",
   tags: ["!manifest"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },
   play: assertKitPage,

@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 import { Eyebrow } from "@/kit/ui";
 
 /**
- * Story layout for the kit’s own pages (Kit / Primitives, Kit / Components):
+ * Story layout for the specimen sheets (Specimen sheets / Primitives, Components):
  * a header naming the part, then every state in a labelled grid. Stories
  * render on the theme’s ground, inside the page well, so a part is judged
  * where it will live.

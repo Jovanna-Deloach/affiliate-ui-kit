@@ -10,7 +10,7 @@ import { TesterCalloutQuote } from "./tester-callout-quote";
 const [marchetti, whitfield] = testerQuotes as [(typeof testerQuotes)[number], (typeof testerQuotes)[number]];
 
 const meta = {
-  title: "Tier 6 · Editorial & Visual Proof/TesterCalloutQuote",
+  title: "Legacy/Tier 6 · Editorial & Visual Proof/TesterCalloutQuote",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: TesterCalloutQuote,

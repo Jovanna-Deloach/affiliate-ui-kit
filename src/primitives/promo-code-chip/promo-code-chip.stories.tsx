@@ -14,7 +14,7 @@ const NAMES = { ticket: "Perforated ticket", recessed: "Recessed chip", inline: 
 const offer = productShoe01.offers[0]!;
 
 const meta = {
-  title: "Tier 1 · Monetization/PromoCodeChip",
+  title: "Legacy/Tier 1 · Monetization/PromoCodeChip",
   // The legacy library: kept for reference, hidden from AI agents (docs/STORYBOOK.md).
   tags: ["legacy", "!manifest"],
   component: PromoCodeChip,

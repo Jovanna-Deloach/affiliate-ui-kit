@@ -4,8 +4,8 @@ This document is the source of truth for how pages built from this kit look
 and why. It is written for people **and** for agents: an agent generating a
 page should read it before composing anything, and copy a composition from
 `src/kit/templates`, not assemble parts by hand. Agents read the same rules,
-condensed, through Storybook’s MCP server: the guides under **Kit / Guides**
-and each component’s documentation ([`AGENTS.md`](../AGENTS.md),
+condensed, through Storybook’s MCP server: the guides (**Getting started**,
+**Foundations**, **Guidelines**) and each component’s documentation ([`AGENTS.md`](../AGENTS.md),
 [`docs/STORYBOOK.md`](STORYBOOK.md)).
 
 ## The brief
@@ -33,7 +33,7 @@ pages that break the rules below.
 
 Every visual decision lives in exactly one place, and each layer is built
 only from the layers beneath it. The Storybook sidebar follows the same
-order (Kit / Primitives → Components → Blocks → Templates).
+order (Primitives → Components → Blocks → Templates).
 
 | Layer | Folder | What it is | Knows about |
 | --- | --- | --- | --- |
@@ -47,7 +47,7 @@ price is always `Price`, a bar is always `Meter`, a show/hide is always
 `Disclosure`, a micro-caps label is always `Eyebrow`. Every part has a
 Storybook page with one story per use case, each saying why you would use
 it, and a Docs page with its props; that is what agents read. Every
-primitive and component also has a specimen sheet (**Kit / Specimen
+primitive and component also has a specimen sheet (**Specimen
 sheets**) with every state — discounted, sold out, one retailer, a failed
 result, long names, missing data — in both themes and in a narrow column.
 
@@ -375,7 +375,7 @@ replaces them with its own packshots.
 
 ## Primitives, components, blocks and archetypes
 
-**Primitives** (`src/kit/ui`, Storybook Kit / Primitives):
+**Primitives** (`src/kit/ui`, Storybook Primitives):
 
 | Primitive | Job |
 | --- | --- |
@@ -387,7 +387,7 @@ replaces them with its own packshots.
 | `Button`, `BuyButton`, `BuyPill`, `BuyRow`, `BuyLink`, `JumpLink` | actions and every monetized link (built on AffiliateAction) |
 | `ProductImage`, `Avatar`, `Monogram`, `Sep` | studio photography on the radial well; portraits or initials; merchant initials; the decorative dot |
 
-**Components** (`src/kit/components`, Storybook Kit / Components):
+**Components** (`src/kit/components`, Storybook Components):
 
 | Component | Job |
 | --- | --- |
@@ -400,7 +400,7 @@ replaces them with its own packshots.
 | `PickMedia` | a pick’s photograph at three detail levels: full, card, thumb |
 
 **Blocks** (`src/kit/blocks`): eight container-driven sections, each
-documented in Storybook (`Kit/Blocks/*`) in both themes and in a narrow
+documented in Storybook (`Blocks/*`) in both themes and in a narrow
 container:
 
 | Block | Job |
@@ -442,7 +442,7 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | Theme | `src/kit/theme/kit.css` — foundation, the three voices, Atelier, Assay, categories, Tailwind bridge, surface and studio utilities |
 | Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst` |
 | Story kit | `src/kit/testing` — the story frame (`theme`, `category` and `frame` parameters), `Specimen` and `State` for the specimen sheets, the page checks; `src/fixtures/kit/cases.ts` for edge cases |
-| Guides | `src/kit/docs` — Start here, Foundations, Data model (generated contract), Composing pages, Making pages distinct, Writing stories |
+| Guides | `src/kit/docs` — Start here; Foundations (Themes, Colour, Typography, Layout, Surfaces); Data model (generated contract), Composing pages, Making pages distinct; Writing stories |
 | Primitives | `src/kit/ui` — Price, Meter, Disclosure, Eyebrow, Breadcrumb, Badge, Award, BestPrice, ResultMark, Button, BuyButton / BuyPill / BuyRow / BuyLink, JumpLink, ProductImage, Avatar, Monogram, Sep |
 | Components | `src/kit/components` — BuyBlock, OfferCard, RetailerList, VerdictCard, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, ProsCons, PullQuote, SpecSheet, PickMedia |
 | Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalogue) |

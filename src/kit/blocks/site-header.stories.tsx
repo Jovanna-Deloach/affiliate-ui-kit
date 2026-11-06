@@ -6,7 +6,7 @@ import { assertKitPage } from "@/kit/testing/page-checks";
 import { SiteHeader } from "./site-header";
 
 const meta = {
-  title: "Kit/Blocks/Site header",
+  title: "Blocks/Site header",
   component: SiteHeader,
   tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, frame: "none" },

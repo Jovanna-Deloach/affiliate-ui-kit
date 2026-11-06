@@ -1,13 +1,18 @@
-import { Controls, Description, DocsContext, Primary, Stories, Subtitle, Title } from "@storybook/addon-docs/blocks";
 import type { Decorator, Preview } from "@storybook/nextjs-vite";
-import React, { useContext } from "react";
+import React from "react";
 
 import "./fonts";
 import "../src/styles/globals.css";
 
 import { KitFrame, type KitStoryParameters } from "../src/kit/testing/stories";
 import { VERTICALS, type Vertical } from "../src/lib/verticals";
+import { DocsCode } from "../src/storybook/docs/blocks";
+import { DocsPage } from "../src/storybook/docs/docs-page";
 import { VerticalCompare } from "../src/stories/vertical-compare";
+import { kitTheme } from "./theme";
+
+/** Vitest (story tests, the MCP server's test-run) builds the preview in its `test` mode. */
+const IS_TEST = (import.meta as { env?: { MODE?: string } }).env?.MODE === "test";
 
 type VerticalGlobal = Vertical | "side-by-side";
 type Shape = "architectural" | "soft" | "pill";
@@ -63,30 +68,6 @@ const withVertical: Decorator = (Story, context) => {
 };
 
 /**
- * The autodocs page, as Storybook’s default (title, description, primary
- * story, props, every story), except that a story’s description stops at its
- * first JSDoc tag. Kit stories end their JSDoc with `@summary` for the agent
- * manifest (docs/STORYBOOK.md); people read only the prose above it.
- */
-function DocsPage() {
-  const context = useContext(DocsContext);
-  for (const story of context.componentStories()) {
-    const description = (story.parameters.docs as { description?: { story?: unknown } } | undefined)?.description;
-    if (typeof description?.story === "string") description.story = description.story.split(/\n\s*@\w/)[0]!.trim();
-  }
-  return (
-    <>
-      <Title />
-      <Subtitle />
-      <Description />
-      <Primary />
-      <Controls />
-      <Stories />
-    </>
-  );
-}
-
-/**
  * Stories render only after the three faces are resolved, so the workshop
  * never paints fallback text first (the app gets the same guarantee from
  * next/font's preload + metric-adjusted fallbacks).
@@ -112,9 +93,12 @@ const withFontsReady = async () => {
 const preview: Preview = {
   loaders: [withFontsReady],
   decorators: [withVertical],
+  // The switches behind the toolbar. Storybook's own globals toolbar is hidden
+  // (.storybook/manager.tsx): the theme shows on kit pages, the other four on
+  // the legacy library only (.storybook/addons/toolbar.tsx).
   globalTypes: {
     theme: {
-      description: "Kit theme (docs/DESIGN.md) — applies to kit stories",
+      description: "The kit theme for this page's examples (Foundations / Themes)",
       toolbar: {
         title: "Theme",
         icon: "mirror",
@@ -182,19 +166,56 @@ const preview: Preview = {
     shape: "architectural",
     elevation: "flat",
     stage: "white",
-    viewport: { value: "desktop1280", isRotated: false },
+    // Story tests render at 1280px: the Vitest add-on sizes its page from this
+    // global. People get the whole canvas, with the toolbar's viewport menu
+    // for phone, tablet and desktop widths.
+    ...(IS_TEST ? { viewport: { value: "desktop1280", isRotated: false } } : {}),
   },
   parameters: {
     layout: "fullscreen",
-    docs: { page: DocsPage },
+    docs: {
+      // Component pages (src/storybook/docs/docs-page.tsx) and the guides share
+      // the workshop's theme, an "On this page" contents list, and a swatch
+      // beside every hex value written in a guide.
+      page: DocsPage,
+      theme: kitTheme,
+      toc: { title: "On this page", headingSelector: "h2, h3" },
+      components: { code: DocsCode },
+    },
     options: {
-      // The kit first: its guides, then the smallest pieces first (primitives →
-      // components → blocks → templates), then the specimen sheets for review.
+      // Sections in reading order: how to start, the foundations and the
+      // guidelines, then the kit from its smallest parts to whole pages, the
+      // specimen sheets for review, how to contribute, and the legacy library.
       storySort: {
         order: [
-          "Kit",
-          ["Guides", ["Start here", "Foundations", "Data model", "Composing pages", "Making pages distinct", "Writing stories"], "Primitives", "Components", "Blocks", "Templates", "Specimen sheets", ["Primitives", "Components"]],
-          "*",
+          "Getting started",
+          ["Start here", "Playground", "AI agents"],
+          "Foundations",
+          ["Themes", "Colour", "Typography", "Layout", "Surfaces"],
+          "Guidelines",
+          ["Data model", "Composing pages", "Making pages distinct"],
+          "Primitives",
+          "Components",
+          "Blocks",
+          "Templates",
+          ["Roundup page", "Versus page", "Lab assay page", "Collector’s guide page"],
+          "Specimen sheets",
+          ["Primitives", "Components"],
+          "Contributing",
+          "Legacy",
+          [
+            "Foundations",
+            "Tier 0 · Shared Controls",
+            "Tier 1 · Monetization",
+            "Tier 2 · Evaluation & E-E-A-T",
+            "Tier 3 · Surface & Media",
+            "Tier 4 · Comparison & Discovery",
+            "Tier 5 · Conversion & Tools",
+            "Tier 6 · Editorial & Visual Proof",
+            "Tier 11 · Navigation & Site Chrome",
+            "Tier 12 · Category Hubs",
+            "Tier 15 · Account & Personalization",
+          ],
         ],
       },
     },
@@ -220,6 +241,11 @@ const preview: Preview = {
         desktop1280: {
           name: "Desktop 1280",
           styles: { width: "1280px", height: "900px" },
+          type: "desktop",
+        },
+        wide1440: {
+          name: "Wide 1440",
+          styles: { width: "1440px", height: "900px" },
           type: "desktop",
         },
       },
