@@ -16,8 +16,8 @@ Each layer is built only from the layers beneath it, and the sidebar follows the
 
 | Layer | Import from | What it is |
 | --- | --- | --- |
-| Primitives | `@/kit/ui` | The smallest parts. `Price`, `Meter`, `Eyebrow`, `Breadcrumb`, `Badge`, `Award`, `BestPrice`, `ResultMark`, `Button`, the buy links (`BuyButton`, `BuyRow`, `BuyPill`, `BuyLink`), `JumpLink`, `Disclosure`, `ProductImage`, `Avatar`, `Monogram`, `Sep`. They take plain props and read only theme roles. |
-| Components | `@/kit/components` | The pieces of a review, built on the product contract (`Pick`, `KitProduct`, offers). `OfferCard`, `RetailerList`, `BuyBlock`, `VerdictCard`, `Scorecard`, `Telemetry`, `AssayBadge`, `ProsCons`, `PullQuote`, `SpecSheet`, `PickMedia`. |
+| Primitives | `@/kit/ui` | The smallest parts. `Price`, `Meter`, `Eyebrow`, `Breadcrumb`, `Badge`, `Award`, `BestPrice`, `ResultMark`, `Button`, the buy links (`BuyButton`, `BuyRow`, `BuyPill`, `BuyLink`), `JumpLink`, `Disclosure`, `ProductImage`, `Avatar`, `Monogram`, `Sep`. Controls: `Tabs`, `TabLinks`, `Tooltip`, `Explainer`, `Dialog`, `Drawer`, `Toast`, `TextField`, `TextArea`, `Field`, `Checkbox`, `Radio`, `ChoiceGroup`, `Switch`, `Select`, `SegmentedControl`, `SearchField`, `Chip`, `Pagination`, `Alert`, `Skeleton`, `EmptyState`. They take plain props and read only theme roles. |
+| Components | `@/kit/components` | The pieces of a review, built on the product contract (`Pick`, `KitProduct`, offers). `OfferCard`, `RetailerList`, `BuyBlock`, `VerdictCard`, `Scorecard`, `Telemetry`, `AssayBadge`, `ProsCons`, `PullQuote`, `SpecSheet`, `PickMedia`, `Gallery`, `StickyBuyBar`, `TableOfContents`, `HelpfulPrompt`. |
 | Blocks | `@/kit/blocks` | The sections of a page. `SiteHeader`, `EditorialArticleHeader`, `TestingTelemetryBadge`, `QuickVerdictBento`, `ComparisonMatrix`, `DisqualifiedSubTable`, `AlsoGreatRail`, `ProductDeepDiveCard`, `MethodologyAccordion`, `SiteFooter`. |
 | Templates | `@/kit/templates` | Whole pages. `RoundupPage`, `VersusPage`, `LabAssayPage`, `CollectorsGuidePage`. Each takes a `SiteChrome` and a `RoundupGuide`. |
 
@@ -49,4 +49,4 @@ A block never redraws what a lower layer draws: a price is always `Price`, a bar
 
 ## Not in this library
 
-The older component set in `src/primitives` (the “Tier 0–15” stories) is kept for reference and is hidden from AI agents. Build kit pages from the kit only. The kit does not yet have a sticky buy bar, a table of contents, a photo gallery, tabs, a tooltip, a drawer or form controls: if a page needs one, say so rather than hand-building it.
+The older component set in `src/primitives` (the “Tier 0–15” stories) is kept for reference and is hidden from AI agents. Build kit pages from the kit only. The kit does not yet have ratings and reviews, product and brand cards, consumer warnings and price alerts, saved and recently viewed items, or evidence grades and references; they are coming in that order. If a page needs one, say so rather than hand-building it.

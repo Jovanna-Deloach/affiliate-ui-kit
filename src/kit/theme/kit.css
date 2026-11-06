@@ -509,6 +509,52 @@
   }
 }
 
+/* Overlays (dialogs, drawers, popovers, tooltips, toasts) enter and leave in
+   CSS on Radix's data-state, never in script; reduced motion shortens --dur. */
+@keyframes kit-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes kit-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes kit-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+}
+@keyframes kit-sink-out {
+  to {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+}
+/* The dimmed page behind a dialog or drawer. */
+@utility kit-scrim {
+  background-color: color-mix(in srgb, var(--fg) 45%, transparent);
+  &[data-state="open"] {
+    animation: kit-fade-in var(--dur) var(--ease);
+  }
+  &[data-state="closed"] {
+    animation: kit-fade-out var(--dur) var(--ease);
+  }
+}
+/* A surface that pops over the page: rises in, sinks out. */
+@utility kit-pop {
+  &[data-state="open"],
+  &[data-state="delayed-open"],
+  &[data-state="instant-open"] {
+    animation: kit-rise-in var(--dur) var(--ease);
+  }
+  &[data-state="closed"] {
+    animation: kit-sink-out var(--dur) var(--ease);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-theme] {
     --dur: 1ms;
