@@ -13,7 +13,7 @@ export interface ReviewSortProps {
   value?: ReviewQuery["sort"];
   /** Called with the order the reader picks. */
   onValueChange?: (sort: ReviewQuery["sort"]) => void;
-  /** The field's name in a plain form (default `sort`). */
+  /** The field’s name in a plain form (default `sort`). */
   name?: string;
   /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;

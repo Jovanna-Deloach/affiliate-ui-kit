@@ -22,7 +22,7 @@ const CLAMP = { 3: "line-clamp-3", 4: "line-clamp-4", 6: "line-clamp-6" } as con
  * whole text is always in the page, so search engines and find-in-page reach
  * it; only its height is held back.
  *
- * **Use it for** a review's body, a long reply, a brand's description.
+ * **Use it for** a review’s body, a long reply, a brand’s description.
  * **Not for** a section a reader opens on demand (`Disclosure`) or anything
  * a reader needs in order to decide (show it whole).
  *

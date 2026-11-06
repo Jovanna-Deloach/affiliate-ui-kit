@@ -49,7 +49,7 @@ export function Explainer({ label, title, children, trigger, side = "bottom", de
           <button
             type="button"
             className={cn(
-              "kit-focus inline-grid size-6 shrink-0 cursor-pointer place-items-center rounded-full align-middle text-fg-muted transition-colors duration-(--dur) ease-(--ease) hover:text-fg",
+              "kit-focus inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-full align-middle text-fg-muted transition-colors duration-(--dur) ease-(--ease) hover:text-fg",
               className,
             )}
           >

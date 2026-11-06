@@ -376,6 +376,8 @@ replaces them with its own packshots.
 
 ## Primitives, components, blocks and archetypes
 
+The tables below cover the editorial core. Every part, including controls, reviews and discovery, is listed in “What exists today” and documented in the Storybook.
+
 **Primitives** (`src/kit/ui`, Storybook Primitives):
 
 | Primitive | Job |
@@ -442,12 +444,12 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | Layer | Contents |
 | --- | --- |
 | Theme | `src/kit/theme/kit.css` — foundation, the three voices, Atelier, Assay, categories, Tailwind bridge, surface and studio utilities |
-| Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst` |
-| Story kit | `src/kit/testing` — the story frame (`theme`, `category` and `frame` parameters), `Specimen` and `State` for the specimen sheets, the page checks; `src/fixtures/kit/cases.ts` for edge cases |
+| Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst`; `reviews` (a review list’s query, order and numbers); `discovery` (grades from scores, a ranking’s four orders, `toReaderItem`, search over a small index); `reader` (the reader’s device memory: viewed, saved, compare, recent searches, and `RememberVisit`); `theme-root` (overlays portaled inside the theme) |
+| Story kit | `src/kit/testing` — the story frame (`theme`, `category` and `frame` parameters), `Specimen` and `State` for the specimen sheets, the page checks, `seedDevice` / `seedSearches` for parts that read the device; `src/fixtures/kit/cases.ts` for edge cases |
 | Guides | `src/kit/docs` — Start here; Foundations (Themes, Color, Typography, Layout, Surfaces); Data model (generated contract), Composing pages, Making pages distinct; Writing stories |
-| Primitives | `src/kit/ui` — Price, Meter, Disclosure, Eyebrow, Breadcrumb, Badge, Award, BestPrice, ResultMark, Button, BuyButton / BuyPill / BuyRow / BuyLink, JumpLink, ProductImage, Avatar, Monogram, Sep |
-| Components | `src/kit/components` — BuyBlock, OfferCard, RetailerList, VerdictCard, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, ProsCons, PullQuote, SpecSheet, PickMedia |
-| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalog) |
+| Primitives | `src/kit/ui` — Price, Meter, Disclosure, Eyebrow, Breadcrumb, Badge, Award, BestPrice, ResultMark, Button, BuyButton / BuyPill / BuyRow / BuyLink, JumpLink, ProductImage, Avatar, Monogram, Sep. Controls and overlays: Tabs, TabLinks, Tooltip, Explainer, Dialog, Drawer, Toast, Field, TextField, TextArea, Checkbox, Radio, ChoiceGroup, Switch, Select, SegmentedControl, SearchField, Chip, Pagination, Alert, Skeleton, EmptyState. Reviews: StarRating, RatingInput, RatingBar, ReviewLabel, RelativeTime, HelpfulButton, ReadMore. Discovery and returning readers: GradeBadge, CertificationStatus, SaveButton, CompareButton, ReadingProgress |
+| Components | `src/kit/components` — BuyBlock, OfferCard, RetailerList, VerdictCard, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, ProsCons, PullQuote, SpecSheet, PickMedia, Gallery, StickyBuyBar, TableOfContents, HelpfulPrompt. Reviews: RatingSummary, ReviewCard, ReviewTopics, AiReviewSummary, ReviewFilters, ReviewSort, TrustSignals. Discovery: ProductCard, BrandCard, CategoryCard, SearchResult, ContinueCard, AccountMenu |
+| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalog). Reviews: ReviewsSection, WriteReview, TrustPrinciples. Discovery and returning readers: QuickLinks, SiteSearch, CategoryIndex, RankingList, PeopleAlsoLookedAt, PickUpWhereYouLeftOff, SavedItems, CompareTray |
 | Templates | `src/kit/templates` — RoundupPage, VersusPage, LabAssayPage, CollectorsGuidePage |
 
 The older `src/primitives` library is frozen; its running guide now lives in

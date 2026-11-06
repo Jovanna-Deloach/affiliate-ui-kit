@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
+import { reader, searchIndex, searchSuggestions } from "@/fixtures/kit/discovery";
 import { caliberSite, provingGroundSite } from "@/fixtures/kit/sites";
+import { SiteSearch } from "@/kit/blocks";
+import { AccountMenu } from "@/kit/components";
 import { assertKitPage } from "@/kit/testing/page-checks";
 
 import { SiteHeader } from "./site-header";
@@ -42,3 +45,18 @@ export const AnotherSection: Story = {
  * @summary The masthead with no section marked.
  */
 export const NoSection: Story = {};
+
+/**
+ * A supplements publication with readers’ accounts: the site’s search (⌘K)
+ * and the reader’s menu take the places of the search icon and Sign in.
+ * @summary With SiteSearch and AccountMenu in their places (Assay).
+ */
+export const WithSearchAndAccount: Story = {
+  parameters: { theme: "assay", category: "supplements" },
+  args: {
+    site: provingGroundSite,
+    category: "supplements",
+    search: <SiteSearch index={searchIndex} suggestions={searchSuggestions} resultsPath="/search" />,
+    account: <AccountMenu person={reader} links={{ saved: "#saved", history: "#history", alerts: "#alerts" }} counts={{ saved: 12, alerts: 2 }} />,
+  },
+};

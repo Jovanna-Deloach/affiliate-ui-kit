@@ -24,11 +24,11 @@ export interface ReviewFiltersProps {
   query: ReviewQuery;
   /** Called with the new query whenever the reader changes a filter. */
   onChange: (query: ReviewQuery) => void;
-  /** The reviews' spread, for the count beside each rating. */
+  /** The reviews’ spread, for the count beside each rating. */
   summary: RatingSummary;
   /** How many reviews are verified and how many have a reply; a filter with none is not offered. */
   counts: { verified: number; withReplies: number };
-  /** How many reviews the filters leave, for the drawer's button (“Show 48 reviews”). */
+  /** How many reviews the filters leave, for the drawer’s button (“Show 48 reviews”). */
   resultCount: number;
   /** `panel` the filters in place, for a sidebar (default) · `drawer` a Filters button that opens them in a sheet, for phones. */
   variant?: "panel" | "drawer";
@@ -82,7 +82,7 @@ function Groups({ query, onChange, summary, counts }: Omit<ReviewFiltersProps, "
  * (`drawer`), whose button says how many reviews the filters leave.
  *
  * **Use it for** the review list of a product or brand (`ReviewsSection`
- * composes it). **Not for** filtering products (a ranking's own filters), or
+ * composes it). **Not for** filtering products (a ranking’s own filters), or
  * a list of a dozen reviews (show them all).
  *
  * @summary Review filters: search, rating, verified, replies, date; sidebar or sheet.

@@ -22,15 +22,15 @@ export interface RatingBarProps {
 }
 
 /**
- * One row of a rating's spread: “5 stars”, a bar for its share, and the
+ * One row of a rating’s spread: “5 stars”, a bar for its share, and the
  * percentage. With `href` or `onClick` the row filters the reviews to that
  * rating, so a reader can go straight to the 1-star reviews.
  *
  * **Use it for** the five rows under an average (`RatingSummary` composes
- * them). **Not for** a score's parts (`Meter`, `Scorecard`) or anything that
+ * them). **Not for** a score’s parts (`Meter`, `Scorecard`) or anything that
  * is not a count of ratings.
  *
- * @summary One row of a rating's spread (“5 stars, 63%”) that can filter the reviews.
+ * @summary One row of a rating’s spread (“5 stars, 63%”) that can filter the reviews.
  * @import import { RatingBar } from "@/kit/ui";
  */
 export function RatingBar({ stars, count, total, href, onClick, selected, className }: RatingBarProps) {

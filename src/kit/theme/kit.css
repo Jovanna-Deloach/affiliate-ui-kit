@@ -555,6 +555,26 @@
   }
 }
 
+/* Reading progress: a bar the page's own scroll draws, with no script.
+   Browsers without scroll timelines show nothing rather than a stuck bar. */
+@keyframes kit-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@utility kit-progress {
+  display: none;
+  transform-origin: 0 50%;
+  @supports (animation-timeline: scroll()) {
+    display: block;
+    animation: kit-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-theme] {
     --dur: 1ms;

@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
 import { formatDateLong } from "@/lib/format";
 
 export interface ReviewCardProps {
-  /** The review: rating, title, body, author, dates, labels, and the brand's reply if any. */
+  /** The review: rating, title, body, author, dates, labels, and the brand’s reply if any. */
   review: Review;
   /** The moment relative dates count from; pin it in stories and tests (default: now). */
   now?: string;
@@ -23,12 +23,12 @@ export interface ReviewCardProps {
  * One review, as a reader weighs it: who wrote it (or which tester), when,
  * the stars and how the review reached the site, the title, the text (cut to
  * four lines with See more), when they used the product, how many found it
- * useful, and the brand's reply under it. A hairline above, no box: reviews
+ * useful, and the brand’s reply under it. A hairline above, no box: reviews
  * read as a list. Its id is `review-{id}`, so a link can point at it.
  *
  * **Use it for** every review in a list, reader or tester. **Not for** a
  * pull quote from a tester in an editorial review (`PullQuote`), or the
- * site's own verdict (`VerdictCard`).
+ * site’s own verdict (`VerdictCard`).
  *
  * @summary One review: author, stars, labels, title, text, useful count, brand reply.
  * @import import { ReviewCard } from "@/kit/components";

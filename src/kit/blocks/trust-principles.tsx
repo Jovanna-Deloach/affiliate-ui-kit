@@ -21,16 +21,16 @@ export interface TrustPrinciplesProps {
 }
 
 /**
- * The site's promises about how it tests, how it is paid and how it handles
+ * The site’s promises about how it tests, how it is paid and how it handles
  * reviews, each in a sentence or two with a link to the detail: the answer
  * to a reader who wonders whether any of it can be trusted.
  *
  * **Use it for** the end of a review section, an about page, or a footer
- * band. **Not for** a brand's record (`TrustSignals`), the commission
+ * band. **Not for** a brand’s record (`TrustSignals`), the commission
  * disclosure (that has its own place: the byline, every buy box, the
  * footer), or a method (`MethodologyAccordion`).
  *
- * @summary The site's promises on testing, money and reviews, each with a link.
+ * @summary The site’s promises on testing, money and reviews, each with a link.
  * @import import { TrustPrinciples } from "@/kit/blocks";
  */
 export function TrustPrinciples({ heading = "How we keep reviews honest", items, className }: TrustPrinciplesProps) {

@@ -23,13 +23,13 @@ export interface RatingSummaryProps {
 }
 
 /**
- * A product's reviews in numbers: the average large, its word (Great), the
+ * A product’s reviews in numbers: the average large, its word (Great), the
  * stars, how many reviews and how many from the last 12 months, then the
  * spread from 5 stars to 1, every row shown even when it is empty. Each row
  * can filter the reviews.
  *
- * **Use it for** the top of a review section, or beside a product's score on
- * its page. **Not for** the site's own score (`Scorecard`) or a single
+ * **Use it for** the top of a review section, or beside a product’s score on
+ * its page. **Not for** the site’s own score (`Scorecard`) or a single
  * review (`ReviewCard`).
  *
  * @summary The average, its word, the count and the 5-to-1 spread; rows filter.

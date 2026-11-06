@@ -7,7 +7,7 @@ This repository is a component library for affiliate review pages (the **kit**, 
 1. **Start Storybook**: `bun run storybook` (http://localhost:6006). Its MCP server is at `http://localhost:6006/mcp`; `.mcp.json` registers it for Claude Code. For another agent: `npx mcp-add --type http --url "http://localhost:6006/mcp" --scope project`.
 2. **Call `docs-list` once.** Read the guides first, in order: Getting started/Start here; the Foundations pages (Themes, Color, Typography, Layout, Surfaces); the Guidelines (Data model, Composing pages, Making pages distinct). Then call `docs-show` for every component you use.
 3. **Never hallucinate component properties.** A prop that is not in the docs does not exist. Check every prop with `docs-show` (and `docs-show-story` for a variant it does not show), not by reading source. If the page needs a part the kit does not document, say so instead of hand-building it.
-4. **Copy the imports the docs show**: `@/kit/ui`, `@/kit/components`, `@/kit/blocks`, `@/kit/templates`, `@/kit/types`, `@/kit/lib/offers`, `@/kit/lib/typeset`.
+4. **Copy the imports the docs show**: `@/kit/ui`, `@/kit/components`, `@/kit/blocks`, `@/kit/templates`, `@/kit/types`, `@/kit/lib/offers`, `@/kit/lib/typeset`, `@/kit/lib/reviews`, `@/kit/lib/discovery`, `@/kit/lib/reader`.
 5. **Before writing or changing stories**, call `get-storybook-story-instructions`, then follow Contributing/Writing stories where the two differ (titles by layer, framing by parameters, the kit checks as `play`, specimen sheets out of the manifest).
 
 ## Rules

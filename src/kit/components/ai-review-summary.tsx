@@ -24,7 +24,7 @@ export interface AiReviewSummaryProps {
  * it against them. In a `ReviewsSection`, the links always reach the review.
  *
  * **Use it for** a product with enough reviews to summarize (ten or more),
- * written from the reviews the page shows. **Not for** the site's own
+ * written from the reviews the page shows. **Not for** the site’s own
  * verdict (`VerdictCard`), a summary written by a person, or a summary with
  * no label.
  *

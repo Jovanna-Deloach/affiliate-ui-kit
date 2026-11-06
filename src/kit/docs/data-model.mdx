@@ -50,7 +50,7 @@ export interface Person {
   href?: string;
   /**
    * The categories this person is qualified to byline or be quoted in.
-   * The audit fails a page whose author or tester lacks the page's category.
+   * The audit fails a page whose author or tester lacks the page’s category.
    */
   beats: Category[];
 }
@@ -122,7 +122,7 @@ export interface Rating {
 }
 
 /**
- * What the lab or bench measured, set as telemetry rows in the review's
+ * What the lab or bench measured, set as telemetry rows in the review’s
  * scorecard (and, for supplements, the assay badge on the photograph).
  * Photography shows the object; these show the numbers.
  */
@@ -219,7 +219,7 @@ export interface RoundupGuide {
   /** Completes "Tested with …": "two other reviewers". */
   testedWith: string;
   updatedAt: string;
-  /** The header's testing summary card. */
+  /** The header’s testing summary card. */
   telemetry: { stats: TestingStat[]; reference: string };
   metrics: Metric[];
   picks: Pick[];
@@ -240,13 +240,13 @@ export interface RoundupGuide {
 /**
  * How a review reached the site, shown on it so readers can weigh it:
  * `verified` matched to a purchase · `invited` asked for by the brand or the
- * site · `unprompted` written on the reader's own · `incentivized` written
- * after a free product or payment · `tester` written by one of the site's
+ * site · `unprompted` written on the reader’s own · `incentivized` written
+ * after a free product or payment · `tester` written by one of the site’s
  * testers. A review can carry more than one (`verified` and `invited`).
  */
 export type ReviewLabel = "verified" | "invited" | "unprompted" | "incentivized" | "tester";
 
-/** Who wrote a review: a reader, or one of the site's testers. */
+/** Who wrote a review: a reader, or one of the site’s testers. */
 export interface Reviewer {
   name: string;
   /** Where they live, as a two-letter country code (“US”). */
@@ -258,9 +258,9 @@ export interface Reviewer {
   avatar?: { src: string; alt: string };
 }
 
-/** The brand's public answer to a review. */
+/** The brand’s public answer to a review. */
 export interface ReviewReply {
-  /** Who answered: the brand's name. */
+  /** Who answered: the brand’s name. */
   author: string;
   body: string;
   /** When it was posted (ISO). */
@@ -290,7 +290,7 @@ export interface Review {
   language?: string;
 }
 
-/** A product's (or a brand's) reviews in numbers. */
+/** A product’s (or a brand’s) reviews in numbers. */
 export interface RatingSummary {
   /** The average, 1 to 5, one decimal. */
   average: number;
@@ -348,6 +348,130 @@ export interface ReviewQuery {
   /** Words to find in the title or body. */
   search: string;
   sort: "recent" | "relevant" | "highest" | "lowest";
+}
+
+/* ---------------------------------------------------------------------- */
+/* Discovery                                                              */
+/* ---------------------------------------------------------------------- */
+
+/**
+ * A letter grade, for test results or for the strength of evidence, from A+
+ * (best) to F. Written with a hyphen for minus (`B-`); shown with a true
+ * minus sign.
+ */
+export type Grade = "A+" | "A" | "A-" | "B+" | "B" | "B-" | "C+" | "C" | "C-" | "D+" | "D" | "D-" | "F";
+
+/**
+ * Where a product stands in the site’s testing program: `certified` passed
+ * its latest test · `expired` its certification lapsed and it has not been
+ * retested · `upcoming` bought and in the lab · `untested` not tested yet.
+ */
+export interface Certification {
+  status: "certified" | "expired" | "upcoming" | "untested";
+  /** The date that goes with the status (ISO): certified until, expired on, results due by. */
+  date?: string;
+}
+
+/** A brand, as its card and its page show it. */
+export interface Brand {
+  slug: string;
+  name: string;
+  /** Its page on the site. */
+  href: string;
+  /** Its own website, shown as a bare domain, not a link: `peaksupply.example`. */
+  website?: string;
+  /** Its logo, square, on white. Without one the card shows its initials. */
+  logo?: { src: string; alt: string };
+  /** Readers’ reviews of the brand, in numbers. */
+  rating?: { average: number; count: number };
+  /** How many of its products the site has tested. */
+  tested?: number;
+}
+
+/** A kind of product the site covers, and how much of it the site has tested: Creatine, 18 reports. */
+export interface ProductCategory {
+  slug: string;
+  /** Sentence case: “Creatine”, “Fish oil”. */
+  name: string;
+  href: string;
+  /** How many reports or reviews it holds. */
+  count: number;
+  /** What `count` counts, plural (default “reports”). */
+  noun?: string;
+  /** A product in it, usually its best-rated one: the card shows its photograph. */
+  product?: KitProduct;
+}
+
+/**
+ * A product as a card, a ranking row or a reader’s list shows it: the
+ * product with all its offers, where its review is, and how it tested.
+ */
+export interface ProductSummary {
+  product: KitProduct;
+  /** Its review or lab report on the site. */
+  href: string;
+  /** The grade for its test results. */
+  grade?: Grade;
+  /** The site’s score, out of 10, one decimal. */
+  score?: number;
+  certification?: Certification;
+  /** Readers’ reviews, in numbers. */
+  rating?: { average: number; count: number };
+  /** What a serving costs at the lowest price, and what a serving is: `{ amount: 0.21, serving: "5 g" }`. */
+  perServing?: { amount: number; serving: string };
+  /** One line on how it tested, for a ranking row: “Contained 62% of the creatine on the label.” */
+  note?: string;
+}
+
+/** What a site search can find. */
+export type SearchKind = "product" | "brand" | "ingredient" | "guide" | "category";
+
+/** One thing a site search found. */
+export interface SearchHit {
+  id: string;
+  kind: SearchKind;
+  title: string;
+  href: string;
+  /** A line of context, ideally holding the words searched for; the result marks them. */
+  snippet?: string;
+  /** A product’s cut-out or a brand’s logo. */
+  image?: { src: string; alt: string };
+  /** One short fact: “Grade A+”, “18 reports”, “Updated Oct 29, 2026”. */
+  meta?: string;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Returning readers                                                      */
+/* ---------------------------------------------------------------------- */
+
+/**
+ * A product or guide in a reader’s history, saved items or compare tray:
+ * enough to show it again, small enough to keep on their device. A price is
+ * what it cost when they looked: a reminder, not an offer.
+ */
+export interface ReaderItem {
+  kind: "product" | "guide";
+  /** The product’s or guide’s id. */
+  id: string;
+  /** Products: the name without the brand (“Creatine Monohydrate”). Guides: the headline. */
+  title: string;
+  href: string;
+  /** Products: the brand, shown above the name. */
+  brand?: string;
+  /** Products: the photograph. */
+  image?: ProductImage;
+  /** Products: the lowest price when they looked. */
+  price?: { amount: number; currency?: string };
+  /** Products: the grade for its test results. */
+  grade?: Grade;
+  /** Guides: how far they read, from 0 to 1. */
+  progress?: number;
+  /** Guides: the section they reached, linked. */
+  section?: { title: string; href: string };
+  /** When they last looked, or saved it (ISO). */
+  at: string;
+  /** Saved items: their own note. */
+  note?: string;
 }
 
 // src/types/affiliate.ts: import from "@/types/affiliate"

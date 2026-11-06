@@ -1,4 +1,5 @@
 import { Menu, Search } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 import type { Category, SiteChrome } from "@/kit/types";
@@ -9,12 +10,17 @@ export interface SiteHeaderProps {
   site: SiteChrome;
   /** The page’s section: its nav item gets the 2px marker in the category color and `aria-current="page"`. */
   category?: Category;
+  /** In place of the search icon: `SiteSearch`, the site’s search on ⌘K. */
+  search?: ReactNode;
+  /** In place of the Sign in link: `AccountMenu`, the reader’s saved items, alerts and history. */
+  account?: ReactNode;
   /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
 /**
- * The masthead: wordmark, sections, search, sign in. The page’s section
+ * The masthead: wordmark, sections, search, and the reader’s account (or
+ * Sign in), with `SiteSearch` and `AccountMenu` in their places. The page’s section
  * carries a 2px marker in the category color, the only place the masthead
  * changes between a publication’s beats. On phones the sections move into a
  * native disclosure (no script) under the menu button.
@@ -25,7 +31,7 @@ export interface SiteHeaderProps {
  * @summary The publication’s masthead: wordmark, sections with the current one marked, menu on phones.
  * @import import { SiteHeader } from "@/kit/blocks";
  */
-export function SiteHeader({ site, category, className }: SiteHeaderProps) {
+export function SiteHeader({ site, category, search, account, className }: SiteHeaderProps) {
   return (
     <header className={cn("relative border-b border-line bg-ground", className)}>
       <div className="kit-well flex h-16 items-center gap-10">
@@ -54,12 +60,16 @@ export function SiteHeader({ site, category, className }: SiteHeaderProps) {
           </ul>
         </nav>
         <div className="ml-auto flex items-center gap-1">
-          <a href="#search" aria-label="Search" className="kit-focus grid size-11 place-items-center rounded-ctl text-fg-muted transition-colors duration-(--dur) hover:text-fg">
-            <Search size={20} strokeWidth={1.75} aria-hidden="true" />
-          </a>
-          <a href="#sign-in" className="kit-focus hidden min-h-11 items-center rounded-ctl px-3 t-ui text-fg sm:inline-flex">
-            Sign in
-          </a>
+          {search ?? (
+            <a href="#search" aria-label="Search" className="kit-focus grid size-11 place-items-center rounded-ctl text-fg-muted transition-colors duration-(--dur) hover:text-fg">
+              <Search size={20} strokeWidth={1.75} aria-hidden="true" />
+            </a>
+          )}
+          {account ?? (
+            <a href="#sign-in" className="kit-focus hidden min-h-11 items-center rounded-ctl px-3 t-ui text-fg sm:inline-flex">
+              Sign in
+            </a>
+          )}
           <Disclosure className="lg:hidden">
             <DisclosureSummary className="grid size-11 place-items-center justify-center rounded-ctl text-fg">
               <Menu size={22} strokeWidth={1.75} aria-hidden="true" />

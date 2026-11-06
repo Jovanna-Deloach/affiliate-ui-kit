@@ -2,7 +2,7 @@ import type { AiSummary, RatingSummary, Review, ReviewTopic, TrustSignals } from
 
 /**
  * Reader reviews of Peak Supply Creatine Monohydrate (the lead pick in
- * `creatineGuide`), for the review parts' stories. Reviewers and their words
+ * `creatineGuide`), for the review parts’ stories. Reviewers and their words
  * are invented; the kit never ships them to a real page.
  */
 
@@ -142,7 +142,7 @@ export const peakReviews: Review[] = [
   },
 ];
 
-/** The product's full numbers, for a summary on its own: far more reviews than the stories carry. */
+/** The product’s full numbers, for a summary on its own: far more reviews than the stories carry. */
 export const peakSummary: RatingSummary = { average: 4.4, count: 1284, recentCount: 512, distribution: [52, 31, 96, 290, 815] };
 
 /** A summary of the ten reviews above, so its numbers agree with a section that shows them. */
@@ -155,7 +155,7 @@ export const peakAiSummary: AiSummary = {
 
 export const peakTrust: TrustSignals = { asksForReviews: "sometimes", replyRate: 0.92, replyTime: "48 hours", claimedSince: "2022-02-14" };
 
-/** The same product reviewed by the site's own testers only, for a tester-reviews page. */
+/** The same product reviewed by the site’s own testers only, for a tester-reviews page. */
 export const testerReviews: Review[] = [
   {
     id: "t-01",

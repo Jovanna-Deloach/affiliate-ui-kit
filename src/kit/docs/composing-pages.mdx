@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, where reviews go, and where each commerce rule lives." />
+<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, where reviews, search and the reader’s lists go, and where each commerce rule lives." />
 
 # Composing pages
 
@@ -85,12 +85,23 @@ export function Page({ site, guide: input }: { site: SiteChrome; guide: RoundupG
 | The method is linked from the testing card | `MethodologyAccordion`’s id defaults to `methodology`, the testing card’s default target |
 | Every review stays up, whatever its rating | `ReviewsSection` shows every review, newest first, and says so under the list; only the reader filters it |
 | A link to a review reaches it | A review’s id is `review-{id}` (its `Review.id`); `ReviewsSection` clears the filters that hide it and lengthens the list to show it |
+| History stays with the reader | `@/kit/lib/reader` keeps viewed, saved and compared items on the device only; `PickUpWhereYouLeftOff` and `SavedItems` say so and keep Clear history in view |
+| No buy link on a failure | `RankingList` and `ProductCard` leave out the buy pill for a product graded F; the ranking says why |
+| The ranking discloses before its buy pills | `RankingList` puts “We may earn a commission.” above the list, linked to `disclosureHref` |
 
 ## Reviews on a page
 
 A product’s reviews go after the proof and before the method: `ReviewsSection` in a `kit-well` with `mt-chapter`, and `TrustPrinciples` under it when the page explains how reviews are handled. For reader reviews, pass `writeAction` (an outlined `Button` that opens a `Dialog` holding `WriteReview`) and the brand’s `TrustSignals` as `aside`. When the site’s testers write every review, leave both out: the section drops the filters that do not apply. A roundup does not list reviews of every pick; it links each pick to its own page.
 
 Mark up reviews as structured data (schema.org `Product` with `Review` and `AggregateRating`) only on a single product’s page, and only for the reviews shown on it.
+
+## Discovery and returning readers
+
+- **The masthead** takes the site’s search and the reader’s menu in its slots: `<SiteHeader site={site} search={<SiteSearch index={hits} resultsPath="/search" />} account={<AccountMenu links={links} signInHref="/sign-in" />} />`. `QuickLinks` sits right under it, in its own well.
+- **A category ranking page**: article header, then `RankingList` with `compare`, then the method; `CompareTray` once, last in `<main>`.
+- **A product’s page** ends with `PeopleAlsoLookedAt` (its `products`); a brand’s page with its `brands`. Never on the same page as `CompareTray` and `StickyBuyBar` both: the bottom edge belongs to one of them.
+- **Home and category pages** can show `PickUpWhereYouLeftOff` below the lead and `CategoryIndex` further down. The Saved page is `SavedItems`.
+- **Remembering visits**: without an account, nothing reaches the device unless the page records it. Put `<RememberVisit item={toReaderItem(summary)} />` on every product page and `<RememberVisit item={{ kind: "guide", id, title, href }} />` on every guide, once (`RememberVisit` from `@/kit/lib/reader`, `toReaderItem` from `@/kit/lib/discovery`). With an account, pass the lists to the blocks as `items` with their callbacks instead.
 
 ## Composing beyond the templates
 
@@ -101,6 +112,9 @@ Helpers for custom compositions:
 - `typesetDeep(guide)` from `@/kit/lib/typeset`: typeset every string in a guide (idempotent).
 - `rankOffers(offers)` and `leadOffer(offers)` from `@/kit/lib/offers`: the kit’s merchant order, and the offer a product leads with.
 - `pickName(pick)` and `reviewId(pick)` from `@/kit/components`: “Brand Model”, and the deep dive’s id.
+- `filterReviews`, `summarize` and `ALL_REVIEWS` from `@/kit/lib/reviews`: a review list’s query, order and numbers.
+- `gradeFor(score)`, `sortProducts(products, by)`, `toReaderItem(summary)` and `searchIndex(hits, query)` from `@/kit/lib/discovery`: a grade from a score out of 10, a ranking’s four orders, a product as the reader’s lists keep it, and search over a small index.
+- `RememberVisit`, `useReaderList(list)`, `remember`, `forget` and `clearList` from `@/kit/lib/reader`: the reader’s device memory (client only).
 
 ## In the app
 

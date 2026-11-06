@@ -8,7 +8,7 @@ const WORDS = ["Bad", "Poor", "Average", "Great", "Excellent"];
 export interface RatingInputProps {
   /** The question, as a heading for the stars (default “Your rating”). */
   legend?: string;
-  /** The radios' shared name, for the form (default `rating`). */
+  /** The radios’ shared name, for the form (default `rating`). */
   name?: string;
   /** The stars picked, when the page keeps the state (with `onValueChange`). */
   value?: number;

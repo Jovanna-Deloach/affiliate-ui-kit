@@ -30,8 +30,8 @@ export interface StarRatingProps {
  * stars”. The number is the fact; the stars help the eye, so an average
  * shows its number too (`showValue`).
  *
- * **Use it for** a review's rating and a product's average. **Not for** the
- * site's own score (`Scorecard`, out of 10), a letter grade, or picking a
+ * **Use it for** a review’s rating and a product’s average. **Not for** the
+ * site’s own score (`Scorecard`, out of 10), a letter grade, or picking a
  * rating in a form (`RatingInput`).
  *
  * @summary Five stars filled to a rating, read out with its number.

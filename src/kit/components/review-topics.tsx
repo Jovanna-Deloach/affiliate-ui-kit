@@ -22,7 +22,7 @@ export interface ReviewTopicsProps {
  * chips that filter the list to those reviews. Picking a topic again clears
  * it.
  *
- * **Use it for** a review section, under the summary. **Not for** a product's
+ * **Use it for** a review section, under the summary. **Not for** a product’s
  * features or categories (`Chip` links), or applied filters (`Chip` with
  * `onRemove`).
  *

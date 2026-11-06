@@ -6,7 +6,7 @@ import { cn } from "@/lib/cn";
 import { formatDateLong } from "@/lib/format";
 
 export interface TrustSignalsProps {
-  /** The brand's name: “Peak Supply”. */
+  /** The brand’s name: “Peak Supply”. */
   brand: string;
   /** What the site has seen of how the brand handles its reviews. */
   signals: TrustSignalsData;
@@ -22,8 +22,8 @@ export interface TrustSignalsProps {
  * reviews may lean negative), how many negative reviews it answers and how
  * fast, and since when it has managed its page.
  *
- * **Use it for** beside a brand's or product's rating summary. **Not for**
- * the site's own methods (`TrustPrinciples`) or a warning about a product
+ * **Use it for** beside a brand’s or product’s rating summary. **Not for**
+ * the site’s own methods (`TrustPrinciples`) or a warning about a product
  * (`Alert`).
  *
  * @summary How a brand handles reviews: asks for them, replies, and how fast.

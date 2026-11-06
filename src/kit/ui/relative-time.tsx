@@ -17,7 +17,7 @@ export interface RelativeTimeProps {
  * and on hover.
  *
  * **Use it for** when a review, reply or alert was posted. **Not for** a date
- * a reader acts on or compares (a test date, a certification's expiry: write
+ * a reader acts on or compares (a test date, a certification’s expiry: write
  * the date), or when prices were checked (`OfferCard` writes the date).
  *
  * @summary How long ago (“3 hours ago”), with the exact date in the markup.

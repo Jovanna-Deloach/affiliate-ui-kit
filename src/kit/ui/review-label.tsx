@@ -25,7 +25,7 @@ export interface ReviewLabelProps {
  * weigh reviews by it, so every review shows its labels.
  *
  * **Use it for** each label on a review (`ReviewCard` shows them). **Not for**
- * a product's status or a test result (`Badge`, `ResultMark`).
+ * a product’s status or a test result (`Badge`, `ResultMark`).
  *
  * @summary How a review reached the site (Verified, Invited…), explained on tap.
  * @import import { ReviewLabel } from "@/kit/ui";

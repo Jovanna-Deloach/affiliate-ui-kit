@@ -4,12 +4,17 @@
  * across the blocks in `src/kit/blocks`. Each has its own Storybook page
  * (Components) and a specimen sheet with every state, in both themes.
  */
+export * from "./account-menu";
 export * from "./ai-review-summary";
+export * from "./brand-card";
 export * from "./buy-block";
+export * from "./category-card";
+export * from "./continue-card";
 export * from "./gallery";
 export * from "./helpful-prompt";
 export * from "./offer-card";
 export * from "./pick-media";
+export * from "./product-card";
 export * from "./pros-cons";
 export * from "./pull-quote";
 export * from "./rating-summary";
@@ -19,6 +24,7 @@ export * from "./review-filters";
 export * from "./review-sort";
 export * from "./review-topics";
 export * from "./scorecard";
+export * from "./search-result";
 export * from "./spec-sheet";
 export * from "./sticky-buy-bar";
 export * from "./table-of-contents";

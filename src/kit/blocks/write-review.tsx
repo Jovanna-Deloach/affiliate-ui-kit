@@ -21,13 +21,13 @@ export interface WrittenReview {
 }
 
 export interface WriteReviewProps {
-  /** The product reviewed, for the form's name (“Review of Peak Supply Creatine Monohydrate”); show it in the `Dialog`'s description or the page's heading. */
+  /** The product reviewed, for the form’s name (“Review of Peak Supply Creatine Monohydrate”); show it in the `Dialog`'s description or the page’s heading. */
   product: string;
   /** Called with the review once it passes the checks; may return a promise while it sends. */
   onSubmit?: (review: WrittenReview) => void | Promise<void>;
   /** Ask for an email address to confirm the review: for readers without an account (default true). */
   askEmail?: boolean;
-  /** The site's review guidelines, linked above the button. */
+  /** The site’s review guidelines, linked above the button. */
   guidelinesHref: string;
   /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
@@ -41,7 +41,7 @@ const MIN_BODY = 50;
  * product is labeled Incentivized), an optional receipt for the Verified
  * label, an email address when the reader has no account, and a promise that
  * it is their own experience. Errors appear on their fields when sent; once
- * sent, a thank-you takes the form's place.
+ * sent, a thank-you takes the form’s place.
  *
  * **Use it for** a reader writing a review, on its own page or in a
  * `Dialog`. **Not for** tester reviews (they are written by the site), or a

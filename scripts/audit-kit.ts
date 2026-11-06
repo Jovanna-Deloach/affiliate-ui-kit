@@ -84,6 +84,7 @@ const RULES: [RegExp, string][] = [
   [/(?<![\w-])(?:bg|text|border|ring)-(?:surface|recessed|canvas|inverse|ink|ink-secondary|ink-tertiary|hairline|strong)(?![\w-])/, "legacy token in the kit"],
   [/(?<![\w-])rounded-(?:container|inner|control|tag|sm|md|lg|xl|2xl|3xl)(?![\w-])/, "radius outside the theme roles (box / ctl / media / full)"],
   [/(?<![\w-])(?:@?[\w-]*:)?(?:items-end|self-end|place-items-end|place-self-end)(?![\w-])/, "bottom alignment — product grids are top-aligned (items-start)"],
+  [/(?<![\w-])(?:@?[\w-]*:)?inline-grid(?![\w-])/, "inline-grid also sets inline-size from the legacy --spacing-grid token — use inline-flex"],
   [/→|⟶|↗|↓/, "arrow glyph in text — use an icon"],
   [/\s·\s/, "middle-dot typed into copy — use <Sep />"],
 ];

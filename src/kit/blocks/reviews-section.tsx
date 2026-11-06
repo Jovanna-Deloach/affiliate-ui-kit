@@ -24,11 +24,11 @@ const hashId = (hash: string | null | undefined) => {
 };
 
 export interface ReviewsSectionProps {
-  /** The section's heading, saying what the reviews are of: “What readers say about Peak Supply Creatine”. */
+  /** The section’s heading, saying what the reviews are of: “What readers say about Peak Supply Creatine”. */
   heading: string;
   /** Every review to show; the section filters, sorts and pages them in the browser. */
   reviews: Review[];
-  /** What reviewers mention, as filters under the summary; the section counts each topic's reviews itself and leaves out a topic none mention. */
+  /** What reviewers mention, as filters under the summary; the section counts each topic’s reviews itself and leaves out a topic none mention. */
   topics?: ReviewTopic[];
   /** A generated summary, shown labeled as AI beside the numbers. */
   aiSummary?: AiSummary;
@@ -46,14 +46,14 @@ export interface ReviewsSectionProps {
   reportHref?: string;
   /** Where the site explains how its average is worked out. */
   scoreHref?: string;
-  /** The section's id, for links to it (default `reviews`). */
+  /** The section’s id, for links to it (default `reviews`). */
   id?: string;
   /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
 
 /**
- * A product's reviews, whole: the numbers (average, word, spread), a
+ * A product’s reviews, whole: the numbers (average, word, spread), a
  * generated summary and topics if given, then the list with its filters (a
  * sidebar on wide screens, a sheet on phones), its sort, the filters applied
  * as removable chips, and “Show more”. Every rating stays in reach: the
@@ -65,12 +65,12 @@ export interface ReviewsSectionProps {
  * (`#review-{id}`, from the AI summary or anywhere on the page) always finds
  * it: the section clears filters that hide it and shows enough of the list.
  *
- * **Use it for** a product's or brand's reviews, up to a few hundred (it
+ * **Use it for** a product’s or brand’s reviews, up to a few hundred (it
  * filters in the browser). **Not for** thousands of reviews: compose
  * `RatingSummary`, `ReviewFilters`, `ReviewCard` and `Pagination` with links,
- * filtered on the server. Not for the site's own verdict.
+ * filtered on the server. Not for the site’s own verdict.
  *
- * @summary A product's reviews: numbers, AI summary, topics, filters, sort, list.
+ * @summary A product’s reviews: numbers, AI summary, topics, filters, sort, list.
  * @import import { ReviewsSection } from "@/kit/blocks";
  */
 export function ReviewsSection({
