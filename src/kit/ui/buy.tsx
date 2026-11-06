@@ -7,6 +7,7 @@ import { AffiliateAction } from "@/primitives/affiliate-action";
 import type { AffiliateAttribution, MerchantOffer } from "@/types/affiliate";
 
 import { buttonStyles } from "./button";
+import { Monogram } from "./marks";
 
 /**
  * Every monetized link in the kit. Built on AffiliateAction, so rel,
@@ -58,20 +59,26 @@ export function BuyButton({
 }
 
 /**
- * Another retailer, as a row of the buy box: the whole row is the target
- * (48px), merchant, price and a bordered “Buy” pill; sold-out rows are
- * not links.
+ * Another retailer, as a compact row of the buy box (44px, the whole row is
+ * the target): monogram and name, then the price, how far it sits above the
+ * best price, and a bordered “View” pill (just its arrow in a container under
+ * 24rem, so the merchant keeps its width). Sold-out rows are not links.
  */
-export function BuyRow({ offer, productId, placement, attribution, className }: Omit<BuyProps, "children">) {
-  const grid = "grid min-h-12 grid-cols-[minmax(0,1fr)_auto_4.5rem] items-center gap-x-4 px-5";
+export function BuyRow({ offer, productId, placement, attribution, best, className }: Omit<BuyProps, "children"> & { best?: number }) {
+  const grid = "grid min-h-11 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 px-4";
+  const currency = offer.currency ?? "USD";
+  const delta = best !== undefined && offer.price > best ? offer.price - best : 0;
   if (!offer.inStock)
     return (
-      <div data-cta="none" {...offerData(offer)} className={cn(grid, "t-ui text-fg-muted", className)}>
-        <span>{offer.merchantName}</span>
-        <span data-numeric className="t-figure">
-          {formatPrice(offer.price, offer.currency ?? "USD")}
+      <div data-cta="none" {...offerData(offer)} className={cn(grid, "text-fg-muted", className)}>
+        <Monogram name={offer.merchantName} className="opacity-60" />
+        <span className="truncate t-small">{offer.merchantName}</span>
+        <span className="flex items-center gap-3">
+          <s data-numeric className="t-small t-figure">
+            {formatPrice(offer.price, currency)}
+          </s>
+          <span className="t-micro-sm">Sold out</span>
         </span>
-        <span className="justify-self-end t-caption">Sold out</span>
       </div>
     );
   return (
@@ -83,22 +90,36 @@ export function BuyRow({ offer, productId, placement, attribution, className }: 
       tracking={{ merchant: offer.merchantName, offerId: offer.id, productId, placement }}
       data-cta="row"
       {...offerData(offer)}
-      className={cn("kit-focus group t-ui text-fg transition-colors duration-(--dur) ease-(--ease) hover:bg-paper", grid, className)}
+      className={cn("kit-focus group text-fg transition-colors duration-(--dur) ease-(--ease) hover:bg-paper", grid, className)}
     >
-      <span>{offer.merchantName}</span>
-      <span data-numeric className="t-figure">
-        {formatPrice(offer.price, offer.currency ?? "USD")}
-      </span>
-      <span className="inline-flex h-8 items-center justify-center gap-1 justify-self-end rounded-full border border-line bg-paper px-3 t-caption font-medium text-fg transition-colors duration-(--dur) ease-(--ease) group-hover:border-fg">
-        Buy
-        <ArrowUpRight size={13} strokeWidth={2} aria-hidden="true" />
+      <Monogram name={offer.merchantName} />
+      <span className="truncate t-small font-medium">{offer.merchantName}</span>
+      <span className="flex items-center gap-3">
+        <span className="flex flex-col text-right">
+          <span data-numeric className="t-small t-figure">
+            {formatPrice(offer.price, currency)}
+          </span>
+          {delta > 0 && (
+            <span data-numeric className="t-caption text-fg-muted">
+              +{formatPrice(delta, currency)} vs. best
+            </span>
+          )}
+        </span>
+        <span className="inline-flex h-7 items-center justify-center gap-1 rounded-ctl border border-line-strong bg-paper px-2.5 t-micro-sm text-fg transition-colors duration-(--dur) ease-(--ease) group-hover:border-fg">
+          <span className="sr-only @sm:not-sr-only">View</span>
+          <ArrowUpRight size={12} strokeWidth={2} aria-hidden="true" />
+        </span>
       </span>
     </AffiliateAction>
   );
 }
 
-/** A compact pill to a retailer (tables, rails): price context lives beside it. */
-export function BuyPill({ offer, productId, placement, attribution, children, className }: BuyProps) {
+/**
+ * A compact “Buy” pill to a retailer (tables, catalogue cards). `filled`
+ * marks the one row that leads (the page’s top pick, in the accent); every
+ * other pill is bordered.
+ */
+export function BuyPill({ offer, productId, placement, attribution, children, filled = false, className }: BuyProps & { filled?: boolean }) {
   return (
     <AffiliateAction
       unstyled
@@ -109,7 +130,8 @@ export function BuyPill({ offer, productId, placement, attribution, children, cl
       data-cta="link"
       {...offerData(offer)}
       className={cn(
-        "kit-focus inline-flex h-9 items-center justify-center gap-1 rounded-full border border-line bg-paper px-4 t-caption font-medium text-fg transition-colors duration-(--dur) ease-(--ease) hover:border-fg",
+        "kit-focus inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-ctl px-3.5 py-1.5 t-caption font-medium transition-colors duration-(--dur) ease-(--ease)",
+        filled ? "bg-accent text-on-accent hover:bg-accent-hover" : "border border-line-strong bg-paper text-fg hover:border-fg",
         className,
       )}
     >

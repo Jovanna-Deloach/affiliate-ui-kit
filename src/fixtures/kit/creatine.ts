@@ -8,12 +8,20 @@ import { offer, product } from "./build";
 const raman: Person = { name: "Dr. Priya Raman", role: "Lab director", avatar: { src: "/fixtures/portrait-raman.jpg", alt: "Dr. Priya Raman" }, href: "#priya", beats: ["supplements"] };
 const ibarra: Person = { name: "Tomás Ibarra", role: "Analytical chemist", href: "#tomas", beats: ["supplements"] };
 
+/** Studio cut-outs (Unsplash, see public/fixtures/ATTRIBUTION.md), shown on the theme’s studio well. */
+const photo = (file: string, alt: string, width: number, height: number) => ({ src: `/fixtures/kit/${file}`, alt, width, height });
+
 const peak = product({
   id: "c-peak-mono-500",
   slug: "peak-supply-creatine-500",
   brand: "Peak Supply",
   name: "Creatine Monohydrate",
-  offers: [offer("peak-nl", "Northlane", 24), offer("peak-own", "Peak Supply", 21, { isPrimaryPartner: true, originalPrice: 26 }), offer("peak-vr", "Verra", 25)],
+  image: photo("supp-peak.webp", "Peak Supply Creatine Monohydrate, a black-lidded 500 g jar", 572, 562),
+  offers: [
+    offer("peak-nl", "Northlane", 24, { shippingNote: "Free 2-day shipping" }),
+    offer("peak-own", "Peak Supply", 21, { isPrimaryPartner: true, originalPrice: 26, shippingNote: "Free shipping over $35" }),
+    offer("peak-vr", "Verra", 25, { shippingNote: "Free shipping over $50" }),
+  ],
   lastVerifiedAt: "2026-10-29T08:00:00Z",
 });
 const ironhouse = product({
@@ -21,7 +29,8 @@ const ironhouse = product({
   slug: "ironhouse-creapure-micronised",
   brand: "Ironhouse",
   name: "Creapure Micronised",
-  offers: [offer("iron-nl", "Northlane", 29, { isPrimaryPartner: true }), offer("iron-own", "Ironhouse", 32)],
+  image: photo("supp-ironhouse.webp", "Ironhouse Creapure Micronised, a white 300 g bottle", 660, 1200),
+  offers: [offer("iron-nl", "Northlane", 29, { isPrimaryPartner: true, shippingNote: "Free 2-day shipping" }), offer("iron-own", "Ironhouse", 32, { shippingNote: "Ships in 3 days" })],
   lastVerifiedAt: "2026-10-29T08:00:00Z",
 });
 const basics = product({
@@ -29,7 +38,8 @@ const basics = product({
   slug: "northlane-basics-creatine-1kg",
   brand: "Northlane Basics",
   name: "Creatine Monohydrate 1 kg",
-  offers: [offer("basics-nl", "Northlane", 32, { isPrimaryPartner: true })],
+  image: photo("supp-northlane.webp", "Northlane Basics Creatine Monohydrate, a white 1 kg tub", 796, 1200),
+  offers: [offer("basics-nl", "Northlane", 32, { isPrimaryPartner: true, shippingNote: "Free 2-day shipping" })],
   lastVerifiedAt: "2026-10-29T08:00:00Z",
 });
 const fieldwork = product({
@@ -37,7 +47,8 @@ const fieldwork = product({
   slug: "fieldwork-creatine-capsules",
   brand: "Fieldwork",
   name: "Creatine Capsules",
-  offers: [offer("fw-own", "Fieldwork", 27, { isPrimaryPartner: true }), offer("fw-vr", "Verra", 29)],
+  image: photo("supp-fieldwork.webp", "Fieldwork Creatine Capsules, a clear jar of 180 capsules", 718, 1200),
+  offers: [offer("fw-own", "Fieldwork", 27, { isPrimaryPartner: true, shippingNote: "Free shipping" }), offer("fw-vr", "Verra", 29, { shippingNote: "Free shipping over $50" })],
   lastVerifiedAt: "2026-10-29T08:00:00Z",
 });
 
@@ -96,7 +107,6 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     { key: "cost", label: "Cost per 5 g" },
   ],
   jumpLabel: "See the lab data",
-  railHeading: "Also passed every test",
   compare: { heading: "The lab results", intro: "Every product, the same tests. Products that failed are listed so you know which to avoid." },
   picks: [
     {
@@ -133,7 +143,7 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     {
       product: ironhouse,
       award: "Best micronised",
-      descriptor: "Micronised creatine, 300 g pouch",
+      descriptor: "Micronised creatine, 300 g bottle",
       bestFor: "mixing into cold drinks without grit",
       verdict: "The creatine to buy if grit in a cold shake is why you stopped taking it.",
       synthesis: "Fully dissolved at 20 °C in our saturation test, and 99.1% of its claim in both runs.",

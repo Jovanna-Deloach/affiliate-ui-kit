@@ -11,7 +11,7 @@ import { RoundupPage } from "./roundup-page";
 /**
  * The roundup archetype on two publications. Every story runs the kit page
  * checks (play): column alignment, voids, touch targets, numerals, merchant
- * order, unique specimens, repeated text and axe-core WCAG 2.2 AA.
+ * order, one photograph per product, repeated text and axe-core WCAG 2.2 AA.
  */
 const meta = {
   title: "Kit/Templates/Roundup page",
@@ -29,7 +29,7 @@ export const Caliber: Story = {
   args: { site: caliberSite, guide: watchesGuide, attribution: { source: "caliber", medium: "affiliate", campaign: watchesGuide.id } },
 };
 
-/** Assay: a lab publication, supplements section (category colour: cobalt). */
+/** Assay: a lab publication, supplements section (category colour: emerald). */
 export const ProvingGround: Story = {
   name: "Proving Ground: supplements",
   parameters: { theme: "assay" },

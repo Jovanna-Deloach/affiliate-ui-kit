@@ -15,7 +15,7 @@ import { isRanked } from "@/kit/lib/offers";
  *   • primary, secondary and row CTAs at least 44px tall
  *   • every [data-numeric] cell set in tabular numerals
  *   • merchant order: in-stock lowest first, one button per buy block
- *   • every SKU draws a different specimen
+ *   • every deep dive shows a photograph; no two SKUs share one
  *   • no text block over 40 characters rendered twice
  *   • axe-core, WCAG 2.0/2.1/2.2 A and AA: zero violations
  */
@@ -56,7 +56,7 @@ export async function collectPageProblems(root: HTMLElement, { runAxe = true } =
       problems.push(`${id}: deep dive is missing a column`);
       continue;
     }
-    if (!card.querySelector('[data-slot="media"] [data-slot="specimen"], [data-slot="media"] img')) problems.push(`${id}: deep dive has no media`);
+    if (!card.querySelector('[data-slot="media"] img')) problems.push(`${id}: deep dive has no photograph`);
     if (getComputedStyle(media).display !== "contents") {
       const delta = Math.abs(rect(media).top - rect(story).top);
       if (delta >= ALIGN) problems.push(`${id}: columns start ${delta.toFixed(1)}px apart (limit ${ALIGN}px)`);
@@ -107,14 +107,14 @@ export async function collectPageProblems(root: HTMLElement, { runAxe = true } =
     if (buttons > 1) problems.push(`${id}: ${buttons} buttons in one buy block (one allowed)`);
   }
 
-  /* specimens: one drawing per SKU */
+  /* photographs: one per SKU */
   const owners = new Map<string, string>();
-  for (const el of Array.from(root.querySelectorAll<HTMLElement>('[data-slot="specimen"]'))) {
-    const id = el.dataset.productId ?? "";
-    const key = `${el.dataset.detail}|${el.querySelector('svg[role="img"]')?.innerHTML ?? ""}`;
-    const owner = owners.get(key);
-    if (owner && owner !== id) problems.push(`${id} and ${owner} render the same drawing`);
-    owners.set(key, id);
+  for (const well of Array.from(root.querySelectorAll<HTMLElement>('[data-slot="media-well"]'))) {
+    const id = well.dataset.productId ?? "";
+    const src = well.querySelector("img")?.getAttribute("src") ?? "";
+    const owner = owners.get(src);
+    if (src && owner && owner !== id) problems.push(`${id} and ${owner} use the same photograph`);
+    if (src) owners.set(src, id);
   }
 
   /* repeated text (product names are identifiers, marked [data-name], and exempt) */

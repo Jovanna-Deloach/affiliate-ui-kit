@@ -1,20 +1,20 @@
-import { BadgeCheck } from "lucide-react";
-
 import { cn } from "@/lib/cn";
 import { formatDateShort, formatPrice } from "@/lib/format";
 import { rankOffers } from "@/kit/lib/offers";
 import type { KitProduct } from "@/kit/types";
-import { BestPrice, BuyButton, BuyRow } from "@/kit/ui";
+import { BestPrice, BuyButton, BuyRow, Monogram, Sep } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
 
 /** The short inline disclosure. Kept under 40 characters so it can repeat beside every buy box. */
 export const INLINE_DISCLOSURE = "We may earn a commission.";
 
 /**
- * The merchant buy box: a recessed, framed module. The lowest in-stock
- * offer leads, grouped with its badge and provenance, beside one
- * substantial button; every other retailer is a full-width row with a
- * bordered “Buy” pill, lowest price first, sold out last. A partner
+ * The merchant buy box. The lowest in-stock offer leads as a recessed offer
+ * card: monogram, merchant and its terms on the left; the price (1.5rem,
+ * bold, tabular), the struck list price and “Best price” on the right; one
+ * full-width 44px button beneath. Every other retailer follows as a compact
+ * 44px row on a hairline: price, how far above the best price it sits, and a
+ * bordered “View” pill. Lowest price first, sold out last; a partner
  * relationship never changes the order.
  */
 export interface BuyBlockProps {
@@ -33,46 +33,60 @@ export function BuyBlock({ product, placement, disclosureHref, attribution, id, 
   const competing = others.some((o) => o.inStock);
   const currency = lead?.currency ?? "USD";
   return (
-    <div data-slot="buy-block" data-product-id={product.id} id={id} className={cn("@container scroll-mt-8 overflow-hidden rounded-box border border-line bg-well", className)}>
-      <div className="grid gap-4 p-5 @lg:grid-cols-[minmax(0,1fr)_auto] @lg:items-center @lg:gap-x-6">
-        {lead ? (
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span data-numeric className="t-figure-xl text-fg">
-                {formatPrice(lead.price, currency)}
-              </span>
-              {lead.originalPrice && lead.originalPrice > lead.price && (
-                <s data-numeric className="t-small text-fg-muted">
-                  {formatPrice(lead.originalPrice, currency)}
-                </s>
-              )}
-              {competing && <BestPrice />}
+    <div data-slot="buy-block" data-product-id={product.id} id={id} className={cn("@container scroll-mt-8", className)}>
+      {lead ? (
+        <div className="kit-recess px-5 py-4">
+          <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
+            <div className="flex min-w-0 items-center gap-3">
+              <Monogram name={lead.merchantName} />
+              <div className="min-w-0">
+                <p className="m-0 t-ui font-semibold text-fg">{lead.merchantName}</p>
+                <p className="m-0 mt-0.5 flex flex-col t-caption text-fg-muted @md:flex-row @md:flex-wrap @md:items-center">
+                  {lead.shippingNote && (
+                    <>
+                      <span>{lead.shippingNote}</span>
+                      {product.lastVerifiedAt && <Sep className="hidden @md:inline" />}
+                    </>
+                  )}
+                  {product.lastVerifiedAt && (
+                    <span>
+                      Verified <time dateTime={product.lastVerifiedAt}>{formatDateShort(product.lastVerifiedAt)}</time>
+                    </span>
+                  )}
+                </p>
+              </div>
             </div>
-            <p className="m-0 mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 t-small text-fg-muted">
-              <span>At {lead.merchantName}</span>
-              {product.lastVerifiedAt && (
-                <span className="inline-flex items-center gap-1">
-                  <BadgeCheck size={14} strokeWidth={2} aria-hidden="true" className="text-pass" />
-                  Verified <time dateTime={product.lastVerifiedAt}>{formatDateShort(product.lastVerifiedAt)}</time>
+            <div className="flex flex-col items-start gap-1.5">
+              <p className="m-0 flex items-baseline gap-2 @md:ml-auto">
+                {lead.originalPrice && lead.originalPrice > lead.price && (
+                  <s data-numeric className="t-small text-fg-muted">
+                    {formatPrice(lead.originalPrice, currency)}
+                  </s>
+                )}
+                <span data-numeric className="t-price text-fg">
+                  {formatPrice(lead.price, currency)}
                 </span>
-              )}
-            </p>
+              </p>
+              {competing && <BestPrice className="@md:ml-auto" />}
+            </div>
           </div>
-        ) : (
-          <p className="m-0 t-ui text-fg">Sold out at every retailer we track.</p>
-        )}
-        {lead && <BuyButton offer={lead} productId={product.id} placement={placement} attribution={attribution} icon className="h-[46px] w-full font-medium @lg:w-auto @lg:min-w-[220px]" />}
-      </div>
+          <BuyButton offer={lead} productId={product.id} placement={placement} attribution={attribution} fullWidth icon className="mt-4 h-11">
+            View deal at {lead.merchantName}
+          </BuyButton>
+        </div>
+      ) : (
+        <p className="m-0 kit-recess px-5 py-4 t-ui text-fg">Sold out at every retailer we track.</p>
+      )}
       {others.length > 0 && (
-        <ul className="m-0 list-none divide-y divide-line border-t border-line p-0">
+        <ul aria-label="Other retailers" className="m-0 mt-1 list-none p-0">
           {others.map((offer) => (
-            <li key={offer.id}>
-              <BuyRow offer={offer} productId={product.id} placement={`${placement}-row`} attribution={attribution} />
+            <li key={offer.id} className="border-b border-line">
+              <BuyRow offer={offer} productId={product.id} placement={`${placement}-row`} attribution={attribution} best={lead?.price} className="px-5" />
             </li>
           ))}
         </ul>
       )}
-      <p data-slot="inline-disclosure" className="m-0 border-t border-line px-5 py-3 t-caption text-fg-muted">
+      <p data-slot="inline-disclosure" className="m-0 mt-3 t-caption text-fg-muted">
         We may earn a{" "}
         <a href={disclosureHref} className="kit-focus kit-link rounded-ctl">
           commission

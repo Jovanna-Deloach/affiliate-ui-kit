@@ -14,10 +14,10 @@ import "@fontsource-variable/plus-jakarta-sans";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
 
-/* Kit themes (docs/DESIGN.md): Newsreader with optical sizes (Atelier),
-   Hanken Grotesk (Atelier interface), Archivo with the width axis (Assay). */
+/* Kit themes (docs/DESIGN.md): three voices per theme. Atelier — Newsreader
+   (display, with optical sizes and italics) + Plus Jakarta Sans (text);
+   Assay — Playfair Display (display, with italics) + Inter (text); both —
+   JetBrains Mono micro-caps. */
 import "@fontsource-variable/newsreader/opsz.css";
 import "@fontsource-variable/newsreader/opsz-italic.css";
-import "@fontsource-variable/hanken-grotesk";
-import "@fontsource-variable/archivo/standard.css";
-import "@fontsource-variable/archivo/standard-italic.css";
+import "@fontsource-variable/playfair-display/wght-italic.css";

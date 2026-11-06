@@ -8,36 +8,32 @@ import type { AffiliateAttribution } from "@/types/affiliate";
 import { PickMedia, pickName, reviewId } from "./pick-media";
 
 /**
- * A pick as one row: thumbnail on the well, award, name, who it is for,
- * the lowest price with a pill to the retailer, and a jump to the review.
- * Used inside the verdict bento (picks 4+) and as a catalogue card.
+ * A pick as one catalogue entry: the photograph on a small studio well, the
+ * award in micro-caps, the name in the display serif, who it is for, the
+ * lowest price with a “Buy” pill to that retailer, and a jump to the review.
  */
-export function PickRow({ pick, jumpLabel, attribution, wide }: { pick: Pick; jumpLabel: string; attribution?: AffiliateAttribution; wide?: boolean }) {
+export function PickRow({ pick, jumpLabel, attribution }: { pick: Pick; jumpLabel: string; attribution?: AffiliateAttribution }) {
   const offer = leadOffer(pick.product.offers);
   return (
-    <div data-product-id={pick.product.id} className={cn("@container grid grid-cols-[4.5rem_minmax(0,1fr)] items-start gap-4", wide && "@2xl:grid-cols-[4.5rem_minmax(0,1fr)_auto] @2xl:items-center")}>
-      <div className="flex items-center justify-center rounded-media bg-well p-1">
-        <PickMedia pick={pick} detail="thumb" sizes="4.5rem" />
-      </div>
-      <div className="flex min-w-0 flex-col gap-0.5">
-        <span className="t-caption font-medium text-accent-category">{pick.award}</span>
-        <a href={`#${reviewId(pick)}`} data-name className="kit-focus rounded-ctl t-ui text-fg hover:underline">
+    <div data-product-id={pick.product.id} className="grid grid-cols-[5rem_minmax(0,1fr)] items-start gap-4">
+      <PickMedia pick={pick} detail="thumb" sizes="5rem" />
+      <div className="flex min-w-0 flex-col">
+        <span className="t-micro-sm text-accent-category-ink">{pick.award}</span>
+        <a href={`#${reviewId(pick)}`} data-name className="kit-focus mt-1.5 self-start rounded-ctl t-name text-fg hover:underline">
           {pickName(pick)}
         </a>
-        <p className="m-0 t-small text-fg-muted">Best for {pick.bestFor}.</p>
-      </div>
-      <div className={cn("col-start-2 flex flex-wrap items-center gap-x-3 gap-y-1", wide && "@2xl:col-start-auto")}>
+        <p className="m-0 mt-1 t-small text-fg-muted">Best for {pick.bestFor}.</p>
         {offer && (
-          <>
-            <span data-numeric className="t-figure-table text-fg">
+          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+            <span data-numeric className="t-ui font-semibold text-fg">
               {formatPrice(offer.price, offer.currency ?? "USD")}
             </span>
-            <BuyPill offer={offer} productId={pick.product.id} placement="verdict-more" attribution={attribution}>
+            <BuyPill offer={offer} productId={pick.product.id} placement="catalogue" attribution={attribution}>
               Buy at {offer.merchantName}
             </BuyPill>
-          </>
+          </div>
         )}
-        <JumpLink href={`#${reviewId(pick)}`} className="t-small">
+        <JumpLink href={`#${reviewId(pick)}`} className="mt-1 t-small">
           {jumpLabel}
         </JumpLink>
       </div>
@@ -60,12 +56,12 @@ export interface AlsoGreatRailProps {
 export function AlsoGreatRail({ picks, heading, jumpLabel = "Read the review", attribution, className }: AlsoGreatRailProps) {
   return (
     <section data-slot="also-great" aria-labelledby="also-great-heading" className={cn("@container", className)}>
-      <h2 id="also-great-heading" className="m-0 t-ui font-semibold text-fg">
+      <h2 id="also-great-heading" className="m-0 t-headline text-fg">
         {heading}
       </h2>
-      <ul className="m-0 mt-4 grid list-none gap-4 p-0 @2xl:grid-cols-2 @5xl:grid-cols-3">
+      <ul className="m-0 mt-8 grid list-none gap-4 p-0 @2xl:grid-cols-2 @5xl:grid-cols-3">
         {picks.map((pick) => (
-          <li key={pick.product.id} className="kit-card p-4">
+          <li key={pick.product.id} className="kit-card p-5">
             <PickRow pick={pick} jumpLabel={jumpLabel} attribution={attribution} />
           </li>
         ))}

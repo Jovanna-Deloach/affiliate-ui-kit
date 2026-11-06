@@ -19,10 +19,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const FivePicks: Story = {
-  name: "Five picks, Atelier",
+  name: "Five picks (three cards), Atelier",
   parameters: { theme: "atelier" },
   decorators: [inWell()],
-  args: { picks: watchesGuide.picks, jumpLabel: watchesGuide.jumpLabel, moreHeading: watchesGuide.railHeading },
+  args: { picks: watchesGuide.picks, jumpLabel: watchesGuide.jumpLabel },
 };
 
 export const TwoPicks: Story = {

@@ -64,14 +64,14 @@ const withVertical: Decorator = (Story, context) => {
  */
 const FACES = [
   '400 1em "Playfair Display Variable"',
+  'italic 400 1em "Playfair Display Variable"',
+  '400 1em "Plus Jakarta Sans Variable"',
   '600 1em "Plus Jakarta Sans Variable"',
   '400 1em "Inter Variable"',
-  '400 1em "JetBrains Mono Variable"',
+  '600 1em "Inter Variable"',
+  '600 1em "JetBrains Mono Variable"',
   '300 1em "Newsreader Variable"',
-  'italic 300 1em "Newsreader Variable"',
-  '500 1em "Hanken Grotesk Variable"',
-  '400 1em "Archivo Variable"',
-  'italic 400 1em "Archivo Variable"',
+  '400 1em "Newsreader Variable"',
   'italic 400 1em "Newsreader Variable"',
 ];
 const withFontsReady = async () => {

@@ -28,14 +28,18 @@ composed from **templates** (`src/kit/templates`), not assembled from parts.
 - **Kit / Templates / Archetypes**: the same eight macro-primitives
   (**Kit / Blocks**) recomposed as a head-to-head, a single-product lab assay
   and a collector’s guide.
-- Every page is built in three surface layers — a tinted ground, white
-  cards, recessed wells — with an asymmetric verdict bento, deep-dive cards
-  (composite score, measurements, buy box, spec sheet) and a comparison
-  card that condenses to pills on a phone.
-- Products show studio photography where a site has it, otherwise a data
-  graphic from their own numbers — a watch drafting plate, a certificate of
-  analysis (**Kit / Parts / Product media**) — never an outline drawing or
-  shared placeholder art.
+- Three type voices in every theme: a display serif for titles, hero
+  figures and pull-quotes; a text sans for reading copy (17px / 1.68),
+  buttons and prices; mono micro-caps for eyebrows, awards, stamps, table
+  heads and proof pills. Warm grounds, paper cards with the theme’s ambient
+  elevation, and an asymmetric verdict bento of at most three cards.
+- Deep dives keep two things in the left rail — the studio frame (award
+  pinned on the photograph, a lab badge for supplements) and the scorecard
+  with its category telemetry — beside the story and a merchant buy box;
+  the specifications fold into a `<details>` footer.
+- Every product is shown in studio photography (cut-outs on a radial studio
+  well, **Kit / Parts / Studio frame and scorecard**); numbers sit beside
+  the photograph, never in its place.
 - `bun run check` includes the kit audit (source, contracts, server-rendered
   pages, self-test); every kit story runs browser checks in `play()`
   (alignment, voids, column balance, 44px targets, numerals, merchant

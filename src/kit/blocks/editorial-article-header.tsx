@@ -1,18 +1,19 @@
+import { BadgeCheck } from "lucide-react";
+
 import { cn } from "@/lib/cn";
 import { formatDateLong } from "@/lib/format";
 import type { RoundupGuide } from "@/kit/types";
+import { Sep } from "@/kit/ui";
 
 import { Avatar } from "./person";
 import { TestingTelemetryBadge } from "./testing-telemetry-badge";
 
 /**
- * The article header. Breadcrumb across the well; below it the title,
- * dek, byline and the disclosure notice on seven columns, the testing
- * summary card on five. The notice sits in the byline region, so it is
- * read before the first buy link on the page.
- *
- * The H1 is capped at the theme’s title measure (18–35ch) and balanced;
- * the dek is set as a lead at reading measure.
+ * The article header. A mono micro-caps eyebrow (the breadcrumb, “WATCHES ·
+ * BUYING GUIDES”); below it the display-serif title, the dek, the byline
+ * with its verification stamp and the disclosure notice on seven columns,
+ * the testing summary card on five. The notice sits in the byline region,
+ * so it is read before the first buy link on the page.
  */
 export interface EditorialArticleHeaderProps {
   guide: Pick<RoundupGuide, "crumbs" | "title" | "dek" | "author" | "testedWith" | "updatedAt" | "telemetry">;
@@ -26,11 +27,11 @@ export function EditorialArticleHeader({ guide, notice, methodHref = "#methodolo
   return (
     <header data-slot="article-header" className={cn("kit-well @container pt-8 md:pt-12", className)}>
       <nav aria-label="Breadcrumb">
-        <ol className="m-0 flex list-none flex-wrap items-center gap-2 p-0 t-small text-fg-muted">
+        <ol className="m-0 flex list-none flex-wrap items-center p-0 t-micro text-fg-muted">
           {guide.crumbs.map((crumb, i) => (
-            <li key={crumb.href} className="flex items-center gap-2">
-              {i > 0 && <span aria-hidden="true">/</span>}
-              <a href={crumb.href} className={cn("kit-focus rounded-ctl hover:underline", i === 0 && "text-accent-category")}>
+            <li key={crumb.href} className="flex items-center">
+              {i > 0 && <Sep />}
+              <a href={crumb.href} className={cn("kit-focus inline-flex min-h-6 items-center rounded-ctl hover:text-fg", i === 0 && "text-fg")}>
                 {crumb.label}
               </a>
             </li>
@@ -39,8 +40,8 @@ export function EditorialArticleHeader({ guide, notice, methodHref = "#methodolo
       </nav>
       <div className="mt-6 grid items-start gap-10 @4xl:grid-cols-12 @4xl:gap-x-12">
         <div className="@4xl:col-span-7">
-          <h1 className="m-0 max-w-measure-title t-display text-fg">{guide.title}</h1>
-          <p className="m-0 mt-6 max-w-[38rem] t-lead text-fg-muted">{guide.dek}</p>
+          <h1 className="m-0 mt-1 max-w-measure-title t-display text-fg">{guide.title}</h1>
+          <p className="m-0 mt-6 max-w-[38rem] t-lead text-fg-body">{guide.dek}</p>
           <div className="mt-8 flex items-center gap-4">
             <Avatar person={author} />
             <div className="flex min-w-0 flex-col">
@@ -51,8 +52,12 @@ export function EditorialArticleHeader({ guide, notice, methodHref = "#methodolo
                 </a>
                 {author.role && <span className="font-normal text-fg-muted">, {author.role.toLowerCase()}</span>}
               </p>
-              <p className="m-0 t-small text-fg-muted">
-                Tested with {guide.testedWith}. Updated <time dateTime={guide.updatedAt}>{formatDateLong(guide.updatedAt)}</time>.
+              <p className="m-0 mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span className="inline-flex items-center gap-1.5 t-micro text-fg">
+                  <BadgeCheck size={14} strokeWidth={2} aria-hidden="true" className="text-pass" />
+                  Updated <time dateTime={guide.updatedAt}>{formatDateLong(guide.updatedAt)}</time>
+                </span>
+                <span className="t-small text-fg-muted">Tested with {guide.testedWith}.</span>
               </p>
             </div>
           </div>

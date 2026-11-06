@@ -37,10 +37,10 @@ const aerolite = product({
   name: "Aerolite 3",
   image: photo("shoe-aerolite.webp", "Meridian Aerolite 3, white upper with an orange midsole", 736, 716),
   offers: [
-    offer("aero-nl", "Northlane", 189, { isPrimaryPartner: true, originalPrice: 220 }),
-    offer("aero-hf", "Haus & Field", 199),
+    offer("aero-nl", "Northlane", 189, { isPrimaryPartner: true, originalPrice: 220, shippingNote: "Free 2-day shipping" }),
+    offer("aero-hf", "Haus & Field", 199, { shippingNote: "Free shipping over $150" }),
     offer("aero-ps", "Peak Supply", 205, { inStock: false }),
-    offer("aero-vr", "Verra", 210),
+    offer("aero-vr", "Verra", 210, { shippingNote: "Free shipping" }),
   ],
   lastVerifiedAt: "2026-10-30T09:00:00Z",
 });
@@ -50,7 +50,7 @@ const tempo = product({
   brand: "Halvard",
   name: "Tempo Pro",
   image: photo("shoe-tempo.webp", "Halvard Tempo Pro, charcoal knit upper", 833, 711),
-  offers: [offer("tempo-nl", "Northlane", 160, { isPrimaryPartner: true }), offer("tempo-vr", "Verra", 149, { originalPrice: 160 })],
+  offers: [offer("tempo-nl", "Northlane", 160, { isPrimaryPartner: true, shippingNote: "Free 2-day shipping" }), offer("tempo-vr", "Verra", 149, { originalPrice: 160, shippingNote: "Free shipping" })],
   lastVerifiedAt: "2026-10-30T09:00:00Z",
 });
 const cumulus = product({
@@ -59,7 +59,7 @@ const cumulus = product({
   brand: "Oriel",
   name: "Cumulus Max",
   image: photo("shoe-cumulus.webp", "Oriel Cumulus Max, volt upper on a white midsole", 1200, 537),
-  offers: [offer("cumulus-hf", "Haus & Field", 99), offer("cumulus-ps", "Peak Supply", 89, { originalPrice: 110 })],
+  offers: [offer("cumulus-hf", "Haus & Field", 99, { shippingNote: "Free shipping over $150" }), offer("cumulus-ps", "Peak Supply", 89, { originalPrice: 110, shippingNote: "Free shipping" })],
   lastVerifiedAt: "2026-10-30T09:00:00Z",
 });
 

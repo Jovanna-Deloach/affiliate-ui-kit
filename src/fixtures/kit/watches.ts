@@ -17,12 +17,20 @@ const timing = (rates: number[]) => ({
   reference: "Bench test on a timegrapher after 30 days of wear.",
 });
 
+/** Studio cut-outs (Unsplash and Pexels, see public/fixtures/ATTRIBUTION.md), shown on the theme’s studio well. */
+const photo = (file: string, alt: string, width: number, height: number) => ({ src: `/fixtures/kit/${file}`, alt, width, height });
+
 const meridian = product({
   id: "w-halden-meridian-40",
   slug: "halden-meridian-40-gmt",
   brand: "Halden",
   name: "Meridian 40 GMT",
-  offers: [offer("meridian-hf", "Haus & Field", 3950, { isPrimaryPartner: true }), offer("meridian-verra", "Verra", 3990), offer("meridian-ws", "Watchstore", 4100, { inStock: false })],
+  image: photo("watch-meridian.webp", "Halden Meridian 40 GMT, steel case and bracelet with a red and blue bezel", 686, 1023),
+  offers: [
+    offer("meridian-hf", "Haus & Field", 3950, { isPrimaryPartner: true, shippingNote: "Free 2-day shipping" }),
+    offer("meridian-verra", "Verra", 3990, { shippingNote: "Free shipping over $500" }),
+    offer("meridian-ws", "Watchstore", 4100, { inStock: false }),
+  ],
   lastVerifiedAt: "2026-10-28T10:00:00Z",
 });
 const ardent = product({
@@ -30,7 +38,8 @@ const ardent = product({
   slug: "lindqvist-ardent-38",
   brand: "Lindqvist",
   name: "Ardent 38",
-  offers: [offer("ardent-hf", "Haus & Field", 4850, { isPrimaryPartner: true }), offer("ardent-verra", "Verra", 4990, { inStock: false })],
+  image: photo("watch-ardent.webp", "Lindqvist Ardent 38, white dial on a brown leather strap", 1015, 1171),
+  offers: [offer("ardent-hf", "Haus & Field", 4850, { isPrimaryPartner: true, shippingNote: "Free 2-day shipping" }), offer("ardent-verra", "Verra", 4990, { inStock: false })],
   lastVerifiedAt: "2026-10-28T10:00:00Z",
 });
 const marine = product({
@@ -38,7 +47,8 @@ const marine = product({
   slug: "sato-marine-38",
   brand: "Sato",
   name: "Marine 38",
-  offers: [offer("marine-ws", "Watchstore", 420, { isPrimaryPartner: true }), offer("marine-verra", "Verra", 449)],
+  image: photo("watch-sato.webp", "Sato Marine 38, black dive bezel on an orange rubber strap", 867, 1069),
+  offers: [offer("marine-ws", "Watchstore", 420, { isPrimaryPartner: true, shippingNote: "Free shipping" }), offer("marine-verra", "Verra", 449, { shippingNote: "Free shipping over $500" })],
   lastVerifiedAt: "2026-10-28T10:00:00Z",
 });
 const tide = product({
@@ -46,7 +56,8 @@ const tide = product({
   slug: "okada-tide-40",
   brand: "Okada",
   name: "Tide 40 Diver",
-  offers: [offer("tide-hf", "Haus & Field", 1695), offer("tide-verra", "Verra", 1650, { isPrimaryPartner: true })],
+  image: photo("watch-okada.webp", "Okada Tide 40 Diver, black dial and bezel on a steel bracelet", 644, 1200),
+  offers: [offer("tide-hf", "Haus & Field", 1695, { shippingNote: "Free 2-day shipping" }), offer("tide-verra", "Verra", 1650, { isPrimaryPartner: true, shippingNote: "Free shipping over $500" })],
   lastVerifiedAt: "2026-10-28T10:00:00Z",
 });
 const field = product({
@@ -54,7 +65,8 @@ const field = product({
   slug: "brennan-field-36",
   brand: "Brennan",
   name: "Field 36",
-  offers: [offer("field-bren", "Brennan", 890, { isPrimaryPartner: true }), offer("field-ws", "Watchstore", 910)],
+  image: photo("watch-brennan.webp", "Brennan Field 36, navy dial with large numerals on a navy canvas strap", 585, 1200),
+  offers: [offer("field-bren", "Brennan", 890, { isPrimaryPartner: true, shippingNote: "Free shipping and returns" }), offer("field-ws", "Watchstore", 910, { shippingNote: "Free shipping" })],
   lastVerifiedAt: "2026-10-28T10:00:00Z",
 });
 
@@ -84,7 +96,6 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
     { key: "water", label: "Water resistance" },
   ],
   jumpLabel: "Read the full review",
-  railHeading: "Also tested and recommended",
   compare: { heading: "Compare our picks" },
   picks: [
     {
@@ -117,7 +128,6 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Crystal", value: "Flat sapphire, anti-reflective inside" },
       ],
       metrics: { case: { value: "40 mm" }, accuracy: { value: "+1.6 s/day" }, water: { value: "100 m" } },
-      specimen: { kind: "watch", caseDiameterMm: 40, lugToLugMm: 47, thicknessMm: 11.8, lugWidthMm: 20, complicationType: "gmt", strapType: "bracelet", dialTone: "light", date: true },
       quote: { text: "I stopped thinking about which watch to wear in the morning. That is the whole review.", person: marchetti, proof: "64 days on the wrist" },
     },
     {
@@ -140,7 +150,7 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         "Dress watches usually wait for an occasion. The Ardent does not: it slides under any sleeve, and the grand feu enamel dial has a depth you notice from across a room without ever looking loud.",
         "Winding it becomes a small morning ritual. The in-house calibre is built to be serviced by any competent watchmaker, not only the manufacturer, which is rare at this price.",
       ],
-      likes: ["Grand feu enamel dial with real depth", "Small seconds at six balance the dial", "Thin without feeling fragile"],
+      likes: ["Grand feu enamel dial with real depth", "Slim hands and indices keep the dial quiet", "Thin without feeling fragile"],
       caveats: ["30 m water resistance: keep it dry", "No quick-release on the strap", "Runs slow as the reserve nears empty"],
       facts: [
         { label: "Case", value: "38 mm steel, 8.9 mm thick" },
@@ -150,7 +160,6 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Dial", value: "Grand feu enamel" },
       ],
       metrics: { case: { value: "38 mm" }, accuracy: { value: "+3.1 s/day" }, water: { value: "30 m" } },
-      specimen: { kind: "watch", caseDiameterMm: 38, lugToLugMm: 45, thicknessMm: 8.9, lugWidthMm: 19, complicationType: "dress-subdial", strapType: "leather", dialTone: "light" },
       quote: { text: "The bridges are finished better than watches at twice the price, and nothing is hidden behind the caseback.", person: aalto, proof: "Opened at the bench" },
     },
     {
@@ -171,7 +180,7 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       measurements: timing([7.8, 11.2, 9, 10.6, 8.3, 9.5]),
       body: [
         "The Marine is the only watch under $500 we would keep. Finishing is simple, but the case is solid steel, the crystal is sapphire, and the movement is the same workhorse calibre found in watches three times the price.",
-        "It ran fast but steadily, which a watchmaker can regulate in minutes. The fabric strap is comfortable from the first day and takes seconds to swap.",
+        "It ran fast but steadily, which a watchmaker can regulate in minutes. The rubber strap is comfortable from the first day and takes seconds to swap.",
       ],
       likes: ["Sapphire crystal at this price", "Workhorse movement, cheap to service", "Light enough to forget on the wrist"],
       caveats: ["Bezel action is loose", "Lume is weak"],
@@ -180,10 +189,9 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Lug to lug", value: "46 mm" },
         { label: "Movement", value: "Automatic, 41-hour reserve" },
         { label: "Water resistance", value: "100 m" },
-        { label: "Strap", value: "Nylon, 20 mm" },
+        { label: "Strap", value: "Rubber, 20 mm" },
       ],
       metrics: { case: { value: "38 mm" }, accuracy: { value: "+9.4 s/day" }, water: { value: "100 m" } },
-      specimen: { kind: "watch", caseDiameterMm: 38, lugToLugMm: 46, thicknessMm: 12, lugWidthMm: 20, complicationType: "diver-bezel", strapType: "nato", dialTone: "dark" },
       quote: { text: "It is the watch I would hand a friend who wants to try mechanical without spending much.", person: lindgren, proof: "30 days on the wrist" },
     },
     {
@@ -216,13 +224,12 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
         { label: "Bezel", value: "Unidirectional, 120 clicks" },
       ],
       metrics: { case: { value: "40 mm" }, accuracy: { value: "+4.8 s/day" }, water: { value: "200 m" } },
-      specimen: { kind: "watch", caseDiameterMm: 40, lugToLugMm: 47, thicknessMm: 12.4, lugWidthMm: 20, complicationType: "diver-bezel", strapType: "bracelet", dialTone: "dark", date: true },
       quote: { text: "Three weeks of open water and the bezel still clicks like it did on the first day.", person: lindgren, proof: "3 weeks of open water" },
     },
     {
       product: field,
       award: "Best field watch",
-      descriptor: "Hand-wound field watch, 36 mm",
+      descriptor: "Automatic field watch, 36 mm",
       bestFor: "smaller wrists and rough use",
       verdict: "The smallest, most legible watch here, built for rough use and smaller wrists.",
       synthesis: "The most legible dial we tested, on a 36 mm case that shrugged off a season of hiking.",
@@ -237,19 +244,18 @@ export const watchesGuide: RoundupGuide = typesetDeep<RoundupGuide>({
       measurements: timing([4.1, 6.3, 5, 6.1, 4.6, 5.1]),
       body: [
         "The Field 36 is the smallest watch on this list and the easiest to read: a matte dial, large numerals and hands you can read at a glance in low light.",
-        "We wore it through a season of hiking and garden work. The bead-blasted case hides scratches, and the hand-wound movement is simple enough for any watchmaker.",
+        "We wore it through a season of hiking and garden work. The bead-blasted case hides scratches, the canvas strap dries in minutes, and the automatic movement is simple enough for any watchmaker.",
       ],
-      likes: ["Reads at a glance, even at dusk", "Bead-blasted case hides wear", "Hand-wound, easy to service"],
-      caveats: ["No date", "Acrylic option scratches; choose sapphire"],
+      likes: ["Reads at a glance, even at dusk", "Bead-blasted case hides wear", "Simple automatic, easy to service"],
+      caveats: ["Day-date window crowds the 3", "Acrylic option scratches; choose sapphire"],
       facts: [
         { label: "Case", value: "36 mm steel, 10.2 mm thick" },
         { label: "Lug to lug", value: "43 mm" },
-        { label: "Movement", value: "Hand-wound, 46-hour reserve" },
+        { label: "Movement", value: "Automatic, 41-hour reserve" },
         { label: "Water resistance", value: "100 m" },
         { label: "Crystal", value: "Sapphire or acrylic" },
       ],
       metrics: { case: { value: "36 mm" }, accuracy: { value: "+5.2 s/day" }, water: { value: "100 m" } },
-      specimen: { kind: "watch", caseDiameterMm: 36, lugToLugMm: 43, thicknessMm: 10.2, lugWidthMm: 18, complicationType: "field-arabic", strapType: "leather", dialTone: "dark" },
       quote: { text: "A simple, honest movement. Anyone can service it, and it will outlive its owner.", person: aalto, proof: "Serviced after testing" },
     },
   ],

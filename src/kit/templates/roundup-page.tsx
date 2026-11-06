@@ -16,8 +16,8 @@ import type { AffiliateAttribution } from "@/types/affiliate";
  * ROUNDUP — “The best X”, the kit’s reference composition.
  *
  *   header      title, dek, byline, disclosure notice │ testing summary card
- *   verdict     asymmetric bento: hero pick (7) + two compact cards (5),
- *               picks 4+ in an integrated row beneath
+ *   verdict     asymmetric bento: hero pick (7) + two compact cards (5);
+ *               picks 4+ appear in the comparison only
  *   compare     every pick on the same columns (+ what failed)
  *   deep dives  one per pick, identical geometry
  *   method      the protocol
@@ -41,7 +41,7 @@ export function RoundupPage({ site, guide: input, attribution }: RoundupPageProp
       <main>
         <EditorialArticleHeader guide={guide} notice={{ text: site.disclosureNotice, href: site.disclosureHref }} />
         <div className="kit-well mt-12 md:mt-16">
-          <QuickVerdictBento picks={guide.picks} jumpLabel={guide.jumpLabel} attribution={attribution} moreHeading={guide.railHeading} />
+          <QuickVerdictBento picks={guide.picks} jumpLabel={guide.jumpLabel} attribution={attribution} />
         </div>
         <div className="kit-well mt-chapter">
           <ComparisonMatrix heading={guide.compare.heading} intro={guide.compare.intro} metrics={guide.metrics} picks={guide.picks} attribution={attribution}>

@@ -7,17 +7,16 @@
    new component variant.
 
    SURFACES: three layers, never more.
-     ground — the page canvas, toned (never pure white)
-     paper  — elevated cards: white, 1px hairline, 24–32px padding
-     well   — recessed modules inside a card: media, score header, buy box
+     ground — the page canvas: warm, toned, never pure white
+     paper  — cards: 1px hairline, ambient elevation (--shadow-card)
+     well   — recesses inside a card; media sits on a radial studio well
 
-   TYPE: two scales.
-     editorial — headlines, deks, pull-quotes. Anchored at the theme's body
-                 size; ratio chosen by the theme (Atelier √2, Assay 4:3).
-                 Roles are fluid between two steps (375px → 1440px).
-     ui        — controls, tables, specifications, captions, prices. Major
-                 third (1.25) anchored at 15px: 12 · 15 · 18.75 · 23.4 · 29.3
-                 · 36.6. UI text always sets tabular, lining figures.
+   TYPE: three voices, in every theme.
+     display — editorial serif: H1, product titles, hero figures, pull-quotes
+     text    — humanist sans: reading copy (17px / 1.68), lists, buttons
+     micro   — mono micro-caps (11px, +0.08em, 600): eyebrows, awards,
+               verification stamps, table headers, proof pills. Copy stays
+               sentence case in the source; CSS sets the capitals.
    ========================================================================== */
 
 [data-theme] {
@@ -36,8 +35,15 @@
   --ui-2-up: 1.4648rem;
   --t-price: clamp(1.8311rem, 1.6699rem + 0.6877vw, 2.2888rem);
 
+  /* reading copy, shared */
+  --t-body-size: 1.0625rem;
+  --t-body-lh: 1.68;
+  --t-quote-size: 1.25rem;
+  --t-quote-lh: 1.45;
+
   /* wayfinding colour defaults to the brand accent */
   --accent-category: var(--accent);
+  --accent-category-ink: var(--accent);
   --accent-category-soft: var(--accent-soft);
 
   background-color: var(--ground);
@@ -55,37 +61,53 @@
   }
 }
 
-/* ---- Atelier: luxury goods ---------------------------------------------- */
+/* ---- Atelier: horological parchment, espresso, oxblood, brass ------------ */
 [data-theme="atelier"] {
-  --ground: oklch(0.978 0.007 80); /* #F8F6F1 alabaster */
-  --paper: #ffffff;
-  --well: oklch(0.955 0.008 80);
-  --fg: #1f1d1b;
-  --fg-muted: #6b6560;
-  --line: oklch(0.905 0.009 80);
-  --accent: #6f1d2b;
-  --accent-hover: #561520;
-  --on-accent: #ffffff;
-  --accent-soft: #f5ecec;
+  --ground: #f4f0e8; /* horological parchment */
+  --paper: #faf8f4;
+  --paper-feature: #fdfcf9;
+  --well: #ebe6dc;
+  --fg: #181614; /* espresso */
+  --fg-body: #2d2924;
+  --fg-muted: #6a6157;
+  --line: #e2ddd3;
+  --line-strong: #cec6b8;
+  --accent: #5e1914; /* deep oxblood: the buy action */
+  --accent-hover: #47120e;
+  --on-accent: #faf8f4;
+  --accent-soft: #f2e8e4;
   --pass: #2f6b45;
-  --pass-soft: #eaf2ec;
+  --pass-soft: #e7efe7;
   --fail: #9b2c2c;
-  --fail-soft: #f8eaea;
+  --fail-soft: #f6e7e4;
   --caution: #8a5a12;
-  --caution-soft: #f6efe3;
+  --caution-soft: #f3eadb;
+  /* brushed champagne brass: tolerance bands, award borders, the nav marker */
+  --accent-category: #8c6d46;
+  --accent-category-ink: #6e5434;
+  --accent-category-soft: #efe7da;
+  --award-bg: #181614;
+  --award-fg: #faf8f4;
+  --award-line: #8c6d46;
+  --meter: #181614;
+  --telemetry: #8c6d46;
 
-  --font-headline: "Newsreader Variable", "Newsreader", Georgia, serif;
-  --font-text: "Newsreader Variable", "Newsreader", Georgia, serif;
-  --font-ui: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
+  --studio-from: #faf8f4;
+  --studio-to: #e8e4da;
+  --shadow-card: 0 1px 2px rgb(24 22 20 / 0.04), 0 10px 28px -10px rgb(24 22 20 / 0.08);
+  --shadow-feature: 0 2px 4px rgb(24 22 20 / 0.05), 0 24px 48px -18px rgb(24 22 20 / 0.18);
+
+  --font-display: var(--font-newsreader, "Newsreader Variable"), "Newsreader", Georgia, serif;
+  --font-text: var(--font-plus-jakarta-sans, "Plus Jakarta Sans Variable"), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-ui: var(--font-text);
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"), "JetBrains Mono", ui-monospace, monospace;
 
   --headline-weight: 300;
-  --headline-stretch: 100%;
   --headline-tracking: -0.015em;
   --title-weight: 400;
-  --title-stretch: 100%;
   --ui-weight: 500;
-  --figure-weight: 500;
-  --figure-stretch: 100%;
+  --figure-weight: 600;
+  --score-weight: 300;
 
   /* editorial scale: √2 from 18px — 21.4 · 25.5 · 36 · 50.9 · 72 */
   --t-display-size: clamp(2.25rem, 1.4577rem + 3.3803vw, 4.5rem);
@@ -93,122 +115,130 @@
   --t-headline-size: clamp(1.591rem, 1.0308rem + 2.3902vw, 3.182rem);
   --t-headline-lh: 1.1;
   --t-title-size: clamp(1.3379rem, 1.0167rem + 1.3704vw, 2.25rem);
-  --t-title-lh: 1.15;
-  --t-quote-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem);
-  --t-quote-lh: 1.4;
-  --quote-family: var(--font-text);
-  --t-lead-size: clamp(1.1875rem, 1.1346rem + 0.2259vw, 1.3379rem);
-  --t-lead-lh: 1.5;
-  --t-body-size: 1.125rem;
-  --t-body-lh: 1.65;
+  --t-title-lh: 1.12;
+  --t-lead-size: clamp(1.0625rem, 1.0184rem + 0.1882vw, 1.1875rem);
+  --t-lead-lh: 1.6;
   --measure-title: 22ch;
   --hang-quote: -0.42em;
 
   --wordmark-size: 1.625rem;
   --wordmark-weight: 400;
-  --wordmark-stretch: 100%;
   --wordmark-tracking: -0.02em;
-  --meter: var(--fg);
 
-  --radius-box: 4px;
-  --radius-ctl: 3px;
-  --radius-media: 3px;
+  --radius-box: 6px;
+  --radius-ctl: 4px;
+  --radius-media: 6px;
   --section-gap: clamp(5rem, 3rem + 6vw, 8rem);
 }
 
-/* ---- Assay: lab-tested health & performance ------------------------------ */
+/* ---- Assay: warm editorial stone and obsidian ---------------------------- */
 [data-theme="assay"] {
-  --ground: oklch(0.972 0.004 250); /* #F4F5F7 architectural stone */
+  --ground: #f5f3ee; /* warm alabaster stone */
   --paper: #ffffff;
-  --well: oklch(0.948 0.006 250);
-  --fg: #0e1726;
-  --fg-muted: #556070;
-  --line: #dde2e9;
-  --accent: #2f45d8;
-  --accent-hover: #2236b5;
+  --paper-feature: #fffdf9;
+  --well: #efece6;
+  --fg: #141413; /* obsidian ink */
+  --fg-body: #2a2926;
+  --fg-muted: #57554f; /* warm graphite */
+  --line: #e5e2dc;
+  --line-strong: #d3cec5;
+  --accent: #141413; /* obsidian: the buy action, links, focus */
+  --accent-hover: #2e2d2a;
   --on-accent: #ffffff;
-  --accent-soft: #eceffe;
+  --accent-soft: #edeae4;
   --pass: #0e7543;
   --pass-soft: #e5f4eb;
   --fail: #c2362b;
   --fail-soft: #fcebe9;
   --caution: #9a5b00;
   --caution-soft: #fff2de;
+  --award-bg: #141413;
+  --award-fg: #ffffff;
+  --award-line: #141413;
+  --meter: #141413;
+  --telemetry: var(--accent-category);
 
-  --font-headline: "Archivo Variable", "Archivo", system-ui, sans-serif;
-  --font-text: "Archivo Variable", "Archivo", system-ui, sans-serif;
-  --font-ui: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --studio-from: #faf8f4;
+  --studio-to: #e8e4da;
+  --shadow-card: 0 1px 3px rgb(20 20 18 / 0.03), 0 8px 24px -4px rgb(20 20 18 / 0.04);
+  --shadow-feature: 0 2px 6px rgb(20 20 18 / 0.05), 0 24px 48px -16px rgb(20 20 18 / 0.16);
 
-  --headline-weight: 640;
-  --headline-stretch: 112%;
-  --headline-tracking: -0.025em;
-  --title-weight: 620;
-  --title-stretch: 108%;
-  --ui-weight: 560;
-  --figure-weight: 620;
-  --figure-stretch: 116%;
+  --font-display: var(--font-playfair-display, "Playfair Display Variable"), "Playfair Display", Georgia, serif;
+  --font-text: var(--font-inter, "Inter Variable"), "Inter", system-ui, sans-serif;
+  --font-ui: var(--font-text);
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"), "JetBrains Mono", ui-monospace, monospace;
 
-  /* editorial scale: 4:3 from 16px — 18.5 · 21.3 · 28.4 · 37.9 · 50.6 */
-  --t-display-size: clamp(2.3704rem, 2.0922rem + 1.187vw, 3.1605rem);
-  --t-display-lh: 1.04;
-  --t-headline-size: clamp(1.7778rem, 1.5691rem + 0.8903vw, 2.3704rem);
+  --headline-weight: 400;
+  --headline-tracking: -0.015em;
+  --title-weight: 500;
+  --ui-weight: 500;
+  --figure-weight: 600;
+  --score-weight: 400;
+
+  /* editorial scale: 4:3 from 18px — 21.3 · 28.4 · 37.9 · 50.6 · 60 */
+  --t-display-size: clamp(2.25rem, 1.7218rem + 2.2535vw, 3.75rem);
+  --t-display-lh: 1.06;
+  --t-headline-size: clamp(1.7778rem, 1.4648rem + 1.3354vw, 2.6667rem);
   --t-headline-lh: 1.12;
-  --t-title-size: clamp(1.3333rem, 1.1768rem + 0.6677vw, 1.7778rem);
-  --t-title-lh: 1.2;
-  --t-quote-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.3333rem);
-  --t-quote-lh: 1.45;
-  --quote-family: var(--font-text);
-  --t-lead-size: clamp(1.0625rem, 1.03rem + 0.1385vw, 1.1547rem);
-  --t-lead-lh: 1.5;
-  --t-body-size: 1rem;
-  --t-body-lh: 1.6;
-  --measure-title: 20ch;
-  --hang-quote: -0.5em;
+  --t-title-size: clamp(1.3333rem, 1.1185rem + 0.9165vw, 2rem);
+  --t-title-lh: 1.16;
+  --t-lead-size: clamp(1.0625rem, 1.0184rem + 0.1882vw, 1.1875rem);
+  --t-lead-lh: 1.6;
+  --measure-title: 22ch;
+  --hang-quote: -0.42em;
 
-  --wordmark-size: 1.25rem;
-  --wordmark-weight: 720;
-  --wordmark-stretch: 118%;
-  --wordmark-tracking: -0.02em;
-  --meter: var(--accent-category);
+  --wordmark-size: 1.5rem;
+  --wordmark-weight: 500;
+  --wordmark-tracking: -0.01em;
 
-  --radius-box: 12px;
-  --radius-ctl: 8px;
-  --radius-media: 8px;
-  --section-gap: clamp(3.5rem, 2.5rem + 3vw, 5rem);
+  --radius-box: 8px;
+  --radius-ctl: 6px;
+  --radius-media: 6px;
+  --section-gap: clamp(4rem, 2.75rem + 4vw, 6rem);
 }
 
 /* ---- categories: wayfinding colour only (one publication, many beats) ----
-   A category changes nothing but --accent-category: the nav marker, award
-   tags, score meters and specimen highlights. Wordmark, surfaces, type and
-   the buy action stay the publication's. Custom properties resolve where
-   they are declared, so roles built on the category colour are restated. */
+   A category changes nothing but its accent: the nav marker, telemetry bars
+   and verification badges. Wordmark, surfaces, type and the buy action stay
+   the publication's. `-ink` is the text-safe shade (4.5:1 on paper and
+   well). Custom properties resolve where they are declared, so roles built
+   on the category colour are restated. */
 [data-theme="assay"] [data-category="supplements"],
 [data-theme="assay"][data-category="supplements"] {
-  --accent-category: #2f45d8;
-  --accent-category-soft: #eceffe;
-  --meter: var(--accent-category);
+  --accent-category: #1b4d3e; /* deep botanical emerald: lab verification */
+  --accent-category-ink: #1b4d3e;
+  --accent-category-soft: #e6eeea;
+  --telemetry: var(--accent-category);
 }
 [data-theme="assay"] [data-category="running"],
 [data-theme="assay"][data-category="running"] {
-  --accent-category: #0b6b7d;
-  --accent-category-soft: #e2f2f5;
-  --meter: var(--accent-category);
+  --accent-category: #c84b31; /* international vermilion: athletic telemetry */
+  --accent-category-ink: #a63b25;
+  --accent-category-soft: #f9eae4;
+  --telemetry: var(--accent-category);
 }
 
 /* ---- bridge: role names → Tailwind utilities ----------------------------- */
 @theme reference {
   --color-ground: var(--ground);
   --color-paper: var(--paper);
+  --color-paper-feature: var(--paper-feature);
   --color-well: var(--well);
   --color-fg: var(--fg);
+  --color-fg-body: var(--fg-body);
   --color-fg-muted: var(--fg-muted);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-on-accent: var(--on-accent);
   --color-accent-soft: var(--accent-soft);
   --color-accent-category: var(--accent-category);
+  --color-accent-category-ink: var(--accent-category-ink);
   --color-accent-category-soft: var(--accent-category-soft);
+  --color-award: var(--award-bg);
+  --color-on-award: var(--award-fg);
+  --color-award-line: var(--award-line);
   --color-pass: var(--pass);
   --color-pass-soft: var(--pass-soft);
   --color-fail: var(--fail);
@@ -217,8 +247,9 @@
   --color-warn: var(--caution);
   --color-warn-soft: var(--caution-soft);
   --color-meter: var(--meter);
+  --color-telemetry: var(--telemetry);
 
-  --font-headline: var(--font-headline);
+  --font-display: var(--font-display);
   --font-text: var(--font-text);
   --font-ui: var(--font-ui);
 
@@ -233,49 +264,82 @@
   --container-well: var(--kit-well);
 }
 
-/* ---- text styles: the only type voices a page uses ----------------------- */
+/* ---- voice 1: display serif ---------------------------------------------- */
 @utility t-display {
-  font-family: var(--font-headline);
+  font-family: var(--font-display);
   font-size: var(--t-display-size);
   line-height: var(--t-display-lh);
   font-weight: var(--headline-weight);
-  font-stretch: var(--headline-stretch);
   letter-spacing: var(--headline-tracking);
   text-wrap: balance;
 }
 @utility t-headline {
-  font-family: var(--font-headline);
+  font-family: var(--font-display);
   font-size: var(--t-headline-size);
   line-height: var(--t-headline-lh);
   font-weight: var(--headline-weight);
-  font-stretch: var(--headline-stretch);
   letter-spacing: var(--headline-tracking);
   text-wrap: balance;
 }
 @utility t-title {
-  font-family: var(--font-headline);
+  font-family: var(--font-display);
   font-size: var(--t-title-size);
   line-height: var(--t-title-lh);
   font-weight: var(--title-weight);
-  font-stretch: var(--title-stretch);
   letter-spacing: calc(var(--headline-tracking) * 0.6);
   text-wrap: balance;
 }
-/* Pull-quotes: one editorial step below the product title; the opening mark
-   hangs in the margin (wrap it in .kit-hang) so the text edge stays true. */
+/* Product names in compact cards and table rows. */
+@utility t-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.22;
+  font-weight: var(--title-weight);
+  letter-spacing: calc(var(--headline-tracking) * 0.4);
+  text-wrap: balance;
+}
+/* Product names in table rows: the same voice, a step down. */
+@utility t-name-sm {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  line-height: 1.25;
+  font-weight: var(--title-weight);
+  letter-spacing: calc(var(--headline-tracking) * 0.3);
+  text-wrap: balance;
+}
+/* Pull-quotes: display serif italic; the opening mark hangs in the margin
+   (wrap it in .kit-hang) so the text edge stays true. */
 @utility t-quote {
-  font-family: var(--quote-family);
+  font-family: var(--font-display);
   font-size: var(--t-quote-size);
   line-height: var(--t-quote-lh);
   font-style: italic;
   font-weight: 400;
-  font-stretch: 100%;
   letter-spacing: 0;
   text-wrap: pretty;
 }
 @utility kit-hang {
   margin-inline-start: var(--hang-quote);
 }
+/* Hero figures: the composite score, the testing summary's counts. */
+@utility t-score {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  line-height: 1;
+  font-weight: var(--score-weight);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
+}
+@utility t-stat {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  line-height: 1;
+  font-weight: var(--score-weight);
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ---- voice 2: text sans --------------------------------------------------- */
 @utility t-lead {
   font-family: var(--font-text);
   font-size: var(--t-lead-size);
@@ -300,7 +364,7 @@
 }
 @utility t-small {
   font-family: var(--font-ui);
-  font-size: var(--ui-0);
+  font-size: 0.875rem;
   line-height: 1.5;
   font-weight: 400;
   font-variant-numeric: tabular-nums lining-nums;
@@ -312,83 +376,107 @@
   font-weight: 400;
   font-variant-numeric: tabular-nums lining-nums;
 }
+/* Buttons: tracked capitals in the text face. */
+@utility t-button {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 @utility t-figure {
   font-family: var(--font-ui);
   font-weight: var(--figure-weight);
   font-variant-numeric: tabular-nums lining-nums;
   letter-spacing: -0.01em;
 }
-/* Comparison-table numbers: the Assay theme spends its boldness here. */
 @utility t-figure-table {
   font-family: var(--font-ui);
   font-size: var(--ui-1-up);
   line-height: 1.2;
   font-weight: var(--figure-weight);
-  font-stretch: var(--figure-stretch);
   font-variant-numeric: tabular-nums lining-nums;
   letter-spacing: -0.01em;
+}
+/* Buy-box price: 1.5rem bold tabular. */
+@utility t-price {
+  font-family: var(--font-ui);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.015em;
 }
 @utility t-figure-xl {
   font-family: var(--font-ui);
   font-size: var(--t-price);
   line-height: 1;
   font-weight: var(--figure-weight);
-  font-stretch: var(--figure-stretch);
   font-variant-numeric: tabular-nums lining-nums;
   letter-spacing: -0.02em;
 }
+
+/* ---- voice 3: mono micro-caps -------------------------------------------- */
+@utility t-micro {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+/* Award pills and stamps on photographs: 10px. */
+@utility t-micro-sm {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
 @utility kit-wordmark {
-  font-family: var(--font-headline);
+  font-family: var(--font-display);
   font-size: var(--wordmark-size);
   line-height: 1;
   font-weight: var(--wordmark-weight);
-  font-stretch: var(--wordmark-stretch);
   letter-spacing: var(--wordmark-tracking);
 }
 
-/* Layer 1: an elevated editorial card on the toned ground. */
+/* Layer 1: a card on the ground — hairline plus ambient elevation. */
 @utility kit-card {
   background-color: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius-box);
+  box-shadow: var(--shadow-card);
+}
+/* The page's lead pick: a warmer surface, lifted a step further. */
+@utility kit-card-feature {
+  background-color: var(--paper-feature);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-box);
+  box-shadow: var(--shadow-feature);
 }
 
-/* Layer 2: a recessed module inside a card. */
+/* Layer 2: a recess inside a card. */
 @utility kit-recess {
   background-color: var(--well);
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius-box);
 }
 
-/* A faint drafting grid for lab documents (certificates, plates). */
-@utility kit-grid {
-  background-image:
-    linear-gradient(color-mix(in oklab, var(--line) 60%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--line) 60%, transparent) 1px, transparent 1px);
-  background-size: 16px 16px;
-  background-position: -1px -1px;
+/* The studio well a photograph sits on: a soft radial sweep. */
+@utility kit-studio {
+  background-color: var(--studio-to);
+  background-image: radial-gradient(circle at 50% 45%, var(--studio-from) 0%, var(--studio-to) 100%);
+  border-radius: var(--radius-media);
 }
-
-/* The composite score numeral: the focal point of a review. */
-@utility t-score {
-  font-family: var(--font-ui);
-  font-size: 2.25rem;
-  line-height: 1;
-  font-weight: 600;
-  font-stretch: var(--figure-stretch);
-  font-variant-numeric: tabular-nums lining-nums;
-  letter-spacing: -0.02em;
-}
-
-/* Product names in compact cards: the headline face at lead size. */
-@utility t-name {
-  font-family: var(--font-headline);
-  font-size: var(--t-lead-size);
-  line-height: 1.25;
-  font-weight: var(--title-weight);
-  font-stretch: var(--title-stretch);
-  letter-spacing: calc(var(--headline-tracking) * 0.4);
-  text-wrap: balance;
+/* A soft contact shadow under a cut-out product. */
+@utility kit-object {
+  filter: drop-shadow(0 16px 24px rgb(0 0 0 / 0.12));
 }
 
 /* Page well: every band centres on the same 1200px column. */

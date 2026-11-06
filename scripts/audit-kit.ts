@@ -3,18 +3,21 @@
  * KIT AUDIT — enforces docs/DESIGN.md on src/kit. Part of `bun run check`.
  *
  * 1. SOURCE (every kit .ts/.tsx except stories)
- *    • no all-caps labels, wide tracking, monospace or legacy eyebrow voices
- *    • no shadows (separation is space, then tone, then line)
- *    • type only through the t-* text styles (no arbitrary font sizes)
+ *    • type only through the t-* text styles (no arbitrary font sizes): the
+ *      three voices — display serif, text sans, mono micro-caps — are
+ *      utilities, so a page cannot invent a fourth
+ *    • elevation only through the theme’s card shadows (no ad-hoc shadows)
  *    • colour only through theme roles (no raw hex, no legacy tokens)
  *    • spacing on the restricted 4px scale
- *    • no arrows appended to text, no "A · B · C" meta strings
+ *    • arrows are icons, never glyphs in text; middle-dot separators are the
+ *      <Sep /> part (decorative, aria-hidden), never typed into copy
  *    • no bottom alignment (items-end, self-end, place-*-end): product grids
  *      are top-aligned so columns share one baseline
  *
  * 2. CONTRACTS (the fixture guides an agent copies)
  *    • author and every quoted tester carry the page’s category in `beats`
- *    • every pick has media (a specimen or a photograph), evidence and a quote
+ *    • every pick has studio photography, a composite score, measurements
+ *      for its category and a quote with its proof
  *    • awards are words, never numbers; `synthesis` never restates `bestFor`
  *
  * 3. RENDERED PAGES (each archetype, server-rendered to HTML and parsed)
@@ -26,10 +29,11 @@
  *      button per buy block, and every surface leads with the lowest price
  *    • the disclosure notice comes before the first sponsored link; every
  *      buy block carries an inline disclosure under 40 characters
- *    • no numbered eyebrows (“01 — Best overall”), no all-caps runs
+ *    • no numbered eyebrows (“01 — Best overall”); no copy typed in capitals
+ *      (micro-caps are set by CSS, so the words stay sentence case)
  *    • deep dives: media present, slots in the documented order, one filled
  *      button, and no link or pill back to the product under review
- *    • every SKU draws a different specimen
+ *    • no two SKUs share a photograph
  *
  * Layout checks that need a browser (column tops, voids, 44px targets,
  * computed tabular numerals, axe-core) run as CSF3 play() functions in the
@@ -67,20 +71,18 @@ const fail = (where: string, why: string) => {
 /* 1. Source rules                                                          */
 /* ======================================================================== */
 
-const SPACING = new Set(["0", "0.5", "1", "1.5", "2", "2.5", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24", "32"]);
+const SPACING = new Set(["0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "5", "6", "8", "10", "12", "16", "20", "24", "32"]);
 const RULES: [RegExp, string][] = [
-  [/(?<![\w-])(?<!first-letter:)uppercase(?![\w-])/, "all-caps label (rule 2) — first-letter:uppercase (sentence case) is allowed"],
-  [/(?<![\w-])tracking-(?:wide|wider|widest)(?![\w-])/, "wide tracking (rule 2)"],
-  [/(?<![\w-])(?:font-mono|type-mono|type-eyebrow)(?![\w-])/, "monospace / eyebrow voice (rule 1)"],
-  [/(?<![\w-])shadow(?:-[\w[\]()-]+)?(?![\w-])/, "shadow (rule 5)"],
+  [/(?<![\w-])(?:shadow-(?:sm|md|lg|xl|2xl|inner)|shadow-\[)(?![\w-])/, "ad-hoc shadow — use the theme’s card elevation (kit-card, kit-card-feature)"],
+  [/(?<![\w-])(?:type-mono|type-eyebrow)(?![\w-])/, "legacy voice in the kit — use t-micro"],
   [/(?<![\w-])text-\[\d/, "arbitrary font size — use a t-* style"],
   [/(?<![\w-])text-(?:xs|sm|base|lg|xl|[2-9]xl)(?![\w-])/, "Tailwind font size — use a t-* style"],
   [/#[0-9a-fA-F]{3,8}\b/, "raw colour — use a theme role"],
   [/(?<![\w-])(?:bg|text|border|ring)-(?:surface|recessed|canvas|inverse|ink|ink-secondary|ink-tertiary|hairline|strong)(?![\w-])/, "legacy token in the kit"],
   [/(?<![\w-])rounded-(?:container|inner|control|tag|sm|md|lg|xl|2xl|3xl)(?![\w-])/, "radius outside the theme roles (box / ctl / media / full)"],
   [/(?<![\w-])(?:@?[\w-]*:)?(?:items-end|self-end|place-items-end|place-self-end)(?![\w-])/, "bottom alignment — product grids are top-aligned (items-start)"],
-  [/→|⟶/, "arrow in text (rule 8)"],
-  [/\s·\s/, "middle-dot meta string (rule 8)"],
+  [/→|⟶|↗|↓/, "arrow glyph in text — use an icon"],
+  [/\s·\s/, "middle-dot typed into copy — use <Sep />"],
 ];
 const SPACING_RE = /(?<![\w-])-?(?:p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml|gap|gap-x|gap-y|space-x|space-y)-(\d+(?:\.\d+)?)(?![\w.-])/g;
 
@@ -126,7 +128,7 @@ for (const [name, guide] of GUIDES) {
   for (const pick of guide.picks) {
     const id = `${name}/${pick.product.id}`;
     if (!pick.quote.person.beats.includes(guide.category)) fail(id, `quoted tester ${pick.quote.person.name} does not cover “${guide.category}”`);
-    if (!pick.specimen && !pick.product.image && pick.measurements.kind !== "assay") fail(id, "no media: give the pick a photograph, a drafting plate or a certificate");
+    if (!pick.product.image) fail(id, "no photograph: every pick shows the product in studio photography");
     if (pick.scores.length < 3) fail(id, "fewer than three sub-scores under the composite");
     if (pick.rating.score < 0 || pick.rating.score > 10) fail(id, `composite score ${pick.rating.score} is outside 0–10`);
     if (!pick.quote.proof.trim()) fail(id, "tester quote without its proof");
@@ -211,14 +213,8 @@ function textNodes(el: El, out: string[] = []): string[] {
   }
   return out;
 }
-function serialize(el: El): string {
-  return `<${el.tag}${Object.entries(el.attrs)
-    .map(([k, v]) => ` ${k}="${v}"`)
-    .join("")}>${el.children.map((c) => (typeof c === "string" ? c : serialize(c))).join("")}</${el.tag}>`;
-}
-
 const BLOCKS = new Set(["p", "li", "h1", "h2", "h3", "h4", "h5", "h6", "dd", "dt", "td", "th", "blockquote", "figcaption", "summary", "caption"]);
-const STORY_ORDER = ["title", "synthesis", "buy-block", "narrative", "points", "pull-quote"];
+const STORY_ORDER = ["descriptor", "title", "synthesis", "buy-block", "narrative", "points", "pull-quote"];
 
 interface Page {
   name: string;
@@ -305,7 +301,7 @@ function checkHtml(html: string, { names: extraNames = [], products = new Map<st
       problems.push(`deep dive: ${id} is missing a column`);
       continue;
     }
-    if (!bySlot(media, "media").some((m) => bySlot(m, "specimen").length || all(m, (e) => e.tag === "img").length)) problems.push(`deep dive: ${id} has no media`);
+    if (!bySlot(media, "media").some((m) => all(m, (e) => e.tag === "img").length)) problems.push(`deep dive: ${id} has no photograph`);
     const order = story.children.filter((c): c is El => typeof c !== "string").map((c) => c.attrs["data-slot"]);
     if (order.join(",") !== STORY_ORDER.join(",")) problems.push(`deep dive: ${id} story order is ${order.join(" → ")} (expected ${STORY_ORDER.join(" → ")})`);
     const primaries = all(card, (e) => e.attrs["data-cta"] === "primary").length;
@@ -324,17 +320,8 @@ function checkHtml(html: string, { names: extraNames = [], products = new Map<st
     const id = well.attrs["data-product-id"] ?? "?";
     const src = all(well, (e) => e.tag === "img")[0]?.attrs.src ?? "";
     const owner = photos.get(src);
-    if (src && owner && owner !== id) problems.push(`same specimen: ${id} and ${owner} use the same photograph`);
+    if (src && owner && owner !== id) problems.push(`same photograph: ${id} and ${owner} use ${src}`);
     if (src) photos.set(src, id);
-  }
-  const drawings = new Map<string, string>();
-  for (const spec of bySlot(doc, "specimen")) {
-    const id = spec.attrs["data-product-id"] ?? "?";
-    const svg = all(spec, (e) => e.tag === "svg" && e.attrs.role === "img")[0];
-    const key = `${spec.attrs["data-detail"]}|${svg ? serialize(svg).replace(/ aria-label="[^"]*"/, "") : ""}`;
-    const owner = drawings.get(key);
-    if (owner && owner !== id) problems.push(`same specimen: ${id} and ${owner} draw the same picture`);
-    drawings.set(key, id);
   }
   return problems;
 }
@@ -348,7 +335,7 @@ for (const page of PAGES) {
   });
   for (const problem of problems) fail(page.name, problem);
   const doc = parse(html);
-  console.log(`  ${problems.length === 0 ? "✓" : "✗"} ${page.name}: ${problems.length} violation(s), ${bySlot(doc, "deep-dive").length} deep dives, ${bySlot(doc, "buy-block").length} buy blocks, ${bySlot(doc, "specimen").length} drawings`);
+  console.log(`  ${problems.length === 0 ? "✓" : "✗"} ${page.name}: ${problems.length} violation(s), ${bySlot(doc, "deep-dive").length} deep dives, ${bySlot(doc, "buy-block").length} buy blocks, ${bySlot(doc, "media-well").length} photographs`);
 }
 
 /* ======================================================================== */
@@ -366,7 +353,7 @@ const BROKEN: [rule: string, html: string][] = [
   ["merchant clutter", `${notice}<div data-slot="buy-block" data-product-id="tempo">${offerLink("primary", 149, "Verra")}<a rel="sponsored" data-cta="secondary" data-offer-price="160" data-in-stock="true" data-merchant="Northlane" href="#">Northlane</a><p data-slot="inline-disclosure">We may earn a commission.</p></div>`],
   ["disclosure", `${offerLink("link", 149, "Verra")}${notice}`],
   ["self reference", `<article data-slot="deep-dive" data-product-id="w" id="review-w"><div data-col="media"><figure data-slot="media"><img src="x.jpg" alt=""></figure></div><div data-col="story"><a href="#review-w">Halden Meridian</a></div></article>`],
-  ["same specimen", `<div data-slot="specimen" data-detail="thumb" data-product-id="a"><svg role="img"><circle r="1"></circle></svg></div><div data-slot="specimen" data-detail="thumb" data-product-id="b"><svg role="img"><circle r="1"></circle></svg></div>`],
+  ["same photograph", `<div data-slot="media-well" data-product-id="a"><img src="/x.webp" alt=""></div><div data-slot="media-well" data-product-id="b"><img src="/x.webp" alt=""></div>`],
 ];
 console.log(`▶ self-test: ${BROKEN.length} broken pages`);
 for (const [rule, html] of BROKEN) {

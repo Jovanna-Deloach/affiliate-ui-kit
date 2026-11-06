@@ -4,7 +4,7 @@ import type { SiteChrome } from "@/kit/types";
 /** Wordmark and promise, three link columns, the full disclosure. */
 export function SiteFooter({ site, className }: { site: SiteChrome; className?: string }) {
   return (
-    <footer className={cn("border-t border-line bg-ground", className)}>
+    <footer className={cn("mt-chapter border-t border-line bg-ground", className)}>
       <div className="kit-well grid gap-12 py-16 md:grid-cols-12">
         <div className="flex flex-col gap-3 md:col-span-5">
           <a href={site.publication.href} className="kit-focus kit-wordmark self-start rounded-ctl text-fg">

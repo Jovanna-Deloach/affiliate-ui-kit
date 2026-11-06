@@ -7,15 +7,16 @@ import { cn } from "@/lib/cn";
 /**
  * Three emphasis levels, one shape. `primary` is the accent fill and is
  * reserved for the one action that matters in view (docs/DESIGN.md, rule 4).
- * Labels are sentence case and say what happens. No arrows.
+ * Labels are written in sentence case and say what happens; the button face
+ * sets them in tracked capitals (t-button). Arrows are icons, never glyphs.
  */
 export const buttonStyles = cva(
-  "kit-focus inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-ctl t-ui transition-colors duration-(--dur) ease-(--ease) disabled:cursor-default disabled:opacity-50",
+  "kit-focus inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-ctl t-button transition-colors duration-(--dur) ease-(--ease) disabled:cursor-default disabled:opacity-50",
   {
     variants: {
       emphasis: {
         primary: "bg-accent text-on-accent hover:bg-accent-hover",
-        secondary: "border border-line bg-paper text-fg hover:border-fg",
+        secondary: "border border-line-strong bg-paper text-fg hover:border-fg",
         quiet: "kit-link px-0 text-fg",
       },
       size: {
@@ -24,7 +25,7 @@ export const buttonStyles = cva(
       },
       fullWidth: { true: "w-full", false: "" },
     },
-    compoundVariants: [{ emphasis: "quiet", class: "h-auto px-0" }],
+    compoundVariants: [{ emphasis: "quiet", class: "h-auto px-0 t-ui" }],
     defaultVariants: { emphasis: "secondary", size: "md", fullWidth: false },
   },
 );

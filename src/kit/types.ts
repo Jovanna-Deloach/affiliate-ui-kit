@@ -39,7 +39,7 @@ export interface SiteChrome {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Products and specimens                                                 */
+/* Products                                                               */
 /* ---------------------------------------------------------------------- */
 
 export interface KitProduct {
@@ -50,21 +50,12 @@ export interface KitProduct {
   offers: MerchantOffer[];
   /** When prices were last checked (ISO). */
   lastVerifiedAt?: string;
-  /** Photography, when the site has it. Without it the pick's specimen is drawn. */
-  image?: ProductImage;
-}
-
-/** Watches: drawn front and profile, at one constant millimetre scale. */
-export interface WatchSpecimen {
-  kind: "watch";
-  caseDiameterMm: number;
-  lugToLugMm: number;
-  thicknessMm: number;
-  lugWidthMm: number;
-  complicationType: "gmt" | "dress-subdial" | "diver-bezel" | "field-arabic";
-  strapType: "bracelet" | "leather" | "nato";
-  dialTone: "light" | "dark";
-  date?: boolean;
+  /**
+   * Studio photography: a background-free cut-out (transparent WebP or PNG),
+   * set on the theme’s studio well with a soft contact shadow. Required: a
+   * product is never stood in for by a drawing or a chart.
+   */
+  image: ProductImage;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -97,9 +88,9 @@ export interface Rating {
 }
 
 /**
- * What the lab or bench measured, drawn as a data graphic. Never an
- * illustration of the product: photography shows the object, these show
- * the numbers.
+ * What the lab or bench measured, set as telemetry rows in the review's
+ * scorecard (and, for supplements, the assay badge on the photograph).
+ * Photography shows the object; these show the numbers.
  */
 export type Measurements =
   | {
@@ -162,8 +153,6 @@ export interface Pick {
   /** Specifications, label and value. */
   facts: { label: string; value: string }[];
   metrics: Record<string, MetricValue>;
-  /** Watches: a drafting plate drawn from the case geometry. */
-  specimen?: WatchSpecimen;
   /** A tester’s words, and the proof they earned the right to say them (“160 miles logged”). */
   quote: { text: string; person: Person; proof: string };
 }
@@ -202,7 +191,7 @@ export interface RoundupGuide {
   picks: Pick[];
   /** Jump-link label from the verdict to each deep dive: "Read the full review". */
   jumpLabel: string;
-  /** Heading for picks 4+ in the verdict bento, and for the collector’s catalogue. */
+  /** Heading for the collector’s catalogue of every piece. */
   railHeading?: string;
   /** The comparison section: a heading that says something, and an optional intro. */
   compare: { heading: string; intro?: string };

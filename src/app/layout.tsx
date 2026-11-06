@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, JetBrains_Mono, Newsreader, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "@/styles/globals.css";
@@ -28,6 +28,15 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+/** The Atelier kit theme's display serif (optical sizes, with italics). */
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-newsreader",
+  display: "swap",
+});
+
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
@@ -45,7 +54,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       data-vertical="luxury-editorial"
-      className={`${inter.variable} ${playfair.variable} ${jakarta.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${jakarta.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-dvh bg-canvas text-ink">{children}</body>
     </html>
