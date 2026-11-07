@@ -56,6 +56,12 @@ export interface KitProduct {
    * product is never stood in for by a drawing or a chart.
    */
   image: ProductImage;
+  /**
+   * A warning about the product (a recall, a regulator’s warning, a failed
+   * safety test, fake reviews). While it is `active`, every part withholds
+   * the product’s buy links and its score, and shows the warning instead.
+   */
+  warning?: ProductWarning;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -336,6 +342,22 @@ export interface Certification {
   status: "certified" | "expired" | "upcoming" | "untested";
   /** The date that goes with the status (ISO): certified until, expired on, results due by. */
   date?: string;
+  /** Every batch tested, newest first. */
+  history?: CertificationRecord[];
+}
+
+/** One batch the lab tested, for a certification’s history. */
+export interface CertificationRecord {
+  /** The batch or lot number. */
+  batch: string;
+  /** When the lab tested it (ISO). */
+  testedAt: string;
+  /** Passed (and was certified until `until`), or failed. */
+  passed: boolean;
+  /** Certified until (ISO), for a batch that passed. */
+  until?: string;
+  /** Its grade for the results. */
+  grade?: Grade;
 }
 
 /** A brand, as its card and its page show it. */
@@ -440,4 +462,83 @@ export interface ReaderItem {
   at: string;
   /** Saved items: their own note. */
   note?: string;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Safety and alerts                                                      */
+/* ---------------------------------------------------------------------- */
+
+/**
+ * A warning the site raises about a product: `recall` the maker or a
+ * regulator recalled it · `regulator` a regulator warned about it (an FDA
+ * warning letter) · `failed-test` it failed the site’s own safety test ·
+ * `fake-reviews` the brand bought, faked or hid reviews. Active warnings
+ * replace the product’s score and buy links; resolved ones stay as history.
+ */
+export interface ProductWarning {
+  kind: "recall" | "regulator" | "failed-test" | "fake-reviews";
+  status: "active" | "resolved";
+  /** What happened, in a line: “Recalled: milk in capsules labeled dairy-free”. */
+  title: string;
+  /** What happened, in two or three sentences. */
+  summary: string;
+  /** Which batches, lots or dates it covers: “Lots 0912 and 0913, sold August to October 2026”. */
+  affected?: string;
+  /** What a reader who has the product should do, in plain words. */
+  action: string;
+  /** When it was issued (ISO). */
+  issuedAt: string;
+  /** When it was resolved (ISO), for a resolved warning. */
+  resolvedAt?: string;
+  /** Who issued it, and where to read it: the regulator, the maker or the site’s lab. */
+  source: { name: string; href: string };
+}
+
+/** One thing to know about a supplement’s safety. */
+export interface SafetyNote {
+  /** `avoid` who should not take it · `interaction` a medicine or supplement it interacts with · `side-effect` what some people feel. */
+  kind: "avoid" | "interaction" | "side-effect";
+  /** `serious` ask a doctor first · `moderate` take care · `mild` common and passing. */
+  severity: "serious" | "moderate" | "mild";
+  /** In a few words: “Kidney disease”, “Caffeine”, “Bloating”. */
+  title: string;
+  /** What to know, in a sentence or two. */
+  detail: string;
+}
+
+/** A product’s lowest in-stock price on one day, across its retailers. */
+export interface PricePoint {
+  /** The day (ISO date). */
+  date: string;
+  /** The lowest in-stock price that day; `null` when it was sold out everywhere. */
+  price: number | null;
+  /** The retailer with that price. */
+  merchant?: string;
+}
+
+/** What a reader asks to be told about a product’s price. */
+export interface PriceAlertRequest {
+  productId: string;
+  /** `below` when the lowest price drops under `price` · `in-stock` when any retailer has it again. */
+  kind: "below" | "in-stock";
+  /** For `below`: the price to drop under. */
+  price?: number;
+  /** For a reader without an account: where to send the one email. */
+  email?: string;
+}
+
+/** A reader’s price alert, as their account lists it. */
+export interface PriceAlert {
+  id: string;
+  /** The product, as the reader’s lists keep it. */
+  item: ReaderItem;
+  kind: "below" | "in-stock";
+  /** For `below`: the price to drop under. */
+  price?: number;
+  /** `active` watching · `paused` kept, not watching · `met` it happened and the email went out. */
+  status: "active" | "paused" | "met";
+  /** When it was set (ISO). */
+  createdAt: string;
+  /** For `met`: when, and the price and retailer that met it. */
+  met?: { at: string; price: number; merchant: string };
 }

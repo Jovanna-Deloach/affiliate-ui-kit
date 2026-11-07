@@ -360,21 +360,21 @@
   line-height: 1.4;
   font-weight: var(--ui-weight);
   letter-spacing: 0;
-  font-variant-numeric: tabular-nums lining-nums;
+  font-variant-numeric: lining-nums;
 }
 @utility t-small {
   font-family: var(--font-ui);
   font-size: 0.875rem;
   line-height: 1.5;
   font-weight: 400;
-  font-variant-numeric: tabular-nums lining-nums;
+  font-variant-numeric: lining-nums;
 }
 @utility t-caption {
   font-family: var(--font-ui);
   font-size: var(--ui-1);
   line-height: 1.45;
   font-weight: 400;
-  font-variant-numeric: tabular-nums lining-nums;
+  font-variant-numeric: lining-nums;
 }
 /* Buttons: tracked capitals in the text face. */
 @utility t-button {
@@ -415,6 +415,21 @@
   font-weight: var(--figure-weight);
   font-variant-numeric: tabular-nums lining-nums;
   letter-spacing: -0.02em;
+}
+
+/* No data: a fine 135° hatch in the strong line color, for a stretch a chart
+   has no value for (a product sold out everywhere). */
+@utility kit-hatch {
+  background-image: repeating-linear-gradient(135deg, var(--line-strong) 0 1px, transparent 1px 6px);
+}
+
+/* Figures that line up. Interface prose (t-ui, t-small, t-caption) keeps
+   proportional figures, because Inter’s tabular set also widens the hyphen
+   (“dairy-free” reads “dairy - free”). Anything marked data-numeric is set
+   in tabular, lining numerals whatever its type style; unlayered, so no
+   utility undoes it. */
+[data-numeric] {
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 /* ---- voice 3: mono micro-caps -------------------------------------------- */

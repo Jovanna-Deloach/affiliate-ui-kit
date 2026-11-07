@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { singleRetailerProduct, soldOutProduct } from "@/fixtures/kit/cases";
+import { recalledCapsules } from "@/fixtures/kit/safety";
 import { runningGuide } from "@/fixtures/kit/running";
 import { watchesGuide } from "@/fixtures/kit/watches";
 import { assertKitPage } from "@/kit/testing/page-checks";
@@ -56,4 +57,14 @@ export const SingleRetailer: Story = {
  */
 export const SoldOutEverywhere: Story = {
   args: { product: soldOutProduct },
+};
+
+/**
+ * A product under a recall: the warning takes the whole box’s place, linked to the page’s full
+ * warning, and no retailer is linked while it stands.
+ * @summary Under a recall: the warning in place of the buy box.
+ */
+export const UnderAWarning: Story = {
+  parameters: { theme: "assay", category: "supplements" },
+  args: { product: recalledCapsules },
 };

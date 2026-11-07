@@ -24,3 +24,5 @@ export * from "./ranking-list";
 export * from "./pick-up-where-you-left-off";
 export * from "./saved-items";
 export * from "./compare-tray";
+export * from "./consumer-warning";
+export * from "./alerts-manager";

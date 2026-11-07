@@ -15,6 +15,7 @@ import { isRanked } from "@/kit/lib/offers";
  *   • primary, secondary and row CTAs at least 44px tall
  *   • every [data-numeric] cell set in tabular numerals
  *   • merchant order: in-stock lowest first, one button per buy block
+ *   • a product under a standing warning shows it and links to no retailer
  *   • every deep dive shows a photograph; no two SKUs share one
  *   • no text block over 40 characters rendered twice
  *   • axe-core, WCAG 2.0/2.1/2.2 A and AA: zero violations
@@ -105,6 +106,13 @@ export async function collectPageProblems(root: HTMLElement, { runAxe = true } =
     if (!isRanked(offers)) problems.push(`${id}: retailers out of order (${offers.map((o) => `${o.merchant} ${o.price}${o.inStock ? "" : " sold out"}`).join(", ")})`);
     const buttons = block.querySelectorAll('[data-cta="primary"], [data-cta="secondary"]').length;
     if (buttons > 1) problems.push(`${id}: ${buttons} buttons in one buy block (one allowed)`);
+  }
+
+  /* a warning outranks the sale: a product under a standing warning shows it, and links to no retailer */
+  for (const warned of Array.from(root.querySelectorAll<HTMLElement>('[data-warning="active"][data-product-id]'))) {
+    const id = warned.dataset.productId;
+    if (warned.querySelector('a[rel~="sponsored"]')) problems.push(`${id} is under a standing warning but still links to a retailer`);
+    if (!warned.querySelector('[data-slot="warning-note"], [data-slot="consumer-warning"]')) problems.push(`${id} is under a standing warning but does not show it`);
   }
 
   /* photographs: one per SKU */

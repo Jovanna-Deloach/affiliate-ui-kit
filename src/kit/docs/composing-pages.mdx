@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, where reviews, search and the reader’s lists go, and where each commerce rule lives." />
+<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, where reviews, search, the reader’s lists, warnings and price alerts go, and where each commerce rule lives." />
 
 # Composing pages
 
@@ -87,6 +87,8 @@ export function Page({ site, guide: input }: { site: SiteChrome; guide: RoundupG
 | A link to a review reaches it | A review’s id is `review-{id}` (its `Review.id`); `ReviewsSection` clears the filters that hide it and lengthens the list to show it |
 | History stays with the reader | `@/kit/lib/reader` keeps viewed, saved and compared items on the device only; `PickUpWhereYouLeftOff` and `SavedItems` say so and keep Clear history in view |
 | No buy link on a failure | `RankingList` and `ProductCard` leave out the buy pill for a product graded F; the ranking says why |
+| A warning outranks the sale | Set `warning` on the product: `BuyBlock`, `VerdictCard`, `ComparisonMatrix`, `PickRow`, `ProductDeepDiveCard`, `ProductCard` and `RankingList` show `WarningNote` in place of its price, score and buy links; `StickyBuyBar` stays hidden; `sortProducts` puts it last |
+| The note reaches the full warning | `ConsumerWarning` takes `id={warningId(product)}` (`warning-{slug}`, from `@/kit/lib/warnings`): the notes in a guide link there; cards and ranking rows link to the product’s page |
 | The ranking discloses before its buy pills | `RankingList` puts “We may earn a commission.” above the list, linked to `disclosureHref` |
 
 ## Reviews on a page
@@ -103,6 +105,15 @@ Mark up reviews as structured data (schema.org `Product` with `Review` and `Aggr
 - **Home and category pages** can show `PickUpWhereYouLeftOff` below the lead and `CategoryIndex` further down. The Saved page is `SavedItems`.
 - **Remembering visits**: without an account, nothing reaches the device unless the page records it. Put `<RememberVisit item={toReaderItem(summary)} />` on every product page and `<RememberVisit item={{ kind: "guide", id, title, href }} />` on every guide, once (`RememberVisit` from `@/kit/lib/reader`, `toReaderItem` from `@/kit/lib/discovery`). With an account, pass the lists to the blocks as `items` with their callbacks instead.
 
+## Warnings, safety and price alerts
+
+- **A standing warning** about a product: set it on the product (`KitProduct.warning`), so every part that sells it shows the warning instead. On the product’s own page, put `Banner` with `tone="danger"` first under the masthead, linking to the full warning, and `ConsumerWarning` right under the article header, with `id={warningId(product)}`. Keep the product in its guides and rankings: it goes last, unlinked.
+- **A resolved warning** stays on the product’s page as history: `ConsumerWarning` after the proof, in gray. The score and the buy links come back on their own.
+- **A warning about a brand** (fake reviews, a regulator’s letter): `ConsumerWarning` with the brand as its `subject` at the top of the brand’s page, and the same warning on each product it covers, so their buy links come down too.
+- **A certification that lapsed or is in testing** is not a warning: `CertificationNotice` goes where the page discusses the lab results, and the buy links stay.
+- **Safety**: `SafetyPanel` on a supplement’s own page, after the proof and before the reviews. Keep its footer: it is general information, not medical advice.
+- **Price history and alerts**: on a product’s page, `PriceHistory` after the buy box, then `PriceAlert` (or an outlined `Button` that opens it in a `Dialog`). Without an account, `PriceAlert` asks for an email; with one, pass `askEmail={false}`. The account’s Price alerts page is `AlertsManager`.
+
 ## Composing beyond the templates
 
 Blocks are container-driven, so the same blocks recompose into new archetypes: a long guide can follow its verdict with `AlsoGreatRail` for the remaining picks; a page with no ranking can drop the comparison; a lab page can show `DisqualifiedSubTable` with `standalone` when there is no comparison. Keep the order answer, proof, method; keep the header first and the footer last.
@@ -115,6 +126,7 @@ Helpers for custom compositions:
 - `filterReviews`, `summarize` and `ALL_REVIEWS` from `@/kit/lib/reviews`: a review list’s query, order and numbers.
 - `gradeFor(score)`, `sortProducts(products, by)`, `toReaderItem(summary)` and `searchIndex(hits, query)` from `@/kit/lib/discovery`: a grade from a score out of 10, a ranking’s four orders, a product as the reader’s lists keep it, and search over a small index.
 - `RememberVisit`, `useReaderList(list)`, `remember`, `forget` and `clearList` from `@/kit/lib/reader`: the reader’s device memory (client only).
+- `underWarning(product)`, `warningId(product)` and `WARNING_LABEL` from `@/kit/lib/warnings`: whether a warning stands, the full warning’s id, and each kind’s label.
 
 ## In the app
 

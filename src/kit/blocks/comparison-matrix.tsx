@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
-import { PickMedia, pickName, reviewId } from "@/kit/components";
+import { PickMedia, pickName, reviewId, WarningNote } from "@/kit/components";
 import { leadOffer } from "@/kit/lib/offers";
+import { underWarning, warningId } from "@/kit/lib/warnings";
 import { upperFirst } from "@/kit/lib/text";
 import type { Metric, MetricValue, Pick } from "@/kit/types";
 import { BuyPill, Eyebrow, Price, ResultMark } from "@/kit/ui";
@@ -145,10 +146,11 @@ export function ComparisonMatrix({ heading, intro, metrics, picks, attribution, 
           </thead>
           <tbody className="@max-3xl:block">
             {picks.map((pick, i) => {
-              const offer = leadOffer(pick.product.offers);
+              const warning = underWarning(pick.product) ? pick.product.warning : undefined;
+              const offer = warning ? undefined : leadOffer(pick.product.offers);
               const lead = i === 0;
               return (
-                <tr key={pick.product.id} data-product-id={pick.product.id} className={cn(matrixRow, "first:border-t-0", lead && "bg-accent-category-soft/40")}>
+                <tr key={pick.product.id} data-product-id={pick.product.id} data-warning={warning ? "active" : undefined} className={cn(matrixRow, "first:border-t-0", lead && "bg-accent-category-soft/40")}>
                   <th scope="row" className={matrixHead}>
                     <a href={`#${reviewId(pick)}`} className="kit-focus group grid grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-4 rounded-ctl">
                       <PickMedia pick={pick} detail="thumb" sizes="3.5rem" />
@@ -175,6 +177,8 @@ export function ComparisonMatrix({ heading, intro, metrics, picks, attribution, 
                         <Price amount={offer.price} currency={offer.currency} size="sm" note={<span className="whitespace-nowrap">at {offer.merchantName}</span>} />
                         <BuyPill offer={offer} productId={pick.product.id} placement="comparison" attribution={attribution} filled={lead} />
                       </span>
+                    ) : warning ? (
+                      <WarningNote warning={warning} href={`#${warningId(pick.product)}`} className="justify-end text-right @max-3xl:justify-start @max-3xl:text-left" />
                     ) : (
                       <span className="t-small text-fg-muted">Sold out</span>
                     )}

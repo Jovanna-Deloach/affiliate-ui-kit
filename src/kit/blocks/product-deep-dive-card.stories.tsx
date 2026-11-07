@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { creatineGuide } from "@/fixtures/kit/creatine";
 import { runningGuide } from "@/fixtures/kit/running";
+import { recalledPick } from "@/fixtures/kit/safety";
 import { watchesGuide } from "@/fixtures/kit/watches";
 import { assertKitPage } from "@/kit/testing/page-checks";
 
@@ -55,4 +56,14 @@ export const LowestPriceFirst: Story = {
 export const NarrowContainer: Story = {
   parameters: { frame: "narrow" },
   args: { pick: watchesGuide.picks[1]! },
+};
+
+/**
+ * A pick under a recall: no score and no lab stamp, and the buy box holds the warning instead of
+ * the offers. The review itself stays.
+ * @summary A review under a recall: no score, no buy links.
+ */
+export const UnderAWarning: Story = {
+  parameters: { theme: "assay", category: "supplements" },
+  args: { pick: recalledPick },
 };

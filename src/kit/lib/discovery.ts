@@ -1,4 +1,5 @@
 import { leadOffer } from "@/kit/lib/offers";
+import { underWarning } from "@/kit/lib/warnings";
 import type { Grade, ProductSummary, ReaderItem, SearchHit, SearchKind } from "@/kit/types";
 
 /** Every grade, best first. */
@@ -32,10 +33,16 @@ const ORDER: Record<RankingSort, (a: ProductSummary, b: ProductSummary) => numbe
   certified: (a, b) => Number(b.certification?.status === "certified") - Number(a.certification?.status === "certified") || byQuality(a, b),
   name: byName,
 };
+/* A product under a standing warning goes last in every order but A to Z. */
+const warned = (summary: ProductSummary) => Number(underWarning(summary.product));
 
-/** A category’s products in the order a ranking asks for. Products sold out everywhere keep their place: the ranking is about the test. */
+/**
+ * A category’s products in the order a ranking asks for. Products sold out
+ * everywhere keep their place (the ranking is about the test); products
+ * under a standing warning go last, except A to Z.
+ */
 export function sortProducts(products: readonly ProductSummary[], by: RankingSort): ProductSummary[] {
-  return [...products].sort(ORDER[by]);
+  return [...products].sort((a, b) => (by === "name" ? 0 : warned(a) - warned(b)) || ORDER[by](a, b));
 }
 
 /** A product as a reader’s history, saved items or compare tray keep it: its lowest price now becomes “the price when they looked”. */

@@ -1,11 +1,14 @@
 import type { ReactNode } from "react";
 
 import { leadOffer } from "@/kit/lib/offers";
+import { underWarning } from "@/kit/lib/warnings";
 import type { ProductSummary } from "@/kit/types";
 import { BuyPill, CertificationStatus, GradeBadge, Price, ProductImage, Sep, StarRating } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
 import { cn } from "@/lib/cn";
 import { formatPrice, formatScore } from "@/lib/format";
+
+import { WarningNote } from "./warning-note";
 
 export interface ProductCardProps {
   /** The product, where its review is, and how it tested: grade, score, certification, readers’ rating, price per serving. */
@@ -41,10 +44,14 @@ export interface ProductCardProps {
  * @import import { ProductCard } from "@/kit/components";
  */
 export function ProductCard({ summary, corner, footer, buy = false, attribution, as: Heading = "h3", sizes = "(min-width: 1024px) 18rem, 70vw", className }: ProductCardProps) {
-  const { product, href, grade, score, certification, rating, perServing } = summary;
-  const offer = leadOffer(product.offers);
+  const { product, href, certification, rating, perServing } = summary;
+  const warning = underWarning(product) ? product.warning : undefined;
+  // A standing warning takes the place of the grade, the score, the price and any buy link.
+  const grade = warning ? undefined : summary.grade;
+  const score = warning ? undefined : summary.score;
+  const offer = warning ? undefined : leadOffer(product.offers);
   return (
-    <article data-product-id={product.id} className={cn("kit-card relative row-span-4 grid grid-rows-subgrid gap-3 p-2 pb-4", className)}>
+    <article data-product-id={product.id} data-warning={warning ? "active" : undefined} className={cn("kit-card relative row-span-4 grid grid-rows-subgrid gap-3 p-2 pb-4", className)}>
       <div className="relative">
         <ProductImage image={product.image} productId={product.id} ratio="square" pad="md" sizes={sizes} />
         {corner ? <div className="absolute top-2 right-2 z-10">{corner}</div> : null}
@@ -78,7 +85,9 @@ export function ProductCard({ summary, corner, footer, buy = false, attribution,
         {certification ? <CertificationStatus certification={certification} /> : null}
       </div>
       <div className="grid content-start gap-3 px-2">
-        {offer ? (
+        {warning ? (
+          <WarningNote warning={warning} href={href} />
+        ) : offer ? (
           <Price
             amount={offer.price}
             currency={offer.currency}

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { creatineSummaries, soldOutSummary } from "@/fixtures/kit/discovery";
+import { recalledSummary } from "@/fixtures/kit/safety";
 import { toReaderItem } from "@/kit/lib/discovery";
 import { assertKitPage } from "@/kit/testing/page-checks";
 import { seedDevice } from "@/kit/testing/device";
@@ -50,3 +51,10 @@ export const WithABuyPill: Story = { args: { summary: creatineSummaries[2]!, buy
  * @summary Sold out everywhere.
  */
 export const SoldOut: Story = { args: { summary: soldOutSummary, buy: true } };
+
+/**
+ * Under a recall: the warning takes the place of the grade, the score and the price, even with
+ * `buy` set.
+ * @summary Under a recall: no grade, no price, no buy link.
+ */
+export const UnderAWarning: Story = { args: { summary: recalledSummary, buy: true } };

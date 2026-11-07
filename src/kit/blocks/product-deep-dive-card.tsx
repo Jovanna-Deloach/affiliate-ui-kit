@@ -1,5 +1,6 @@
 import { cn } from "@/lib/cn";
 import { AssayBadge, BuyBlock, PickMedia, pickName, ProsCons, PullQuote, reviewId, Scorecard, SpecSheet, Telemetry } from "@/kit/components";
+import { underWarning } from "@/kit/lib/warnings";
 import type { Pick } from "@/kit/types";
 import { Award, Eyebrow } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
@@ -56,19 +57,23 @@ export interface ProductDeepDiveCardProps {
 export function ProductDeepDiveCard({ pick, disclosureHref, attribution, className }: ProductDeepDiveCardProps) {
   const { product, measurements: m } = pick;
   const id = reviewId(pick);
+  // A standing warning takes the score’s place (and the buy box shows it): no score for a product under one.
+  const warned = underWarning(product);
   return (
-    <article id={id} data-slot="deep-dive" data-product-id={product.id} aria-labelledby={`${id}-title`} className={cn("@container kit-card scroll-mt-8", className)}>
+    <article id={id} data-slot="deep-dive" data-product-id={product.id} data-warning={warned ? "active" : undefined} aria-labelledby={`${id}-title`} className={cn("@container kit-card scroll-mt-8", className)}>
       <div className="grid items-start gap-8 p-5 @2xl:p-8 @4xl:grid-cols-12 @4xl:gap-x-12">
         <div data-col="media" className="contents @4xl:sticky @4xl:top-8 @4xl:col-span-5 @4xl:flex @4xl:flex-col @4xl:gap-8">
           <figure data-slot="media" className="@container order-1 m-0 @4xl:order-none">
             <PickMedia pick={pick} detail="full" sizes="(min-width: 1024px) 36vw, 100vw" className="@xl:aspect-[3/2]">
               <Award className="absolute top-4 left-4">{pick.award}</Award>
-              {m.kind === "assay" && <AssayBadge measurements={m} className="absolute bottom-4 left-4" />}
+              {m.kind === "assay" && !warned && <AssayBadge measurements={m} className="absolute bottom-4 left-4" />}
             </PickMedia>
           </figure>
-          <Scorecard rating={pick.rating} scores={pick.scores} id={`${id}-score`} className="order-3 @4xl:order-none @4xl:border-t-0 @4xl:pt-0">
-            <Telemetry measurements={m} />
-          </Scorecard>
+          {warned ? null : (
+            <Scorecard rating={pick.rating} scores={pick.scores} id={`${id}-score`} className="order-3 @4xl:order-none @4xl:border-t-0 @4xl:pt-0">
+              <Telemetry measurements={m} />
+            </Scorecard>
+          )}
         </div>
 
         <div data-col="story" className="order-2 flex min-w-0 flex-col @4xl:order-none @4xl:col-span-7">

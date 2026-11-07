@@ -1,10 +1,12 @@
 import { cn } from "@/lib/cn";
 import { leadOffer } from "@/kit/lib/offers";
+import { underWarning, warningId } from "@/kit/lib/warnings";
 import type { Pick } from "@/kit/types";
 import { Award, BestPrice, BuyButton, JumpLink, Price } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
 
 import { PickMedia, pickName, reviewId } from "./pick-media";
+import { WarningNote } from "./warning-note";
 
 export interface VerdictCardProps {
   /** The pick: its award, name, photograph, `verdict` (feature) or `bestFor` (compact), and its offers. */
@@ -64,12 +66,14 @@ const SOLD_OUT = <p className="m-0 t-small text-fg-muted">Sold out everywhere we
  * @import import { VerdictCard } from "@/kit/components";
  */
 export function VerdictCard({ pick, jumpLabel, variant = "feature", wide = false, stacked = false, attribution, className }: VerdictCardProps) {
-  const offer = leadOffer(pick.product.offers);
+  const warning = underWarning(pick.product) ? pick.product.warning : undefined;
+  const offer = warning ? undefined : leadOffer(pick.product.offers);
   const competing = !!offer && pick.product.offers.some((o) => o.inStock && o.id !== offer.id);
+  const note = warning ? <WarningNote warning={warning} href={`#${warningId(pick.product)}`} /> : SOLD_OUT;
 
   if (variant === "feature")
     return (
-      <article data-slot="verdict-hero" data-product-id={pick.product.id} className={cn("@container kit-card-feature", className)}>
+      <article data-slot="verdict-hero" data-product-id={pick.product.id} data-warning={warning ? "active" : undefined} className={cn("@container kit-card-feature", className)}>
         <div className={cn("grid h-full gap-5 p-5 @xl:gap-8 @xl:p-6", wide ? "@xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]" : "@xl:grid-cols-2")}>
           <MediaWell pick={pick} sizes="(min-width: 1024px) 26vw, 90vw" className={wide ? "aspect-square @xl:aspect-[4/3]" : "aspect-square @xl:aspect-auto @xl:min-h-80"} />
           <div className="flex flex-col @xl:py-2">
@@ -83,7 +87,7 @@ export function VerdictCard({ pick, jumpLabel, variant = "feature", wide = false
                   {competing && <BestPrice />}
                 </p>
               ) : (
-                SOLD_OUT
+                note
               )}
             </div>
             {offer && <BuyButton offer={offer} productId={pick.product.id} placement="verdict-hero" attribution={attribution} icon className="mt-4 w-full @2xl:w-auto @2xl:self-start" />}
@@ -96,7 +100,7 @@ export function VerdictCard({ pick, jumpLabel, variant = "feature", wide = false
     );
 
   return (
-    <article data-slot="verdict-card" data-product-id={pick.product.id} className={cn("@container kit-card p-4", className)}>
+    <article data-slot="verdict-card" data-product-id={pick.product.id} data-warning={warning ? "active" : undefined} className={cn("@container kit-card p-4", className)}>
       <div className={cn("grid h-full gap-4", stacked ? "grid-rows-[auto_1fr_auto]" : "grid-cols-[6rem_minmax(0,1fr)] @md:grid-cols-[9rem_minmax(0,1fr)] @md:grid-rows-[1fr_auto]")}>
         <MediaWell pick={pick} sizes="(min-width: 1024px) 18vw, 9rem" className={stacked ? "aspect-[4/3]" : "min-h-32 @md:row-span-2 @md:min-h-40"} />
         <div className="flex min-w-0 flex-col py-0.5">
@@ -111,7 +115,7 @@ export function VerdictCard({ pick, jumpLabel, variant = "feature", wide = false
               <BuyButton offer={offer} productId={pick.product.id} placement="verdict-card" attribution={attribution} emphasis="secondary" icon />
             </div>
           ) : (
-            SOLD_OUT
+            note
           )}
           <JumpLink href={`#${reviewId(pick)}`} className="mt-1 self-start t-small">
             {jumpLabel}

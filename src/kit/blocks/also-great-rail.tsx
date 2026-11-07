@@ -1,6 +1,7 @@
 import { cn } from "@/lib/cn";
-import { PickMedia, pickName, reviewId } from "@/kit/components";
+import { PickMedia, pickName, reviewId, WarningNote } from "@/kit/components";
 import { leadOffer } from "@/kit/lib/offers";
+import { underWarning, warningId } from "@/kit/lib/warnings";
 import type { Pick } from "@/kit/types";
 import { BuyPill, Eyebrow, JumpLink, Price } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
@@ -23,9 +24,10 @@ export interface PickRowProps {
  * @import import { PickRow } from "@/kit/blocks";
  */
 export function PickRow({ pick, jumpLabel, attribution }: PickRowProps) {
-  const offer = leadOffer(pick.product.offers);
+  const warning = underWarning(pick.product) ? pick.product.warning : undefined;
+  const offer = warning ? undefined : leadOffer(pick.product.offers);
   return (
-    <div data-product-id={pick.product.id} className="grid grid-cols-[5rem_minmax(0,1fr)] items-start gap-4">
+    <div data-product-id={pick.product.id} data-warning={warning ? "active" : undefined} className="grid grid-cols-[5rem_minmax(0,1fr)] items-start gap-4">
       <PickMedia pick={pick} detail="thumb" sizes="5rem" />
       <div className="flex min-w-0 flex-col">
         <Eyebrow as="span" size="sm" tone="category">
@@ -35,6 +37,7 @@ export function PickRow({ pick, jumpLabel, attribution }: PickRowProps) {
           {pickName(pick)}
         </a>
         <p className="m-0 mt-1 t-small text-fg-muted">Best for {pick.bestFor}.</p>
+        {warning ? <WarningNote warning={warning} href={`#${warningId(pick.product)}`} className="mt-3" /> : null}
         {offer && (
           <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
             <Price amount={offer.price} currency={offer.currency} size="sm" />

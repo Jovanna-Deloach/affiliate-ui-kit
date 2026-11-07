@@ -6,6 +6,7 @@
 export * from "./alert";
 export * from "./avatar";
 export * from "./badge";
+export * from "./banner";
 export * from "./button";
 export * from "./buy";
 export * from "./certification-status";

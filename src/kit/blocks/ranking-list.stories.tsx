@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { creatineRanking } from "@/fixtures/kit/discovery";
+import { rankingWithRecall } from "@/fixtures/kit/safety";
 import { assertKitPage } from "@/kit/testing/page-checks";
 import { seedDevice } from "@/kit/testing/device";
 
@@ -43,3 +44,9 @@ export const WithCompare: Story = { args: { compare: true } };
  * @summary Two at a time, with Show more.
  */
 export const ShowMore: Story = { args: { pageSize: 2 } };
+
+/**
+ * One product under a recall: last in the ranking, without its grade, price or buy link.
+ * @summary A recalled product, last and unlinked.
+ */
+export const WithARecall: Story = { args: { products: rankingWithRecall } };

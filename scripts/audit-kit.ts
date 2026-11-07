@@ -303,9 +303,18 @@ function checkHtml(html: string, { names: extraNames = [], products = new Map<st
     if (!isRanked(offers)) problems.push(`merchant order: ${id} lists ${offers.map((o) => `${o.merchant} ${o.price}${o.inStock ? "" : " (sold out)"}`).join(", ")} (lowest in-stock first)`);
     const buttons = all(block, (e) => e.attrs["data-cta"] === "primary" || e.attrs["data-cta"] === "secondary");
     if (buttons.length > 1) problems.push(`merchant clutter: ${id} has ${buttons.length} buttons in one buy block`);
+    // A buy box under a standing warning sells nothing, so it needs no disclosure; the warning rule below checks it.
+    const warned = block.attrs["data-warning"] === "active";
     const disclosure = bySlot(block, "inline-disclosure")[0];
-    if (!disclosure) problems.push(`disclosure: ${id} buy block has no inline disclosure`);
-    else if (norm(text(disclosure)).length >= 40) problems.push(`disclosure: ${id} inline disclosure is ${norm(text(disclosure)).length} characters (under 40)`);
+    if (!warned && !disclosure) problems.push(`disclosure: ${id} buy block has no inline disclosure`);
+    else if (disclosure && norm(text(disclosure)).length >= 40) problems.push(`disclosure: ${id} inline disclosure is ${norm(text(disclosure)).length} characters (under 40)`);
+  }
+
+  /* a warning outranks the sale */
+  for (const warned of all(doc, (e) => e.attrs["data-warning"] === "active" && "data-product-id" in e.attrs)) {
+    const id = warned.attrs["data-product-id"];
+    if (all(warned, (e) => e.tag === "a" && /\bsponsored\b/.test(e.attrs.rel ?? "")).length) problems.push(`warning: ${id} is under a standing warning but still links to a retailer`);
+    if (!bySlot(warned, "warning-note").length && !bySlot(warned, "consumer-warning").length) problems.push(`warning: ${id} is under a standing warning but does not show it`);
   }
   for (const link of all(doc, (e) => e.tag === "a" && "data-offer-price" in e.attrs)) {
     let owner: string | undefined;
@@ -336,10 +345,13 @@ function checkHtml(html: string, { names: extraNames = [], products = new Map<st
     if (!bySlot(media, "media").some((m) => all(m, (e) => e.tag === "img").length)) problems.push(`deep dive: ${id} has no photograph`);
     const order = story.children.filter((c): c is El => typeof c !== "string").map((c) => c.attrs["data-slot"]);
     if (order.join(",") !== STORY_ORDER.join(",")) problems.push(`deep dive: ${id} story order is ${order.join(" → ")} (expected ${STORY_ORDER.join(" → ")})`);
+    // Under a standing warning a deep dive has no button and no score: the warning takes their places.
+    const warned = card.attrs["data-warning"] === "active";
     const primaries = all(card, (e) => e.attrs["data-cta"] === "primary").length;
-    if (primaries !== 1) problems.push(`deep dive: ${id} has ${primaries} filled buttons (one)`);
+    if (!warned && primaries !== 1) problems.push(`deep dive: ${id} has ${primaries} filled buttons (one)`);
     if (!bySlot(card, "award").length) problems.push(`deep dive: ${id} has no award in its header`);
-    if (!bySlot(media, "scorecard").length) problems.push(`deep dive: ${id} has no composite score under its media`);
+    if (!warned && !bySlot(media, "scorecard").length) problems.push(`deep dive: ${id} has no composite score under its media`);
+    if (warned && bySlot(media, "scorecard").length) problems.push(`warning: ${id} is under a standing warning but still shows its score`);
     const self = `#review-${product?.slug ?? card.attrs.id?.replace(/^review-/, "") ?? ""}`;
     if (all(card, (e) => e.attrs["data-product-ref"] === id || e.attrs.href === self).length) problems.push(`self reference: ${id} links or pills back to the product under review`);
   }
@@ -386,6 +398,7 @@ const BROKEN: [rule: string, html: string][] = [
   ["disclosure", `${offerLink("link", 149, "Verra")}${notice}`],
   ["self reference", `<article data-slot="deep-dive" data-product-id="w" id="review-w"><div data-col="media"><figure data-slot="media"><img src="x.jpg" alt=""></figure></div><div data-col="story"><a href="#review-w">Halden Meridian</a></div></article>`],
   ["same photograph", `<div data-slot="media-well" data-product-id="a"><img src="/x.webp" alt=""></div><div data-slot="media-well" data-product-id="b"><img src="/x.webp" alt=""></div>`],
+  ["warning", `${notice}<div data-slot="buy-block" data-product-id="fw" data-warning="active"><p data-slot="warning-note">Recall</p>${offerLink("primary", 27, "Fieldwork")}</div>`],
 ];
 console.log(`▶ self-test: ${BROKEN.length} broken pages`);
 for (const [rule, html] of BROKEN) {

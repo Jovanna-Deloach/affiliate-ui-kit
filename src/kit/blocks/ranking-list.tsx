@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from "react";
 
-import { INLINE_DISCLOSURE } from "@/kit/components";
+import { INLINE_DISCLOSURE, WarningNote } from "@/kit/components";
 import { sortProducts, toReaderItem, type RankingSort } from "@/kit/lib/discovery";
 import { leadOffer } from "@/kit/lib/offers";
+import { underWarning } from "@/kit/lib/warnings";
 import type { ProductSummary } from "@/kit/types";
 import { BuyPill, Button, CertificationStatus, CompareButton, GradeBadge, Price, ProductImage, SegmentedControl, StarRating } from "@/kit/ui";
 import type { AffiliateAttribution } from "@/types/affiliate";
@@ -19,10 +20,14 @@ const ORDERS: { value: RankingSort; label: string }[] = [
 ];
 
 function Row({ summary, compare, attribution }: { summary: ProductSummary; compare: boolean; attribution?: AffiliateAttribution }) {
-  const { product, href, grade, score, certification, rating, perServing, note } = summary;
-  const offer = leadOffer(product.offers);
+  const { product, href, certification, rating, perServing, note } = summary;
+  const warning = underWarning(product) ? product.warning : undefined;
+  // A standing warning takes the place of the grade, the score, the price and the buy link.
+  const grade = warning ? undefined : summary.grade;
+  const score = warning ? undefined : summary.score;
+  const offer = warning ? undefined : leadOffer(product.offers);
   return (
-    <li data-product-id={product.id} className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 border-t border-line py-5 @3xl:grid-cols-[5.5rem_minmax(0,1fr)_7rem_12rem] @3xl:items-start">
+    <li data-product-id={product.id} data-warning={warning ? "active" : undefined} className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 border-t border-line py-5 @3xl:grid-cols-[5.5rem_minmax(0,1fr)_7rem_12rem] @3xl:items-start">
       <ProductImage image={product.image} productId={product.id} ratio="square" pad="sm" sizes="5.5rem" className="row-span-2 @3xl:row-span-1" />
       <div className="grid min-w-0 content-start gap-1">
         <p className="m-0 t-micro text-fg-muted">{product.brand}</p>
@@ -51,7 +56,9 @@ function Row({ summary, compare, attribution }: { summary: ProductSummary; compa
           ) : null}
         </div>
         <div className="grid justify-items-start gap-2">
-          {offer ? (
+          {warning ? (
+            <WarningNote warning={warning} href={href} className="max-w-[12rem]" />
+          ) : offer ? (
             <Price
               amount={offer.price}
               currency={offer.currency}

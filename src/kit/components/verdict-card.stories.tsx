@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { soldOutPick } from "@/fixtures/kit/cases";
 import { creatineGuide } from "@/fixtures/kit/creatine";
+import { recalledPick } from "@/fixtures/kit/safety";
 import { watchesGuide } from "@/fixtures/kit/watches";
 import { assertKitPage } from "@/kit/testing/page-checks";
 
@@ -72,4 +73,13 @@ export const CompactOnAPhone: Story = {
  */
 export const SoldOut: Story = {
   args: { pick: soldOutPick, variant: "compact" },
+};
+
+/**
+ * A pick under a recall: the warning in red where the price and the button were.
+ * @summary A pick under a recall: no price, no button.
+ */
+export const UnderAWarning: Story = {
+  parameters: { theme: "assay", category: "supplements" },
+  args: { pick: recalledPick, variant: "compact" },
 };

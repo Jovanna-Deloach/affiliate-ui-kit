@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { leadOffer } from "@/kit/lib/offers";
+import { underWarning } from "@/kit/lib/warnings";
 import type { KitProduct } from "@/kit/types";
 import { BuyButton, Price } from "@/kit/ui";
 import { cn } from "@/lib/cn";
@@ -51,7 +52,7 @@ export function StickyBuyBar({ product, watch, shown: forced, disclosureHref, pl
     return () => observer.disconnect();
   }, [watch, forced]);
 
-  if (!offer?.inStock) return null;
+  if (!offer?.inStock || underWarning(product)) return null;
   return (
     <aside
       aria-label={`Buy ${product.brand} ${product.name}`}

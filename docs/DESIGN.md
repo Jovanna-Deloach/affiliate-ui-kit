@@ -94,9 +94,13 @@ capitals, so a writer can never shout.
 
 **Interface scale:** 10 and 11 (micro-caps) · 12 (`t-caption`) · 14
 (`t-small`) · 15 (`t-ui`) · 18.75 (`t-figure-table`) · 24 (`t-price`, bold)
-· 29.3 → 36.6 (`t-figure-xl`). Every interface voice sets **tabular, lining
-numerals**, so prices, scores and lab values line up; numeric cells carry
-`data-numeric` and the story checks verify the computed style.
+· 29.3 → 36.6 (`t-figure-xl`). The figure styles (`t-figure`,
+`t-figure-table`, `t-figure-xl`, `t-price`, `t-score`, `t-stat`) set
+**tabular, lining numerals**, so prices, scores and lab values line up, and
+so does every element marked `data-numeric`, whatever its style; the story
+checks verify the computed style. Interface prose (`t-ui`, `t-small`,
+`t-caption`) keeps proportional lining figures, because Inter’s tabular set
+also widens the hyphen: “dairy-free” would read “dairy - free”.
 
 **Pull-quotes** hang their opening mark into the margin (`kit-hang`) so the
 text edge stays optically true.
@@ -444,12 +448,12 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 | Layer | Contents |
 | --- | --- |
 | Theme | `src/kit/theme/kit.css` — foundation, the three voices, Atelier, Assay, categories, Tailwind bridge, surface and studio utilities |
-| Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst`; `reviews` (a review list’s query, order and numbers); `discovery` (grades from scores, a ranking’s four orders, `toReaderItem`, search over a small index); `reader` (the reader’s device memory: viewed, saved, compare, recent searches, and `RememberVisit`); `theme-root` (overlays portaled inside the theme) |
+| Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst`; `reviews` (a review list’s query, order and numbers); `discovery` (grades from scores, a ranking’s four orders, `toReaderItem`, search over a small index); `reader` (the reader’s device memory: viewed, saved, compare, recent searches, and `RememberVisit`); `warnings` (whether a warning stands, its id and labels); `theme-root` (overlays portaled inside the theme) |
 | Story kit | `src/kit/testing` — the story frame (`theme`, `category` and `frame` parameters), `Specimen` and `State` for the specimen sheets, the page checks, `seedDevice` / `seedSearches` for parts that read the device; `src/fixtures/kit/cases.ts` for edge cases |
 | Guides | `src/kit/docs` — Start here; Foundations (Themes, Color, Typography, Layout, Surfaces); Data model (generated contract), Composing pages, Making pages distinct; Writing stories |
-| Primitives | `src/kit/ui` — Price, Meter, Disclosure, Eyebrow, Breadcrumb, Badge, Award, BestPrice, ResultMark, Button, BuyButton / BuyPill / BuyRow / BuyLink, JumpLink, ProductImage, Avatar, Monogram, Sep. Controls and overlays: Tabs, TabLinks, Tooltip, Explainer, Dialog, Drawer, Toast, Field, TextField, TextArea, Checkbox, Radio, ChoiceGroup, Switch, Select, SegmentedControl, SearchField, Chip, Pagination, Alert, Skeleton, EmptyState. Reviews: StarRating, RatingInput, RatingBar, ReviewLabel, RelativeTime, HelpfulButton, ReadMore. Discovery and returning readers: GradeBadge, CertificationStatus, SaveButton, CompareButton, ReadingProgress |
-| Components | `src/kit/components` — BuyBlock, OfferCard, RetailerList, VerdictCard, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, ProsCons, PullQuote, SpecSheet, PickMedia, Gallery, StickyBuyBar, TableOfContents, HelpfulPrompt. Reviews: RatingSummary, ReviewCard, ReviewTopics, AiReviewSummary, ReviewFilters, ReviewSort, TrustSignals. Discovery: ProductCard, BrandCard, CategoryCard, SearchResult, ContinueCard, AccountMenu |
-| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalog). Reviews: ReviewsSection, WriteReview, TrustPrinciples. Discovery and returning readers: QuickLinks, SiteSearch, CategoryIndex, RankingList, PeopleAlsoLookedAt, PickUpWhereYouLeftOff, SavedItems, CompareTray |
+| Primitives | `src/kit/ui` — Price, Meter, Disclosure, Eyebrow, Breadcrumb, Badge, Award, BestPrice, ResultMark, Button, BuyButton / BuyPill / BuyRow / BuyLink, JumpLink, ProductImage, Avatar, Monogram, Sep. Controls and overlays: Tabs, TabLinks, Tooltip, Explainer, Dialog, Drawer, Toast, Field, TextField, TextArea, Checkbox, Radio, ChoiceGroup, Switch, Select, SegmentedControl, SearchField, Chip, Pagination, Alert, Skeleton, EmptyState. Reviews: StarRating, RatingInput, RatingBar, ReviewLabel, RelativeTime, HelpfulButton, ReadMore. Discovery and returning readers: GradeBadge, CertificationStatus, SaveButton, CompareButton, ReadingProgress. Safety: Banner |
+| Components | `src/kit/components` — BuyBlock, OfferCard, RetailerList, VerdictCard, Scorecard, Telemetry (ChronometerStrip, MetalRows, BenchRows), AssayBadge, ProsCons, PullQuote, SpecSheet, PickMedia, Gallery, StickyBuyBar, TableOfContents, HelpfulPrompt. Reviews: RatingSummary, ReviewCard, ReviewTopics, AiReviewSummary, ReviewFilters, ReviewSort, TrustSignals. Discovery: ProductCard, BrandCard, CategoryCard, SearchResult, ContinueCard, AccountMenu. Safety and alerts: WarningNote, CertificationNotice, SafetyPanel, PriceHistory, PriceAlert |
+| Blocks | `src/kit/blocks` — SiteHeader, SiteFooter and the eight sections (with PickRow for the catalog). Reviews: ReviewsSection, WriteReview, TrustPrinciples. Discovery and returning readers: QuickLinks, SiteSearch, CategoryIndex, RankingList, PeopleAlsoLookedAt, PickUpWhereYouLeftOff, SavedItems, CompareTray. Safety and alerts: ConsumerWarning, AlertsManager |
 | Templates | `src/kit/templates` — RoundupPage, VersusPage, LabAssayPage, CollectorsGuidePage |
 
 The older `src/primitives` library is frozen; its running guide now lives in
