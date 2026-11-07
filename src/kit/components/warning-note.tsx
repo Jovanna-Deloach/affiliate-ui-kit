@@ -33,7 +33,7 @@ export interface WarningNoteProps {
 export function WarningNote({ warning, href, size = "line", className }: WarningNoteProps) {
   if (size === "box")
     return (
-      <div data-slot="warning-note" className={cn("grid gap-1.5 rounded-box border border-line border-t-4 border-t-fail bg-paper p-4", className)}>
+      <div data-slot="warning-note" className={cn("grid gap-1.5 rounded-box border border-line bg-paper p-4", className)}>
         <p className="m-0 flex items-start gap-2 t-ui font-semibold text-pretty text-fail">
           <OctagonAlert aria-hidden="true" size={18} strokeWidth={1.75} className="mt-0.5 shrink-0" />
           {WARNING_LABEL[warning.kind]}: {warning.title}

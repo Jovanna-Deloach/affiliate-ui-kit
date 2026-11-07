@@ -42,7 +42,7 @@ export function ConsumerWarning({ warning, subject, id = "warning", className }:
       aria-labelledby={`${id}-title`}
       data-slot="consumer-warning"
       data-warning={warning.status}
-      className={cn("kit-card scroll-mt-8 border-t-4", active ? "border-t-fail" : "border-t-line-strong", className)}
+      className={cn("kit-card scroll-mt-8", className)}
     >
       <div className="grid max-w-[65ch] gap-4 p-5 sm:p-6">
         <p className={cn("m-0 flex flex-wrap items-center gap-x-2 gap-y-1 t-micro", active ? "text-fail" : "text-fg-muted")}>
