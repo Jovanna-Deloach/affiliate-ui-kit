@@ -4,9 +4,14 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 
-/** The button’s classes, shared with `BuyButton` so every button has one shape. */
+/**
+ * The button’s classes, shared with `BuyButton` so every button has one shape.
+ * A label stays on one line while it fits; one that does not (a retailer’s
+ * full name on a phone) wraps inside the button, which grows taller, instead
+ * of pushing the page sideways.
+ */
 export const buttonStyles = cva(
-  "kit-focus inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-ctl t-button transition-colors duration-(--dur) ease-(--ease) disabled:cursor-default disabled:opacity-50",
+  "kit-focus inline-flex max-w-full shrink-0 cursor-pointer items-center justify-center gap-2 rounded-ctl text-center text-balance t-button transition-colors duration-(--dur) ease-(--ease) disabled:cursor-default disabled:opacity-50",
   {
     variants: {
       emphasis: {
@@ -15,12 +20,12 @@ export const buttonStyles = cva(
         quiet: "kit-link px-0 text-fg",
       },
       size: {
-        md: "h-11 px-5",
-        lg: "h-12 px-6",
+        md: "min-h-11 px-5 py-2",
+        lg: "min-h-12 px-6 py-2",
       },
       fullWidth: { true: "w-full", false: "" },
     },
-    compoundVariants: [{ emphasis: "quiet", class: "h-auto px-0 t-ui" }],
+    compoundVariants: [{ emphasis: "quiet", class: "h-auto min-h-0 px-0 py-0 t-ui" }],
     defaultVariants: { emphasis: "secondary", size: "md", fullWidth: false },
   },
 );
@@ -28,7 +33,7 @@ export const buttonStyles = cva(
 export interface ButtonProps extends Omit<ComponentProps<"button">, "tw"> {
   /** `secondary` outlined (default) · `primary` the accent fill, at most one per viewport · `quiet` an underlined text action. */
   emphasis?: "primary" | "secondary" | "quiet";
-  /** `md` 44px tall (default) · `lg` 48px. */
+  /** `md` at least 44px tall (default) · `lg` at least 48px. A label too long for one line wraps, and the button grows taller. */
   size?: "md" | "lg";
   /** Spans its container. */
   fullWidth?: boolean;
