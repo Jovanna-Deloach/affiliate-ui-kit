@@ -46,6 +46,13 @@ function text(el: Element): string {
 
 export async function collectPageProblems(root: HTMLElement, { runAxe = true } = {}): Promise<string[]> {
   await document.fonts.ready;
+  // Let the CSS transitions a play just started (a chip turning off, a panel opening) finish, so
+  // colors and boxes are measured at rest; endless animations (a skeleton’s shimmer) are skipped.
+  const settling = document.getAnimations().filter((animation) => {
+    const end = animation.effect?.getComputedTiming().endTime;
+    return animation.playState === "running" && typeof end === "number" && Number.isFinite(end);
+  });
+  await Promise.all(settling.map((animation) => animation.finished.catch(() => undefined)));
   const problems: string[] = [];
 
   /* deep-dive geometry */

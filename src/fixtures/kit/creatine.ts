@@ -2,6 +2,7 @@ import { typesetDeep } from "@/kit/lib/typeset";
 import type { Measurements, Person, RoundupGuide } from "@/kit/types";
 
 import { offer, product } from "./build";
+import { creatineReview } from "./evidence";
 
 /** Assay proof page: creatine, assayed in an accredited lab (all brands fictional). */
 
@@ -91,6 +92,7 @@ export const creatineGuide: RoundupGuide = typesetDeep<RoundupGuide>({
   title: "The best creatine, tested in a lab",
   dek: "We bought eighteen creatine supplements at retail and sent them, blinded, to an accredited lab. Four contain what the label says and nothing they shouldn't.",
   author: raman,
+  reviewedBy: creatineReview,
   testedWith: "an ISO 17025 lab, every batch assayed twice",
   updatedAt: "2026-10-29T08:00:00Z",
   telemetry: {

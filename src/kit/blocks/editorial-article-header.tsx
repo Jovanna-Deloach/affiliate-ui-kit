@@ -2,14 +2,15 @@ import { BadgeCheck } from "lucide-react";
 
 import { cn } from "@/lib/cn";
 import { formatDateLong } from "@/lib/format";
+import { ReviewedBy } from "@/kit/components";
 import type { RoundupGuide } from "@/kit/types";
 import { Avatar, Breadcrumb, Eyebrow } from "@/kit/ui";
 
 import { TestingTelemetryBadge } from "./testing-telemetry-badge";
 
 export interface EditorialArticleHeaderProps {
-  /** The guide’s header fields: `crumbs`, `title` (says something), `dek`, `author` (covers the page’s category), `testedWith`, `updatedAt`, and `telemetry` for the testing card. */
-  guide: Pick<RoundupGuide, "crumbs" | "title" | "dek" | "author" | "testedWith" | "updatedAt" | "telemetry">;
+  /** The guide’s header fields: `crumbs`, `title` (says something), `dek`, `author` (covers the page’s category), `reviewedBy` (an expert who checked the facts, shown under the author), `testedWith`, `updatedAt`, and `telemetry` for the testing card. */
+  guide: Pick<RoundupGuide, "crumbs" | "title" | "dek" | "author" | "reviewedBy" | "testedWith" | "updatedAt" | "telemetry">;
   /** The disclosure notice in the byline, read before the first buy link: the site’s `disclosureNotice` and `disclosureHref`. */
   notice: { text: string; href: string };
   /** The method section’s anchor, for the testing card’s link. Default `#methodology`. */
@@ -21,7 +22,8 @@ export interface EditorialArticleHeaderProps {
 /**
  * The article header: the breadcrumb eyebrow; the title in the display
  * serif, the dek, the byline with its verification stamp and the disclosure
- * notice on seven columns; the testing summary card on five. The notice sits
+ * notice on seven columns; the testing summary card on five. An expert
+ * reviewer, when the guide has one, sits under the author. The notice sits
  * in the byline, so it is read before the first buy link on the page.
  *
  * **Use it for** the top of every review page, under the masthead.
@@ -58,6 +60,7 @@ export function EditorialArticleHeader({ guide, notice, methodHref = "#methodolo
               </p>
             </div>
           </div>
+          {guide.reviewedBy ? <ReviewedBy review={guide.reviewedBy} className="mt-5" /> : null}
           <p data-slot="disclosure-notice" className="m-0 mt-6 max-w-[38rem] t-small text-fg-muted">
             {notice.text}{" "}
             <a href={notice.href} className="kit-focus kit-link rounded-ctl text-fg">

@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, where reviews, search, the reader’s lists, warnings and price alerts go, and where each commerce rule lives." />
+<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, where reviews, search, the reader’s lists, warnings, price alerts and research go, and where each commerce rule lives." />
 
 # Composing pages
 
@@ -88,6 +88,8 @@ export function Page({ site, guide: input }: { site: SiteChrome; guide: RoundupG
 | History stays with the reader | `@/kit/lib/reader` keeps viewed, saved and compared items on the device only; `PickUpWhereYouLeftOff` and `SavedItems` say so and keep Clear history in view |
 | No buy link on a failure | `RankingList` and `ProductCard` leave out the buy pill for a product graded F; the ranking says why |
 | A warning outranks the sale | Set `warning` on the product: `BuyBlock`, `VerdictCard`, `ComparisonMatrix`, `PickRow`, `ProductDeepDiveCard`, `ProductCard` and `RankingList` show `WarningNote` in place of its price, score and buy links, and drop its certification; `StickyBuyBar` stays hidden; `sortProducts` puts it last |
+| Every claim is cited | `Citation` takes the source’s number (`n`) and `Reference.id` (`to`); `ReferenceList` takes the ids the text cites (`cited`) and links each back to its first citation; a source cited twice takes `occurrence={2}` |
+| One FAQ carries structured data | `Faq` prints the FAQPage JSON-LD; on a page with a second `Faq`, pass `structuredData={false}` to it |
 | The note reaches the full warning | `ConsumerWarning` takes `id={warningId(product)}` (`warning-{slug}`, from `@/kit/lib/warnings`): the notes in a guide link there; cards and ranking rows link to the product’s page |
 | The ranking discloses before its buy pills | `RankingList` puts “We may earn a commission.” above the list, linked to `disclosureHref` |
 
@@ -114,6 +116,14 @@ Mark up reviews as structured data (schema.org `Product` with `Review` and `Aggr
 - **Safety**: `SafetyPanel` on a supplement’s own page, after the proof and before the reviews. Keep its footer: it is general information, not medical advice.
 - **Price history and alerts**: on a product’s page, `PriceHistory` after the buy box, then `PriceAlert` (or an outlined `Button` that opens it in a `Dialog`). Without an account, `PriceAlert` asks for an email; with one, pass `askEmail={false}`. The account’s Price alerts page is `AlertsManager`.
 
+## Research and lab reports
+
+- **A product’s lab report**: `GradeScale` beside its score in the header, then `KeyFindings`, `AssayTable` and `WatchlistIngredients` (its `id` is where `KeyFindings` links), then `CertificationNotice`. A grade’s meaning in full is `GradeLegend` with `LAB_GRADES`, in the method.
+- **A supplement’s research page**: `AlsoKnownAs` under the title, then `EvidenceTable` (the answer), `DosageCard`, `SafetyPanel`, `ResearchFeed` (the proof), `Faq`, `ReferenceList`, and `HealthDisclaimer` last, before the footer. Every claim in the prose carries a `Citation`.
+- **A category**: `RankingList` and `CategoryReport` side by side as tabs (`TabLinks`), with `SuggestAProduct` at the end.
+- **The byline**: give the guide `reviewedBy` (an `ExpertReview`) and `EditorialArticleHeader` shows `ReviewedBy` under the author. The reviewer’s `beats` must cover the page’s category.
+- **Every supplement page** ends with `HealthDisclaimer`, visible, before `SiteFooter`; `plural` on a guide to several products.
+
 ## Composing beyond the templates
 
 Blocks are container-driven, so the same blocks recompose into new archetypes: a long guide can follow its verdict with `AlsoGreatRail` for the remaining picks; a page with no ranking can drop the comparison; a lab page can show `DisqualifiedSubTable` with `standalone` when there is no comparison. Keep the order answer, proof, method; keep the header first and the footer last.
@@ -127,6 +137,7 @@ Helpers for custom compositions:
 - `gradeFor(score)`, `sortProducts(products, by)`, `toReaderItem(summary)` and `searchIndex(hits, query)` from `@/kit/lib/discovery`: a grade from a score out of 10, a ranking’s four orders, a product as the reader’s lists keep it, and search over a small index.
 - `RememberVisit`, `useReaderList(list)`, `remember`, `forget` and `clearList` from `@/kit/lib/reader`: the reader’s device memory (client only).
 - `underWarning(product)`, `warningId(product)` and `WARNING_LABEL` from `@/kit/lib/warnings`: whether a warning stands, the full warning’s id, and each kind’s label.
+- `EVIDENCE_GRADES`, `LAB_GRADES`, `sortOutcomes`, `percentOff`, `passesPurity`, `summarizeResults`, `referenceId` and `citationId` from `@/kit/lib/evidence`: what grades mean, an evidence table’s orders, a lab report’s numbers, a category’s results, and the anchors citations jump between.
 
 ## In the app
 

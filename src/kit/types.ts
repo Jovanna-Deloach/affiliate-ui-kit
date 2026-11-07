@@ -189,6 +189,8 @@ export interface RoundupGuide {
   title: string;
   dek: string;
   author: Person;
+  /** The expert who checked the facts, shown beside the author in the byline. */
+  reviewedBy?: ExpertReview;
   /** Completes "Tested with …": "two other reviewers". */
   testedWith: string;
   updatedAt: string;
@@ -542,4 +544,204 @@ export interface PriceAlert {
   createdAt: string;
   /** For `met`: when, and the price and retailer that met it. */
   met?: { at: string; price: number; merchant: string };
+}
+
+/* ---------------------------------------------------------------------- */
+/* Research and lab reports                                               */
+/* ---------------------------------------------------------------------- */
+
+/**
+ * How well the research supports an outcome: `A` several mostly consistent
+ * studies show at least a moderate effect · `B` fewer studies, or a smaller
+ * effect · `C` a possible effect, with few studies or mixed results · `D`
+ * too little research, results that disagree, or an effect too small to
+ * matter · `F` the research points to harm. Shown with `GradeBadge` on its
+ * evidence scale (`scale="evidence"`), where D is gray: little or no effect
+ * is not harm.
+ */
+export type EvidenceGrade = "A" | "B" | "C" | "D" | "F";
+
+/** Which way an outcome moved in the research: up, down, not at all, or both ways across studies. */
+export type Effect = "increase" | "decrease" | "none" | "mixed";
+
+/** How much an outcome moved, when it moved. */
+export type EffectSize = "small" | "moderate" | "large";
+
+/** One thing a supplement is studied for, and what the research says about it. */
+export interface Outcome {
+  id: string;
+  /** What was measured, as readers say it: “Muscle strength”, “Lean mass”. */
+  name: string;
+  effect: Effect;
+  /** How much it moved; leave out for `none`. */
+  size?: EffectSize;
+  /** How well the studies agree; leave out when there is one study. */
+  consistency?: "high" | "moderate" | "low";
+  /** How many studies (trials, and meta-analyses of them) the grade rests on. */
+  studies: number;
+  grade: EvidenceGrade;
+  /** What it means for a reader, in a sentence: “About 8% more strength gained over 8 to 12 weeks of training.” */
+  summary?: string;
+  /** The outcome’s own page or section. */
+  href?: string;
+}
+
+/** How a study was run, strongest first: a meta-analysis pools trials; a case report describes one person. */
+export type StudyDesign = "meta-analysis" | "randomized-trial" | "observational" | "case-report";
+
+/** A source, as a reference list cites it. */
+export interface Reference {
+  /** Unique on the page: `Citation` links to it and the list anchors it (`ref-{id}`). */
+  id: string;
+  /** Surname and initials, in the paper’s order: “Okafor AN”. The list shows three, then “et al.” */
+  authors: string[];
+  title: string;
+  /** The journal, or the body that published a report. */
+  source: string;
+  year: number;
+  /** Volume, issue and pages as the journal prints them: “21(4):112–120”. */
+  details?: string;
+  /** The DOI, without the resolver: “10.1186/s12970-017-0173-z”. */
+  doi?: string;
+  /** The PubMed id. */
+  pmid?: string;
+  /** A link for a source with neither: a report, a regulator’s page. */
+  url?: string;
+  /** When the site last opened it (ISO date), for pages that change. */
+  accessedAt?: string;
+}
+
+/** One study, summed up for readers. */
+export interface Study {
+  id: string;
+  /** What it tested, as a plain headline: “Creatine and strength in women over 60”. */
+  title: string;
+  design: StudyDesign;
+  /** Who took part: “Trained women aged 60 to 75”. */
+  population: string;
+  /** How many people took part; for a meta-analysis, across its trials. */
+  participants: number;
+  /** How long it ran: “12 weeks”. Leave out for a meta-analysis. */
+  duration?: string;
+  /** What it found, in a sentence or two. */
+  result: string;
+  /** Which way it moved its outcome. */
+  effect?: Effect;
+  /** The outcome it adds to, by `Outcome.id`; the research feed filters on it. */
+  outcome?: string;
+  /** When it was published (ISO date). */
+  publishedAt: string;
+  /** Who paid for it, when a reader should know: “Funded by a creatine maker”. */
+  funding?: string;
+  /** Where it was published. */
+  reference: Reference;
+}
+
+/** One ingredient: what the label claims and what the lab found, per serving. */
+export interface AssayIngredient {
+  /** As the label names it: “Folate (as methylfolate)”. */
+  name: string;
+  claimed: number;
+  found: number;
+  /** The unit both are in: “mg”, “mcg”, “IU”. */
+  unit: string;
+}
+
+/** One contaminant the lab tested for, against its limit, per serving. */
+export interface AssayContaminant {
+  name: string;
+  /** What the lab found; `null` when it was below the lowest amount the lab can measure (its LOQ). */
+  found: number | null;
+  /** The most a serving may contain, in the same unit. */
+  limit: number;
+  unit: string;
+  /** Whose limit it is: “California Prop 65”, “USP”. */
+  standard?: string;
+}
+
+/** An additive worth knowing about, and why it is flagged. It is legal; some readers avoid it. */
+export interface WatchlistIngredient {
+  /** As the label names it: “Red 40”, “Titanium dioxide”. */
+  name: string;
+  /** Why it is on the watchlist, in a sentence. */
+  reason: string;
+  /** More about it: the site’s page on the additive. */
+  href?: string;
+}
+
+/** What the lab found in one batch of one product. */
+export interface LabReport {
+  /** The result in one sentence: “Contains what the label says, and nothing it shouldn’t.” */
+  finding: string;
+  /** How many tests the lab ran. */
+  tests: number;
+  /** The lot or batch number tested. */
+  batch: string;
+  /** When the batch was tested (ISO date). */
+  testedAt: string;
+  /** Who tested it: “Meridian Analytical, ISO 17025”. */
+  lab: string;
+  /** The serving every figure is for: “1 scoop (5 g)”. */
+  serving: string;
+  /** What a serving costs at today’s lowest price. */
+  perServing?: { amount: number; currency: string };
+  /** How far from the claim still counts as accurate, in percent either way (default 10). */
+  tolerance?: number;
+  ingredients: AssayIngredient[];
+  contaminants: AssayContaminant[];
+  /** Additives worth knowing about; empty when there are none. */
+  watchlist: WatchlistIngredient[];
+}
+
+/** How to take a supplement, from the doses the research used. */
+export interface Dosage {
+  /** The everyday dose: “3 to 5 g a day”. */
+  dose: string;
+  /** When to take it. */
+  timing: string;
+  /** The form to buy, and why. */
+  form: string;
+  /** A loading phase, when the research used one: “20 g a day for 5 to 7 days, in four doses”. */
+  loading?: string;
+  /** Doses that scale with body weight, per kilogram a day, for the worked example: `{ label: "Loading phase", perKg: 0.3, unit: "g" }`. */
+  byWeight?: { label: string; perKg: number; unit: "g" | "mg" }[];
+}
+
+/** The expert who checked a page’s facts, beside its author. */
+export interface ExpertReview {
+  /** The reviewer; their `beats` must cover the page’s category, as an author’s do. */
+  person: Person;
+  /** Their qualifications, as they sign them: “PhD, exercise physiology; registered dietitian”. */
+  credentials: string;
+  /** When they last checked the page (ISO date). */
+  reviewedAt: string;
+}
+
+/** A question readers ask, and the answer. */
+export interface FaqItem {
+  question: string;
+  /** The answer, a paragraph each. Plain text: it goes into the page’s FAQ structured data as is. */
+  answer: string[];
+}
+
+/** How every product in a category tested: what the category report charts. */
+export interface CategoryResults {
+  /** The category, as readers say it, lowercase: “creatine”. */
+  name: string;
+  /** When the last product was tested (ISO date). */
+  testedAt: string;
+  /** Every product tested: its main ingredient as a share of its claim (101.2 = 101.2%) and whether it passed every contaminant limit. */
+  products: { brand: string; name: string; href?: string; accuracy: number; purity: boolean }[];
+  /** How far from the claim still counts as accurate, in percent either way (default 10). */
+  tolerance?: number;
+}
+
+/** A reader’s suggestion of a product to test. */
+export interface ProductSuggestion {
+  /** The product, with its brand, as the reader typed it. */
+  product: string;
+  /** Where they buy it: a link to the product. */
+  url?: string;
+  /** Where to tell them when it is tested. */
+  email?: string;
 }
