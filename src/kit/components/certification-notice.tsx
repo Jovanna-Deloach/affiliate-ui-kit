@@ -9,22 +9,22 @@ const WORDS: Record<Certification["status"], { title: (date?: string) => string;
   certified: {
     title: (date) => (date ? `Certified until ${monthYear(date)}` : "Certified"),
     body: "The batch on sale passed our latest test. Every batch we tested is below.",
-    bar: "border-l-pass",
+    bar: "border-t-pass",
   },
   expired: {
     title: (date) => (date ? `This product’s certification expired in ${monthYear(date)}` : "This product’s certification has expired"),
     body: "We haven’t tested a newer batch, so we can’t say whether what’s on sale now matches the one we tested.",
-    bar: "border-l-warn",
+    bar: "border-t-warn",
   },
   upcoming: {
     title: (date) => (date ? `We’re testing a new batch: results by ${monthYear(date)}` : "We’re testing a new batch"),
     body: "Until the results are in, the grade is for the last batch we tested.",
-    bar: "border-l-line-strong",
+    bar: "border-t-line-strong",
   },
   untested: {
     title: () => "We haven’t tested this product",
     body: "It has no grade from us yet; readers’ reviews are all there is to go on.",
-    bar: "border-l-line-strong",
+    bar: "border-t-line-strong",
   },
 };
 
@@ -41,7 +41,8 @@ export interface CertificationNoticeProps {
  * Where the product stands with the testing program, in a sentence a reader
  * can act on (“This product’s certification expired in March 2026”), what
  * that means, and every batch tested: when, the batch number, the grade and
- * the result. A bar in the status’s tone; the words carry the meaning.
+ * the result. A rule along the top in the status’s tone, as on the kit’s
+ * other notices; the words carry the meaning.
  *
  * **Use it for** a product’s page, near its grade, whenever its
  * certification is not simply current, and on a certified product to show
@@ -55,7 +56,7 @@ export function CertificationNotice({ certification, as: Heading = "h2", classNa
   const words = WORDS[certification.status];
   const history = certification.history ?? [];
   return (
-    <section aria-label="Certification" className={cn("grid gap-4 rounded-box border border-line border-l-4 bg-paper p-5", words.bar, className)}>
+    <section aria-label="Certification" className={cn("grid gap-4 rounded-box border border-line border-t-4 bg-paper p-5", words.bar, className)}>
       <div className="grid gap-1.5">
         <Heading className="m-0 t-name-sm text-fg">{words.title(certification.date)}</Heading>
         <p className="m-0 t-small text-fg-body">{words.body}</p>
