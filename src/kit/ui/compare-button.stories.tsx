@@ -10,7 +10,7 @@ import { CompareButton } from "./compare-button";
 const meta = {
   title: "Primitives/Compare button",
   component: CompareButton,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { item: compareItems[0]! },

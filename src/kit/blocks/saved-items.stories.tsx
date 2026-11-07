@@ -10,7 +10,7 @@ import { SavedItems } from "./saved-items";
 const meta = {
   title: "Blocks/Saved items",
   component: SavedItems,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { now: DISCOVERY_NOW, signInHref: "#sign-in" },

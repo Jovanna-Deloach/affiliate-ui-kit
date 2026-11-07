@@ -10,7 +10,7 @@ import { PickUpWhereYouLeftOff } from "./pick-up-where-you-left-off";
 const meta = {
   title: "Blocks/Pick up where you left off",
   component: PickUpWhereYouLeftOff,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "well" },
   play: assertKitPage,
   args: { now: DISCOVERY_NOW, historyHref: "#history" },

@@ -7,7 +7,7 @@ import { Switch } from "./choice";
 const meta = {
   title: "Primitives/Switch",
   component: Switch,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { label: "Verified purchases only", name: "verified" },

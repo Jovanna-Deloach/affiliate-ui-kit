@@ -8,7 +8,7 @@ import { CertificationNotice } from "./certification-notice";
 const meta = {
   title: "Components/Certification notice",
   component: CertificationNotice,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { certification: expiredCertification },

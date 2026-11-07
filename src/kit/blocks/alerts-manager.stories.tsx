@@ -10,7 +10,7 @@ import { AlertsManager } from "./alerts-manager";
 const meta = {
   title: "Blocks/Alerts manager",
   component: AlertsManager,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { alerts: priceAlerts, now: DISCOVERY_NOW, onPause: fn(), onDelete: fn() },

@@ -7,7 +7,7 @@ import { Select } from "./select";
 const meta = {
   title: "Primitives/Select",
   component: Select,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: {

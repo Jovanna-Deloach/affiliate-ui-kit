@@ -8,7 +8,7 @@ import { Explainer } from "./explainer";
 const meta = {
   title: "Primitives/Explainer",
   component: Explainer,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { label: "What does Verified mean?", children: null },

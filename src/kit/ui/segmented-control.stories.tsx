@@ -7,7 +7,7 @@ import { SegmentedControl } from "./segmented-control";
 const meta = {
   title: "Primitives/Segmented control",
   component: SegmentedControl,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: {

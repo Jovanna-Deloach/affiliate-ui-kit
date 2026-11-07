@@ -7,7 +7,7 @@ import { GradeBadge } from "./grade-badge";
 const meta = {
   title: "Primitives/Grade badge",
   component: GradeBadge,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { grade: "A+" },

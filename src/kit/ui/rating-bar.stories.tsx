@@ -8,7 +8,7 @@ import { RatingBar } from "./rating-bar";
 const meta = {
   title: "Primitives/Rating bar",
   component: RatingBar,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { stars: 5, count: 815, total: 1284, onClick: fn() },

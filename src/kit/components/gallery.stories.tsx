@@ -8,7 +8,7 @@ import { Gallery } from "./gallery";
 const meta = {
   title: "Components/Gallery",
   component: Gallery,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "running", frame: "narrow" },
   play: assertKitPage,
   args: {

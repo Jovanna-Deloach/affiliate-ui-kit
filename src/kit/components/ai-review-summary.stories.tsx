@@ -8,7 +8,7 @@ import { AiReviewSummary } from "./ai-review-summary";
 const meta = {
   title: "Components/AI review summary",
   component: AiReviewSummary,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { summary: peakAiSummary, reviews: peakReviews },

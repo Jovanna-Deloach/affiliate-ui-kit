@@ -9,7 +9,7 @@ import { PeopleAlsoLookedAt } from "./people-also-looked-at";
 const meta = {
   title: "Blocks/People also looked at",
   component: PeopleAlsoLookedAt,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "well" },
   play: assertKitPage,
   args: { products: creatineSummaries },

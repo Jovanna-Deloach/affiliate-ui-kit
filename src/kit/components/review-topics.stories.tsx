@@ -9,7 +9,7 @@ import { ReviewTopics } from "./review-topics";
 const meta = {
   title: "Components/Review topics",
   component: ReviewTopics,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { topics: peakTopics, onSelect: fn() },

@@ -8,7 +8,7 @@ import { ReviewSort } from "./review-sort";
 const meta = {
   title: "Components/Review sort",
   component: ReviewSort,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { onValueChange: fn() },

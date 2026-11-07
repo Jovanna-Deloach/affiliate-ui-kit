@@ -8,7 +8,7 @@ import { HelpfulPrompt } from "./helpful-prompt";
 const meta = {
   title: "Components/Helpful prompt",
   component: HelpfulPrompt,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { onAnswer: fn() },

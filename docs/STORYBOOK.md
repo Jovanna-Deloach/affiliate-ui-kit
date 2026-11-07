@@ -18,9 +18,9 @@ The shell is modeled on the Wix Design System’s Storybook, with Grafana’s do
 | Contributing | Writing stories | `src/kit/docs/writing-stories.mdx` |
 | Legacy | The older library, collapsed | `src/primitives`, `src/stories` |
 
-A story’s title is its section and name (`Primitives/Price`); its ID follows (`primitives-price--discounted`). Tags `new`, `beta` and `deprecated` put a pill beside a name in the sidebar.
+A story’s title is its section and name (`Primitives/Price`); its ID follows (`primitives-price--discounted`). Tags `new`, `beta` and `deprecated` put a pill beside a name in the sidebar; `new` marks only the latest batch of parts, never more than a quarter of the kit (`bun run audit:kit` checks). Templates come in the order of Guidelines / Composing pages: the guide archetypes, then the supplement pages.
 
-**The shell** (`.storybook/manager.tsx`, `theme.ts`, `manager-head.html`): the kit’s name and version, Inter for the interface and Newsreader for the brand (served from `node_modules` by `staticDirs`), no type icons in the sidebar, and the selected page in the Atelier oxblood. The toolbar shows only what changes the page in view: the theme on kit pages (locked, with the reason, on a story set in one theme) and the viewport; the legacy library’s four switches only on its own stories (`.storybook/addons/toolbar.tsx`). Zoom, measure, outline, backgrounds and remount are hidden. The add-on panel starts closed (the toolbar’s panel button opens it) except on the Playground. Storybook’s release notes, onboarding checklist and “create story” button are hidden.
+**The shell** (`.storybook/manager.tsx`, `theme.ts`, `manager-head.html`): the kit’s name and version, Inter for the interface and the name, JetBrains Mono for code (both served from `node_modules` by `staticDirs`), no type icons in the sidebar, white backgrounds throughout (sidebar, toolbar, pages, the guides’ tables), and one blue (`#116dff`) for the selected page, links and focus. The toolbar shows only what changes the page in view: the theme on kit pages (locked, with the reason, on a story set in one theme) and the viewport; the legacy library’s four switches only on its own stories (`.storybook/addons/toolbar.tsx`). Zoom, measure, outline, backgrounds and remount are hidden. The add-on panel starts closed (the toolbar’s panel button opens it) except on the Playground. Storybook’s release notes, onboarding checklist and “create story” button are hidden.
 
 **Component pages** (`src/storybook/docs/docs-page.tsx`): the layer, the name, its `@summary`, the import line to copy, **Copy for AI** (the component as `docs-show` would give it, as Markdown, from `/manifests/components.json`) and a link to its source; then **Use it for** and **Not for** as a pair of cards, split from the component’s JSDoc; then one example per story, with why you would use it; then the props. Every page has an “On this page” list. Templates have no docs page: they are whole pages, read as stories.
 
@@ -56,8 +56,8 @@ The docs tools read two manifests that Storybook builds by static analysis of th
 
 - **`docs-list`** prints one line per component: its name, id and `@summary` (or the first 90 characters of its description), then one line per guide with its `<Meta summary>`.
 - **`docs-show`** prints the component’s description, then the **code of its first three stories** (with each story’s description), one-line summaries of the rest, then its props with their JSDoc and defaults. For a guide, it prints the raw MDX source.
-- **Story code is generated statically.** `args` become JSX props; a `render` function is printed as written. Every component that appears in a stories file’s JSX, decorators included, goes into the import line printed above every snippet.
-- **The import line** comes from the component’s `@import` JSDoc tag. Without it, Storybook prints the package name (`import { Price } from 'affiliate-ui-kit'`), which does not resolve. Parts used inside args are imported from their layer’s entry point (`@/kit/components`) so their import line resolves too.
+- **Story code is generated statically.** `args` become JSX props; a `render` function is printed as written, and so is an element in `args`, parentheses included (so write it on one line, without them). Every component that appears in a stories file’s JSX, decorators included, goes into the import line printed above every snippet.
+- **The import line** comes from the component’s `@import` JSDoc tag. Every other part in the stories file’s JSX is printed the way the file imports it, so stories import other parts from their layer’s entry point (`import { Button } from "@/kit/ui"`). That holds only because the kit has no package name (`src/kit/package.json`, below): with one, Storybook prints that name for every part other than the component and its declared `subcomponents` (`import { Button } from 'affiliate-ui-kit'`), a package that does not exist.
 - **JSDoc on a stories file’s `meta` replaces the component’s own JSDoc.** Document the component, not the meta.
 - **Guides arrive as raw MDX.** Nothing computed at runtime or imported reaches the agent, so every value in a guide is written out. The contract in the Data model guide is generated from `src/kit/types.ts` by `bun run docs:sync`, and `bun run check` fails when it drifts.
 
@@ -68,6 +68,8 @@ In `.storybook/main.ts`:
 - `features.componentsManifest: true` builds the manifests.
 - `features.experimentalReactComponentMeta: true` extracts the manifest’s props with the TypeScript language service. With `react-docgen-typescript`, Storybook 10.6 drops a component’s JSDoc tags from the manifest, so `@summary` and `@import` never reach the agent. The autodocs props tables still use `react-docgen-typescript`.
 - MDX guides (`src/**/*.mdx`) load before stories, with `remark-gfm` so their tables render.
+
+`src/kit/package.json` has no `name`, on purpose. Storybook takes the package name for its import lines from the nearest `package.json` above a component, and with React component meta it reads the `@import` tag only for a stories file’s own component and its declared `subcomponents`. Every other part would be printed as an import from the root package’s name, which nothing installs. Without a name, Storybook prints the import the stories file wrote.
 
 In `vitest.config.ts`, story files run in one page (`isolate: false`): with a fresh iframe per file, a long run can lose its browser connection. Run them with `bun run test:stories`. They render at 1280px: `preview.tsx` sets the viewport global only in Vitest’s `test` mode, so people get the whole canvas.
 
@@ -97,10 +99,12 @@ Specimen sheets and legacy stories still render in the sidebar and still run in 
 | --- | --- |
 | `bun run check` | Types, lint, the token, kit and spelling (American English) audits, the Data model guide in sync |
 | `bun run test:stories` | Every story renders and passes its play function in Chromium |
-| `node scripts/verify-stories.mjs --build --widths 375,1440 --concurrency 4 --no-screens` | Every story at phone and desktop widths: console errors, layout shift, overflow, the kit checks |
-| `bun run build-storybook && bun run audit:manifest` | Every component in the manifest is a kit component with a summary, a “Use it for” and a “Not for”, a resolving import line, documented props and summarized stories; every guide comes from `src/kit/docs` and has a summary |
+| `node scripts/verify-stories.mjs --build --widths 375,1440 --concurrency 4 --no-screens --filter src/kit/` | Every kit story at phone and desktop widths: console errors, layout shift, overflow, the kit checks |
+| `bun run build-storybook && bun run audit:manifest` | Every component in the manifest is a kit component with a summary, a “Use it for” and a “Not for”, an import block where every source resolves and no name comes in twice, documented props, and summarized stories whose code pastes as it reads; every guide comes from `src/kit/docs` and has a summary |
 
 `bun run audit:manifest --url http://127.0.0.1:6006` audits a running Storybook instead of the build.
+
+**On every push.** `.github/workflows/checks.yml` runs all four on GitHub for every push and pull request, as three jobs: `bun run check`; the Storybook build, the manifest audit and the page checks; and the story tests. A failing job blocks nothing by itself; make the checks required in the repository’s branch rules to stop a merge on red.
 
 **Troubleshooting.** Open `/mcp` in a browser, not with a bare `curl`: without `Accept: text/html` the request opens an event stream and never ends. A component with a docgen error in `/manifests/components.html` usually has a stories file whose `meta.component` is missing or points at a re-export.
 

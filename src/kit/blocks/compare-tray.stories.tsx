@@ -10,7 +10,7 @@ import { CompareTray } from "./compare-tray";
 const meta = {
   title: "Blocks/Compare tray",
   component: CompareTray,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
     kit: true,

@@ -9,7 +9,7 @@ import { EmptyState } from "./skeleton";
 const meta = {
   title: "Primitives/Empty state",
   component: EmptyState,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: {

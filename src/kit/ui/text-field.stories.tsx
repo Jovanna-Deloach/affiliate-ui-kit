@@ -7,7 +7,7 @@ import { TextField } from "./field";
 const meta = {
   title: "Primitives/Text field",
   component: TextField,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { label: "Title", name: "title", placeholder: "Mixes clear in cold water" },

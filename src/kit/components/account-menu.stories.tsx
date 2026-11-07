@@ -16,7 +16,7 @@ const openThenCheck: Meta["play"] = async (context) => {
 const meta = {
   title: "Components/Account menu",
   component: AccountMenu,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: openThenCheck,
   args: { links: { saved: "#saved", history: "#history", alerts: "#alerts", settings: "#settings" } },

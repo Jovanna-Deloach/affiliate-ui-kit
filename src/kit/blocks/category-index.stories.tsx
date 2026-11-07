@@ -8,7 +8,7 @@ import { CategoryIndex } from "./category-index";
 const meta = {
   title: "Blocks/Category index",
   component: CategoryIndex,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "well" },
   play: assertKitPage,
   args: {

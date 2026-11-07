@@ -8,7 +8,7 @@ import { SearchResult } from "./search-result";
 const meta = {
   title: "Components/Search result",
   component: SearchResult,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { hit: searchIndex[0]!, query: "creatine" },

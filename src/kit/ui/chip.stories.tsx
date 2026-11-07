@@ -8,7 +8,7 @@ import { Chip } from "./chip";
 const meta = {
   title: "Primitives/Chip",
   component: Chip,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { label: "Mixes well" },

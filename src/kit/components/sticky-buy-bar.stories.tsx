@@ -8,7 +8,7 @@ import { StickyBuyBar } from "./sticky-buy-bar";
 const meta = {
   title: "Components/Sticky buy bar",
   component: StickyBuyBar,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   // The bar is fixed to the screen’s bottom edge: each story gets a frame of its own in the docs.
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "none", docs: { story: { inline: false, iframeHeight: 120 } } },
   play: assertKitPage,

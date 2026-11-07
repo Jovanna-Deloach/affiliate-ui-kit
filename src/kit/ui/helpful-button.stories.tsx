@@ -8,7 +8,7 @@ import { HelpfulButton } from "./helpful-button";
 const meta = {
   title: "Primitives/Helpful button",
   component: HelpfulButton,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { count: 48, onMark: fn() },

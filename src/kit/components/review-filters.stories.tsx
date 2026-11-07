@@ -10,7 +10,7 @@ import { ReviewFilters } from "./review-filters";
 const meta = {
   title: "Components/Review filters",
   component: ReviewFilters,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { query: ALL_REVIEWS, onChange: fn(), summary: peakSummary, counts: { verified: 912, withReplies: 64 }, resultCount: 1284 },

@@ -7,7 +7,7 @@ import { CertificationStatus } from "./certification-status";
 const meta = {
   title: "Primitives/Certification status",
   component: CertificationStatus,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { certification: { status: "certified", date: "2027-10-14" } },

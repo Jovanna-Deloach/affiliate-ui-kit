@@ -1,0 +1,82 @@
+# Every check in AGENTS.md ("Check your work") and docs/STORYBOOK.md
+# ("Verifying"), on every push and pull request. Three jobs run side by side:
+# the source checks, the Storybook as agents read it, and the story tests.
+name: Checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# A newer push to the same branch replaces a run still in progress.
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Types, lint and audits
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: bun install --frozen-lockfile
+      # Types, lint, the token, kit and spelling audits, the Data model guide in sync.
+      - run: bun run check
+
+  storybook:
+    name: Storybook, agent manifest and page checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install --with-deps chromium
+      - run: bun run build-storybook
+      # What agents read through the MCP server: every component, story and guide.
+      - run: bun run audit:manifest
+      # Every kit story at phone and desktop widths: console errors, layout shift, overflow, the kit checks.
+      - run: node scripts/verify-stories.mjs --widths 375,1440 --concurrency 4 --no-screens --filter src/kit/
+      - name: Keep the page-check report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: page-checks
+          path: .verify/report.json
+          if-no-files-found: ignore
+          retention-days: 14
+
+  story-tests:
+    name: Story tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install --with-deps chromium
+      # Every story renders in Chromium and passes its play function (the kit checks, axe).
+      - run: bun run test:stories

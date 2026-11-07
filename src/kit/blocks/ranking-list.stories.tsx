@@ -10,7 +10,7 @@ import { RankingList } from "./ranking-list";
 const meta = {
   title: "Blocks/Ranking list",
   component: RankingList,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "well" },
   play: assertKitPage,
   args: { heading: "Creatine, ranked by lab results", products: creatineRanking, disclosureHref: "#disclosure" },

@@ -7,7 +7,7 @@ import { StarRating } from "./star-rating";
 const meta = {
   title: "Primitives/Star rating",
   component: StarRating,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { value: 4.4, showValue: true },

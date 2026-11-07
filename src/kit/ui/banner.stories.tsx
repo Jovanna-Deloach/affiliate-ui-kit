@@ -7,7 +7,7 @@ import { Banner } from "./banner";
 const meta = {
   title: "Primitives/Banner",
   component: Banner,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "none" },
   play: assertKitPage,
   args: {

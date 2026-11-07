@@ -7,7 +7,7 @@ import { LivePlayground } from "./live-playground";
 // stories and guides instead (`!manifest`), and the story is not a test.
 const meta = {
   title: "Getting started/Playground",
-  tags: ["!manifest", "!test", "new"],
+  tags: ["!manifest", "!test"],
   parameters: {
     layout: "fullscreen",
     kit: true,

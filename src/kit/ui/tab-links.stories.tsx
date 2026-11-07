@@ -7,7 +7,7 @@ import { TabLinks } from "./tab-links";
 const meta = {
   title: "Primitives/Tab links",
   component: TabLinks,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: {

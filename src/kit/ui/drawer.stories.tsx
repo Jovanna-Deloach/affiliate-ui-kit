@@ -17,7 +17,7 @@ const meta = {
   title: "Primitives/Drawer",
   component: Drawer,
   subcomponents: { DrawerClose },
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   args: { title: "Filter reviews", children: null },
 } satisfies Meta<typeof Drawer>;

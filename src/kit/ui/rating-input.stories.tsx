@@ -7,7 +7,7 @@ import { RatingInput } from "./rating-input";
 const meta = {
   title: "Primitives/Rating input",
   component: RatingInput,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
 } satisfies Meta<typeof RatingInput>;

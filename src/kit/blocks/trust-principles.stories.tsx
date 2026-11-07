@@ -7,7 +7,7 @@ import { TrustPrinciples } from "./trust-principles";
 const meta = {
   title: "Blocks/Trust principles",
   component: TrustPrinciples,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "well" },
   play: assertKitPage,
   args: {

@@ -10,7 +10,7 @@ import { SaveButton } from "./save-button";
 const meta = {
   title: "Primitives/Save button",
   component: SaveButton,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { item: savedItems[2]! },

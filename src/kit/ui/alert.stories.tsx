@@ -8,16 +8,13 @@ import { Alert } from "./alert";
 const meta = {
   title: "Primitives/Alert",
   component: Alert,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: {
     title: "We don’t fact-check reviews",
-    children: (
-      <p>
-        We check that a reviewer exists and label how the review reached us. <a href="#labels">How we label reviews</a>
-      </p>
-    ),
+    // On one line, without wrapping parentheses: the manifest prints args as written, and `(<p>…</p>)` would reach agents as a literal “(” and “)”.
+    children: <p>We check that a reviewer exists and label how the review reached us. <a href="#labels">How we label reviews</a></p>,
   },
 } satisfies Meta<typeof Alert>;
 

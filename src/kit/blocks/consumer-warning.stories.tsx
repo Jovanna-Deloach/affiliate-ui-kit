@@ -8,7 +8,7 @@ import { ConsumerWarning } from "./consumer-warning";
 const meta = {
   title: "Blocks/Consumer warning",
   component: ConsumerWarning,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { warning: capsuleRecall, subject: "Fieldwork Creatine Capsules", id: "warning-fieldwork-creatine-capsules" },

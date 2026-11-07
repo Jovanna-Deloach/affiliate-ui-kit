@@ -8,7 +8,7 @@ import { PriceHistory } from "./price-history";
 const meta = {
   title: "Components/Price history",
   component: PriceHistory,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { points: peakPriceHistory },

@@ -8,7 +8,7 @@ import { describedBy, Field, inputStyles } from "./field";
 const meta = {
   title: "Primitives/Field",
   component: Field,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { id: "experienced", label: "Date of experience", children: null },

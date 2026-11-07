@@ -8,7 +8,7 @@ import { CategoryCard } from "./category-card";
 const meta = {
   title: "Components/Category card",
   component: CategoryCard,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { category: supplementCategories[2]! },

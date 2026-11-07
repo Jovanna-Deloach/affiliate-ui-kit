@@ -8,7 +8,7 @@ import { RelativeTime } from "./relative-time";
 const meta = {
   title: "Primitives/Relative time",
   component: RelativeTime,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { date: "2026-11-06T12:10:00Z", now: REVIEWS_NOW },

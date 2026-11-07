@@ -8,7 +8,7 @@ import { SafetyPanel } from "./safety-panel";
 const meta = {
   title: "Components/Safety panel",
   component: SafetyPanel,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "well" },
   play: assertKitPage,
   args: { notes: creatineSafety, summary: creatineSafetySummary, heading: "Is creatine safe?" },

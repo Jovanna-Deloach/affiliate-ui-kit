@@ -7,7 +7,7 @@ import { ReadMore } from "./read-more";
 const meta = {
   title: "Primitives/Read more",
   component: ReadMore,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: {

@@ -8,7 +8,7 @@ import { TrustSignals } from "./trust-signals";
 const meta = {
   title: "Components/Trust signals",
   component: TrustSignals,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { brand: "Peak Supply", signals: peakTrust, href: "#brands" },

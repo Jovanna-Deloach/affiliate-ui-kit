@@ -18,7 +18,7 @@ const typeThenCheck = (words: string): Meta["play"] =>
 const meta = {
   title: "Blocks/Site search",
   component: SiteSearch,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
     kit: true,

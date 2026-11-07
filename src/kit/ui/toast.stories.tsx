@@ -9,7 +9,7 @@ const meta = {
   title: "Primitives/Toast",
   component: Toast,
   subcomponents: { ToastProvider },
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   // A toast is fixed to the screen’s bottom edge: each story gets a frame of its own in the docs.
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "none", docs: { story: { inline: false, iframeHeight: 160 } } },
   play: assertKitPage,

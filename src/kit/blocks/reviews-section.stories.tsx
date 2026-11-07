@@ -12,7 +12,7 @@ import { ReviewsSection } from "./reviews-section";
 const meta = {
   title: "Blocks/Reviews section",
   component: ReviewsSection,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "well" },
   play: assertKitPage,
   args: {

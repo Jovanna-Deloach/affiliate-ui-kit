@@ -8,7 +8,7 @@ import { ReviewCard } from "./review-card";
 const meta = {
   title: "Components/Review card",
   component: ReviewCard,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { review: peakReviews[1]!, now: REVIEWS_NOW, labelsHref: "#labels", reportHref: "/report" },

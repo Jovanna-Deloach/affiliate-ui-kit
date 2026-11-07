@@ -8,7 +8,7 @@ import { Tooltip } from "./tooltip";
 const meta = {
   title: "Primitives/Tooltip",
   component: Tooltip,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { content: "Save this product", children: <span /> },

@@ -8,7 +8,7 @@ import { WarningNote } from "./warning-note";
 const meta = {
   title: "Components/Warning note",
   component: WarningNote,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { warning: capsuleRecall, href: "#warning-fieldwork-creatine-capsules" },

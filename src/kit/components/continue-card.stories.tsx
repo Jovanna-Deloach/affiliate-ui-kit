@@ -8,7 +8,7 @@ import { ContinueCard } from "./continue-card";
 const meta = {
   title: "Components/Continue card",
   component: ContinueCard,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { item: viewedItems[1]!, now: DISCOVERY_NOW },

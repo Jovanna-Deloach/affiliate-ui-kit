@@ -7,7 +7,7 @@ import { Skeleton } from "./skeleton";
 const meta = {
   title: "Primitives/Skeleton",
   component: Skeleton,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
 } satisfies Meta<typeof Skeleton>;

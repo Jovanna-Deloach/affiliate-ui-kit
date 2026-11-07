@@ -7,7 +7,7 @@ import { Pagination } from "./pagination";
 const meta = {
   title: "Primitives/Pagination",
   component: Pagination,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { page: 3, pageCount: 20, href: (page: number) => `?page=${page}`, label: "Review pages" },

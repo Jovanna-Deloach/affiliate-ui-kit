@@ -17,7 +17,7 @@ const meta = {
   title: "Primitives/Dialog",
   component: Dialog,
   subcomponents: { DialogClose },
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   args: { title: "Write a review", children: null },
 } satisfies Meta<typeof Dialog>;

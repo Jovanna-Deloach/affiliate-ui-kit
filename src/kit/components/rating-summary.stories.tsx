@@ -10,7 +10,7 @@ import { RatingSummary } from "./rating-summary";
 const meta = {
   title: "Components/Rating summary",
   component: RatingSummary,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { summary: peakSummary, scoreHref: "#how-scores-work", onSelectStars: fn() },

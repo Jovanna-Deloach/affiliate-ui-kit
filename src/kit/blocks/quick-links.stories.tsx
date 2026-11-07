@@ -7,7 +7,7 @@ import { QuickLinks } from "./quick-links";
 const meta = {
   title: "Blocks/Quick links",
   component: QuickLinks,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "none" },
   play: assertKitPage,
   args: {

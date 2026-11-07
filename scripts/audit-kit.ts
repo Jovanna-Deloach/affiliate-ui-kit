@@ -19,6 +19,8 @@
  *    • a white page: every theme’s ground, the legacy canvas under the app
  *      and the Storybook shell’s backgrounds are #ffffff, never tinted (cool
  *      gray is for recesses)
+ *    • the sidebar’s New pill (the `new` tag) on the latest batch of parts
+ *      only: at most a quarter of the kit, so it still means something
  *
  * 2. CONTRACTS (the fixture guides an agent copies)
  *    • author and every quoted tester carry the page’s category in `beats`
@@ -168,6 +170,26 @@ for (const [file, re] of PAGE_BACKGROUNDS) {
     const hex = re.exec(line)?.[1];
     if (hex && !WHITE.test(hex)) fail(`${file}:${i + 1}`, `${hex} tints the page: the page background is white (#ffffff); a cool gray is for a recess`);
   });
+}
+
+/* ======================================================================== */
+/* 1c. The New pill: the latest batch of parts, never most of the kit       */
+/* ======================================================================== */
+
+async function partStories(dir: string): Promise<string[]> {
+  const out: string[] = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...(await partStories(p)));
+    else if (entry.name.endsWith(".stories.tsx") && !entry.name.endsWith(".specimen.stories.tsx")) out.push(p);
+  }
+  return out;
+}
+const parts = await partStories(KIT);
+const tagged = (await Promise.all(parts.map(async (file) => /\btags:\s*\[[^\]]*"new"/.test(await readFile(file, "utf8"))))).filter(Boolean).length;
+console.log(`▶ the New pill: ${tagged} of ${parts.length} parts`);
+if (tagged > parts.length / 4) {
+  fail("src/kit/**/*.stories.tsx", `${tagged} of ${parts.length} parts are tagged \`new\`: keep it on the latest batch, at most a quarter of the kit, and take it off the batch before (Contributing / Writing stories)`);
 }
 
 /* ======================================================================== */

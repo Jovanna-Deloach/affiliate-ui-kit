@@ -8,7 +8,7 @@ const meta = {
   title: "Primitives/Radio",
   component: Radio,
   subcomponents: { ChoiceGroup },
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { label: "All reviews", name: "date" },

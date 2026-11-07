@@ -7,7 +7,7 @@ import { ReadingProgress } from "./reading-progress";
 const meta = {
   title: "Primitives/Reading progress",
   component: ReadingProgress,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
 } satisfies Meta<typeof ReadingProgress>;

@@ -7,7 +7,7 @@ import { TableOfContents } from "./table-of-contents";
 const meta = {
   title: "Components/Table of contents",
   component: TableOfContents,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: {

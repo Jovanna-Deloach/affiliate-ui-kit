@@ -10,7 +10,7 @@ import { PriceAlert } from "./price-alert";
 const meta = {
   title: "Components/Price alert",
   component: PriceAlert,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { product: creatineGuide.picks[0]!.product, privacyHref: "#privacy", onSubmit: fn() },

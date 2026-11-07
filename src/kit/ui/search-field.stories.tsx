@@ -7,7 +7,7 @@ import { SearchField } from "./search-field";
 const meta = {
   title: "Primitives/Search field",
   component: SearchField,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { label: "Search reviews", name: "q" },

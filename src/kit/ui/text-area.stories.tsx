@@ -7,7 +7,7 @@ import { TextArea } from "./text-area";
 const meta = {
   title: "Primitives/Text area",
   component: TextArea,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { label: "Your review", name: "body" },

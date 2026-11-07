@@ -7,7 +7,7 @@ import { ReviewLabel } from "./review-label";
 const meta = {
   title: "Primitives/Review label",
   component: ReviewLabel,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { label: "verified", href: "#labels" },

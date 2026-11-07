@@ -8,7 +8,7 @@ import { WriteReview } from "./write-review";
 const meta = {
   title: "Blocks/Write review",
   component: WriteReview,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "card" },
   play: assertKitPage,
   args: { product: "Peak Supply Creatine Monohydrate", guidelinesHref: "#guidelines", onSubmit: fn() },

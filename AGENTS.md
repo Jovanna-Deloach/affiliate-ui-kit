@@ -28,5 +28,6 @@ This repository is a component library for affiliate review pages (the **kit**, 
 - `node scripts/verify-stories.mjs --build --widths 375,1440 --concurrency 4 --no-screens --filter src/kit/`: every kit story’s page checks (column alignment, voids, 44px targets, tabular numerals, merchant order, one photograph per product, repeated text, axe-core WCAG 2.2 AA) at phone and desktop widths.
 - `bun run build-storybook && bun run audit:manifest`: what agents read through the MCP server is complete.
 - After a visual change, call `stories-preview` for the stories you touched and include the links in your reply.
+- GitHub runs all of these on every push and pull request (`.github/workflows/checks.yml`). Run them yourself first: a red run there means something here was skipped.
 
 More: `docs/STORYBOOK.md` (how the Storybook is wired for agents and how to keep it accurate) and `docs/DESIGN.md` (the design system and the reasons behind its rules).

@@ -8,7 +8,7 @@ const meta = {
   title: "Primitives/Tabs",
   component: Tabs,
   subcomponents: { TabList, Tab, TabPanel },
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "column" },
   play: assertKitPage,
   args: { children: null },

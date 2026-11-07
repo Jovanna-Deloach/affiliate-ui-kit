@@ -12,7 +12,7 @@ import { ProductCard } from "./product-card";
 const meta = {
   title: "Components/Product card",
   component: ProductCard,
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow" },
   play: assertKitPage,
   args: { summary: creatineSummaries[0]! },

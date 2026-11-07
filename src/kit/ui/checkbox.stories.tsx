@@ -8,7 +8,7 @@ const meta = {
   title: "Primitives/Checkbox",
   component: Checkbox,
   subcomponents: { ChoiceGroup },
-  tags: ["autodocs", "new"],
+  tags: ["autodocs"],
   parameters: { layout: "fullscreen", kit: true, theme: "assay", category: "supplements", frame: "narrow-card" },
   play: assertKitPage,
   args: { label: "Verified purchases only", name: "verified" },
