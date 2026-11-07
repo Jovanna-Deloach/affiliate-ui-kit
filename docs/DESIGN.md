@@ -21,9 +21,9 @@ The kit must produce **unique** sites — a watch magazine and a supplement
 lab must not look like the same template recolored — while every page
 built from it meets the same quality floor. The bar is an editorial
 publication with a design desk, not a dashboard: real photography of every
-product, a typographic system with three distinct voices, cool white
-surfaces, and boxes only where a box does a job. No beige, cream or
-parchment: warm off-whites read as dated.
+product, a typographic system with three distinct voices, white pages and
+cards, and boxes only where a box does a job. No beige, cream or
+parchment: warm off-whites read as dated; no tinted page either.
 
 **Uniqueness comes from themes and composition. Quality comes from
 constraints.** Components do not offer a menu of looks; a theme decides the
@@ -60,7 +60,7 @@ result, long names, missing data — in both themes and in a narrow column.
 | Measure | Reading text at most `65ch` (`max-w-measure`), set with `text-wrap: pretty`. Headlines are balanced (`text-wrap: balance`); the H1 is capped at the theme’s title measure (`max-w-measure-title`, 22ch) |
 | Spacing | Tailwind’s 4px scale, restricted to 0.5 1 1.5 2 2.5 3 3.5 4 5 6 8 10 12 16 20 24 32. Page sections use `mt-chapter`, the theme’s section gap |
 | Alignment | Columns that sit side by side start on one line (`items-start`). Bottom alignment (`items-end`, `self-end`, `place-*-end`) is banned in the kit; right-align with `text-right` or an auto margin |
-| Surfaces | Three layers, never more. **Ground**: the page canvas, a cool step below white so cards read on it (`bg-ground`). **Paper**: cards with a 1px `line` border and the theme’s ambient elevation (`kit-card`, `--shadow-card`); the page’s lead pick sits on the same white, lifted a step further (`kit-card-feature`, `--shadow-feature`). **Well**: a recess inside a card (`kit-recess`, the buy box’s offer card). Photographs sit on the **studio well** (`kit-studio`), a radial sweep. Elevation comes only from the two theme shadows: the audit fails any other `shadow-*` |
+| Surfaces | Three layers, never more. **Ground**: the page canvas, white like the cards (`bg-ground`); a card stands on it by its hairline and shadow, never by a tinted page. **Paper**: cards with a 1px `line` border and the theme’s ambient elevation (`kit-card`, `--shadow-card`); the page’s lead pick sits on the same white, lifted a step further (`kit-card-feature`, `--shadow-feature`). **Well**: a recess inside a card (`kit-recess`, the buy box’s offer card). Photographs sit on the **studio well** (`kit-studio`), a radial sweep. Elevation comes only from the two theme shadows: the audit fails any other `shadow-*` |
 
 ## Typography: three voices
 
@@ -324,7 +324,7 @@ book; the interface stays out of the way.
 
 | Role | Value |
 | --- | --- |
-| Canvas | gallery white `#F5F7FA` |
+| Canvas | white `#FFFFFF` |
 | Card | `#FFFFFF`, 1px `#E0E6ED`, `0 1px 2px rgb(16 24 40 / 4%), 0 10px 28px −10px rgb(16 24 40 / 8%)` |
 | Card, our pick | `#FFFFFF`, a deeper shadow |
 | Well | `#EDF1F6` (strong line `#C8D1DC`) |
@@ -342,7 +342,7 @@ book; the interface stays out of the way.
 
 | Role | Value |
 | --- | --- |
-| Canvas | cool lab white `#F3F5F8` |
+| Canvas | white `#FFFFFF` |
 | Card | `#FFFFFF`, 1px `#E1E5EA`, `0 1px 3px rgb(16 24 40 / 3%), 0 8px 24px -4px rgb(16 24 40 / 5%)` |
 | Card, our pick | `#FFFFFF`, a deeper shadow |
 | Well | `#ECEFF3` (strong line `#CCD3DB`) |

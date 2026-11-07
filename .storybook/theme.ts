@@ -4,11 +4,12 @@ import pkg from "../package.json";
 
 /**
  * The workshop's own look: the manager (sidebar, toolbar, panel) and the docs
- * pages share it. Light blue and white, after the Wix Design System's
- * Storybook: white content, a pale blue-gray sidebar, one blue for the
- * selected page, links and focus, and blue-gray ink. No warm tones. The
- * brand is HTML so the version can sit beside the name; manager-head.html
- * styles it.
+ * pages share it. White and blue, after the Wix Design System's Storybook:
+ * every background white (sidebar, toolbar, content), hairlines between
+ * them, one blue for the selected page, links and focus, and blue-gray ink.
+ * Blue tints only on small marks (badges), never a background. No warm
+ * tones. The brand is HTML so the version can sit beside the name;
+ * manager-head.html styles it.
  */
 const ink = "#162d3d";
 const muted = "#577083";
@@ -26,7 +27,7 @@ export const kitTheme = create({
   colorPrimary: blue,
   colorSecondary: blue,
 
-  appBg: "#f5f8fb",
+  appBg: "#ffffff",
   appContentBg: "#ffffff",
   appPreviewBg: "#ffffff",
   appBorderColor: line,

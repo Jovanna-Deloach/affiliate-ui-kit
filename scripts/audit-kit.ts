@@ -16,6 +16,9 @@
  *    • no beige: every color in the themes and the Storybook shell is white,
  *      a cool gray or a real hue; never a warm off-white (beige, cream,
  *      sand, peach, parchment)
+ *    • a white page: every theme’s ground, the legacy canvas under the app
+ *      and the Storybook shell’s backgrounds are #ffffff, never tinted (cool
+ *      gray is for recesses)
  *
  * 2. CONTRACTS (the fixture guides an agent copies)
  *    • author and every quoted tester carry the page’s category in `beats`
@@ -149,6 +152,21 @@ for (const file of NO_BEIGE) {
     for (const [hex] of line.matchAll(/#[0-9a-fA-F]{3,8}\b/g)) {
       if (isWarmLight(hex)) fail(`${file}:${i + 1}`, `${hex} is a warm off-white (beige, cream, peach): use white or a cool gray`);
     }
+  });
+}
+
+/** The page is white: each theme's ground, the legacy canvas under the app, and the shell's sidebar, content and canvas. */
+const WHITE = /^#(?:fff|ffffff)$/i;
+const PAGE_BACKGROUNDS: [string, RegExp][] = [
+  ["src/kit/theme/kit.css", /--ground:\s*(#[0-9a-fA-F]{3,8})\b/],
+  ["src/styles/tokens.css", /--surface-canvas:\s*(#[0-9a-fA-F]{3,8})\b/],
+  [".storybook/theme.ts", /\b(?:appBg|appContentBg|appPreviewBg):\s*"(#[0-9a-fA-F]{3,8})"/],
+];
+console.log(`▶ white page: the themes' ground, the app's canvas and the Storybook's backgrounds`);
+for (const [file, re] of PAGE_BACKGROUNDS) {
+  (await readFile(path.join(ROOT, file), "utf8")).split("\n").forEach((line, i) => {
+    const hex = re.exec(line)?.[1];
+    if (hex && !WHITE.test(hex)) fail(`${file}:${i + 1}`, `${hex} tints the page: the page background is white (#ffffff); a cool gray is for a recess`);
   });
 }
 

@@ -17,7 +17,7 @@ This repository is a component library for affiliate review pages (the **kit**, 
 - **The kit only.** The older library in `src/primitives` (the Storybook’s Legacy section, the “Tier 0–15” stories) is kept for reference and hidden from agents; do not build kit pages from it.
 - **React 19 and the Next.js App Router**: Server Components by default; `"use client"` only on interactive leaves.
 - **Styling**: Tailwind v4 with the kit’s roles and `t-*` type styles; CVA, `clsx` and `tailwind-merge` (`cn` from `@/lib/cn`); Radix and vaul for behavior. No raw colors, no Tailwind font sizes, no ad-hoc shadows, no bottom alignment, no runtime JavaScript animation.
-- **No beige**: every surface, tint and photo backdrop is white or a cool gray, in every theme and in the Storybook itself; never beige, cream, sand, peach or parchment. `bun run audit:kit` fails on a warm off-white.
+- **A white page, no beige**: the page background is white, in every theme (`ground`) and in the Storybook itself; every other surface, tint and photo backdrop is white or a cool gray; never beige, cream, sand, peach or parchment. `bun run audit:kit` fails on a warm off-white or a tinted page.
 - **Every monetized link** is a `BuyButton`, `BuyRow`, `BuyPill` or `BuyLink` (built on `AffiliateAction`: `rel="sponsored nofollow noopener"`, attribution, click tracking). Never a plain `<a>` to a retailer.
 - **Disclosure** must stay search-safe and come first: the notice in the article header’s byline before the first buy link, “We may earn a commission.” under every buy box, the full statement in the footer.
 - **Lowest price first**, sold out last; one filled action per viewport; one button per product; every product photographed; no sentence over 40 characters said twice.

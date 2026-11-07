@@ -180,8 +180,8 @@
 
 :root,
 [data-vertical="editorial"] {
-  /* Neutral architectural palette · 3-plane luminance hierarchy */
-  --surface-canvas: #f6f6f7;               /* Plane 0: page */
+  /* Neutral architectural palette · a white page, cards by their hairline */
+  --surface-canvas: #ffffff;               /* Plane 0: page — white, never tinted */
   --surface-primary: #ffffff;              /* Plane 1: elevated card */
   --surface-recessed: #efeff1;             /* Plane 2: data well / header band */
   --surface-inverse: #141416;              /* Plane 3: primary CTA / hero badge */
@@ -208,8 +208,8 @@
 }
 
 [data-vertical="clinical-performance"] {
-  /* Cool precision palette · same luminance ratios, shifted temperature */
-  --surface-canvas: #f4f6f8;
+  /* Cool precision palette · same planes, shifted temperature; the page stays white */
+  --surface-canvas: #ffffff;
   --surface-primary: #ffffff;
   --surface-recessed: #eef1f5;
   --surface-inverse: #0f172a;

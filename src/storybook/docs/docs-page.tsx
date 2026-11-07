@@ -116,13 +116,13 @@ export function toMarkdown(component: ManifestComponent): string {
 
 /* ---- layout --------------------------------------------------------------- */
 
-/** The page's header band: pale blue-gray, as on the Wix Design System's pages. */
+/** The page's header: white, inside a hairline, like the rest of the page. */
 const Header = styled.header(({ theme }) => ({
   padding: "32px 36px 28px",
   marginBottom: 36,
   border: `1px solid ${theme.appBorderColor}`,
   borderRadius: 12,
-  background: theme.background.app,
+  background: theme.background.content,
 }));
 
 const Eyebrow = styled.p(({ theme }) => ({

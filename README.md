@@ -57,8 +57,8 @@ composed from **templates** (`src/kit/templates`), not assembled from parts.
 - Three type voices in every theme: a display serif for titles, hero
   figures and pull-quotes; a text sans for reading copy (17px / 1.68),
   buttons and prices; mono micro-caps for eyebrows, awards, stamps, table
-  heads and proof pills. Cool white grounds, paper cards with the theme’s ambient
-  elevation, and an asymmetric verdict bento of at most three cards.
+  heads and proof pills. White pages, paper cards with a hairline and the theme’s
+  ambient elevation, and an asymmetric verdict bento of at most three cards.
 - Deep dives keep two things in the left rail — the studio frame (award
   pinned on the photograph, a lab badge for supplements) and the scorecard
   with its category telemetry — beside the story and a merchant buy box;
@@ -109,7 +109,7 @@ A `[data-vertical]` block may only change **tone**:
 
 | | editorial | clinical-performance |
 | --- | --- | --- |
-| Canvas → surface → recessed → inverse | `#F6F6F7` → `#FFFFFF` → `#EFEFF1` → `#141416` | `#F4F6F8` → `#FFFFFF` → `#EEF1F5` → `#0F172A` |
+| Canvas → surface → recessed → inverse | `#FFFFFF` → `#FFFFFF` → `#EFEFF1` → `#141416` | `#FFFFFF` → `#FFFFFF` → `#EEF1F5` → `#0F172A` |
 | Ink primary / secondary / tertiary | `#141416` / `#55575C` / `#8B8E94` | `#0F172A` / `#475569` / `#94A3B8` |
 | Hairline / strong rule | `rgba(20,20,22,.09)` / `.18` | `rgba(15,23,42,.09)` / `.18` |
 | Display voice | Playfair Display 400 · −0.02em · 1.12 | Plus Jakarta Sans 600 · −0.025em · 1.15 |

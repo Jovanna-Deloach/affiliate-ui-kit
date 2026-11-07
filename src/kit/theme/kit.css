@@ -7,7 +7,7 @@
    new component variant.
 
    SURFACES: three layers, never more.
-     ground — the page canvas: a cool step below white, so cards read on it
+     ground — the page canvas: white; cards stand on it by their hairline
      paper  — cards: 1px hairline, ambient elevation (--shadow-card)
      well   — recesses inside a card; media sits on a radial studio well
 
@@ -63,7 +63,7 @@
 
 /* ---- Atelier: gallery white, ink, oxblood, blued steel ------------------- */
 [data-theme="atelier"] {
-  --ground: #f5f7fa; /* gallery white: a cool step below the cards */
+  --ground: #ffffff; /* gallery white: the page is white, never tinted */
   --paper: #ffffff;
   --paper-feature: #ffffff;
   --well: #edf1f6;
@@ -131,9 +131,9 @@
   --section-gap: clamp(5rem, 3rem + 6vw, 8rem);
 }
 
-/* ---- Assay: cool lab white and obsidian ----------------------------------- */
+/* ---- Assay: lab white and obsidian ---------------------------------------- */
 [data-theme="assay"] {
-  --ground: #f3f5f8; /* cool lab white */
+  --ground: #ffffff; /* lab white: the page is white, never tinted */
   --paper: #ffffff;
   --paper-feature: #ffffff;
   --well: #eceff3;

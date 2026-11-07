@@ -17,4 +17,11 @@
   .sbdocs-toc--custom:not(:has(.toc-list-item)) {
     visibility: hidden;
   }
+  /* The guides sit on white: Storybook tints every other table row and each
+     inline code chip a pale blue. Rows keep their hairlines, chips their
+     outline. */
+  .sbdocs.sbdocs-content tr:nth-of-type(2n),
+  .sbdocs.sbdocs-content :not(pre) > code {
+    background-color: #ffffff;
+  }
 </style>
