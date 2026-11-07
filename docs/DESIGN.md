@@ -60,7 +60,7 @@ result, long names, missing data — in both themes and in a narrow column.
 | Measure | Reading text at most `65ch` (`max-w-measure`), set with `text-wrap: pretty`. Headlines are balanced (`text-wrap: balance`); the H1 is capped at the theme’s title measure (`max-w-measure-title`, 22ch) |
 | Spacing | Tailwind’s 4px scale, restricted to 0.5 1 1.5 2 2.5 3 3.5 4 5 6 8 10 12 16 20 24 32. Page sections use `mt-chapter`, the theme’s section gap |
 | Alignment | Columns that sit side by side start on one line (`items-start`). Bottom alignment (`items-end`, `self-end`, `place-*-end`) is banned in the kit; right-align with `text-right` or an auto margin |
-| Surfaces | Three layers, never more. **Ground**: the page canvas, white like the cards (`bg-ground`); a card stands on it by its hairline and shadow, never by a tinted page. **Paper**: cards with a 1px `line` border and the theme’s ambient elevation (`kit-card`, `--shadow-card`); the page’s lead pick sits on the same white, lifted a step further (`kit-card-feature`, `--shadow-feature`). **Well**: a recess inside a card (`kit-recess`, the buy box’s offer card). Photographs sit on the **studio well** (`kit-studio`), a radial sweep. Elevation comes only from the two theme shadows: the audit fails any other `shadow-*` |
+| Surfaces | Three layers, never more. **`surface-primary`**: the page canvas, white like the cards (`bg-surface-primary`); a card stands on it by its hairline and shadow, never by a tinted page. **`surface-raised`**: cards with a 1px `border-subtle` edge and the theme’s ambient elevation (`kit-card`, `--shadow-raised`); the page’s lead pick sits on the same white, lifted a step further (`kit-card-feature`, `--shadow-featured`). **`surface-sunken`**: a recess inside a card (`kit-recess`, the buy box’s offer card). Photographs sit on the **studio well** (`kit-studio`), a radial sweep. Elevation comes only from the two theme shadows: the audit fails any other `shadow-*` |
 
 ## Typography: three voices
 
@@ -307,13 +307,20 @@ running test.
 
 ## Publications and themes
 
-A theme is the whole art direction: faces, palette, radii, elevation,
-density. Themes live in `src/kit/theme/kit.css` and apply with `data-theme`
-on any ancestor. To make a new site look unique, write a new theme; do not
-add variants to components.
+Every value a part reads is a semantic token in `src/kit/theme/tokens.css`
+(`bg-surface-raised`, `text-prose`, `border-subtle`, `rounded-box`,
+`p-panel`…), set by attributes on the page’s root element: `data-theme`
+(palette and elevation, and the defaults below), `data-typography` (the
+font pair and the scale: `literary`, `clinical`), `data-shape` (radii:
+`crisp`, `soft`, `round`) and `data-density` (spacing: `comfortable`,
+`compact`). The presets combine with either theme, so one theme gives
+several looks. To make a new site look unique, choose a theme and presets,
+or write a new theme or preset in tokens.css; do not add variants to
+components. Tailwind’s palette is removed and there are no `dark:`
+overrides: a theme sets every color.
 
 A publication with several beats is **one** theme. Its sections differ only
-by `--accent-category`, set with `data-category`: the nav marker, award
+by the category accent (`bg-category`, `text-category`), set with `data-category`: the nav marker, award
 text in tables, telemetry bars and verification badges. Wordmark, surfaces,
 type and the buy action stay the publication’s.
 
@@ -447,7 +454,8 @@ Archetypes (`src/kit/templates`) compose them; each takes the same
 
 | Layer | Contents |
 | --- | --- |
-| Theme | `src/kit/theme/kit.css` — foundation, the three voices, Atelier, Assay, categories, Tailwind bridge, surface and studio utilities |
+| Tokens | `src/kit/theme/tokens.css` — the semantic tokens, Atelier and Assay, the categories, and the typography, shape and density presets |
+| Utilities | `src/kit/theme/kit.css` — the page base, the three voices (`t-*`), the card, recess and studio surfaces, the well, focus, links and motion |
 | Library | `src/kit/lib` — `typeset`, `rankOffers` / `leadOffer`, `lowerFirst` / `upperFirst`; `reviews` (a review list’s query, order and numbers); `discovery` (grades from scores, a ranking’s four orders, `toReaderItem`, search over a small index); `reader` (the reader’s device memory: viewed, saved, compare, recent searches, and `RememberVisit`); `warnings` (whether a warning stands, its id and labels); `evidence` (what grades mean, outcome orders, lab report numbers, a category’s results, citation anchors, FAQ structured data); `theme-root` (overlays portaled inside the theme) |
 | Story kit | `src/kit/testing` — the story frame (`theme`, `category` and `frame` parameters), `Specimen` and `State` for the specimen sheets, the page checks, `seedDevice` / `seedSearches` for parts that read the device; `src/fixtures/kit/cases.ts` for edge cases |
 | Guides | `src/kit/docs` — Start here; Foundations (Themes, Color, Typography, Layout, Surfaces); Data model (generated contract), Composing pages, Making pages distinct; Writing stories |

@@ -6,7 +6,7 @@ import type { MerchantOffer, ProductImage, SubScoreItem } from "@/types/affiliat
  * Copy is plain text: the kit typesets it (src/kit/lib/typeset.ts).
  */
 
-/** A section of the publication. Drives the nav marker and --accent-category. */
+/** A section of the publication. Drives the nav marker and the category accent (`bg-category`). */
 export type Category = "watches" | "supplements" | "running";
 
 export interface Person {

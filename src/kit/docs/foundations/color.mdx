@@ -1,54 +1,79 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-<Meta title="Foundations/Color" summary="Every color role (ground, paper, fg, accent, the category accent, pass and fail…) with its job and its value in each theme." />
+<Meta title="Foundations/Color" summary="Every semantic color token (surface, text, border, action, category, success, danger, warning…) with its utility, its job and its value in each theme." />
 
 # Color
 
-Use the role, never the value. Every role is a Tailwind color (`bg-`, `text-`, `border-`), set by the theme; the category roles also change with `data-category`. The page and the cards are white; only a recess or a photograph’s backdrop is a cool gray. No beige, cream or parchment, and no tinted page. Color is never the only signal: a pass, a fail or a warning always has a word or an icon too.
+Use the token, never the value. Every token is a Tailwind utility, set by the theme (`data-theme`); the category tokens also change with `data-category`. Tailwind’s own palette is removed, so `bg-blue-500` or `text-gray-700` does not exist, and there are no `dark:` overrides: a theme sets every color. The page and the cards are white; only a recess or a photograph’s backdrop is a cool gray. No beige, cream or parchment, and no tinted page. Color is never the only signal: a pass, a fail or a warning always has a word or an icon too.
 
-## Surfaces and lines
+## Surfaces
 
-| Role | Job | Atelier | Assay |
+| Utility | Job | Atelier | Assay |
 | --- | --- | --- | --- |
-| `ground` | The page canvas: white, like the cards; a card stands on it by its hairline and shadow | `#ffffff` | `#ffffff` |
-| `paper` | Cards | `#ffffff` | `#ffffff` |
-| `paper-feature` | The lead pick’s card only, lifted a step further by its shadow | `#ffffff` | `#ffffff` |
-| `well` | A recess inside a card | `#edf1f6` | `#eceff3` |
-| `line` | Hairlines: cards, tables, rows | `#e0e6ed` | `#e1e5ea` |
-| `line-strong` | Outlines and strong rules | `#c8d1dc` | `#ccd3db` |
+| `bg-surface-primary` | The page canvas: white, like the cards; a card stands on it by its hairline and shadow | `#ffffff` | `#ffffff` |
+| `bg-surface-raised` | Cards, fields, menus and dialogs (the lead pick’s card too: it is lifted by its shadow, not a color) | `#ffffff` | `#ffffff` |
+| `bg-surface-sunken` | A recess inside a card | `#edf1f6` | `#eceff3` |
+| `bg-surface-inverse` | Ink as a fill: tooltips, an active chip, the current-price marker | `#121820` | `#111418` |
 
-## Ink
+## Text
 
-| Role | Job | Atelier | Assay |
+| Utility | Job | Atelier | Assay |
 | --- | --- | --- | --- |
-| `fg` | Ink: headings, names, figures | `#121820` | `#111418` |
-| `fg-body` | Reading copy | `#2b333e` | `#2a2f37` |
-| `fg-muted` | Secondary text, captions, labels | `#576273` | `#545c68` |
+| `text-primary` | Headings, names, figures and controls | `#121820` | `#111418` |
+| `text-prose` | Reading copy | `#2b333e` | `#2a2f37` |
+| `text-muted` | Secondary text, captions, labels | `#576273` | `#545c68` |
+| `text-on-inverse` | Text on `bg-surface-inverse` | `#ffffff` | `#ffffff` |
+| `text-faint` | The empty part of a rating | `#c8d1dc` | `#ccd3db` |
+
+## Borders and rules
+
+| Utility | Job | Atelier | Assay |
+| --- | --- | --- | --- |
+| `border-subtle` | Hairlines: cards, tables, rows | `#e0e6ed` | `#e1e5ea` |
+| `border-bold` | Outlines (a secondary button, a recess) and strong rules | `#c8d1dc` | `#ccd3db` |
+| `border-contrast` | The darkest edge: hover and selected states | `#121820` | `#111418` |
+| `border-control` | A checkbox’s or radio’s outline, 3:1 against the page | `#576273` | `#545c68` |
+| `bg-rule`, `bg-rule-bold` | A hairline or strong rule drawn as an element: a menu separator, a track | `#e0e6ed`, `#c8d1dc` | `#e1e5ea`, `#ccd3db` |
 
 ## The action
 
-| Role | Job | Atelier | Assay |
+| Utility | Job | Atelier | Assay |
 | --- | --- | --- | --- |
-| `accent` | The buy action, links, the focus ring | oxblood `#5e1914` | obsidian `#111418` |
-| `accent-hover` | The action on hover | `#47120e` | `#2a2f37` |
-| `on-accent` | Text on the action | `#ffffff` | `#ffffff` |
-| `accent-soft` | A soft tint of the action | `#f6e9e8` | `#eceff3` |
+| `bg-action` (`text-action`, `border-action`) | The buy action, links, the focus ring | oxblood `#5e1914` | obsidian `#111418` |
+| `bg-action-hover` | The action on hover | `#47120e` | `#2a2f37` |
+| `bg-action-subtle` | A soft tint of the action | `#f6e9e8` | `#eceff3` |
+| `text-on-action` | Text on the action | `#ffffff` | `#ffffff` |
 
 ## The category accent
 
-| Role | Job | Atelier | Assay |
+| Utility | Job | Atelier | Assay |
 | --- | --- | --- | --- |
-| `accent-category` | The section’s wayfinding color | blued steel `#2d5da1` | emerald `#1b4d3e` (supplements), vermilion `#c84b31` (running), obsidian with no category |
-| `accent-category-ink` | The text-safe shade of it (4.5 : 1 on paper and well) | `#24508f` | `#1b4d3e`, `#a63b25` |
-| `accent-category-soft` | A category tint: our pick’s row in the comparison (white where the tint would be warm) | `#e9f0fa` | `#e6efeb`, `#ffffff` |
-| `telemetry` | Measurement bars and tolerance bands | blued steel `#2d5da1` | the category accent |
+| `bg-category` (`border-category`) | The section’s wayfinding color | blued steel `#2d5da1` | emerald `#1b4d3e` (supplements), vermilion `#c84b31` (running), the action with no category |
+| `text-category` | Its text-safe shade (4.5 : 1 on `surface-raised` and `surface-sunken`) | `#24508f` | `#1b4d3e`, `#a63b25` |
+| `bg-category-subtle` | A category tint: our pick’s row in the comparison (white where the tint would be warm) | `#e9f0fa` | `#e6efeb`, `#ffffff` |
+| `bg-telemetry` | Measurement bars and tolerance bands | blued steel `#2d5da1` | the category accent |
 
-## Awards, results and scores
+## Results, awards and data
 
-| Role | Job | Atelier | Assay |
+| Utility | Job | Atelier | Assay |
 | --- | --- | --- | --- |
-| `award`, `on-award`, `award-line` | The award pill: fill, text, border | `#121820`, `#ffffff`, blued steel `#2d5da1` | `#111418`, `#ffffff`, `#111418` |
-| `pass`, `pass-soft` | A result that passed | `#2f6b45`, `#e6f2ea` | `#0e7543`, `#e5f4eb` |
-| `fail`, `fail-soft` | A result that failed | `#9b2c2c`, `#f9e8e7` | `#c2362b`, `#fcebe9` |
-| `warn`, `warn-soft` | A result near its limit: amber ink on white, never a cream tint | `#8a5a12`, `#ffffff` | `#9a5b00`, `#ffffff` |
-| `meter` | Score bars | `#121820` | `#111418` |
+| `text-success`, `bg-success`, `bg-success-subtle` | A result that passed | `#2f6b45`, `#e6f2ea` | `#0e7543`, `#e5f4eb` |
+| `text-danger`, `bg-danger`, `bg-danger-subtle` | A result that failed | `#9b2c2c`, `#f9e8e7` | `#c2362b`, `#fcebe9` |
+| `text-warning`, `bg-warning`, `bg-warning-subtle` | A result near its limit: amber ink on white, never a cream tint | `#8a5a12`, `#ffffff` | `#9a5b00`, `#ffffff` |
+| `bg-award`, `text-on-award`, `border-award` | The award pill: fill, text, border | `#121820`, `#ffffff`, blued steel `#2d5da1` | `#111418`, `#ffffff`, `#111418` |
+| `bg-meter` | Score bars | `#121820` | `#111418` |
+| `bg-mark`, `bg-mark-muted` | Marks on a chart: today’s value; a secondary mark or tick | `#121820`, `#576273` | `#111418`, `#545c68` |
+
+## Earlier names
+
+Parts that have not moved to the names above still use the earlier ones, which now resolve to the same tokens. Use the new names in anything you write; the earlier ones go when the last part has moved.
+
+| Earlier | Now |
+| --- | --- |
+| `ground`, `paper`, `paper-feature`, `well` | `surface-primary`, `surface-raised`, `surface-raised`, `surface-sunken` |
+| `fg`, `fg-body`, `fg-muted` | `text-primary` (as a fill, `bg-surface-inverse`), `text-prose`, `text-muted` |
+| `line`, `line-strong` | `border-subtle` (as a fill, `bg-rule`), `border-bold` (as a fill, `bg-rule-bold`) |
+| `accent`, `accent-hover`, `accent-soft`, `on-accent` | `action`, `action-hover`, `action-subtle`, `on-action` |
+| `accent-category`, `accent-category-ink`, `accent-category-soft` | `category`, `text-category`, `category-subtle` |
+| `pass`, `fail`, `warn` (and `-soft`) | `success`, `danger`, `warning` (and `-subtle`) |
+| `award-line` | `border-award` |

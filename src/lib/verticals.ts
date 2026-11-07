@@ -1,5 +1,5 @@
 /**
- * Registry of vertical TONE profiles defined in `src/styles/tokens.css`.
+ * Registry of vertical TONE profiles defined in `src/styles/legacy-tokens.css`.
  * A vertical only changes palette temperature and the display face; every
  * keyline, radius and spacing value is shared. Adding a vertical = adding a
  * `[data-vertical="…"]` tone block there + one entry here.

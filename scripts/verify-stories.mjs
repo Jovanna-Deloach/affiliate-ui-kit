@@ -24,6 +24,8 @@
  *   bun run verify:stories -- --filter awardbadge   # part of a story id, title or file path
  *   bun run verify:stories -- --filter src/kit/     # every kit story
  *   bun run verify:stories -- --widths 375,1280 --verticals editorial
+ *   bun run verify:stories -- --globals "typography:clinical;kitShape:round;density:compact"
+ *                                           # the kit under other presets (src/kit/theme/tokens.css)
  *   bun run verify:stories -- --interact    # hover sweep for hover-induced CLS
  *   bun run verify:stories -- --no-screens  # skip screenshots (CI speed)
  *   bun run verify:stories -- --concurrency 4
@@ -62,6 +64,8 @@ const STATIC_DIR = path.join(ROOT, "storybook-static");
 const OUT_DIR = path.join(ROOT, opt("out", ".verify"));
 const WIDTHS = opt("widths", "375,1280").split(",").map(Number);
 const VERTICALS = opt("verticals", "editorial,clinical-performance").split(",");
+/** Extra Storybook globals for every story, such as the kit's presets: "typography:clinical;density:compact". */
+const GLOBALS = opt("globals", "");
 const FILTER = opt("filter", "").toLowerCase();
 const INTERACT = flag("interact");
 const SCREENS = !flag("no-screens");
@@ -208,7 +212,7 @@ async function runJob({ story, vertical, width }) {
     } catch {}
   });
 
-  const url = `${base}/iframe.html?id=${story.id}&viewMode=story&globals=vertical:${vertical}`;
+  const url = `${base}/iframe.html?id=${story.id}&viewMode=story&globals=vertical:${vertical}${GLOBALS ? `;${GLOBALS}` : ""}`;
   const record = {
     id: story.id,
     title: story.title,

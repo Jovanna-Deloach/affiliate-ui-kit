@@ -4,7 +4,7 @@
    (.storybook/fonts.ts) or served by next/font (src/app/layout.tsx), so the
    bundler rebases their url() paths. */
 
-@import "./tokens.css";
+@import "./legacy-tokens.css";
 @import "./mechanics.css";
 @import "../kit/theme/kit.css";
 
@@ -14,7 +14,7 @@
    `@theme reference` registers the token names with Tailwind so utilities
    such as `bg-surface`, `text-ink-secondary`, `rounded-container`, `p-card`,
    `w-cta`, `gap-cluster`, `text-body-sm` and `ease-standard` exist — but
-   emits NO `:root` declarations. The values live exclusively in tokens.css,
+   emits NO `:root` declarations. The values live exclusively in legacy-tokens.css,
    so every utility resolves `var(--token)` at the element, against the
    nearest `[data-vertical]` ancestor. Nested verticals on one page work.
    ========================================================================== */

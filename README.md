@@ -90,7 +90,7 @@ lucide-react · Storybook 10 (`@storybook/nextjs-vite`).
 
 ## Architecture
 
-### 1. Token contract — `src/styles/tokens.css`
+### 1. Token contract — `src/styles/legacy-tokens.css`
 
 `:root` carries the **structural spine** — identical in every vertical:
 

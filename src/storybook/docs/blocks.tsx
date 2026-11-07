@@ -63,7 +63,15 @@ const PUBLICATIONS = {
   },
 } as const;
 
-const SWATCHES = ["ground", "paper", "well", "fg", "accent", "accent-category"] as const;
+/** A few tokens per theme, labeled with the utility a part uses (Foundations / Color). */
+const SWATCHES = [
+  { label: "surface-primary", variable: "--color-surface-primary" },
+  { label: "surface-sunken", variable: "--color-surface-sunken" },
+  { label: "text-primary", variable: "--text-color-primary" },
+  { label: "border-bold", variable: "--border-color-bold" },
+  { label: "action", variable: "--color-action" },
+  { label: "category", variable: "--color-category" },
+] as const;
 
 export function ThemeCards() {
   return (
@@ -77,10 +85,10 @@ export function ThemeCards() {
               <p className="mt-3 t-title text-fg">{p.title}</p>
               <p className="mt-2 t-body text-fg-body">{p.body}</p>
               <ul className="mt-5 flex list-none flex-wrap gap-x-4 gap-y-2 p-0">
-                {SWATCHES.map((role) => (
-                  <li key={role} className="flex items-center gap-2 t-caption text-fg-muted">
-                    <span aria-hidden="true" className="size-4 rounded-full border border-line-strong" style={{ background: `var(--${role})` }} />
-                    {role}
+                {SWATCHES.map(({ label, variable }) => (
+                  <li key={label} className="flex items-center gap-2 t-caption text-muted">
+                    <span aria-hidden="true" className="size-4 rounded-full border border-bold" style={{ background: `var(${variable})` }} />
+                    {label}
                   </li>
                 ))}
               </ul>
@@ -92,6 +100,41 @@ export function ThemeCards() {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+/* ---- Presets: one sample under each typography, shape and density -------- */
+
+const PRESET_ROWS = [
+  { attribute: "data-typography", values: ["literary", "clinical"] },
+  { attribute: "data-shape", values: ["crisp", "soft", "round"] },
+  { attribute: "data-density", values: ["comfortable", "compact"] },
+] as const;
+
+/** The same card under every value of each preset, all in Assay, so only the preset changes. */
+export function PresetCards() {
+  return (
+    <div data-theme="assay" data-category="supplements" className="sb-unstyled @container my-8 grid gap-8">
+      {PRESET_ROWS.map(({ attribute, values }) => (
+        <section key={attribute} aria-label={attribute} className="grid gap-3">
+          <code className="t-caption text-muted">{attribute}</code>
+          <div className="grid gap-4 @2xl:grid-cols-3">
+            {values.map((value) => (
+              <div key={value} {...{ [attribute]: value }} className="rounded-box border border-subtle bg-surface-raised p-panel">
+                <div className="grid gap-flow">
+                  <p className="m-0 t-micro text-muted">{value}</p>
+                  <p className="m-0 t-title text-primary">Peak Supply Creatine</p>
+                  <p className="m-0 t-body text-prose">On its label to within half a percent, at 21 cents a serving.</p>
+                  <div>
+                    <Button emphasis="primary">See the lab data</Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
@@ -203,7 +246,7 @@ export function Surfaces() {
       <div className="grid gap-4 @2xl:grid-cols-2">
         {THEMES.map(({ theme, name }) => (
           <section key={theme} data-theme={theme} aria-label={`${name} surfaces`} className="rounded-box border border-line p-5">
-            <code className="t-caption text-fg-muted">ground · {name}</code>
+            <code className="t-caption text-muted">surface-primary · {name}</code>
             <div className="mt-3 kit-card p-5">
               <code className="t-caption text-fg-muted">kit-card</code>
               <div className="mt-3 kit-recess px-4 py-3">

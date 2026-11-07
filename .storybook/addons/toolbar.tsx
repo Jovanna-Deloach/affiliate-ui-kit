@@ -4,8 +4,8 @@ import { useGlobals, useGlobalTypes, useParameter } from "storybook/manager-api"
 
 /**
  * The toolbar shows only the switches that change what is on screen. Kit
- * pages get one, the theme; the legacy library keeps its own four (vertical,
- * shape, elevation, stage). Both read their items from the globalTypes in
+ * pages get the theme and its three presets (typography, shape, density);
+ * the legacy library keeps its own four (vertical, shape, elevation, stage). Both read their items from the globalTypes in
  * preview.tsx, so the values live in one place; Storybook's own globals
  * toolbar is hidden in manager.tsx.
  */
@@ -53,7 +53,11 @@ function GlobalSelect({ id, fixed, fixedReason }: { id: string; fixed?: string; 
 
 const THEME_NAMES: Record<string, string> = { atelier: "Atelier", assay: "Assay" };
 
-/** Kit parts and the Playground: the theme. A story that is set in one theme shows it, locked. */
+/**
+ * Kit parts and the Playground: the theme, then its three presets
+ * (typography, shape, density; src/kit/theme/tokens.css). A story that is set
+ * in one theme shows it, locked; the presets apply on top of any theme.
+ */
 export function ThemeTool() {
   const pinned = useParameter<string | undefined>("theme", undefined);
   const isKit = useParameter<boolean>("kit", false);
@@ -65,6 +69,9 @@ export function ThemeTool() {
         fixed={isKit && pinned ? pinned : undefined}
         fixedReason={pinned ? `This story is set in ${THEME_NAMES[pinned] ?? pinned}` : undefined}
       />
+      <GlobalSelect id="typography" />
+      <GlobalSelect id="kitShape" />
+      <GlobalSelect id="density" />
     </>
   );
 }

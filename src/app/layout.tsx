@@ -7,7 +7,7 @@ import "@/styles/globals.css";
 /**
  * next/font self-hosts the families, preloads them and generates
  * metric-adjusted fallbacks, so the serif display never reflows (zero CLS).
- * The variables are consumed by tokens.css (`var(--font-playfair-display, …)`).
+ * The variables are consumed by the token files (`var(--font-playfair-display, …)`).
  */
 const inter = Inter({
   subsets: ["latin"],

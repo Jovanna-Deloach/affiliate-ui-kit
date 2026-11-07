@@ -34,8 +34,20 @@ const withVertical: Decorator = (Story, context) => {
   // the story: a page template is a page, and a story's code is only the part.
   if (context.parameters.kit) {
     const { theme, category, frame } = context.parameters as Partial<KitStoryParameters>;
+    // The toolbar's presets (src/kit/theme/tokens.css) go on the same element as
+    // data-theme; "auto" leaves the theme's own default.
+    const preset = (id: string) => {
+      const value = context.globals[id] as string | undefined;
+      return value && value !== "auto" ? value : undefined;
+    };
     return (
-      <div data-theme={theme ?? (context.globals.theme as string) ?? "atelier"} className={context.viewMode === "docs" ? "flow-root" : "flow-root min-h-dvh"}>
+      <div
+        data-theme={theme ?? (context.globals.theme as string) ?? "atelier"}
+        data-typography={preset("typography")}
+        data-shape={preset("kitShape")}
+        data-density={preset("density")}
+        className={context.viewMode === "docs" ? "flow-root" : "flow-root min-h-dvh"}
+      >
         <KitFrame frame={frame} category={category}>
           <Story />
         </KitFrame>
@@ -109,6 +121,47 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    // The kit's presets (Foundations / Themes). "auto" is the theme's own default.
+    typography: {
+      description: "The font pair and type scale (data-typography)",
+      toolbar: {
+        title: "Typography",
+        icon: "paragraph",
+        items: [
+          { value: "auto", title: "Typography: the theme’s" },
+          { value: "literary", title: "Literary · Newsreader + Plus Jakarta Sans" },
+          { value: "clinical", title: "Clinical · Playfair Display + Inter" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+    kitShape: {
+      description: "Corner radii: cards, controls, photographs (data-shape)",
+      toolbar: {
+        title: "Shape",
+        icon: "component",
+        items: [
+          { value: "auto", title: "Shape: the theme’s" },
+          { value: "crisp", title: "Crisp · 6 / 4 / 6" },
+          { value: "soft", title: "Soft · 8 / 6 / 6" },
+          { value: "round", title: "Round · 16 / 12 / 12" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+    density: {
+      description: "Section gaps, gutters and padding (data-density)",
+      toolbar: {
+        title: "Density",
+        icon: "grow",
+        items: [
+          { value: "auto", title: "Density: the theme’s" },
+          { value: "comfortable", title: "Comfortable" },
+          { value: "compact", title: "Compact" },
+        ],
+        dynamicTitle: true,
+      },
+    },
     vertical: {
       description: "Vertical tone profile",
       toolbar: {
@@ -162,6 +215,9 @@ const preview: Preview = {
   },
   initialGlobals: {
     theme: "atelier",
+    typography: "auto",
+    kitShape: "auto",
+    density: "auto",
     vertical: "editorial",
     shape: "architectural",
     elevation: "flat",

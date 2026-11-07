@@ -11,7 +11,7 @@ next-env.d.ts
 # storybook
 storybook-static
 *storybook.log
-.verify
+.verify*/
 
 # vitest (story tests): screenshots of failed tests
 __screenshots__

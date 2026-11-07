@@ -1,0 +1,391 @@
+/* ==========================================================================
+   KIT TOKENS — every value a kit part reads (Storybook: Foundations).
+   --------------------------------------------------------------------------
+   One file sets a page's whole identity. On the page's root element:
+
+     data-theme       atelier · assay           palette, elevation, and the
+                                                 three defaults below
+     data-typography  literary · clinical       font pair, type scale, weights
+     data-shape       crisp · soft · round      corner radii
+     data-density     comfortable · compact     section gaps, gutters, padding
+     data-category    watches · supplements · running   the category accent
+
+   Put the presets on the same element as data-theme (or on a region inside
+   it, to change that region only): a theme sets its defaults on its own
+   element, so a preset on an ancestor of the theme would be overridden.
+
+   Utilities use the semantic names (bg-surface-raised, text-prose,
+   border-subtle…). Each name is registered with Tailwind in the namespace of
+   the utility it belongs to, and the themes set the variable of the same
+   name, so `text-muted` reads --text-color-muted and `bg-surface-sunken`
+   reads --color-surface-sunken. Nothing is emitted at :root: a kit part
+   always sits inside [data-theme].
+   ========================================================================== */
+
+/* ---- 0. Only semantic color ------------------------------------------------
+   Tailwind's default palette is removed, so a raw color such as bg-blue-500
+   or text-gray-700 does not exist. Nothing in the kit or the legacy library
+   uses it; the legacy library registers its own names after this file. */
+@theme {
+  --color-*: initial;
+}
+
+/* ---- 1. The semantic names --------------------------------------------- */
+@theme reference {
+  /* Surfaces: the page, a card, a recess inside a card, ink used as a fill. */
+  --color-surface-primary: var(--color-surface-primary);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-sunken: var(--color-surface-sunken);
+  --color-surface-inverse: var(--color-surface-inverse);
+
+  /* Text: headings, names, figures and controls; reading copy; captions and
+     labels; text on surface-inverse; the empty part of a rating. */
+  --text-color-primary: var(--text-color-primary);
+  --text-color-prose: var(--text-color-prose);
+  --text-color-muted: var(--text-color-muted);
+  --text-color-on-inverse: var(--text-color-on-inverse);
+  --text-color-faint: var(--text-color-faint);
+
+  /* Borders: hairlines (cards, tables, rows); outlines and strong rules;
+     the darkest edge (hover, selected); form control outlines (3:1). */
+  --border-color-subtle: var(--border-color-subtle);
+  --border-color-bold: var(--border-color-bold);
+  --border-color-contrast: var(--border-color-contrast);
+  --border-color-control: var(--border-color-control);
+
+  /* A hairline or strong rule drawn as an element (separators, tracks). */
+  --color-rule: var(--color-rule);
+  --color-rule-bold: var(--color-rule-bold);
+
+  /* The action: the buy button, links, the focus ring. */
+  --color-action: var(--color-action);
+  --color-action-hover: var(--color-action-hover);
+  --color-action-subtle: var(--color-action-subtle);
+  --color-on-action: var(--color-on-action);
+
+  /* The category accent (wayfinding); text-category is its text-safe shade. */
+  --color-category: var(--color-category);
+  --text-color-category: var(--text-color-category);
+  --color-category-subtle: var(--color-category-subtle);
+
+  /* Results: passed, failed, near a limit. */
+  --color-success: var(--color-success);
+  --color-success-subtle: var(--color-success-subtle);
+  --color-danger: var(--color-danger);
+  --color-danger-subtle: var(--color-danger-subtle);
+  --color-warning: var(--color-warning);
+  --color-warning-subtle: var(--color-warning-subtle);
+
+  /* Awards and data. */
+  --color-award: var(--color-award);
+  --color-on-award: var(--color-on-award);
+  --border-color-award: var(--border-color-award);
+  --color-meter: var(--color-meter);
+  --color-telemetry: var(--color-telemetry);
+  --color-mark: var(--color-mark);
+  --color-mark-muted: var(--color-mark-muted);
+
+  /* Type (data-typography), radii (data-shape), spacing (data-density). */
+  --font-display: var(--font-display);
+  --font-text: var(--font-text);
+  --font-ui: var(--font-ui);
+  --radius-box: var(--radius-box);
+  --radius-ctl: var(--radius-ctl);
+  --radius-media: var(--radius-media);
+  /* `chapter`, `gutter`, `panel`, `flow`, `cell`: the legacy library owns
+     section, card, stack, grid, inline and row. */
+  --spacing-chapter: var(--spacing-chapter);
+  --spacing-gutter: var(--spacing-gutter);
+  --spacing-panel: var(--spacing-panel);
+  --spacing-flow: var(--spacing-flow);
+  --spacing-cell: var(--spacing-cell);
+  --container-measure: var(--measure);
+  --container-measure-title: var(--measure-title);
+  --container-well: var(--kit-well);
+}
+
+/* ---- 2. Foundation: identical in every theme ------------------------------ */
+[data-theme] {
+  --kit-well: 75rem;
+  --measure: 65ch;
+  --media-max-h: 340px;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 180ms;
+
+  /* ui scale: major third from 15px */
+  --ui-1: 0.75rem;
+  --ui-0: 0.9375rem;
+  --ui-1-up: 1.1719rem;
+  --ui-2-up: 1.4648rem;
+  --t-price: clamp(1.8311rem, 1.6699rem + 0.6877vw, 2.2888rem);
+
+  /* reading copy */
+  --t-body-size: 1.0625rem;
+  --t-body-lh: 1.68;
+  --t-quote-size: 1.25rem;
+  --t-quote-lh: 1.45;
+
+  /* Wayfinding color defaults to the action; a theme or a category sets its own. */
+  --color-category: var(--color-action);
+  --text-color-category: var(--color-action);
+  --color-category-subtle: var(--color-action-subtle);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-theme] {
+    --dur: 1ms;
+  }
+}
+
+/* ---- 3. Themes: palette and elevation ------------------------------------ */
+
+/* Atelier: gallery white, ink, oxblood, blued steel (Caliber, watches). */
+[data-theme="atelier"] {
+  --color-surface-primary: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #edf1f6;
+  --color-surface-inverse: #121820; /* ink */
+  --text-color-primary: #121820;
+  --text-color-prose: #2b333e;
+  --text-color-muted: #576273;
+  --text-color-on-inverse: #ffffff;
+  --text-color-faint: #c8d1dc;
+  --border-color-subtle: #e0e6ed;
+  --border-color-bold: #c8d1dc;
+  --border-color-contrast: #121820;
+  --border-color-control: #576273;
+  --color-rule: #e0e6ed;
+  --color-rule-bold: #c8d1dc;
+  --color-action: #5e1914; /* deep oxblood: the buy action */
+  --color-action-hover: #47120e;
+  --color-action-subtle: #f6e9e8;
+  --color-on-action: #ffffff;
+  /* blued steel, as on a watch's hands and screws: tolerance bands, award borders, the nav marker */
+  --color-category: #2d5da1;
+  --text-color-category: #24508f;
+  --color-category-subtle: #e9f0fa;
+  --color-success: #2f6b45;
+  --color-success-subtle: #e6f2ea;
+  --color-danger: #9b2c2c;
+  --color-danger-subtle: #f9e8e7;
+  --color-warning: #8a5a12;
+  --color-warning-subtle: #ffffff;
+  --color-award: #121820;
+  --color-on-award: #ffffff;
+  --border-color-award: #2d5da1;
+  --color-meter: #121820;
+  --color-telemetry: #2d5da1;
+  --color-mark: #121820;
+  --color-mark-muted: #576273;
+
+  --studio-from: #ffffff;
+  --studio-to: #e7ecf2;
+  --shadow-raised: 0 1px 2px rgb(16 24 40 / 0.04), 0 10px 28px -10px rgb(16 24 40 / 0.08);
+  --shadow-featured: 0 2px 4px rgb(16 24 40 / 0.05), 0 24px 48px -18px rgb(16 24 40 / 0.16);
+}
+
+/* Assay: lab white and obsidian (Proving Ground, lab-tested health and performance). */
+[data-theme="assay"] {
+  --color-surface-primary: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #eceff3;
+  --color-surface-inverse: #111418; /* obsidian */
+  --text-color-primary: #111418;
+  --text-color-prose: #2a2f37;
+  --text-color-muted: #545c68; /* graphite */
+  --text-color-on-inverse: #ffffff;
+  --text-color-faint: #ccd3db;
+  --border-color-subtle: #e1e5ea;
+  --border-color-bold: #ccd3db;
+  --border-color-contrast: #111418;
+  --border-color-control: #545c68;
+  --color-rule: #e1e5ea;
+  --color-rule-bold: #ccd3db;
+  --color-action: #111418; /* obsidian: the buy action, links, focus */
+  --color-action-hover: #2a2f37;
+  --color-action-subtle: #eceff3;
+  --color-on-action: #ffffff;
+  --color-success: #0e7543;
+  --color-success-subtle: #e5f4eb;
+  --color-danger: #c2362b;
+  --color-danger-subtle: #fcebe9;
+  --color-warning: #9a5b00;
+  --color-warning-subtle: #ffffff;
+  --color-award: #111418;
+  --color-on-award: #ffffff;
+  --border-color-award: #111418;
+  --color-meter: #111418;
+  --color-telemetry: var(--color-category);
+  --color-mark: #111418;
+  --color-mark-muted: #545c68;
+
+  --studio-from: #ffffff;
+  --studio-to: #e8ecf1;
+  --shadow-raised: 0 1px 3px rgb(16 24 40 / 0.03), 0 8px 24px -4px rgb(16 24 40 / 0.05);
+  --shadow-featured: 0 2px 6px rgb(16 24 40 / 0.05), 0 24px 48px -16px rgb(16 24 40 / 0.16);
+}
+
+/* ---- 4. Categories: the category accent only ------------------------------
+   A category changes nothing but its accent: the nav marker, telemetry bars
+   and verification badges. Wordmark, surfaces, type and the buy action stay
+   the publication's. text-category is the text-safe shade (4.5:1 on
+   surface-raised and surface-sunken). Custom properties resolve where they
+   are declared, so tokens built on the category color are restated. */
+[data-theme="assay"] [data-category="supplements"],
+[data-theme="assay"][data-category="supplements"] {
+  --color-category: #1b4d3e; /* deep botanical emerald: lab verification */
+  --text-color-category: #1b4d3e;
+  --color-category-subtle: #e6efeb;
+  --color-telemetry: var(--color-category);
+}
+[data-theme="assay"] [data-category="running"],
+[data-theme="assay"][data-category="running"] {
+  --color-category: #c84b31; /* international vermilion: athletic telemetry */
+  --text-color-category: #a63b25;
+  --color-category-subtle: #ffffff;
+  --color-telemetry: var(--color-category);
+}
+
+/* ---- 5. Typography presets: font pair, scale, weights ----------------------
+   A theme's default applies when its element has no data-typography. */
+
+/* literary: Newsreader (optical sizes) over Plus Jakarta Sans; √2 scale from
+   18px (21.4 · 25.5 · 36 · 50.9 · 72), light headlines. Atelier's default. */
+[data-theme="atelier"]:not([data-typography]),
+[data-typography="literary"] {
+  --font-display: var(--font-newsreader, "Newsreader Variable"), "Newsreader", Georgia, serif;
+  --font-text: var(--font-plus-jakarta-sans, "Plus Jakarta Sans Variable"), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-ui: var(--font-text);
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"), "JetBrains Mono", ui-monospace, monospace;
+
+  --headline-weight: 300;
+  --headline-tracking: -0.015em;
+  --title-weight: 400;
+  --ui-weight: 500;
+  --figure-weight: 600;
+  --score-weight: 300;
+
+  --t-display-size: clamp(2.25rem, 1.4577rem + 3.3803vw, 4.5rem);
+  --t-display-lh: 1.04;
+  --t-headline-size: clamp(1.591rem, 1.0308rem + 2.3902vw, 3.182rem);
+  --t-headline-lh: 1.1;
+  --t-title-size: clamp(1.3379rem, 1.0167rem + 1.3704vw, 2.25rem);
+  --t-title-lh: 1.12;
+  --t-lead-size: clamp(1.0625rem, 1.0184rem + 0.1882vw, 1.1875rem);
+  --t-lead-lh: 1.6;
+  --measure-title: 22ch;
+  --hang-quote: -0.42em;
+
+  --wordmark-size: 1.625rem;
+  --wordmark-weight: 400;
+  --wordmark-tracking: -0.02em;
+}
+
+/* clinical: Playfair Display over Inter; 4:3 scale from 18px
+   (21.3 · 28.4 · 37.9 · 50.6 · 60), regular headlines. Assay's default. */
+[data-theme="assay"]:not([data-typography]),
+[data-typography="clinical"] {
+  --font-display: var(--font-playfair-display, "Playfair Display Variable"), "Playfair Display", Georgia, serif;
+  --font-text: var(--font-inter, "Inter Variable"), "Inter", system-ui, sans-serif;
+  --font-ui: var(--font-text);
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"), "JetBrains Mono", ui-monospace, monospace;
+
+  --headline-weight: 400;
+  --headline-tracking: -0.015em;
+  --title-weight: 500;
+  --ui-weight: 500;
+  --figure-weight: 600;
+  --score-weight: 400;
+
+  --t-display-size: clamp(2.25rem, 1.7218rem + 2.2535vw, 3.75rem);
+  --t-display-lh: 1.06;
+  --t-headline-size: clamp(1.7778rem, 1.4648rem + 1.3354vw, 2.6667rem);
+  --t-headline-lh: 1.12;
+  --t-title-size: clamp(1.3333rem, 1.1185rem + 0.9165vw, 2rem);
+  --t-title-lh: 1.16;
+  --t-lead-size: clamp(1.0625rem, 1.0184rem + 0.1882vw, 1.1875rem);
+  --t-lead-lh: 1.6;
+  --measure-title: 22ch;
+  --hang-quote: -0.42em;
+
+  --wordmark-size: 1.5rem;
+  --wordmark-weight: 500;
+  --wordmark-tracking: -0.01em;
+}
+
+/* ---- 6. Shape presets: corner radii (cards · controls · photographs) ------ */
+[data-theme="atelier"]:not([data-shape]),
+[data-shape="crisp"] {
+  --radius-box: 6px;
+  --radius-ctl: 4px;
+  --radius-media: 6px;
+}
+[data-theme="assay"]:not([data-shape]),
+[data-shape="soft"] {
+  --radius-box: 8px;
+  --radius-ctl: 6px;
+  --radius-media: 6px;
+}
+/* Controls stay 12px, not capsules: a capsule text area would read as a pill. */
+[data-shape="round"] {
+  --radius-box: 16px;
+  --radius-ctl: 12px;
+  --radius-media: 12px;
+}
+
+/* ---- 7. Density presets: the space between and inside things --------------
+   chapter: between a page's sections · gutter: the page's side margins ·
+   panel: inside a card · flow: between items in a card or list ·
+   cell: a table cell's sides. Touch targets stay 44px in both. */
+[data-theme="atelier"]:not([data-density]),
+[data-density="comfortable"] {
+  --spacing-chapter: clamp(5rem, 3rem + 6vw, 8rem);
+  --spacing-gutter: 1rem;
+  --spacing-panel: clamp(1.25rem, 0.75rem + 2vw, 2rem);
+  --spacing-flow: 1.5rem;
+  --spacing-cell: 1rem;
+}
+[data-theme="assay"]:not([data-density]),
+[data-density="compact"] {
+  --spacing-chapter: clamp(4rem, 2.75rem + 4vw, 6rem);
+  --spacing-gutter: 1rem;
+  --spacing-panel: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+  --spacing-flow: 1rem;
+  --spacing-cell: 0.75rem;
+}
+@media (min-width: 48rem) {
+  [data-theme="atelier"]:not([data-density]),
+  [data-density="comfortable"],
+  [data-theme="assay"]:not([data-density]),
+  [data-density="compact"] {
+    --spacing-gutter: 1.5rem;
+  }
+}
+
+/* ---- 8. Earlier names, until every part has moved to the names above ------
+   bg-paper, text-fg, border-line… still work and resolve to the new tokens.
+   New code uses the new names; the aliases go when the last part has moved. */
+@theme reference {
+  --color-ground: var(--color-surface-primary);
+  --color-paper: var(--color-surface-raised);
+  --color-paper-feature: var(--color-surface-raised);
+  --color-well: var(--color-surface-sunken);
+  --color-fg: var(--text-color-primary);
+  --color-fg-body: var(--text-color-prose);
+  --color-fg-muted: var(--text-color-muted);
+  --color-line: var(--border-color-subtle);
+  --color-line-strong: var(--border-color-bold);
+  --color-accent: var(--color-action);
+  --color-accent-hover: var(--color-action-hover);
+  --color-on-accent: var(--color-on-action);
+  --color-accent-soft: var(--color-action-subtle);
+  --color-accent-category: var(--color-category);
+  --color-accent-category-ink: var(--text-color-category);
+  --color-accent-category-soft: var(--color-category-subtle);
+  --color-award-line: var(--border-color-award);
+  --color-pass: var(--color-success);
+  --color-pass-soft: var(--color-success-subtle);
+  --color-fail: var(--color-danger);
+  --color-fail-soft: var(--color-danger-subtle);
+  --color-warn: var(--color-warning);
+  --color-warn-soft: var(--color-warning-subtle);
+}

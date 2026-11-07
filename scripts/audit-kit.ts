@@ -21,6 +21,12 @@
  *      gray is for recesses)
  *    • the sidebar’s New pill (the `new` tag) on the latest batch of parts
  *      only: at most a quarter of the kit, so it still means something
+ *    • Tailwind hygiene, in every kit file and story: no raw palette color
+ *      (bg-blue-500), no `dark:` override, no space-x/space-y (use gap)
+ *    • no next/* import: the kit renders to static HTML in Astro (the parts
+ *      still on next/image are listed, and the list only shrinks)
+ *    • tokens.css is complete: every semantic token is set by the base block
+ *      or by every theme, and every value of a preset sets the same tokens
  *
  * 2. CONTRACTS (the fixture guides an agent copies)
  *    • author and every quoted tester carry the page’s category in `beats`
@@ -147,7 +153,7 @@ function isWarmLight(hex: string): boolean {
   return hue >= 10 && hue <= 75;
 }
 
-const NO_BEIGE = ["src/kit/theme/kit.css", ".storybook/theme.ts", ".storybook/manager-head.html", ".storybook/preview-head.html"];
+const NO_BEIGE = ["src/kit/theme/tokens.css", "src/kit/theme/kit.css", ".storybook/theme.ts", ".storybook/manager-head.html", ".storybook/preview-head.html"];
 console.log(`▶ no beige: the kit's themes and the Storybook shell`);
 for (const file of NO_BEIGE) {
   (await readFile(path.join(ROOT, file), "utf8")).split("\n").forEach((line, i) => {
@@ -160,16 +166,19 @@ for (const file of NO_BEIGE) {
 /** The page is white: each theme's ground, the legacy canvas under the app, and the shell's sidebar, content and canvas. */
 const WHITE = /^#(?:fff|ffffff)$/i;
 const PAGE_BACKGROUNDS: [string, RegExp][] = [
-  ["src/kit/theme/kit.css", /--ground:\s*(#[0-9a-fA-F]{3,8})\b/],
-  ["src/styles/tokens.css", /--surface-canvas:\s*(#[0-9a-fA-F]{3,8})\b/],
+  ["src/kit/theme/tokens.css", /--color-surface-primary:\s*(#[0-9a-fA-F]{3,8})\b/],
+  ["src/styles/legacy-tokens.css", /--surface-canvas:\s*(#[0-9a-fA-F]{3,8})\b/],
   [".storybook/theme.ts", /\b(?:appBg|appContentBg|appPreviewBg):\s*"(#[0-9a-fA-F]{3,8})"/],
 ];
 console.log(`▶ white page: the themes' ground, the app's canvas and the Storybook's backgrounds`);
 for (const [file, re] of PAGE_BACKGROUNDS) {
+  let found = 0;
   (await readFile(path.join(ROOT, file), "utf8")).split("\n").forEach((line, i) => {
     const hex = re.exec(line)?.[1];
+    if (hex) found++;
     if (hex && !WHITE.test(hex)) fail(`${file}:${i + 1}`, `${hex} tints the page: the page background is white (#ffffff); a cool gray is for a recess`);
   });
+  if (!found) fail(file, `no page background to check (${re.source}): point the white-page check at the file that sets it`);
 }
 
 /* ======================================================================== */
@@ -190,6 +199,120 @@ const tagged = (await Promise.all(parts.map(async (file) => /\btags:\s*\[[^\]]*"
 console.log(`▶ the New pill: ${tagged} of ${parts.length} parts`);
 if (tagged > parts.length / 4) {
   fail("src/kit/**/*.stories.tsx", `${tagged} of ${parts.length} parts are tagged \`new\`: keep it on the latest batch, at most a quarter of the kit, and take it off the batch before (Contributing / Writing stories)`);
+}
+
+/* ======================================================================== */
+/* 1d. Tailwind hygiene, in every kit file and story                         */
+/* ======================================================================== */
+
+const PALETTE = /(?<![\w-])(?:[\w-]+:)*(?:bg|text|border(?:-[trblxyse])?|ring|ring-offset|outline|fill|stroke|from|via|to|decoration|divide|accent|caret|placeholder|shadow)-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3}(?![\w-])|(?<![\w-])(?:[\w-]+:)*(?:bg|text|border|ring|outline|fill|stroke)-(?:white|black)(?![\w-])/;
+const HYGIENE: [RegExp, string][] = [
+  [PALETTE, "raw Tailwind palette color: use a semantic token (Foundations / Color)"],
+  [/(?<![\w-])dark:/, "dark: override: a theme sets every color (src/kit/theme/tokens.css)"],
+  [/(?<![\w-])(?:[\w-]+:)*-?space-[xy]-/, "space-x / space-y: lay out with flex or grid and gap"],
+];
+async function kitSources(dir: string): Promise<string[]> {
+  const out: string[] = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...(await kitSources(p)));
+    else if (/\.tsx?$/.test(entry.name)) out.push(p); // code only: the guides name these patterns to forbid them
+  }
+  return out;
+}
+const everyKitFile = await kitSources(KIT);
+console.log(`▶ Tailwind hygiene: ${everyKitFile.length} kit files and stories`);
+for (const file of everyKitFile) {
+  (await readFile(file, "utf8")).split("\n").forEach((line, i) => {
+    if (/^\s*(\/\/|\*|\/\*)/.test(line) || /kit-allow/.test(line)) return;
+    for (const [re, why] of HYGIENE) if (re.test(line)) fail(`${path.relative(ROOT, file)}:${i + 1}`, `${why}\n      ${line.trim().slice(0, 150)}`);
+  });
+}
+
+/* ======================================================================== */
+/* 1e. No next/*: the kit renders to static HTML in Astro                   */
+/* ======================================================================== */
+
+/** The parts still on next/image. They move to plain HTML when they migrate; nothing joins this list. */
+const STILL_ON_NEXT = new Set([
+  "src/kit/blocks/alerts-manager.tsx",
+  "src/kit/blocks/compare-tray.tsx",
+  "src/kit/blocks/pick-up-where-you-left-off.tsx",
+  "src/kit/blocks/saved-items.tsx",
+  "src/kit/components/brand-card.tsx",
+  "src/kit/components/gallery.tsx",
+  "src/kit/components/search-result.tsx",
+  "src/kit/components/sticky-buy-bar.tsx",
+  "src/kit/ui/avatar.tsx",
+  "src/kit/ui/product-image.tsx",
+]);
+console.log(`▶ no next/*: ${STILL_ON_NEXT.size} parts still on next/image`);
+for (const file of everyKitFile) {
+  const rel = path.relative(ROOT, file);
+  const usesNext = /from\s+["']next\//.test(await readFile(file, "utf8"));
+  if (usesNext && !STILL_ON_NEXT.has(rel)) fail(rel, "imports next/*: the kit renders to static HTML in Astro; use plain HTML (or an island) instead");
+  if (!usesNext && STILL_ON_NEXT.has(rel)) fail(rel, "no longer imports next/*: take it off STILL_ON_NEXT in scripts/audit-kit.ts");
+}
+
+/* ======================================================================== */
+/* 1f. tokens.css is complete                                               */
+/* ======================================================================== */
+
+/** Each block of a CSS file: its prelude (selector or at-rule) and the custom properties it declares. */
+function cssBlocks(css: string): { prelude: string; vars: Set<string> }[] {
+  const text = css.replace(/\/\*[\s\S]*?\*\//g, "");
+  const blocks: { prelude: string; vars: Set<string> }[] = [];
+  const stack: { prelude: string; vars: Set<string> }[] = [];
+  let start = 0;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === "{") {
+      const block = { prelude: text.slice(start, i).trim(), vars: new Set<string>() };
+      stack.push(block);
+      blocks.push(block);
+      start = i + 1;
+    } else if (ch === "}") {
+      const body = text.slice(start, i);
+      const top = stack.pop();
+      if (top) for (const m of body.matchAll(/(--[\w-]+)\s*:/g)) top.vars.add(m[1]!);
+      start = i + 1;
+    } else if (ch === ";") {
+      const top = stack.at(-1);
+      if (top) for (const m of text.slice(start, i).matchAll(/(--[\w-]+)\s*:/g)) top.vars.add(m[1]!);
+      start = i + 1;
+    }
+  }
+  return blocks;
+}
+const TOKENS = "src/kit/theme/tokens.css";
+const tokenBlocks = cssBlocks(await readFile(path.join(ROOT, TOKENS), "utf8"));
+const selectorsOf = (prelude: string) => prelude.split(",").map((sel) => sel.trim());
+const THEMES = ["atelier", "assay"];
+const PRESETS: Record<string, string[]> = { typography: ["literary", "clinical"], shape: ["crisp", "soft", "round"], density: ["comfortable", "compact"] };
+const base = new Set(tokenBlocks.filter((b) => b.prelude === "[data-theme]").flatMap((b) => [...b.vars]));
+/** What a theme sets: its palette block and its default presets. */
+const setBy = (match: (sel: string) => boolean) => new Set(tokenBlocks.filter((b) => selectorsOf(b.prelude).some(match)).flatMap((b) => [...b.vars]));
+const themeSets = Object.fromEntries(THEMES.map((t) => [t, setBy((sel) => sel.startsWith(`[data-theme="${t}"]`) && !sel.includes(" "))]));
+/** Every name registered with Tailwind, and the variable its utilities read. */
+const registered = tokenBlocks
+  .filter((b) => b.prelude.startsWith("@theme"))
+  .flatMap((b) => [...b.vars])
+  .filter((name) => !name.startsWith("--color-*"));
+const themeCss = await readFile(path.join(ROOT, TOKENS), "utf8");
+const reads = new Map<string, string>();
+for (const m of themeCss.matchAll(/(--[\w-]+)\s*:\s*var\((--[\w-]+)\)\s*;/g)) if (registered.includes(m[1]!)) reads.set(m[1]!, m[2]!);
+console.log(`▶ tokens.css: ${reads.size} names, ${THEMES.length} themes, ${Object.values(PRESETS).flat().length} presets`);
+for (const [name, variable] of reads) {
+  if (base.has(variable)) continue;
+  for (const t of THEMES) if (!themeSets[t]!.has(variable)) fail(TOKENS, `${name} reads ${variable}, which the ${t} theme does not set (nor the [data-theme] base block)`);
+}
+for (const [axis, values] of Object.entries(PRESETS)) {
+  const sets = values.map((v) => ({ v, vars: setBy((sel) => sel === `[data-${axis}="${v}"]`) }));
+  const all = new Set(sets.flatMap((x) => [...x.vars]));
+  for (const { v, vars } of sets) {
+    if (vars.size === 0) fail(TOKENS, `data-${axis}="${v}" is documented but sets nothing`);
+    for (const name of all) if (!vars.has(name)) fail(TOKENS, `data-${axis}="${v}" leaves ${name} to the theme: every ${axis} preset sets the same tokens`);
+  }
 }
 
 /* ======================================================================== */

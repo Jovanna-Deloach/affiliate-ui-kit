@@ -2,11 +2,20 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 import { TypeScale } from "../../../storybook/docs/blocks";
 
-<Meta title="Foundations/Typography" summary="The three type voices and every t-* style: which to use for titles, reading copy, figures, prices and labels." />
+<Meta title="Foundations/Typography" summary="The three type voices, every t-* style, and the typography presets (literary, clinical) that set the faces and the scale." />
 
 # Typography
 
-Three voices, in every theme. Set type only with these utilities. No Tailwind font sizes (`text-sm`, `text-[15px]`), no fourth face.
+Three voices, in every theme. Set type only with these utilities. No Tailwind font sizes (`text-sm`, `text-[15px]`), no fourth face. Color comes separately, from the text tokens: `text-primary`, `text-prose` for reading copy, `text-muted` (Foundations / Color).
+
+The faces, the scale and the weights come from the typography preset, `data-typography` on the page’s root element (Foundations / Themes):
+
+| `data-typography` | Display · text · micro | Scale | Default in |
+| --- | --- | --- | --- |
+| `literary` | Newsreader (headlines 300, titles 400) · Plus Jakarta Sans · JetBrains Mono | √2 from 18px: 21.4 · 25.5 · 36 · 50.9 · 72 | `atelier` |
+| `clinical` | Playfair Display (headlines 400, titles 500) · Inter · JetBrains Mono | 4:3 from 18px: 21.3 · 28.4 · 37.9 · 50.6 · 60 | `assay` |
+
+The styles below keep their jobs under either preset; only the faces and sizes change.
 
 | Voice | Utility | Use |
 | --- | --- | --- |

@@ -2,21 +2,29 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 import { Surfaces } from "../../../storybook/docs/blocks";
 
-<Meta title="Foundations/Surfaces" summary="Ground, paper and well; the card, recess and studio utilities; radii and elevation; focus, links, touch targets and motion." />
+<Meta title="Foundations/Surfaces" summary="The three surfaces (primary, raised, sunken); the card, recess and studio utilities; the shape presets’ radii; elevation; focus, links, touch targets and motion." />
 
 # Surfaces
 
-Three layers, never more: **ground** (the page), **paper** (cards), **well** (a recess inside a card). The ground and the paper are both white: a card stands on the page by its hairline and shadow, never by a tinted page. Containers nest twice at most.
+Three layers, never more: **`surface-primary`** (the page), **`surface-raised`** (cards), **`surface-sunken`** (a recess inside a card). The page and the cards are both white: a card stands on the page by its hairline and shadow, never by a tinted page. Containers nest twice at most.
 
 | Utility | What it is |
 | --- | --- |
-| `kit-card` | Paper with a 1px `line` border, the theme’s radius and its ambient shadow |
-| `kit-card-feature` | The same white paper lifted a step further: the lead pick’s verdict card only |
-| `kit-recess` | A well inside a card, with a strong hairline: the buy box’s offer card |
+| `kit-card` | `surface-raised` with a 1px `border-subtle` edge, the shape’s `rounded-box` and the theme’s ambient shadow (`--shadow-raised`) |
+| `kit-card-feature` | The same white card lifted a step further (`--shadow-featured`): the lead pick’s verdict card only |
+| `kit-recess` | `surface-sunken` inside a card, with a `border-bold` edge: the buy box’s offer card |
 | `kit-studio` | The radial studio well behind every product photograph |
 | `kit-object` | The soft contact shadow under a cut-out product |
 
-Radii are roles too: `rounded-box` (cards), `rounded-ctl` (controls and pills), `rounded-media` (photographs), `rounded-full`. Elevation comes only from `kit-card` and `kit-card-feature`; no other shadow.
+Radii are tokens too, set by the shape preset (`data-shape`, Foundations / Themes): `rounded-box` (cards), `rounded-ctl` (controls and pills), `rounded-media` (photographs), and `rounded-full`.
+
+| `data-shape` | `rounded-box` | `rounded-ctl` | `rounded-media` | Default in |
+| --- | --- | --- | --- | --- |
+| `crisp` | 6px | 4px | 6px | `atelier` |
+| `soft` | 8px | 6px | 6px | `assay` |
+| `round` | 16px | 12px | 12px | |
+
+Elevation comes only from `kit-card` and `kit-card-feature`, whose shadows the theme sets; no other shadow.
 
 <Surfaces />
 

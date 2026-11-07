@@ -1,24 +1,54 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-import { ThemeCards } from "../../../storybook/docs/blocks";
+import { PresetCards, ThemeCards } from "../../../storybook/docs/blocks";
 
-<Meta title="Foundations/Themes" summary="The two themes (Atelier, Assay) and the category accents: what a theme sets, how to apply it with data-theme and data-category." />
+<Meta title="Foundations/Themes" summary="Themes and presets: data-theme sets a palette and its defaults; data-typography, data-shape and data-density each change one axis; data-category sets the accent." />
 
 # Themes
 
-Everything a component reads is a **role**, set by the theme on `[data-theme]` and, for wayfinding color only, by `[data-category]`. Components never carry their own colors, sizes or shadows, so the same page in another theme is another publication. The source of truth is `src/kit/theme/kit.css`.
+A page’s whole identity is a few attributes on its root element. Components never carry their own colors, faces, radii or spacing: they read semantic tokens (`bg-surface-raised`, `text-prose`, `border-subtle`, `rounded-box`, `p-panel`…), and these attributes set them. The same page under other attributes is another publication. Every value is in `src/kit/theme/tokens.css`.
+
+```html
+<html data-theme="assay" data-typography="literary" data-shape="round" data-density="comfortable" data-category="supplements">
+```
+
+| Attribute | Values | Sets |
+| --- | --- | --- |
+| `data-theme` | `atelier`, `assay` | The palette and the elevation, and the defaults for the three presets |
+| `data-typography` | `literary`, `clinical` | The font pair, the type scale and the weights |
+| `data-shape` | `crisp`, `soft`, `round` | Corner radii: cards, controls, photographs |
+| `data-density` | `comfortable`, `compact` | Section gaps, gutters, card padding, the gaps between items, table cells |
+| `data-category` | `watches`, `supplements`, `running` | The category accent (below) |
+
+Put the presets on the same element as `data-theme`, or on a region inside it to change that region only. A theme sets its defaults on its own element, so a preset on an ancestor of the theme is overridden. A site loads the faces of the typography preset it uses.
 
 <ThemeCards />
 
-A theme is the whole art direction: faces, palette, radii, elevation, density. Apply it with `data-theme` on any ancestor.
+## The themes
 
-| `data-theme` | Publication | Character | Faces (display · text · micro) | Shape |
-| --- | --- | --- | --- | --- |
-| `atelier` | Caliber, a watch magazine | A museum catalog, not a newspaper: objects get room, prose is set like a book | Newsreader (headlines 300, titles 400) · Plus Jakarta Sans · JetBrains Mono | 6px cards, 4px controls, generous density |
-| `assay` | Proving Ground, lab-tested health and performance | A lab report you can read in ten seconds, printed on good paper | Playfair Display (headlines 400, titles 500) · Inter · JetBrains Mono | 8px cards, 6px controls, compact density |
+| `data-theme` | Publication | Character | Default presets |
+| --- | --- | --- | --- |
+| `atelier` | Caliber, a watch magazine | A museum catalog, not a newspaper: objects get room, prose is set like a book | `literary`, `crisp`, `comfortable` |
+| `assay` | Proving Ground, lab-tested health and performance | A lab report you can read in ten seconds, printed on good paper | `clinical`, `soft`, `compact` |
+
+## The presets
+
+| Preset | Value | What it sets |
+| --- | --- | --- |
+| `data-typography` | `literary` | Newsreader (headlines 300, titles 400) over Plus Jakarta Sans, JetBrains Mono for micro-caps; a √2 scale from 18px |
+| | `clinical` | Playfair Display (headlines 400, titles 500) over Inter, JetBrains Mono for micro-caps; a 4:3 scale from 18px |
+| `data-shape` | `crisp` | Cards 6px, controls 4px, photographs 6px |
+| | `soft` | Cards 8px, controls 6px, photographs 6px |
+| | `round` | Cards 16px, controls 12px, photographs 12px |
+| `data-density` | `comfortable` | Sections 80–128px apart, card padding 20–32px, 24px between items, 16px cell sides |
+| | `compact` | Sections 64–96px apart, card padding 16–24px, 16px between items, 12px cell sides |
+
+Buttons, fields and retailer rows stay at least 44px tall in every density. In Storybook, the toolbar’s Typography, Shape and Density switches apply a preset to the page in view.
+
+<PresetCards />
 
 ## Categories
 
-A publication with several beats is one theme. Its sections differ only by `data-category` (`watches`, `supplements`, `running`), which sets the category accent: the masthead’s section marker, award text in tables, telemetry bars and verification stamps. Wordmark, surfaces, type and the buy action stay the publication’s. In Assay, `supplements` is botanical emerald and `running` is international vermilion; in Atelier the category accent is always blued steel, the blue of a watch’s heat-treated hands.
+A publication with several beats is one theme. Its sections differ only by `data-category` (`watches`, `supplements`, `running`), which sets the category accent: `bg-category` and `border-category` for the masthead’s section marker, telemetry bars and verification stamps; `text-category`, its text-safe shade; `bg-category-subtle`, our pick’s row in a comparison. Wordmark, surfaces, type and the buy action stay the publication’s. In Assay, `supplements` is botanical emerald and `running` is international vermilion; in Atelier the category accent is always blued steel, the blue of a watch’s heat-treated hands.
 
-The roles each theme sets are on the next pages: Color, Typography, Layout and Surfaces.
+The tokens each theme and preset sets are on the next pages: Color, Typography, Layout and Surfaces.

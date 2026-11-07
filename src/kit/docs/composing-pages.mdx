@@ -56,8 +56,8 @@ export function Page({ site, guide: input }: { site: SiteChrome; guide: RoundupG
   const guide = typesetDeep(input);
   const attribution = { source: "caliber", medium: "affiliate", campaign: guide.id };
   return (
-    // data-theme sits on an ancestor (in the app, on <html>); data-category comes from the guide.
-    <div data-category={guide.category} className="min-h-dvh bg-ground text-fg">
+    // data-theme and its presets sit on the root element (<html>); data-category comes from the guide.
+    <div data-category={guide.category} className="min-h-dvh bg-surface-primary text-primary">
       <SiteHeader site={site} category={guide.category} />
       <main>
         <EditorialArticleHeader guide={guide} notice={{ text: site.disclosureNotice, href: site.disclosureHref }} />

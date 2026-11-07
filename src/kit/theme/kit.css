@@ -1,17 +1,18 @@
 /* ==========================================================================
-   KIT — foundation + themes (see docs/DESIGN.md)
+   KIT — type styles and utilities (see docs/DESIGN.md)
    --------------------------------------------------------------------------
-   Structure is shared; art direction is the theme. Every value a component
-   reads comes from a role below, set on `[data-theme]` (and, for wayfinding
-   color only, `[data-category]`). A new site gets a new theme block, never a
-   new component variant.
+   Every value comes from ./tokens.css: the semantic tokens, the two themes
+   and the typography, shape and density presets. This file turns them into
+   the kit's utilities: the three type voices (t-*), the card, recess and
+   studio surfaces, the page well, focus, links and motion. A new site gets a
+   new theme or preset in tokens.css, never a new component variant.
 
    SURFACES: three layers, never more.
-     ground — the page canvas: white; cards stand on it by their hairline
-     paper  — cards: 1px hairline, ambient elevation (--shadow-card)
-     well   — recesses inside a card; media sits on a radial studio well
+     surface-primary — the page canvas: white; cards stand on it by their hairline
+     surface-raised  — cards: 1px hairline, ambient elevation (--shadow-raised)
+     surface-sunken  — recesses inside a card; media sits on a radial studio well
 
-   TYPE: three voices, in every theme.
+   TYPE: three voices, in every typography preset.
      display — editorial serif: H1, product titles, hero figures, pull-quotes
      text    — humanist sans: reading copy (17px / 1.68), lists, buttons
      micro   — mono micro-caps (11px, +0.08em, 600): eyebrows, awards,
@@ -19,249 +20,18 @@
                sentence case in the source; CSS sets the capitals.
    ========================================================================== */
 
+@import "./tokens.css";
+
+/* The page base: every kit page sits inside [data-theme]. */
 [data-theme] {
-  /* ---- foundation: identical in every theme ---------------------------- */
-  --kit-well: 75rem;
-  --kit-gutter: 1rem;
-  --measure: 65ch;
-  --media-max-h: 340px;
-  --ease: cubic-bezier(0.2, 0, 0, 1);
-  --dur: 180ms;
-
-  /* ui scale — major third from 15px */
-  --ui-1: 0.75rem;
-  --ui-0: 0.9375rem;
-  --ui-1-up: 1.1719rem;
-  --ui-2-up: 1.4648rem;
-  --t-price: clamp(1.8311rem, 1.6699rem + 0.6877vw, 2.2888rem);
-
-  /* reading copy, shared */
-  --t-body-size: 1.0625rem;
-  --t-body-lh: 1.68;
-  --t-quote-size: 1.25rem;
-  --t-quote-lh: 1.45;
-
-  /* wayfinding color defaults to the brand accent */
-  --accent-category: var(--accent);
-  --accent-category-ink: var(--accent);
-  --accent-category-soft: var(--accent-soft);
-
-  background-color: var(--ground);
-  color: var(--fg);
+  background-color: var(--color-surface-primary);
+  color: var(--text-color-primary);
   font-family: var(--font-text);
   font-size: var(--t-body-size);
   line-height: var(--t-body-lh);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-optical-sizing: auto;
-}
-@media (min-width: 48rem) {
-  [data-theme] {
-    --kit-gutter: 1.5rem;
-  }
-}
-
-/* ---- Atelier: gallery white, ink, oxblood, blued steel ------------------- */
-[data-theme="atelier"] {
-  --ground: #ffffff; /* gallery white: the page is white, never tinted */
-  --paper: #ffffff;
-  --paper-feature: #ffffff;
-  --well: #edf1f6;
-  --fg: #121820; /* ink */
-  --fg-body: #2b333e;
-  --fg-muted: #576273;
-  --line: #e0e6ed;
-  --line-strong: #c8d1dc;
-  --accent: #5e1914; /* deep oxblood: the buy action */
-  --accent-hover: #47120e;
-  --on-accent: #ffffff;
-  --accent-soft: #f6e9e8;
-  --pass: #2f6b45;
-  --pass-soft: #e6f2ea;
-  --fail: #9b2c2c;
-  --fail-soft: #f9e8e7;
-  --caution: #8a5a12;
-  --caution-soft: #ffffff;
-  /* blued steel, as on a watch's hands and screws: tolerance bands, award borders, the nav marker */
-  --accent-category: #2d5da1;
-  --accent-category-ink: #24508f;
-  --accent-category-soft: #e9f0fa;
-  --award-bg: #121820;
-  --award-fg: #ffffff;
-  --award-line: #2d5da1;
-  --meter: #121820;
-  --telemetry: #2d5da1;
-
-  --studio-from: #ffffff;
-  --studio-to: #e7ecf2;
-  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 10px 28px -10px rgb(16 24 40 / 0.08);
-  --shadow-feature: 0 2px 4px rgb(16 24 40 / 0.05), 0 24px 48px -18px rgb(16 24 40 / 0.16);
-
-  --font-display: var(--font-newsreader, "Newsreader Variable"), "Newsreader", Georgia, serif;
-  --font-text: var(--font-plus-jakarta-sans, "Plus Jakarta Sans Variable"), "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-ui: var(--font-text);
-  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"), "JetBrains Mono", ui-monospace, monospace;
-
-  --headline-weight: 300;
-  --headline-tracking: -0.015em;
-  --title-weight: 400;
-  --ui-weight: 500;
-  --figure-weight: 600;
-  --score-weight: 300;
-
-  /* editorial scale: √2 from 18px — 21.4 · 25.5 · 36 · 50.9 · 72 */
-  --t-display-size: clamp(2.25rem, 1.4577rem + 3.3803vw, 4.5rem);
-  --t-display-lh: 1.04;
-  --t-headline-size: clamp(1.591rem, 1.0308rem + 2.3902vw, 3.182rem);
-  --t-headline-lh: 1.1;
-  --t-title-size: clamp(1.3379rem, 1.0167rem + 1.3704vw, 2.25rem);
-  --t-title-lh: 1.12;
-  --t-lead-size: clamp(1.0625rem, 1.0184rem + 0.1882vw, 1.1875rem);
-  --t-lead-lh: 1.6;
-  --measure-title: 22ch;
-  --hang-quote: -0.42em;
-
-  --wordmark-size: 1.625rem;
-  --wordmark-weight: 400;
-  --wordmark-tracking: -0.02em;
-
-  --radius-box: 6px;
-  --radius-ctl: 4px;
-  --radius-media: 6px;
-  --section-gap: clamp(5rem, 3rem + 6vw, 8rem);
-}
-
-/* ---- Assay: lab white and obsidian ---------------------------------------- */
-[data-theme="assay"] {
-  --ground: #ffffff; /* lab white: the page is white, never tinted */
-  --paper: #ffffff;
-  --paper-feature: #ffffff;
-  --well: #eceff3;
-  --fg: #111418; /* obsidian ink */
-  --fg-body: #2a2f37;
-  --fg-muted: #545c68; /* graphite */
-  --line: #e1e5ea;
-  --line-strong: #ccd3db;
-  --accent: #111418; /* obsidian: the buy action, links, focus */
-  --accent-hover: #2a2f37;
-  --on-accent: #ffffff;
-  --accent-soft: #eceff3;
-  --pass: #0e7543;
-  --pass-soft: #e5f4eb;
-  --fail: #c2362b;
-  --fail-soft: #fcebe9;
-  --caution: #9a5b00;
-  --caution-soft: #ffffff;
-  --award-bg: #111418;
-  --award-fg: #ffffff;
-  --award-line: #111418;
-  --meter: #111418;
-  --telemetry: var(--accent-category);
-
-  --studio-from: #ffffff;
-  --studio-to: #e8ecf1;
-  --shadow-card: 0 1px 3px rgb(16 24 40 / 0.03), 0 8px 24px -4px rgb(16 24 40 / 0.05);
-  --shadow-feature: 0 2px 6px rgb(16 24 40 / 0.05), 0 24px 48px -16px rgb(16 24 40 / 0.16);
-
-  --font-display: var(--font-playfair-display, "Playfair Display Variable"), "Playfair Display", Georgia, serif;
-  --font-text: var(--font-inter, "Inter Variable"), "Inter", system-ui, sans-serif;
-  --font-ui: var(--font-text);
-  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono Variable"), "JetBrains Mono", ui-monospace, monospace;
-
-  --headline-weight: 400;
-  --headline-tracking: -0.015em;
-  --title-weight: 500;
-  --ui-weight: 500;
-  --figure-weight: 600;
-  --score-weight: 400;
-
-  /* editorial scale: 4:3 from 18px — 21.3 · 28.4 · 37.9 · 50.6 · 60 */
-  --t-display-size: clamp(2.25rem, 1.7218rem + 2.2535vw, 3.75rem);
-  --t-display-lh: 1.06;
-  --t-headline-size: clamp(1.7778rem, 1.4648rem + 1.3354vw, 2.6667rem);
-  --t-headline-lh: 1.12;
-  --t-title-size: clamp(1.3333rem, 1.1185rem + 0.9165vw, 2rem);
-  --t-title-lh: 1.16;
-  --t-lead-size: clamp(1.0625rem, 1.0184rem + 0.1882vw, 1.1875rem);
-  --t-lead-lh: 1.6;
-  --measure-title: 22ch;
-  --hang-quote: -0.42em;
-
-  --wordmark-size: 1.5rem;
-  --wordmark-weight: 500;
-  --wordmark-tracking: -0.01em;
-
-  --radius-box: 8px;
-  --radius-ctl: 6px;
-  --radius-media: 6px;
-  --section-gap: clamp(4rem, 2.75rem + 4vw, 6rem);
-}
-
-/* ---- categories: wayfinding color only (one publication, many beats) ----
-   A category changes nothing but its accent: the nav marker, telemetry bars
-   and verification badges. Wordmark, surfaces, type and the buy action stay
-   the publication's. `-ink` is the text-safe shade (4.5:1 on paper and
-   well). Custom properties resolve where they are declared, so roles built
-   on the category color are restated. */
-[data-theme="assay"] [data-category="supplements"],
-[data-theme="assay"][data-category="supplements"] {
-  --accent-category: #1b4d3e; /* deep botanical emerald: lab verification */
-  --accent-category-ink: #1b4d3e;
-  --accent-category-soft: #e6efeb;
-  --telemetry: var(--accent-category);
-}
-[data-theme="assay"] [data-category="running"],
-[data-theme="assay"][data-category="running"] {
-  --accent-category: #c84b31; /* international vermilion: athletic telemetry */
-  --accent-category-ink: #a63b25;
-  --accent-category-soft: #ffffff;
-  --telemetry: var(--accent-category);
-}
-
-/* ---- bridge: role names → Tailwind utilities ----------------------------- */
-@theme reference {
-  --color-ground: var(--ground);
-  --color-paper: var(--paper);
-  --color-paper-feature: var(--paper-feature);
-  --color-well: var(--well);
-  --color-fg: var(--fg);
-  --color-fg-body: var(--fg-body);
-  --color-fg-muted: var(--fg-muted);
-  --color-line: var(--line);
-  --color-line-strong: var(--line-strong);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-on-accent: var(--on-accent);
-  --color-accent-soft: var(--accent-soft);
-  --color-accent-category: var(--accent-category);
-  --color-accent-category-ink: var(--accent-category-ink);
-  --color-accent-category-soft: var(--accent-category-soft);
-  --color-award: var(--award-bg);
-  --color-on-award: var(--award-fg);
-  --color-award-line: var(--award-line);
-  --color-pass: var(--pass);
-  --color-pass-soft: var(--pass-soft);
-  --color-fail: var(--fail);
-  --color-fail-soft: var(--fail-soft);
-  /* `warn`, not `caution`: the legacy bridge already owns --color-caution. */
-  --color-warn: var(--caution);
-  --color-warn-soft: var(--caution-soft);
-  --color-meter: var(--meter);
-  --color-telemetry: var(--telemetry);
-
-  --font-display: var(--font-display);
-  --font-text: var(--font-text);
-  --font-ui: var(--font-ui);
-
-  --radius-box: var(--radius-box);
-  --radius-ctl: var(--radius-ctl);
-  --radius-media: var(--radius-media);
-
-  /* `chapter`, not `section`: the legacy bridge already owns --spacing-section. */
-  --spacing-chapter: var(--section-gap);
-  --container-measure: var(--measure);
-  --container-measure-title: var(--measure-title);
-  --container-well: var(--kit-well);
 }
 
 /* ---- voice 1: display serif ---------------------------------------------- */
@@ -420,7 +190,7 @@
 /* No data: a fine 135° hatch in the strong line color, for a stretch a chart
    has no value for (a product sold out everywhere). */
 @utility kit-hatch {
-  background-image: repeating-linear-gradient(135deg, var(--line-strong) 0 1px, transparent 1px 6px);
+  background-image: repeating-linear-gradient(135deg, var(--border-color-bold) 0 1px, transparent 1px 6px);
 }
 
 /* Figures that line up. Interface prose (t-ui, t-small, t-caption) keeps
@@ -461,25 +231,25 @@
   letter-spacing: var(--wordmark-tracking);
 }
 
-/* Layer 1: a card on the ground — hairline plus ambient elevation. */
+/* Layer 1: a card on the page — hairline plus ambient elevation. */
 @utility kit-card {
-  background-color: var(--paper);
-  border: 1px solid var(--line);
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--border-color-subtle);
   border-radius: var(--radius-box);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-raised);
 }
 /* The page's lead pick: the same white paper, lifted a step further. */
 @utility kit-card-feature {
-  background-color: var(--paper-feature);
-  border: 1px solid var(--line);
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--border-color-subtle);
   border-radius: var(--radius-box);
-  box-shadow: var(--shadow-feature);
+  box-shadow: var(--shadow-featured);
 }
 
 /* Layer 2: a recess inside a card. */
 @utility kit-recess {
-  background-color: var(--well);
-  border: 1px solid var(--line-strong);
+  background-color: var(--color-surface-sunken);
+  border: 1px solid var(--border-color-bold);
   border-radius: var(--radius-box);
 }
 
@@ -497,16 +267,16 @@
 /* Page well: every band centers on the same 1200px column. */
 @utility kit-well {
   width: 100%;
-  max-width: calc(var(--kit-well) + var(--kit-gutter) * 2);
+  max-width: calc(var(--kit-well) + var(--spacing-gutter) * 2);
   margin-inline: auto;
-  padding-inline: var(--kit-gutter);
+  padding-inline: var(--spacing-gutter);
 }
 
 /* One focus treatment for every interactive element in the kit. */
 @utility kit-focus {
   outline: none;
   &:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--color-action);
     outline-offset: 2px;
   }
 }
@@ -550,7 +320,7 @@
 }
 /* The dimmed page behind a dialog or drawer. */
 @utility kit-scrim {
-  background-color: color-mix(in srgb, var(--fg) 45%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface-inverse) 45%, transparent);
   &[data-state="open"] {
     animation: kit-fade-in var(--dur) var(--ease);
   }
@@ -587,11 +357,5 @@
     display: block;
     animation: kit-progress linear both;
     animation-timeline: scroll(root block);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-theme] {
-    --dur: 1ms;
   }
 }

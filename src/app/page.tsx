@@ -31,7 +31,7 @@ export default function KitIndexPage() {
         <h1 className="type-display m-0">Twenty primitives. Two tones. One structural spine.</h1>
         <p className="m-0 max-w-prose text-body leading-body text-ink-secondary">
           Every component binds its keylines, geometry, rhythm and motion to the shared
-          contract in <code>src/styles/tokens.css</code>; a vertical only changes palette
+          contract in <code>src/styles/legacy-tokens.css</code>; a vertical only changes palette
           temperature and the display face. Run <code>bun run storybook</code> to switch tones live.
         </p>
       </header>
