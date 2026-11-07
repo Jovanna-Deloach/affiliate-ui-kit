@@ -364,6 +364,8 @@ export interface ProductCategory {
   count: number;
   /** What `count` counts, plural (default “reports”). */
   noun?: string;
+  /** One line on what it covers: “Monohydrate, micronized, HCl and gummies”. */
+  description?: string;
   /** A product in it, usually its best-rated one: the card shows its photograph. */
   product?: KitProduct;
 }

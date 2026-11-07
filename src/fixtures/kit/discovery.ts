@@ -1,5 +1,5 @@
 import { toReaderItem } from "@/kit/lib/discovery";
-import type { Brand, ProductSummary, ReaderItem, SearchHit } from "@/kit/types";
+import type { Brand, ProductCategory, ProductSummary, ReaderItem, SearchHit } from "@/kit/types";
 
 import { creatineGuide } from "./creatine";
 
@@ -68,6 +68,24 @@ export const soldOutSummary: ProductSummary = {
   ...creatineSummaries[3]!,
   product: { ...fieldwork, offers: fieldwork.offers.map((offer) => ({ ...offer, inStock: false })) },
 };
+
+/** A creatine ranking: every product the lab certified, in any order (the list sorts them). */
+export const creatineRanking: ProductSummary[] = [creatineSummaries[2]!, creatineSummaries[0]!, creatineSummaries[3]!, creatineSummaries[1]!];
+
+/** The supplement categories the site tests, as words alone. */
+export const supplementCategories: ProductCategory[] = [
+  { slug: "creatine", name: "Creatine", href: "#category-creatine", count: 18, description: "Monohydrate, micronized, HCl and gummies" },
+  { slug: "protein", name: "Protein", href: "#category-protein", count: 12, description: "Whey, casein and plant blends" },
+  { slug: "fish-oil", name: "Fish oil", href: "#category-fish-oil", count: 14, description: "EPA and DHA, checked for oxidation" },
+  { slug: "magnesium", name: "Magnesium", href: "#category-magnesium", count: 9, description: "Glycinate, citrate and oxide" },
+  { slug: "vitamin-d", name: "Vitamin D", href: "#category-vitamin-d", count: 11, description: "Drops, softgels and tablets" },
+  { slug: "electrolytes", name: "Electrolytes", href: "#category-electrolytes", count: 7, description: "Sodium, potassium and magnesium mixes" },
+  { slug: "multivitamins", name: "Multivitamins", href: "#category-multivitamins", count: 16, description: "Daily, prenatal and senior formulas" },
+  { slug: "probiotics", name: "Probiotics", href: "#category-probiotics", count: 6, description: "Live counts tested against the label" },
+];
+
+/** Creatine with its best-rated product, for a tile with a photograph. */
+export const creatineCategory: ProductCategory = { ...supplementCategories[0]!, product: peak };
 
 /** Supplement brands, for brand cards and People also looked at on a brand’s page. */
 export const supplementBrands: Brand[] = [

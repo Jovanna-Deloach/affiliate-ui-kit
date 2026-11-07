@@ -1,6 +1,6 @@
 import { BookOpen, Building2, FlaskConical, LayoutGrid, Package, type LucideIcon } from "lucide-react";
 import Image from "next/image";
-import type { ComponentProps } from "react";
+import type { KeyboardEventHandler, MouseEventHandler } from "react";
 
 import { markWords } from "@/kit/lib/discovery";
 import type { SearchHit, SearchKind } from "@/kit/types";
@@ -32,9 +32,13 @@ function Marked({ text, query }: { text: string; query: string }) {
   );
 }
 
-export interface SearchResultProps extends Pick<ComponentProps<"a">, "onKeyDown" | "onClick"> {
+export interface SearchResultProps {
   /** What was found: its kind, title, address, a line of context, a photograph or logo, and one short fact. */
   hit: SearchHit;
+  /** Called when the reader opens the result (`SiteSearch` remembers the search). */
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+  /** Called on a key press on the result (`SiteSearch` moves through results with the arrow keys). */
+  onKeyDown?: KeyboardEventHandler<HTMLAnchorElement>;
   /** The words searched for: set in bold where they appear in the title and the line of context. */
   query?: string;
   /** Placement only: margin, grid position, width. The look comes from the theme. */

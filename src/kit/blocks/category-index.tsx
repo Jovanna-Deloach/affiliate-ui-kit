@@ -7,7 +7,7 @@ export interface CategoryIndexProps {
   heading: string;
   /** One or two sentences under the heading: how many categories, how they are tested. */
   intro?: string;
-  /** Every category, each with a product to photograph, in the order readers look for them. */
+  /** Every category, in the order readers look for them: each with a `product` to photograph, or none of them. */
   categories: ProductCategory[];
   /** The section’s id, for links to it (default `categories`). */
   id?: string;
@@ -18,13 +18,14 @@ export interface CategoryIndexProps {
 /**
  * Every category the site tests, in one grid of `CategoryCard`s under a
  * heading: two columns on phones, three from 48rem, four from 64rem (the
- * grid measures its own width).
+ * grid measures its own width). Tiles carry a product photograph each, or
+ * words alone.
  *
  * **Use it for** a category index page, or the categories band of a home
  * page. **Not for** a short row of popular categories (`QuickLinks`) or
  * products (`PeopleAlsoLookedAt`, `RankingList`).
  *
- * @summary Every category in one grid of photographed tiles.
+ * @summary Every category in one grid of tiles, two to four across.
  * @import import { CategoryIndex } from "@/kit/blocks";
  */
 export function CategoryIndex({ heading, intro, categories, id = "categories", className }: CategoryIndexProps) {
