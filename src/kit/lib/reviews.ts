@@ -70,6 +70,7 @@ const STEPS: [Intl.RelativeTimeFormatUnit, number][] = [
 /** “3 hours ago”, “yesterday”, “last month”: how long ago a date was, as people say it. */
 export function relativeTime(iso: string, now: Date | string = new Date()): string {
   const diff = Date.parse(iso) - new Date(now).getTime();
-  for (const [unit, size] of STEPS) if (Math.abs(diff) >= size) return RELATIVE.format(Math.round(diff / size), unit);
+  // A no-break space ties the number to its unit (“3\u00a0months ago”), as the kit’s typesetting asks.
+  for (const [unit, size] of STEPS) if (Math.abs(diff) >= size) return RELATIVE.format(Math.round(diff / size), unit).replace(/(\d) (?=\p{L})/u, "$1\u00a0");
   return "just now";
 }

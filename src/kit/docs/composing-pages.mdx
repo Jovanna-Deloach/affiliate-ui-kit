@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/addon-docs/blocks";
 
-<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the four archetypes and their section order, the page skeleton in code, spacing between sections, where reviews, search, the reader’s lists, warnings, price alerts and research go, and where each commerce rule lives." />
+<Meta title="Guidelines/Composing pages" summary="How a page is assembled: the guide archetypes and the supplement pages, and their section order, the page skeleton in code, spacing between sections, where reviews, search, the reader’s lists, warnings, price alerts and research go, and where each commerce rule lives." />
 
 # Composing pages
 
@@ -18,6 +18,21 @@ Every archetype takes the same `SiteChrome` and `RoundupGuide`, so content moves
 | `CollectorsGuidePage` | A curated set of peers, not ranked | Masthead · article header · a catalog of every piece · each piece in full · method · footer |
 
 The answer comes first (the quick verdict), the proof follows (comparison, deep dives), and the method closes. The verdict and the deep dive never repeat each other: the verdict card says why or who, the deep dive what was measured.
+
+## The supplement pages
+
+Each takes a `SiteChrome` and its own contract. The templates typeset the copy, set `data-category`, and apply the commerce rules for you: the disclosure notice before the first buy link, a standing warning in place of the sale, and the health disclaimer last.
+
+| Template | Contract | Sections, in order |
+| --- | --- | --- |
+| `ProductPage` | `ProductReport` | Masthead · (a warning’s banner) · article header with the reviewer · (the full warning) · the review with its buy box · the lab report: grade, key findings, every result, the watchlist, the certification · the research on its main ingredient · price over 90 days and a price alert · readers’ reviews · people also looked at · questions · method · health disclaimer · footer, with a sticky buy bar |
+| `BrandPage` | `BrandProfile` | Masthead · the brand: what it makes, products tested and certified, readers’ rating, how it handles reviews, the disclosure notice · (its warning) · its products · readers’ reviews · similar brands · health disclaimer · footer |
+| `CategoryPage` | `CategoryGuide` | Masthead · article header · the ranking · the category report · questions beside their sources · method · Suggest a product · health disclaimer · footer |
+| `IngredientPage` | `IngredientGuide` | Masthead · article header with the reviewer · beside a table of contents: what it is (other names, cited paragraphs) · the evidence · how to take it · safety · the studies · products tested · questions · sources · health disclaimer · footer |
+| `SearchPage` | the query and its hits | Masthead · the query as the heading and a field to search again · results grouped by kind, or what to try and popular products · footer |
+| `AccountPage` | the reader and their lists | Masthead with the account menu · tabs for Saved, Price alerts and History · the list · footer |
+
+A `ProductReport` holds the review as a `Pick`, so a product reviewed in a guide gets its own page from the same data. Under an active warning, `ProductPage` leads with `Banner` and `ConsumerWarning`, and drops the grade, the certification, the price, every buy link and the structured data. It prints the readers’ rating as Product structured data only from the reviews it shows, and no other template prints review markup.
 
 ## The page skeleton
 
@@ -120,7 +135,7 @@ Mark up reviews as structured data (schema.org `Product` with `Review` and `Aggr
 
 - **A product’s lab report**: `GradeScale` beside its score in the header, then `KeyFindings`, `AssayTable` and `WatchlistIngredients` (its `id` is where `KeyFindings` links), then `CertificationNotice`. A grade’s meaning in full is `GradeLegend` with `LAB_GRADES`, in the method.
 - **A supplement’s research page**: `AlsoKnownAs` under the title, then `EvidenceTable` (the answer), `DosageCard`, `SafetyPanel`, `ResearchFeed` (the proof), `Faq`, `ReferenceList`, and `HealthDisclaimer` last, before the footer. Every claim in the prose carries a `Citation`.
-- **A category**: `RankingList` and `CategoryReport` side by side as tabs (`TabLinks`), with `SuggestAProduct` at the end.
+- **A category**: `RankingList`, then `CategoryReport`, with `SuggestAProduct` at the end (`CategoryPage` sets them out). When the ranking leaves products out, say so in its `summary`: “The 4 of 18 that passed every test.”
 - **The byline**: give the guide `reviewedBy` (an `ExpertReview`) and `EditorialArticleHeader` shows `ReviewedBy` under the author. The reviewer’s `beats` must cover the page’s category.
 - **Every supplement page** ends with `HealthDisclaimer`, visible, before `SiteFooter`; `plural` on a guide to several products.
 

@@ -8,10 +8,10 @@ import { Button, Checkbox, ChoiceGroup, Drawer, DrawerClose, Radio, SearchField 
 
 const POSTED: { value: ReviewQuery["posted"]; label: string }[] = [
   { value: "all", label: "All reviews" },
-  { value: "30d", label: "Last 30 days" },
-  { value: "3m", label: "Last 3 months" },
-  { value: "6m", label: "Last 6 months" },
-  { value: "12m", label: "Last 12 months" },
+  { value: "30d", label: "Last 30\u00a0days" },
+  { value: "3m", label: "Last 3\u00a0months" },
+  { value: "6m", label: "Last 6\u00a0months" },
+  { value: "12m", label: "Last 12\u00a0months" },
 ];
 
 /** How many filters a query applies, for the Filters button and Clear all. */

@@ -37,7 +37,7 @@ export interface EvidenceTableProps {
   intro?: string;
   /** The order on load: `grade` strongest evidence first (default), `studies` most first, or `name` A to Z. */
   defaultSort?: OutcomeSort;
-  /** The heading’s level: `h2` (default), or `h3` inside a section. */
+  /** The heading’s level: `h2` (default), or `h3` inside a section, set a size smaller. */
   as?: "h2" | "h3";
   /** An anchor, unique on the page (default `evidence`). */
   id?: string;
@@ -68,7 +68,7 @@ export function EvidenceTable({ outcomes, heading = "What the research says", in
     <section id={id} aria-labelledby={`${id}-heading`} className={cn("@container grid scroll-mt-8 gap-4", className)}>
       <div className="grid gap-2">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <Heading id={`${id}-heading`} className="m-0 t-headline text-fg">
+          <Heading id={`${id}-heading`} className={cn("m-0 text-fg", Heading === "h2" ? "t-headline" : "t-title")}>
             {heading}
           </Heading>
           <Explainer label="What do the evidence grades mean?" title="Evidence grades">

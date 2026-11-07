@@ -32,7 +32,7 @@ export interface PriceHistoryProps {
   points: PricePoint[];
   /** ISO 4217 code (default `USD`). */
   currency?: string;
-  /** The heading (default “Price over the last 90 days”). */
+  /** The heading (default “Price over the last 90 days”). Tie a number to its unit with a no-break space. */
   heading?: string;
   /** The heading’s level: `h2` on a page, `h3` inside a section (default). */
   as?: "h2" | "h3";
@@ -56,7 +56,7 @@ export interface PriceHistoryProps {
  * @summary 90 days of the lowest price: now against the low and high, and a table.
  * @import import { PriceHistory } from "@/kit/components";
  */
-export function PriceHistory({ points, currency = "USD", heading = "Price over the last 90 days", as: Heading = "h3", className }: PriceHistoryProps) {
+export function PriceHistory({ points, currency = "USD", heading = "Price over the last 90\u00a0days", as: Heading = "h3", className }: PriceHistoryProps) {
   const runs = runsOf(points);
   const priced = runs.filter((run): run is Run & { price: number } => run.price !== null);
   if (!priced.length || points.length < 2) return null;

@@ -93,6 +93,8 @@ export interface RankingListProps {
   pageSize?: number;
   /** A Compare box on every row, for pages that show the `CompareTray`. */
   compare?: boolean;
+  /** The line under the heading, before the disclosure link (default: “{n} products tested, {n} certified.”). Say what the ranking leaves out: “The 4 of 18 that passed every test.” */
+  summary?: string;
   /** Where the site says how it earns from links, linked from the line above the list. */
   disclosureHref: string;
   /** Campaign attribution added to every buy link. */
@@ -120,7 +122,7 @@ export interface RankingListProps {
  * @summary A whole category ranked: grade, photo, certification, cost per serving; four orders.
  * @import import { RankingList } from "@/kit/blocks";
  */
-export function RankingList({ heading, products, defaultSort = "quality", pageSize = 20, compare = false, disclosureHref, attribution, id = "ranking", className }: RankingListProps) {
+export function RankingList({ heading, summary, products, defaultSort = "quality", pageSize = 20, compare = false, disclosureHref, attribution, id = "ranking", className }: RankingListProps) {
   const [sort, setSort] = useState<RankingSort>(defaultSort);
   const [limit, setLimit] = useState(pageSize);
   const sorted = useMemo(() => sortProducts(products, sort), [products, sort]);
@@ -133,7 +135,7 @@ export function RankingList({ heading, products, defaultSort = "quality", pageSi
           {heading}
         </h2>
         <p data-numeric className="m-0 t-small text-fg-muted">
-          {products.length} {products.length === 1 ? "product" : "products"} tested, {certified} certified.{" "}
+          {summary ?? `${products.length} ${products.length === 1 ? "product" : "products"} tested, ${certified} certified.`}{" "}
           <a href={disclosureHref} className="kit-focus kit-link rounded-ctl">
             {INLINE_DISCLOSURE}
           </a>

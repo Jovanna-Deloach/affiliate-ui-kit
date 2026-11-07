@@ -11,7 +11,7 @@ import { cn } from "@/lib/cn";
 
 /** The summary and the filters on the left, everything else in a column on the right, in both rows. */
 const COLUMNS = "grid gap-8 lg:grid-cols-[minmax(0,17rem)_minmax(0,1fr)] lg:gap-12";
-const POSTED_LABEL: Record<ReviewQuery["posted"], string> = { all: "", "30d": "Last 30 days", "3m": "Last 3 months", "6m": "Last 6 months", "12m": "Last 12 months" };
+const POSTED_LABEL: Record<ReviewQuery["posted"], string> = { all: "", "30d": "Last 30\u00a0days", "3m": "Last 3\u00a0months", "6m": "Last 6\u00a0months", "12m": "Last 12\u00a0months" };
 /** A list this short is read at a glance: no filters. */
 const FEW = 5;
 const REVIEW_HASH = /^#review-(.+)$/;

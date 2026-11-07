@@ -9,7 +9,7 @@ export interface AssayTableProps {
   report: LabReport;
   /** The heading (default “What the lab found”). */
   heading?: string;
-  /** The heading’s level: `h2` (default), or `h3` inside a section. */
+  /** The heading’s level: `h2` (default), or `h3` inside a section, set a size smaller. */
   as?: "h2" | "h3";
   /** An anchor, unique on the page (default `assay`). */
   id?: string;
@@ -41,7 +41,7 @@ export function AssayTable({ report, heading = "What the lab found", as: Heading
   return (
     <section id={id} aria-labelledby={`${id}-heading`} className={cn("@container grid scroll-mt-8 gap-8", className)}>
       <div className="grid gap-2">
-        <Heading id={`${id}-heading`} className="m-0 t-headline text-fg">
+        <Heading id={`${id}-heading`} className={cn("m-0 text-fg", Heading === "h2" ? "t-headline" : "t-title")}>
           {heading}
         </Heading>
         <p className="m-0 t-small text-fg-muted">

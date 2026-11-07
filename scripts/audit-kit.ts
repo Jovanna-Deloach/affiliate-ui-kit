@@ -23,7 +23,7 @@
  *      for its category and a quote with its proof
  *    • awards are words, never numbers; `synthesis` never restates `bestFor`
  *
- * 3. RENDERED PAGES (each archetype, server-rendered to HTML and parsed)
+ * 3. RENDERED PAGES (each template, server-rendered to HTML and parsed)
  *    • no text block, and no sentence, over 40 characters appears twice
  *      (product names are identifiers and exempt)
  *    • typesetting: no-break space between numbers and units, true quotes,
@@ -53,14 +53,24 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 import { assayGuide, collectorsGuide, versusGuide } from "@/fixtures/kit/archetypes";
 import { creatineGuide } from "@/fixtures/kit/creatine";
+import { creatineSummaries, DISCOVERY_NOW, reader, savedItems, searchSuggestions, viewedItems } from "@/fixtures/kit/discovery";
+import { creatineCategoryGuide, creatineHits, creatineIngredientGuide, creatineQuery, emptyQuery, peakBrandProfile, peakReport, recalledReport } from "@/fixtures/kit/pages";
+import { REVIEWS_NOW } from "@/fixtures/kit/reviews";
+import { priceAlerts } from "@/fixtures/kit/safety";
 import { runningGuide } from "@/fixtures/kit/running";
 import { caliberSite, provingGroundSite } from "@/fixtures/kit/sites";
 import { watchesGuide } from "@/fixtures/kit/watches";
 import { isRanked, leadOffer } from "@/kit/lib/offers";
 import { typeset, typesettingIssues } from "@/kit/lib/typeset";
+import { AccountPage } from "@/kit/templates/account-page";
 import { CollectorsGuidePage, LabAssayPage, VersusPage } from "@/kit/templates/archetypes";
+import { BrandPage } from "@/kit/templates/brand-page";
+import { CategoryPage } from "@/kit/templates/category-page";
+import { IngredientPage } from "@/kit/templates/ingredient-page";
+import { ProductPage } from "@/kit/templates/product-page";
 import { RoundupPage } from "@/kit/templates/roundup-page";
-import type { KitProduct, RoundupGuide, SiteChrome } from "@/kit/types";
+import { SearchPage } from "@/kit/templates/search-page";
+import type { KitProduct, ProductSummary, RoundupGuide, SiteChrome } from "@/kit/types";
 
 const ROOT = process.cwd();
 const KIT = path.join(ROOT, "src", "kit");
@@ -238,7 +248,8 @@ function text(el: El): string {
 }
 const norm = (s: string) => s.replace(/\s+/g, " ").trim();
 function textNodes(el: El, out: string[] = []): string[] {
-  if (el.attrs["aria-hidden"] === "true" || el.tag === "svg") return out;
+  // Hidden text, drawings and scripts (structured data is JSON, not copy) are not read as text.
+  if (el.attrs["aria-hidden"] === "true" || el.tag === "svg" || el.tag === "script" || el.tag === "style") return out;
   for (const c of el.children) {
     if (typeof c === "string") out.push(c);
     else textNodes(c, out);
@@ -250,17 +261,32 @@ const STORY_ORDER = ["descriptor", "title", "synthesis", "buy-block", "narrative
 
 interface Page {
   name: string;
-  site: SiteChrome;
-  guide: RoundupGuide;
-  render: (props: { site: SiteChrome; guide: RoundupGuide }) => ReactElement | null;
+  /** The page, as the template renders it. */
+  element: () => ReactElement | null;
+  /** Its products: their names are exempt from the repeated-text rule, and the warning and merchant rules read them. */
+  products: KitProduct[];
 }
+const guidePage = (name: string, site: SiteChrome, guide: RoundupGuide, render: (props: { site: SiteChrome; guide: RoundupGuide }) => ReactElement | null): Page => ({
+  name,
+  element: () => render({ site, guide }),
+  products: guide.picks.map((p) => p.product),
+});
+const of = (summaries: readonly ProductSummary[]) => summaries.map((s) => s.product);
 const PAGES: Page[] = [
-  { name: "Caliber roundup", site: caliberSite, guide: watchesGuide, render: RoundupPage },
-  { name: "Proving Ground supplements", site: provingGroundSite, guide: creatineGuide, render: RoundupPage },
-  { name: "Proving Ground running", site: provingGroundSite, guide: runningGuide, render: RoundupPage },
-  { name: "Head-to-head versus", site: caliberSite, guide: versusGuide, render: VersusPage },
-  { name: "Single-product lab assay", site: provingGroundSite, guide: assayGuide, render: LabAssayPage },
-  { name: "Collector’s guide", site: caliberSite, guide: collectorsGuide, render: CollectorsGuidePage },
+  guidePage("Caliber roundup", caliberSite, watchesGuide, RoundupPage),
+  guidePage("Proving Ground supplements", provingGroundSite, creatineGuide, RoundupPage),
+  guidePage("Proving Ground running", provingGroundSite, runningGuide, RoundupPage),
+  guidePage("Head-to-head versus", caliberSite, versusGuide, VersusPage),
+  guidePage("Single-product lab assay", provingGroundSite, assayGuide, LabAssayPage),
+  guidePage("Collector’s guide", caliberSite, collectorsGuide, CollectorsGuidePage),
+  { name: "Product page", element: () => ProductPage({ site: provingGroundSite, report: peakReport, now: REVIEWS_NOW }), products: [peakReport.pick.product, ...of(peakReport.alsoLookedAt ?? [])] },
+  { name: "Product page under a recall", element: () => ProductPage({ site: provingGroundSite, report: recalledReport, now: REVIEWS_NOW }), products: [recalledReport.pick.product, ...of(recalledReport.alsoLookedAt ?? [])] },
+  { name: "Brand page", element: () => BrandPage({ site: provingGroundSite, profile: peakBrandProfile, now: REVIEWS_NOW }), products: of(peakBrandProfile.products) },
+  { name: "Category page", element: () => CategoryPage({ site: provingGroundSite, guide: creatineCategoryGuide }), products: of(creatineCategoryGuide.ranking.products) },
+  { name: "Ingredient page", element: () => IngredientPage({ site: provingGroundSite, guide: creatineIngredientGuide }), products: of(creatineIngredientGuide.products) },
+  { name: "Search results", element: () => SearchPage({ site: provingGroundSite, query: creatineQuery, hits: creatineHits }), products: [] },
+  { name: "Search with no results", element: () => SearchPage({ site: provingGroundSite, query: emptyQuery, hits: [], suggestions: searchSuggestions, popular: creatineSummaries }), products: of(creatineSummaries) },
+  { name: "Account: price alerts", element: () => AccountPage({ site: provingGroundSite, reader, view: "alerts", hrefs: { saved: "#saved", alerts: "#alerts", history: "#history" }, saved: savedItems, alerts: priceAlerts, history: viewedItems, now: DISCOVERY_NOW }), products: [] },
 ];
 
 /** Every rendered-page rule, on one HTML document. Returns one line per problem. */
@@ -372,10 +398,10 @@ function checkHtml(html: string, { names: extraNames = [], products = new Map<st
 
 console.log(`▶ rendered pages: ${PAGES.length}`);
 for (const page of PAGES) {
-  const html = renderToStaticMarkup(page.render({ site: page.site, guide: page.guide })!);
+  const html = renderToStaticMarkup(page.element()!);
   const problems = checkHtml(html, {
-    names: page.guide.picks.map((p) => `${p.product.brand} ${p.product.name}`),
-    products: new Map(page.guide.picks.map((p) => [p.product.id, p.product])),
+    names: page.products.flatMap((p) => [`${p.brand} ${p.name}`, p.name]),
+    products: new Map(page.products.map((p) => [p.id, p])),
   });
   for (const problem of problems) fail(page.name, problem);
   const doc = parse(html);

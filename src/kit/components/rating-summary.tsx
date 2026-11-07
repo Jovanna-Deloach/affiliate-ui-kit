@@ -70,7 +70,7 @@ export function RatingSummary({ summary, selected = [], onSelectStars, starHref,
         <p className="m-0 t-caption text-fg-muted">
           {recentCount !== undefined ? (
             <>
-              <span data-numeric>{recentCount.toLocaleString("en-US")}</span> in the last 12 months.
+              <span data-numeric>{recentCount.toLocaleString("en-US")}</span> in the last 12{"\u00a0"}months.
             </>
           ) : null}
           {scoreHref ? (

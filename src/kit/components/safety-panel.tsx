@@ -24,6 +24,8 @@ export interface SafetyPanelProps {
   summary?: string;
   /** The heading’s level: `h2` on a page (default), `h3` inside a section. */
   as?: "h2" | "h3";
+  /** An anchor, unique on the page (default `safety`). */
+  id?: string;
   /** Placement only: margin, grid position, width. The look comes from the theme. */
   className?: string;
 }
@@ -42,10 +44,10 @@ export interface SafetyPanelProps {
  * @summary Who should avoid it, interactions and side effects, by severity.
  * @import import { SafetyPanel } from "@/kit/components";
  */
-export function SafetyPanel({ notes, heading = "Safety", summary, as: Heading = "h2", className }: SafetyPanelProps) {
+export function SafetyPanel({ notes, heading = "Safety", summary, as: Heading = "h2", id = "safety", className }: SafetyPanelProps) {
   const Sub = Heading === "h2" ? "h3" : "h4";
   return (
-    <section aria-label={heading} className={cn("grid gap-6", className)}>
+    <section id={id} aria-label={heading} className={cn("grid scroll-mt-8 gap-6", className)}>
       <div className="grid max-w-[65ch] gap-2">
         <Heading className="m-0 t-title text-fg">{heading}</Heading>
         {summary ? <p className="m-0 t-body text-fg-body">{summary}</p> : null}

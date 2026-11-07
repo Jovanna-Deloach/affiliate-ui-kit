@@ -9,8 +9,8 @@ import { Avatar, Breadcrumb, Eyebrow } from "@/kit/ui";
 import { TestingTelemetryBadge } from "./testing-telemetry-badge";
 
 export interface EditorialArticleHeaderProps {
-  /** The guide’s header fields: `crumbs`, `title` (says something), `dek`, `author` (covers the page’s category), `reviewedBy` (an expert who checked the facts, shown under the author), `testedWith`, `updatedAt`, and `telemetry` for the testing card. */
-  guide: Pick<RoundupGuide, "crumbs" | "title" | "dek" | "author" | "reviewedBy" | "testedWith" | "updatedAt" | "telemetry">;
+  /** The guide’s header fields: `crumbs`, `title` (says something), `dek`, `author` (covers the page’s category), `reviewedBy` (an expert who checked the facts, shown under the author), `testedWith`, `updatedAt`, and `telemetry` for the testing card. A page that is not a test (a research page) leaves out `testedWith` and `telemetry`. */
+  guide: Pick<RoundupGuide, "crumbs" | "title" | "dek" | "author" | "reviewedBy" | "updatedAt"> & Partial<Pick<RoundupGuide, "testedWith" | "telemetry">>;
   /** The disclosure notice in the byline, read before the first buy link: the site’s `disclosureNotice` and `disclosureHref`. */
   notice: { text: string; href: string };
   /** The method section’s anchor, for the testing card’s link. Default `#methodology`. */
@@ -56,7 +56,7 @@ export function EditorialArticleHeader({ guide, notice, methodHref = "#methodolo
                 <Eyebrow as="span" tone="default" icon={<BadgeCheck size={14} strokeWidth={2} className="text-pass" />}>
                   Updated <time dateTime={guide.updatedAt}>{formatDateLong(guide.updatedAt)}</time>
                 </Eyebrow>
-                <span className="t-small text-fg-muted">Tested with {guide.testedWith}.</span>
+                {guide.testedWith ? <span className="t-small text-fg-muted">Tested with {guide.testedWith}.</span> : null}
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@ export function EditorialArticleHeader({ guide, notice, methodHref = "#methodolo
             </a>
           </p>
         </div>
-        <TestingTelemetryBadge telemetry={guide.telemetry} methodHref={methodHref} className="@4xl:col-span-5" />
+        {guide.telemetry ? <TestingTelemetryBadge telemetry={guide.telemetry} methodHref={methodHref} className="@4xl:col-span-5" /> : null}
       </div>
     </header>
   );

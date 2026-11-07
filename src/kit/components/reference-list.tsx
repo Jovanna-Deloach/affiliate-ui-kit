@@ -13,7 +13,7 @@ export interface ReferenceListProps {
   cited?: readonly string[];
   /** The heading (default “References”). */
   heading?: string;
-  /** The heading’s level: `h2` (default), or `h3` inside a section. */
+  /** The heading’s level: `h2` (default), or `h3` inside a section, set a size smaller. */
   as?: "h2" | "h3";
   /** An anchor, unique on the page (default `references`). */
   id?: string;
@@ -37,7 +37,7 @@ export interface ReferenceListProps {
 export function ReferenceList({ references, cited, heading = "References", as: Heading = "h2", id = "references", className }: ReferenceListProps) {
   return (
     <section id={id} aria-labelledby={`${id}-heading`} className={cn("grid scroll-mt-8 gap-4", className)}>
-      <Heading id={`${id}-heading`} className="m-0 t-headline text-fg">
+      <Heading id={`${id}-heading`} className={cn("m-0 text-fg", Heading === "h2" ? "t-headline" : "t-title")}>
         {heading}
       </Heading>
       <ol className="m-0 grid list-none gap-1 p-0">

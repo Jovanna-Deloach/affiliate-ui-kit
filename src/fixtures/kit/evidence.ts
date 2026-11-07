@@ -11,10 +11,10 @@ import type { CategoryResults, Dosage, ExpertReview, FaqItem, LabReport, Outcome
  */
 
 /** The expert who checks the creatine pages. */
-export const brandt: Person = { name: "Dr. Lena Brandt", role: "Reviewer", href: "#lena", beats: ["supplements"] };
+export const rahimi: Person = { name: "Dr. Nadia Rahimi", role: "Reviewer", href: "#nadia", beats: ["supplements"] };
 
 export const creatineReview: ExpertReview = typesetDeep<ExpertReview>({
-  person: brandt,
+  person: rahimi,
   credentials: "PhD, exercise physiology; registered dietitian",
   reviewedAt: "2026-10-29T00:00:00Z",
 });

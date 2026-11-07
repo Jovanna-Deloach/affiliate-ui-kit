@@ -134,6 +134,8 @@ const PROSE = new Set([
   "detail",
   "action",
   "affected",
+  "replyTime",
+  "snippet",
 ]);
 
 /** Typeset every prose string in a fixture or page contract, deeply. */

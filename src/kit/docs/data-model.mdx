@@ -780,6 +780,142 @@ export interface ProductSuggestion {
   email?: string;
 }
 
+/* ---------------------------------------------------------------------- */
+/* Supplement pages                                                       */
+/* ---------------------------------------------------------------------- */
+
+/** A paragraph of a research page and the sources it rests on: the template sets a `Citation` after it for each. */
+export interface CitedParagraph {
+  text: string;
+  /** The `Reference.id`s it cites, in order; each must be in the page’s `references`. */
+  cites?: string[];
+}
+
+/**
+ * Everything a product’s own page shows: the review, the lab report, the
+ * evidence for what’s in it, its price over time, and readers’ reviews.
+ * Rendered by `ProductPage`.
+ */
+export interface ProductReport {
+  id: string;
+  category: Category;
+  crumbs: Crumb[];
+  /** The page’s own address, for the reader’s history and saved items. */
+  href: string;
+  /** The page’s title: the product and what the page is, “Peak Supply Creatine Monohydrate: lab report and reviews”. */
+  title: string;
+  /** The verdict in a sentence or two. */
+  dek: string;
+  author: Person;
+  reviewedBy?: ExpertReview;
+  /** Completes “Tested with …”. */
+  testedWith?: string;
+  updatedAt: string;
+  /** The header’s testing card: what the lab ran, and against what. */
+  telemetry?: { stats: TestingStat[]; reference: string };
+  /** The review: photograph, award, score and sub-scores, measurements, narrative, what we like and what to know, a tester’s words, specifications, and the product with its offers and any warning. */
+  pick: Pick;
+  /** The grade for its test results. */
+  grade: Grade;
+  /** The certification and every batch tested. */
+  certification: Certification;
+  lab: LabReport;
+  /** The research on its main ingredient: a few outcomes and the ingredient’s page. */
+  evidence?: { ingredient: string; href: string; outcomes: Outcome[] };
+  /** Its lowest price over the last 90 days. */
+  priceHistory?: PricePoint[];
+  /** Readers’ reviews of it: the list, its topics, the AI summary, and how the brand handles reviews. */
+  reviews?: { items: Review[]; topics?: ReviewTopic[]; aiSummary?: AiSummary; trust?: TrustSignals };
+  /** Products readers of this page also looked at. */
+  alsoLookedAt?: ProductSummary[];
+  faq?: FaqItem[];
+  /** How the site tests, the testing card’s “Read the full method” target. */
+  methodology?: RoundupGuide["methodology"];
+}
+
+/** A brand’s page: who it is, how it handles reviews, what the site tested, and what readers say. Rendered by `BrandPage`. */
+export interface BrandProfile {
+  id: string;
+  category: Category;
+  crumbs: Crumb[];
+  brand: Brand;
+  /** What the brand makes, and how its products tested, in a sentence or two. */
+  dek: string;
+  /** How the brand asks for, answers and handles reviews. */
+  trust: TrustSignals;
+  /** A warning about the brand itself (fake reviews, a regulator’s letter), shown first. */
+  warning?: ProductWarning;
+  /** Its products the site tested, every one photographed. */
+  products: ProductSummary[];
+  /** Readers’ reviews of its products. */
+  reviews?: { items: Review[]; topics?: ReviewTopic[]; aiSummary?: AiSummary };
+  /** Brands readers of this page also looked at. */
+  similar?: Brand[];
+}
+
+/**
+ * A category’s page: every product the site recommends in it, ranked, how
+ * the whole category tested, and the questions readers ask, with sources.
+ * Rendered by `CategoryPage`.
+ */
+export interface CategoryGuide {
+  id: string;
+  category: Category;
+  crumbs: Crumb[];
+  title: string;
+  dek: string;
+  author: Person;
+  reviewedBy?: ExpertReview;
+  testedWith?: string;
+  updatedAt: string;
+  telemetry?: { stats: TestingStat[]; reference: string };
+  /** The ranking: its heading, the line under it (default: how many tested and certified), and the products, every one photographed. */
+  ranking: { heading: string; summary?: string; products: ProductSummary[] };
+  /** How every product in the category tested, the ones not in the ranking included. */
+  results: CategoryResults;
+  /** The questions readers ask about the category. */
+  faq: FaqItem[];
+  /** The sources behind the answers. */
+  references?: Reference[];
+  /** What the category is, singular and lowercase, for “Don’t see your creatine?”. */
+  noun: string;
+  /** How the site tests, the testing card’s “Read the full method” target. */
+  methodology?: RoundupGuide["methodology"];
+}
+
+/**
+ * A supplement’s or ingredient’s page: what it is, what the research says
+ * outcome by outcome, how to take it, who should not, the studies, the
+ * products the site tested that contain it, and every source. Rendered by
+ * `IngredientPage`.
+ */
+export interface IngredientGuide {
+  id: string;
+  category: Category;
+  crumbs: Crumb[];
+  /** The supplement, as readers say it: “Creatine”. */
+  name: string;
+  title: string;
+  dek: string;
+  author: Person;
+  reviewedBy?: ExpertReview;
+  updatedAt: string;
+  /** Its other names, and what it should not be confused with. */
+  names: string[];
+  notConfusedWith?: { name: string; note?: string; href?: string }[];
+  /** What it is and what it does, a paragraph each, with their sources. */
+  overview: CitedParagraph[];
+  outcomes: Outcome[];
+  dosage: Dosage;
+  safety: { summary?: string; notes: SafetyNote[] };
+  studies: Study[];
+  /** The products the site tested that contain it, every one photographed. */
+  products: ProductSummary[];
+  faq: FaqItem[];
+  /** Every source the page cites, in the order the overview first cites them. */
+  references: Reference[];
+}
+
 // src/types/affiliate.ts: import from "@/types/affiliate"
 export interface MerchantOffer {
   id: string;
