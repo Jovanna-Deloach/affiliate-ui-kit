@@ -44,9 +44,10 @@ export interface ProductCardProps {
  * @import import { ProductCard } from "@/kit/components";
  */
 export function ProductCard({ summary, corner, footer, buy = false, attribution, as: Heading = "h3", sizes = "(min-width: 1024px) 18rem, 70vw", className }: ProductCardProps) {
-  const { product, href, certification, rating, perServing } = summary;
+  const { product, href, rating, perServing } = summary;
   const warning = underWarning(product) ? product.warning : undefined;
-  // A standing warning takes the place of the grade, the score, the price and any buy link.
+  // A standing warning takes the place of the grade, the score, the certification, the price and any buy link.
+  const certification = warning ? undefined : summary.certification;
   const grade = warning ? undefined : summary.grade;
   const score = warning ? undefined : summary.score;
   const offer = warning ? undefined : leadOffer(product.offers);

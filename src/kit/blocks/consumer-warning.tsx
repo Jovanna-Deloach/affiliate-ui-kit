@@ -22,8 +22,8 @@ export interface ConsumerWarningProps {
  * warning, a failed safety test or fake reviews. Its kind and whether it
  * still stands, the title, what it is about, when it was issued and by whom
  * (linked), what happened, what it covers, and what to do, set apart. While
- * it stands, the product’s score and buy links are down everywhere in the
- * kit (`KitProduct.warning`), and the block says so. Resolved, it stays as
+ * it stands, the product’s score, certification and buy links are down
+ * everywhere in the kit (`KitProduct.warning`), and the block says so. Resolved, it stays as
  * history, in gray.
  *
  * **Use it for** the top of a product’s or brand’s page, under the article
@@ -82,7 +82,7 @@ export function ConsumerWarning({ warning, subject, id = "warning", className }:
           <p className="m-0 t-small text-fg-body">{warning.action}</p>
         </div>
         <p className="m-0 t-caption text-fg-muted">
-          {active ? "We’ve taken down the score and every buy link while this warning stands." : "Kept here so you know it happened."}
+          {active ? "We’ve taken down the score, the certification and every buy link while this warning stands." : "Kept here so you know it happened."}
         </p>
       </div>
     </section>

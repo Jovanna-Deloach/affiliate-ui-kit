@@ -59,7 +59,8 @@ export interface KitProduct {
   /**
    * A warning about the product (a recall, a regulator’s warning, a failed
    * safety test, fake reviews). While it is `active`, every part withholds
-   * the product’s buy links and its score, and shows the warning instead.
+   * the product’s buy links, its score and its certification, and shows the
+   * warning instead.
    */
   warning?: ProductWarning;
 }

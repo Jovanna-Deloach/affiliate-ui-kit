@@ -23,7 +23,7 @@ export const capsuleRecall: ProductWarning = {
   source: { name: "Fieldwork", href: "#fieldwork-recall-notice" },
 };
 
-/** The Fieldwork capsules while the recall stands: every buy link and the score come down. */
+/** The Fieldwork capsules while the recall stands: the score, the certification and every buy link come down. */
 export const recalledCapsules: KitProduct = { ...creatineGuide.picks[3]!.product, warning: capsuleRecall };
 
 /** The recalled capsules as a card and a ranking row show them. */
@@ -32,7 +32,7 @@ export const recalledSummary: ProductSummary = { ...creatineSummaries[3]!, produ
 /** The recalled capsules as a pick in a guide. */
 export const recalledPick: Pick = { ...creatineGuide.picks[3]!, product: recalledCapsules };
 
-/** A creatine ranking with the capsules under the recall: they drop to the bottom, without a price or a buy link. */
+/** A creatine ranking with the capsules under the recall: they drop to the bottom, without a certification, a price or a buy link. */
 export const rankingWithRecall: ProductSummary[] = [recalledSummary, creatineSummaries[0]!, creatineSummaries[1]!, creatineSummaries[2]!];
 
 /** A product that failed the site’s own safety test. */

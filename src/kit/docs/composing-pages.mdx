@@ -87,7 +87,7 @@ export function Page({ site, guide: input }: { site: SiteChrome; guide: RoundupG
 | A link to a review reaches it | A review’s id is `review-{id}` (its `Review.id`); `ReviewsSection` clears the filters that hide it and lengthens the list to show it |
 | History stays with the reader | `@/kit/lib/reader` keeps viewed, saved and compared items on the device only; `PickUpWhereYouLeftOff` and `SavedItems` say so and keep Clear history in view |
 | No buy link on a failure | `RankingList` and `ProductCard` leave out the buy pill for a product graded F; the ranking says why |
-| A warning outranks the sale | Set `warning` on the product: `BuyBlock`, `VerdictCard`, `ComparisonMatrix`, `PickRow`, `ProductDeepDiveCard`, `ProductCard` and `RankingList` show `WarningNote` in place of its price, score and buy links; `StickyBuyBar` stays hidden; `sortProducts` puts it last |
+| A warning outranks the sale | Set `warning` on the product: `BuyBlock`, `VerdictCard`, `ComparisonMatrix`, `PickRow`, `ProductDeepDiveCard`, `ProductCard` and `RankingList` show `WarningNote` in place of its price, score and buy links, and drop its certification; `StickyBuyBar` stays hidden; `sortProducts` puts it last |
 | The note reaches the full warning | `ConsumerWarning` takes `id={warningId(product)}` (`warning-{slug}`, from `@/kit/lib/warnings`): the notes in a guide link there; cards and ranking rows link to the product’s page |
 | The ranking discloses before its buy pills | `RankingList` puts “We may earn a commission.” above the list, linked to `disclosureHref` |
 
@@ -107,7 +107,7 @@ Mark up reviews as structured data (schema.org `Product` with `Review` and `Aggr
 
 ## Warnings, safety and price alerts
 
-- **A standing warning** about a product: set it on the product (`KitProduct.warning`), so every part that sells it shows the warning instead. On the product’s own page, put `Banner` with `tone="danger"` first under the masthead, linking to the full warning, and `ConsumerWarning` right under the article header, with `id={warningId(product)}`. Keep the product in its guides and rankings: it goes last, unlinked.
+- **A standing warning** about a product: set it on the product (`KitProduct.warning`), so every part that sells it shows the warning instead. On the product’s own page, put `Banner` with `tone="danger"` first under the masthead, linking to the full warning, and `ConsumerWarning` right under the article header, with `id={warningId(product)}`. Keep the product in its guides and rankings: it goes last, unlinked. Leave `CertificationNotice` off its page while the warning stands; the parts that take a product drop the certification on their own.
 - **A resolved warning** stays on the product’s page as history: `ConsumerWarning` after the proof, in gray. The score and the buy links come back on their own.
 - **A warning about a brand** (fake reviews, a regulator’s letter): `ConsumerWarning` with the brand as its `subject` at the top of the brand’s page, and the same warning on each product it covers, so their buy links come down too.
 - **A certification that lapsed or is in testing** is not a warning: `CertificationNotice` goes where the page discusses the lab results, and the buy links stay.

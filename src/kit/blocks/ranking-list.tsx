@@ -20,9 +20,10 @@ const ORDERS: { value: RankingSort; label: string }[] = [
 ];
 
 function Row({ summary, compare, attribution }: { summary: ProductSummary; compare: boolean; attribution?: AffiliateAttribution }) {
-  const { product, href, certification, rating, perServing, note } = summary;
+  const { product, href, rating, perServing, note } = summary;
   const warning = underWarning(product) ? product.warning : undefined;
-  // A standing warning takes the place of the grade, the score, the price and the buy link.
+  // A standing warning takes the place of the grade, the score, the certification, the price and the buy link.
+  const certification = warning ? undefined : summary.certification;
   const grade = warning ? undefined : summary.grade;
   const score = warning ? undefined : summary.score;
   const offer = warning ? undefined : leadOffer(product.offers);
@@ -123,7 +124,8 @@ export function RankingList({ heading, products, defaultSort = "quality", pageSi
   const [sort, setSort] = useState<RankingSort>(defaultSort);
   const [limit, setLimit] = useState(pageSize);
   const sorted = useMemo(() => sortProducts(products, sort), [products, sort]);
-  const certified = products.filter((p) => p.certification?.status === "certified").length;
+  // A product under a standing warning shows no certification, so it is not counted as certified.
+  const certified = products.filter((p) => p.certification?.status === "certified" && !underWarning(p.product)).length;
   return (
     <section id={id} aria-labelledby={`${id}-heading`} className={cn("@container grid gap-6", className)}>
       <div className="grid gap-2">

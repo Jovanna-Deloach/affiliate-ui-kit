@@ -46,7 +46,8 @@ export const WithCompare: Story = { args: { compare: true } };
 export const ShowMore: Story = { args: { pageSize: 2 } };
 
 /**
- * One product under a recall: last in the ranking, without its grade, price or buy link.
+ * One product under a recall: last in the ranking, without its grade, certification, price or buy
+ * link, and left out of the certified count.
  * @summary A recalled product, last and unlinked.
  */
 export const WithARecall: Story = { args: { products: rankingWithRecall } };

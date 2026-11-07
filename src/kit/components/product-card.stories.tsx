@@ -53,8 +53,8 @@ export const WithABuyPill: Story = { args: { summary: creatineSummaries[2]!, buy
 export const SoldOut: Story = { args: { summary: soldOutSummary, buy: true } };
 
 /**
- * Under a recall: the warning takes the place of the grade, the score and the price, even with
- * `buy` set.
- * @summary Under a recall: no grade, no price, no buy link.
+ * Under a recall: the warning takes the place of the grade, the score, the certification and the
+ * price, even with `buy` set.
+ * @summary Under a recall: no grade, no certification, no buy link.
  */
 export const UnderAWarning: Story = { args: { summary: recalledSummary, buy: true } };
